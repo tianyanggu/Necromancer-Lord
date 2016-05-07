@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class HexGrid : MonoBehaviour {
 
-	public static int width = 8;
-	public static int height = 8;
+	public static int width = 10;
+	public static int height = 10;
 
 	public Color defaultColor = Color.white;
 
@@ -81,11 +81,13 @@ public class HexGrid : MonoBehaviour {
 	public Vector3 GetCellPos (int index) {
 		HexCell cell = cells[index];
 		HexCoordinates coord = cell.coordinates;
-		Vector3 position = GetCellPosFromIndex (coord.X, coord.Z, coord.Y);
+		int xoffset = index / (width + height);
+		Debug.Log (xoffset);
+		Vector3 position = GetCellPosFromIndex (coord.X + xoffset, coord.Z);
 		return position;
 	}
 
-	public Vector3 GetCellPosFromIndex (int x, int z, int i) {
+	public Vector3 GetCellPosFromIndex (int x, int z) {
 		Vector3 position;
 		position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
 		position.y = 0f;

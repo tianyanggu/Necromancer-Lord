@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{B5DB05A5-E83F-28DB-ACEA-D675982466F2}</ProjectGuid>
+    <ProjectGuid>{26032B75-7128-A8A2-D836-87927C85521A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,12 +45,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Battle.cs" />
+     <Compile Include="Assets\Scripts\DragCamera.cs" />
      <Compile Include="Assets\Scripts\HexCell.cs" />
      <Compile Include="Assets\Scripts\HexCoordinates.cs" />
      <Compile Include="Assets\Scripts\HexGrid.cs" />
      <Compile Include="Assets\Scripts\HexMapEditor.cs" />
      <Compile Include="Assets\Scripts\HexMesh.cs" />
      <Compile Include="Assets\Scripts\HexMetrics.cs" />
+     <Compile Include="Assets\Scripts\NecromancerBehaviour.cs" />
      <Compile Include="Assets\Scripts\PlayerPrefsX.cs" />
      <None Include="Assets\Materials\VertexColors.shader" />
  <Reference Include="UnityEngine.UI">

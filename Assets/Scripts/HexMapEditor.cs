@@ -9,14 +9,18 @@ public class HexMapEditor : MonoBehaviour {
 
 	private Color activeColor;
 
-	private int colortest = 0;
+	private int colortest;
+
+	public int selected;
+	public string selectedentity;
 
 	public GameObject Necromancer;
+	public GameObject Militia;
 
 	void Awake () {
 		SelectColor(0);
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 144; i++) {
 			string allcolor = PlayerPrefs.GetString ("Hex" + i);
 			Debug.Log (allcolor);
 			if (allcolor == "Yellow") {
@@ -27,10 +31,20 @@ public class HexMapEditor : MonoBehaviour {
 			}
 		}
 
-		Vector3 start = hexGrid.GetCellPos(9);
+		Vector3 start = hexGrid.GetCellPos(11);
 		GameObject playerNecromancer = (GameObject)Instantiate (Necromancer, start, Quaternion.identity);
 		playerNecromancer.name = "Necromancer";
-		hexGrid.EntityCellIndex (9, "Necromancer");
+		hexGrid.EntityCellIndex (11, "Necromancer");
+
+		Vector3 militiastart = hexGrid.GetCellPos(12);
+		GameObject militia1 = (GameObject)Instantiate (Militia, militiastart, Quaternion.identity);
+		militia1.name = "Militia1";
+		hexGrid.EntityCellIndex (12, "Militia1");
+
+		Vector3 militiastart2 = hexGrid.GetCellPos(15);
+		GameObject militia2 = (GameObject)Instantiate (Militia, militiastart2, Quaternion.identity);
+		militia2.name = "Militia2";
+		hexGrid.EntityCellIndex (15, "Militia2");
 	}
 
 	void Update () {
@@ -78,7 +92,23 @@ public class HexMapEditor : MonoBehaviour {
 			//Instantiate (Necromancer, cellcoord, Quaternion.identity);
 
 			string currEntity = hexGrid.GetEntity(currindex);
-			Debug.Log (currEntity);
+			if (currEntity == "Necromancer") {
+				selected = currindex;
+				selectedentity = "Necromancer";
+			}
+			if (currEntity != "Necromancer") {
+				GameObject playerNecromancer = GameObject.Find("Necromancer");
+				playerNecromancer.transform.position = cellcoord;
+
+				GameObject defender = GameObject.Find(currEntity);
+				Destroy (defender);
+				hexGrid.EntityCellIndex (currindex, "Empty");
+			}
+
+			Debug.Log (selected);
+
+
+ 			//playerNecromancer.GetComponent<NecromancerBehaviour> ().health = playerNecromancer.GetComponent<NecromancerBehaviour> ().health - 2;
 
 		}
 	}
