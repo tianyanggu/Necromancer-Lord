@@ -81,8 +81,8 @@ public class HexGrid : MonoBehaviour {
 	public Vector3 GetCellPos (int index) {
 		HexCell cell = cells[index];
 		HexCoordinates coord = cell.coordinates;
+		//offset is the first x coord of each row times -1
 		int xoffset = index / (width + height);
-		Debug.Log (xoffset);
 		Vector3 position = GetCellPosFromIndex (coord.X + xoffset, coord.Z);
 		return position;
 	}

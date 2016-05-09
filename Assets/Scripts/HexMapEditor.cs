@@ -9,8 +9,6 @@ public class HexMapEditor : MonoBehaviour {
 
 	private Color activeColor;
 
-	private int colortest;
-
 	public int selected;
 	public string selectedentity;
 
@@ -22,12 +20,18 @@ public class HexMapEditor : MonoBehaviour {
 
 		for (int i = 0; i < 144; i++) {
 			string allcolor = PlayerPrefs.GetString ("Hex" + i);
-			Debug.Log (allcolor);
-			if (allcolor == "Yellow") {
+
+			if (allcolor == "Village") {
 				hexGrid.ColorCellIndex (i, Color.yellow);
 			}
-			if (allcolor == "Green") {
+			if (allcolor == "Grass") {
 				hexGrid.ColorCellIndex (i, Color.green);
+			}
+			if (allcolor == "Water") {
+				hexGrid.ColorCellIndex (i, Color.blue);
+			}
+			if (allcolor == "Mountain") {
+				hexGrid.ColorCellIndex (i, Color.red);
 			}
 		}
 
@@ -73,18 +77,27 @@ public class HexMapEditor : MonoBehaviour {
 			Color currcolor = hexGrid.GetCellColor(hit.point);
 			int currindex = hexGrid.GetCellIndex(hit.point);
 
-			colortest = currindex;
-
-			Debug.Log (currcolor.g);
-
-			if (currcolor.g == 0.862f) {
-				PlayerPrefs.SetString ("Hex" + currindex, "Yellow");
+			if (activeColor == colors[0]) {
+				PlayerPrefs.SetString ("Hex" + currindex, "Village");
+				hexGrid.ColorCell(hit.point, activeColor);
 			}
-			else if (currcolor.g == 0.6838235f) {
-				PlayerPrefs.SetString ("Hex" + currindex, "Green");
+			//else if (activeColor == Color.green) {
+			else if (activeColor == colors[1]) {
+				PlayerPrefs.SetString ("Hex" + currindex, "Grass");
+				hexGrid.ColorCell(hit.point, activeColor);
+			}
+			//else if (activeColor == Color.blue) {
+			else if (activeColor == colors[2]) {
+				PlayerPrefs.SetString ("Hex" + currindex, "Water");
+				hexGrid.ColorCell(hit.point, activeColor);
+			}
+			//else if (activeColor == Color.white) {
+			else if (activeColor == colors[3]) {
+				PlayerPrefs.SetString ("Hex" + currindex, "Mountain");
+				hexGrid.ColorCell(hit.point, activeColor);
 			}
 
-			hexGrid.ColorCell(hit.point, activeColor);
+			//hexGrid.ColorCell(hit.point, activeColor);
 
 
 			//-----Selector--------------
@@ -104,8 +117,6 @@ public class HexMapEditor : MonoBehaviour {
 				Destroy (defender);
 				hexGrid.EntityCellIndex (currindex, "Empty");
 			}
-
-			Debug.Log (selected);
 
 
  			//playerNecromancer.GetComponent<NecromancerBehaviour> ().health = playerNecromancer.GetComponent<NecromancerBehaviour> ().health - 2;
