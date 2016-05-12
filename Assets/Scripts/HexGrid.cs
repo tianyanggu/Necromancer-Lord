@@ -114,8 +114,8 @@ public class HexGrid : MonoBehaviour {
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 		cell.color = defaultColor;
 
-		cell.terrain = "empty";
-		cell.entity = "empty";
+		cell.terrain = "Empty";
+		cell.entity = "Empty";
 
 		Text label = Instantiate<Text>(cellLabelPrefab);
 		label.rectTransform.SetParent(gridCanvas.transform, false);

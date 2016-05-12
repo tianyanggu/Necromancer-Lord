@@ -5,4 +5,5 @@ public class NecromancerBehaviour : MonoBehaviour {
 
 	public int health = 10;
 	public int mana = 10;
+	public int attack = 5;
 }

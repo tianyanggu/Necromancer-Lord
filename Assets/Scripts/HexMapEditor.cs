@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class HexMapEditor : MonoBehaviour {
 
@@ -13,6 +14,7 @@ public class HexMapEditor : MonoBehaviour {
 	public string selectedentity;
 
 	public GameObject Necromancer;
+	public GameObject Skeleton;
 	public GameObject Militia;
 
 	void Awake () {
@@ -39,6 +41,11 @@ public class HexMapEditor : MonoBehaviour {
 		GameObject playerNecromancer = (GameObject)Instantiate (Necromancer, start, Quaternion.identity);
 		playerNecromancer.name = "Necromancer";
 		hexGrid.EntityCellIndex (11, "Necromancer");
+
+		Vector3 start2 = hexGrid.GetCellPos(3);
+		GameObject playerSkeleton = (GameObject)Instantiate (Skeleton, start2, Quaternion.identity);
+		playerSkeleton.name = "Skeleton";
+		hexGrid.EntityCellIndex (3, "Skeleton");
 
 		Vector3 militiastart = hexGrid.GetCellPos(12);
 		GameObject militia1 = (GameObject)Instantiate (Militia, militiastart, Quaternion.identity);
@@ -99,25 +106,51 @@ public class HexMapEditor : MonoBehaviour {
 
 			//hexGrid.ColorCell(hit.point, activeColor);
 
+			//----PlayerEntities----------
+			List<string> playerEntities = new List<string> ();
+			playerEntities.Add ("Necromancer");
+			playerEntities.Add ("Skeleton");
+
 
 			//-----Selector--------------
 			Vector3 cellcoord = hexGrid.GetCellPos(currindex);
 			//Instantiate (Necromancer, cellcoord, Quaternion.identity);
 
 			string currEntity = hexGrid.GetEntity(currindex);
-			if (currEntity == "Necromancer") {
+			Debug.Log ("curre" + currEntity);
+			Debug.Log ("selectede" + selectedentity);
+
+
+			if (playerEntities.Contains(currEntity)) {
 				selected = currindex;
-				selectedentity = "Necromancer";
-			}
-			if (currEntity != "Necromancer") {
-				GameObject playerNecromancer = GameObject.Find("Necromancer");
+				selectedentity = currEntity;
+			} 
+
+			if (playerEntities.Contains(selectedentity) && currEntity == "Empty") {
+				GameObject playerNecromancer = GameObject.Find (selectedentity);
 				playerNecromancer.transform.position = cellcoord;
+			} else if (playerEntities.Contains(selectedentity) && currEntity == "Militia1") {
+				GameObject attacker = GameObject.Find (selectedentity);
+				GameObject defender = GameObject.Find (currEntity);
+				int attackerdmg = 0;
+				if (selectedentity == "Necromancer") {
+					attackerdmg = attacker.GetComponent<NecromancerBehaviour> ().attack;
+				} else if (selectedentity == "Skeleton") {
+					attackerdmg = attacker.GetComponent<SkeletonBehaviour> ().attack;
+				}
+				if (defender.GetComponent<MilitiaBehaviour> ().health > 0) {
+					Debug.Log (defender.GetComponent<MilitiaBehaviour> ().health);
+					defender.GetComponent<MilitiaBehaviour> ().health = defender.GetComponent<MilitiaBehaviour> ().health - attackerdmg;
 
-				GameObject defender = GameObject.Find(currEntity);
-				Destroy (defender);
-				hexGrid.EntityCellIndex (currindex, "Empty");
+				} else if (defender.GetComponent<MilitiaBehaviour> ().health <= 0) {
+					attacker.transform.position = cellcoord;
+
+					Destroy (defender);
+					hexGrid.EntityCellIndex (currindex, "Empty");
+				}
+			} else {
+				Debug.Log ("problem");
 			}
-
 
  			//playerNecromancer.GetComponent<NecromancerBehaviour> ().health = playerNecromancer.GetComponent<NecromancerBehaviour> ().health - 2;
 
@@ -128,3 +161,5 @@ public class HexMapEditor : MonoBehaviour {
 		activeColor = colors[index];
 	}
 }
+
+//TODO refactor lists of entities,  battles, and load map
