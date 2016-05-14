@@ -5,13 +5,12 @@ using System.Collections.Generic;
 public class HexMapEditor : MonoBehaviour {
 
 	public Color[] colors;
+	private Color activeColor;
 
 	public Select select;
 	public HexGrid hexGrid;
 	public LoadMap loadMap;
 	public Battle battle;
-
-	private Color activeColor;
 
 	public int currindex;
 
@@ -19,8 +18,11 @@ public class HexMapEditor : MonoBehaviour {
 	public string selectedentity;
 	public string actionpoint;
 
+	public bool lockbattle;
+
 	void Awake () {
 		SelectColor(0);
+		lockbattle = false;
 
 		loadMap.LoadTerrain ();
 
@@ -44,21 +46,27 @@ public class HexMapEditor : MonoBehaviour {
 	}
 
 	void HandleInput () {
-		currindex = select.GetCellIndex (colors);
+		currindex = select.GetCellIndex (colors, activeColor);
 
 		//----PlayerEntities----------
 		List<string> playerEntities = new List<string> ();
 		playerEntities.Add ("Necromancer");
 		playerEntities.Add ("Skeleton");
 
-
 		//-----Selector--------------
 		string currEntity = hexGrid.GetEntity (currindex);
 		if (playerEntities.Contains (currEntity)) {
 			selectedindex = currindex;
 			selectedentity = currEntity;
+			lockbattle = false;
 		} 
-		battle.Attack (selectedindex, currindex, selectedentity);
+		if (lockbattle == false) {
+			bool checkAttHappen = battle.Attack (selectedindex, currindex, selectedentity);
+			if (checkAttHappen == true) {
+				lockbattle = true;
+			}
+		}
+		//Debug.Log (lockbattle);
 	}
 
 	public void SelectColor (int index) {
