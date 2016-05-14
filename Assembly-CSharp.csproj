@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\MilitiaBehaviour.cs" />
      <Compile Include="Assets\Scripts\NecromancerBehaviour.cs" />
      <Compile Include="Assets\Scripts\PlayerPrefsX.cs" />
+     <Compile Include="Assets\Scripts\Select.cs" />
      <Compile Include="Assets\Scripts\SkeletonBehaviour.cs" />
      <None Include="Assets\Materials\VertexColors.shader" />
  <Reference Include="UnityEngine.UI">
