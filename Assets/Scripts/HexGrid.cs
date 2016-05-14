@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class HexGrid : MonoBehaviour {
 
-	public static int width = 10;
-	public static int height = 10;
+	public int width = 10;
+	public int height = 10;
 
 	public Color defaultColor = Color.white;
 
@@ -31,6 +31,11 @@ public class HexGrid : MonoBehaviour {
 
 	void Start () {
 		hexMesh.Triangulate(cells);
+	}
+
+	public void SetSize (int newheight, int newwidth) {
+		height = newheight;
+		width = newwidth;
 	}
 
 	public void ColorCell (Vector3 position, Color color) {

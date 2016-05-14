@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\PlayerPrefsX.cs" />
      <Compile Include="Assets\Scripts\Select.cs" />
      <Compile Include="Assets\Scripts\SkeletonBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Summon.cs" />
      <None Include="Assets\Materials\VertexColors.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

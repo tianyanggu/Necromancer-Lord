@@ -7,10 +7,11 @@ public class HexMapEditor : MonoBehaviour {
 	public Color[] colors;
 	private Color activeColor;
 
-	public Select select;
 	public HexGrid hexGrid;
+	public Select select;
 	public LoadMap loadMap;
 	public Battle battle;
+	public Summon summon;
 
 	public int currindex;
 
@@ -71,6 +72,16 @@ public class HexMapEditor : MonoBehaviour {
 
 	public void SelectColor (int index) {
 		activeColor = colors[index];
+	}
+
+	void OnGUI () {
+		// Make a background box
+		GUI.Box(new Rect(10,10,100,90), "Loader Menu");
+
+		if(GUI.Button(new Rect(20,40,80,20), "Summon Skeleton")) {
+			summon.SummonEntity(1,currindex,"Skeleton");
+		}
+
 	}
 }
 
