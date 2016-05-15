@@ -8,4 +8,5 @@ public class SkeletonBehaviour : MonoBehaviour {
 	public int attack = 3;
 
 	public int size;
+	public int lasthealth;
 }

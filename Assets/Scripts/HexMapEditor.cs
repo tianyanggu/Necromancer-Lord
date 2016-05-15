@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class HexMapEditor : MonoBehaviour {
 
@@ -56,7 +57,9 @@ public class HexMapEditor : MonoBehaviour {
 
 		//-----Selector--------------
 		string currEntity = hexGrid.GetEntity (currindex);
-		if (playerEntities.Contains (currEntity)) {
+		string cleanCurrEntity = Regex.Replace(currEntity, @"[\d-]", string.Empty);
+
+		if (playerEntities.Contains (cleanCurrEntity)) {
 			selectedindex = currindex;
 			selectedentity = currEntity;
 			lockbattle = false;
@@ -76,9 +79,10 @@ public class HexMapEditor : MonoBehaviour {
 
 	void OnGUI () {
 		// Make a background box
-		GUI.Box(new Rect(10,10,100,90), "Loader Menu");
+		//x position, y position, width, length
+		GUI.Box(new Rect(10,120,140,90), "Loader Menu");
 
-		if(GUI.Button(new Rect(20,40,80,20), "Summon Skeleton")) {
+		if(GUI.Button(new Rect(20,150,120,20), "Summon Skeleton")) {
 			summon.SummonEntity(1,currindex,"Skeleton");
 		}
 
