@@ -12,6 +12,12 @@ public class LoadMap : MonoBehaviour {
 	public GameObject Skeleton;
 	public GameObject Militia;
 
+	public void LoadHexTiles () {
+
+		hexGrid.SetSize (12,12);
+
+	}
+
 	public void LoadEntities () {
 		gridCanvas = GetComponentInChildren<Canvas>();
 

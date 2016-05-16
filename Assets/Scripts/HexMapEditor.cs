@@ -25,6 +25,7 @@ public class HexMapEditor : MonoBehaviour {
 	void Awake () {
 		SelectColor(0);
 		lockbattle = false;
+		loadMap.LoadHexTiles ();
 
 		loadMap.LoadTerrain ();
 
