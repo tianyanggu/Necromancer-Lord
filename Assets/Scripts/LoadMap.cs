@@ -21,12 +21,12 @@ public class LoadMap : MonoBehaviour {
 	public void LoadEntities () {
 		gridCanvas = GetComponentInChildren<Canvas>();
 
-		Vector3 start = hexGrid.GetCellPos(11);
+		Vector3 start = hexGrid.GetCellPos(14);
 		GameObject playerNecromancer = (GameObject)Instantiate (Necromancer, start, Quaternion.identity);
 		playerNecromancer.name = "Necromancer";
-		hexGrid.EntityCellIndex (11, "Necromancer");
+		hexGrid.EntityCellIndex (14, "Necromancer");
 		playerNecromancer.GetComponent<NecromancerBehaviour> ().size = 1;
-		CreateSizeLabel (11, 1, "Necromancer");
+		CreateSizeLabel (14, 1, "Necromancer");
 
 		Vector3 militiastart = hexGrid.GetCellPos(12);
 		GameObject militia1 = (GameObject)Instantiate (Militia, militiastart, Quaternion.identity);

@@ -30,6 +30,22 @@ public class HexMapEditor : MonoBehaviour {
 		loadMap.LoadTerrain ();
 
 		loadMap.LoadEntities ();
+
+//		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
+//		int test0 = test [0];
+//		int test1 = test [1];
+//		int test2 = test [2];
+//		int test3 = test [3];
+//		int test4 = test [4];
+//		int test5 = test [5];
+//		//int test6 = test [6];
+//		Debug.Log (test0);
+//		Debug.Log (test1);
+//		Debug.Log (test2);
+//		Debug.Log (test3);
+//		Debug.Log (test4);
+//		Debug.Log (test5);
+//		//Debug.Log (test6);
 	}
 
 	void FixedUpdate () {
@@ -50,7 +66,7 @@ public class HexMapEditor : MonoBehaviour {
 
 	void HandleInput () {
 		currindex = select.GetCellIndex (colors, activeColor);
-
+		Debug.Log (currindex);
 		//----PlayerEntities----------
 		List<string> playerEntities = new List<string> ();
 		playerEntities.Add ("Necromancer");

@@ -38,6 +38,19 @@ public class Summon : MonoBehaviour {
 				return avaliablename;
 			}
 		}
+		//split for optimization if over 9
+//		for (int i = 10; i <= 999; i++) {
+//			string num = i.ToString ();
+//			if (GameObject.Find (summonname) == null) {
+//				avaliablename = summonname;
+//				return avaliablename;
+//			} else if (GameObject.Find (summonname + num) == null) {
+//				avaliablename = summonname + num;
+//				Debug.Log (avaliablename);
+//				return avaliablename;
+//			}
+//		}
+
 		return null;
 	}
 

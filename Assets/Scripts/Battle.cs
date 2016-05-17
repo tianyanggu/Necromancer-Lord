@@ -23,7 +23,7 @@ public class Battle : MonoBehaviour {
 		string cleanCurrEntity = Regex.Replace(currEntity, @"[\d-]", string.Empty);
 		string numCurrEntity = Regex.Replace(currEntity, "[^0-9 -]", string.Empty);
 		string cleanSelectedEntity = Regex.Replace(selectedentity, @"[\d-]", string.Empty);
-		Debug.Log ("Size " + cleanCurrEntity + numCurrEntity);
+		//Debug.Log ("Size " + cleanCurrEntity + numCurrEntity);
 		Vector3 cellcoord = hexGrid.GetCellPos(currindex);
 
 
