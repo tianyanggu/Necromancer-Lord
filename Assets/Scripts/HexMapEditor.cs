@@ -46,6 +46,7 @@ public class HexMapEditor : MonoBehaviour {
 //		Debug.Log (test4);
 //		Debug.Log (test5);
 //		//Debug.Log (test6);
+
 	}
 
 	void FixedUpdate () {
@@ -71,6 +72,7 @@ public class HexMapEditor : MonoBehaviour {
 		List<string> playerEntities = new List<string> ();
 		playerEntities.Add ("Necromancer");
 		playerEntities.Add ("Skeleton");
+		playerEntities.Add ("Zombie");
 
 		//-----Selector--------------
 		string currEntity = hexGrid.GetEntity (currindex);

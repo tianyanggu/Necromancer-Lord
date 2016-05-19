@@ -95,6 +95,17 @@ public class HexGrid : MonoBehaviour {
 		return position;
 	}
 
+	public HexCoordinates GetCellCoord (int index) {
+		HexCell cell = cells[index];
+		HexCoordinates coord = cell.coordinates;
+		return coord;
+	}
+
+	public int GetCellIndexFromCoord (int coordx, int coordz) {
+		int index = coordx + coordz * width + coordz / 2;
+		return index;
+	}
+
 	public Vector3 GetCellPosFromIndex (int x, int z) {
 		Vector3 position;
 		position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
@@ -103,88 +114,16 @@ public class HexGrid : MonoBehaviour {
 		return position;
 	}
 
-	public List<int> GetCellIndexesOneHexAway (int index) {
-		List<int> positions = new List<int> ();
-		//right case
-		if ((index % width) == (width - 1)) {
-			positions.Add (index - 1);
-		}
-		//left case
-		else if ((index % width) == 0) {
-			positions.Add (index + 1);
-		} else {
-			positions.Add (index - 1);
-			positions.Add (index + 1);
-		}
-		//determine borders by even or odd rows
-		int row = index / width;
-		//Odd rows
-		if (row % 2 == 1) {
-			if ((index + width) >= (height * width - 1)) {
-				//upper is empty, only add lower cells
-				if ((index % width) != (width - 1)) {
-					//left side
-					positions.Add (index - width); //lower left
-					positions.Add (index - width + 1); //lower right
-				} else {
-					//right side
-					positions.Add (index - width); //lower left
-				}
-			} else {
-				if ((index % width) != (width - 1)) {
-					//left side
-					positions.Add (index + width); //upper left
-					positions.Add (index + width + 1); //upper right
-					positions.Add (index - width); //lower left
-					positions.Add (index - width + 1); //lower right
-				} else {
-					//right side
-					positions.Add (index + width); //upper left
-					positions.Add (index - width); //lower left
-				}
-			}
-
-		}		
-		if (row % 2 == 0) {
-			
-			if ((index + width) >= (height * width - 1)) {
-				//upper is empty, only add lower cells
-				if ((index % width) != (width - 1)) {
-					//left side
-					positions.Add (index - width); //lower right
-				} else {
-					positions.Add (index - width - 1); //lower left
-					positions.Add (index - width); //lower right
-				}
-			} else if (row == 0) {
-				//lower is empty, only add upper cells
-				if ((index % width) != (width - 1)) {
-					//left side
-					positions.Add (index + width); //upper right
-				} else {
-					positions.Add (index + width - 1); //upper left
-					positions.Add (index + width); //upper right
-				}
-			} else {
-				if ((index % width) == 0) {
-					//left side
-					positions.Add (index + width); //upper right
-					positions.Add (index - width); //lower right
-				} else {
-					positions.Add (index + width - 1); //upper left
-					positions.Add (index + width); //upper right
-					positions.Add (index - width - 1); //lower left
-					positions.Add (index - width); //lower right
-				}
-			}
-		}
-		return positions;
-	}
-
 	public string GetEntity (int index) {
 		HexCell cell = cells[index];
 		string currEntity = cell.entity;
 		return currEntity;
+	}
+
+	public string GetTerrain (int index) {
+		HexCell cell = cells[index];
+		string currTerrain = cell.terrain;
+		return currTerrain;
 	}
 
 	//-----------CREATE-----------------------------

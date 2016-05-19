@@ -11,6 +11,7 @@ public class LoadMap : MonoBehaviour {
 	public GameObject Necromancer;
 	public GameObject Skeleton;
 	public GameObject Militia;
+	public GameObject Zombie;
 
 	public void LoadHexTiles () {
 
@@ -49,7 +50,12 @@ public class LoadMap : MonoBehaviour {
 		playerSkeleton.GetComponent<SkeletonBehaviour> ().size = 10;
 		CreateSizeLabel (3, 10, "Skeleton");
 
-
+		Vector3 start3 = hexGrid.GetCellPos(18);
+		GameObject playerZombie = (GameObject)Instantiate (Zombie, start3, Quaternion.identity);
+		playerZombie.name = "Zombie";
+		hexGrid.EntityCellIndex (18, "Zombie");
+		playerZombie.GetComponent<ZombieBehaviour> ().size = 10;
+		CreateSizeLabel (18, 10, "Zombie");
 	}
 
 	public void CreateSizeLabel (int index, int size, string entity) {

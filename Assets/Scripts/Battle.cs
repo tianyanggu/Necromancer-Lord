@@ -8,12 +8,14 @@ public class Battle : MonoBehaviour {
 
 	public HexGrid hexGrid;
 	public LoadMap loadMap;
+	public Movement movement;
 
 	public bool Attack (int selectedindex, int currindex, string selectedentity) {
 		//player controlled entities
 		List<string> playerEntities = new List<string> ();
 		playerEntities.Add ("Necromancer");
 		playerEntities.Add ("Skeleton");
+		playerEntities.Add ("Zombie");
 
 		List<string> enemyEntities = new List<string> ();
 		enemyEntities.Add ("Militia");
@@ -26,16 +28,34 @@ public class Battle : MonoBehaviour {
 		//Debug.Log ("Size " + cleanCurrEntity + numCurrEntity);
 		Vector3 cellcoord = hexGrid.GetCellPos(currindex);
 
-
 		//------Movement Empty Cell------
 		if (playerEntities.Contains (cleanSelectedEntity) && currEntity == "Empty") {
 			GameObject playerEntity = GameObject.Find (selectedentity);
-			GameObject playerSize = GameObject.Find ("Size " + selectedentity);
-			playerEntity.transform.position = cellcoord;
-			playerSize.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
-			hexGrid.EntityCellIndex (selectedindex, "Empty");
-			hexGrid.EntityCellIndex (currindex, selectedentity);
-			return true;
+			//find movement
+			int playermovement = 0;
+			if (cleanSelectedEntity == "Zombie") {
+				playermovement = playerEntity.GetComponent<ZombieBehaviour> ().movementpoint;
+			} else if (cleanSelectedEntity == "Skeleton") {
+				playermovement = playerEntity.GetComponent<SkeletonBehaviour> ().movementpoint;
+			} else if (cleanSelectedEntity == "Necromancer") {
+				playermovement = playerEntity.GetComponent<NecromancerBehaviour> ().movementpoint;
+			}
+			//determine movement tiles
+			List<int> possmovement = null;
+			if (playermovement == 1) {
+				possmovement = movement.GetCellIndexesOneHexAway (selectedindex);
+			} else if (playermovement == 2) {
+				possmovement = movement.GetCellIndexesTwoHexAway (selectedindex);
+			}
+
+			if (possmovement.Contains (currindex)) {
+				GameObject playerSize = GameObject.Find ("Size " + selectedentity);
+				playerEntity.transform.position = cellcoord;
+				playerSize.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
+				hexGrid.EntityCellIndex (selectedindex, "Empty");
+				hexGrid.EntityCellIndex (currindex, selectedentity);
+				return true;
+			}
 
 		//------Encounter Enemy------
 		} else if (playerEntities.Contains (cleanSelectedEntity) && enemyEntities.Contains (cleanCurrEntity)) {
@@ -65,6 +85,11 @@ public class Battle : MonoBehaviour {
 				attackerdmg = attacker.GetComponent<SkeletonBehaviour> ().attack;
 				attackerhealth = attacker.GetComponent<SkeletonBehaviour> ().health;
 				attackerlasthealth = attacker.GetComponent<SkeletonBehaviour> ().lasthealth;
+			} else if (cleanSelectedEntity == "Zombie") {
+				attackersize = attacker.GetComponent<ZombieBehaviour> ().size;
+				attackerdmg = attacker.GetComponent<ZombieBehaviour> ().attack;
+				attackerhealth = attacker.GetComponent<ZombieBehaviour> ().health;
+				attackerlasthealth = attacker.GetComponent<ZombieBehaviour> ().lasthealth;
 			}
 
 			//------Grab Info Defender------
@@ -122,6 +147,11 @@ public class Battle : MonoBehaviour {
 				} else if (cleanSelectedEntity == "Skeleton") {
 					attacker.GetComponent<SkeletonBehaviour> ().size = attackersize;
 					attacker.GetComponent<SkeletonBehaviour> ().lasthealth = attackerlasthealth;
+					Text attsizetext = GameObject.Find ("Size " + selectedentity).GetComponent<Text>();
+					attsizetext.text = attackersize.ToString();
+				} else if (cleanSelectedEntity == "Zombie") {
+					attacker.GetComponent<ZombieBehaviour> ().size = attackersize;
+					attacker.GetComponent<ZombieBehaviour> ().lasthealth = attackerlasthealth;
 					Text attsizetext = GameObject.Find ("Size " + selectedentity).GetComponent<Text>();
 					attsizetext.text = attackersize.ToString();
 				}
