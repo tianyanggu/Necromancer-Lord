@@ -47,22 +47,6 @@ public class Battle : MonoBehaviour {
 			} else if (playermovement == 2) {
 //				possmovement = movement.GetCellIndexesTwoHexAway (selectedindex);
 				possmovement = movement.GetCellIndexesTwoHexAwayBlockers (selectedindex);
-//				List<int> test = movement.GetCellIndexesTwoHexAwayBlockers (13);
-//						int test0 = test [0];
-//						//int test1 = test [1];
-//						//int test2 = test [2];
-//						//int test3 = test [3];
-//						//int test4 = test [4];
-//						//int test5 = test [5];
-//						Debug.Log (test0);
-//						//Debug.Log (test1);
-//						//Debug.Log (test2);
-//						//Debug.Log (test3);
-//						//Debug.Log (test4);
-//						//Debug.Log (test5);
-//				List<int> test2 = movement.GetCellIndexesTwoHexAwayBlockers (39);
-//						int test21 = test2 [1];
-//						Debug.Log (test21);
 			}
 
 			if (possmovement.Contains (currindex)) {
@@ -146,13 +130,22 @@ public class Battle : MonoBehaviour {
 				if (defendersize <= 0) {
 					Destroy (defender);
 					hexGrid.EntityCellIndex (currindex, "Empty");
+					GameObject defenderSizeText = GameObject.Find ("Size " + currEntity);
+					Destroy (defenderSizeText);
 				}
 				if (attackersize <= 0) {
 					Destroy (attacker);
 					hexGrid.EntityCellIndex (selectedindex, "Empty");
+					GameObject attackerSizeText = GameObject.Find ("Size " + selectedentity);
+					Destroy (attackerSizeText);
 				} else if (attackersize > 0 && defendersize <= 0){
 					attacker.transform.position = cellcoord;
 					hexGrid.EntityCellIndex (currindex, selectedentity);
+					hexGrid.EntityCellIndex (selectedindex, "Empty");
+					GameObject defenderSizeText = GameObject.Find ("Size " + currEntity);
+					Destroy (defenderSizeText);
+					GameObject attackerSizeText = GameObject.Find ("Size " + selectedentity);
+					attackerSizeText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 				}
 
 				//------Set New Info Attacker------

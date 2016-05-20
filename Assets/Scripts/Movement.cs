@@ -185,7 +185,7 @@ public class Movement : MonoBehaviour {
 			//Debug.Log ("lright"+lright);
 
 			//left and right 
-			if (left > 0) {
+			if (left >= 0) {
 				if (hexGrid.GetEntity (left) == "Empty") {
 					if (hexGrid.GetTerrain (left) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
@@ -198,7 +198,7 @@ public class Movement : MonoBehaviour {
 					}
 				}
 			}
-			if (right > 0) {
+			if (right >= 0) {
 				if (hexGrid.GetEntity (right) == "Empty") {
 					if (hexGrid.GetTerrain (right) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
@@ -213,7 +213,7 @@ public class Movement : MonoBehaviour {
 			}
 
 			//upper left and right
-			if (uleft > 0) {
+			if (uleft >= 0) {
 				if (hexGrid.GetEntity (uleft) == "Empty") {
 					if (hexGrid.GetTerrain (uleft) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
@@ -226,7 +226,7 @@ public class Movement : MonoBehaviour {
 					}
 				}
 			}
-			if (uright > 0) {
+			if (uright >= 0) {
 				if (hexGrid.GetEntity (uright) == "Empty") {
 					if (hexGrid.GetTerrain (uright) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
@@ -241,7 +241,7 @@ public class Movement : MonoBehaviour {
 			}
 
 			//lower left and right
-			if (lleft > 0) {
+			if (lleft >= 0) {
 				if (hexGrid.GetEntity (lleft) == "Empty") {
 					if (hexGrid.GetTerrain (lleft) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
@@ -254,7 +254,7 @@ public class Movement : MonoBehaviour {
 					}
 				}
 			}
-			if (lright > 0) {
+			if (lright >= 0) {
 				if (hexGrid.GetEntity (lright) == "Empty") {
 					if (hexGrid.GetTerrain (lright) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;

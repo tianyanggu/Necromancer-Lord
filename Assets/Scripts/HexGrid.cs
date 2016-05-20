@@ -69,6 +69,11 @@ public class HexGrid : MonoBehaviour {
 		cell.entity = newEntity;
 	}
 
+	public void TerrainCellIndex (int index, string newTerrain) {
+		HexCell cell = cells[index];
+		cell.terrain = newTerrain;
+	}
+
 	// ------------GET --------------------------
 	public Color GetCellColor (Vector3 position) {
 		position = transform.InverseTransformPoint(position);
@@ -141,6 +146,7 @@ public class HexGrid : MonoBehaviour {
 
 		cell.terrain = "Empty";
 		cell.entity = "Empty";
+		cell.corpses = 0;
 
 		Text label = Instantiate<Text>(cellLabelPrefab);
 		label.rectTransform.SetParent(gridCanvas.transform, false);

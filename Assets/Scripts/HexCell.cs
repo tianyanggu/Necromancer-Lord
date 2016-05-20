@@ -9,4 +9,6 @@ public class HexCell : MonoBehaviour {
 	public string terrain;
 
 	public string entity;
+
+	public int corpses;
 }

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 public class HexMapEditor : MonoBehaviour {
@@ -21,10 +24,14 @@ public class HexMapEditor : MonoBehaviour {
 	public string actionpoint;
 
 	public bool lockbattle;
+	public bool editmode;
+
+	public string summontextfield = "";
 
 	void Awake () {
 		SelectColor(0);
 		lockbattle = false;
+		editmode = false;
 		loadMap.LoadHexTiles ();
 
 		loadMap.LoadTerrain ();
@@ -67,7 +74,11 @@ public class HexMapEditor : MonoBehaviour {
 	}
 
 	void HandleInput () {
-		currindex = select.GetCellIndex (colors, activeColor);
+		if (editmode == true) {
+			currindex = select.ChangeTerrain (colors, activeColor);
+		} else {
+			currindex = select.GetCurrIndex ();
+		}
 		//Debug.Log (currindex);
 		//----PlayerEntities----------
 		List<string> playerEntities = new List<string> ();
@@ -100,12 +111,43 @@ public class HexMapEditor : MonoBehaviour {
 	void OnGUI () {
 		// Make a background box
 		//x position, y position, width, length
-		GUI.Box(new Rect(10,120,140,90), "Loader Menu");
+		GUI.Box(new Rect(10,120,140,90), "Menu");
+
+		//		GUIStyle summoninputstyle = new GUIStyle();
+		//		summoninputstyle.onActive.textColor = Color.yellow;
+		summontextfield = GUI.TextField (new Rect (20, 170, 120, 20), summontextfield, 5);
+		summontextfield = Regex.Replace(summontextfield, "[^0-9 -]", string.Empty);
+		int summontextfieldnum = 0;
+		Int32.TryParse(summontextfield, out summontextfieldnum);
+		int summonquantity = summontextfieldnum;
 
 		if(GUI.Button(new Rect(20,150,120,20), "Summon Skeleton")) {
-			summon.SummonEntity(1,currindex,"Skeleton");
+			summon.SummonEntity(summonquantity,currindex,"Skeleton");
+		}
+			
+		if(GUI.Button(new Rect(20,220,120,20), "Toggle Map Edit")) {
+			if (editmode == false) {
+				editmode = true;
+			} else {
+				editmode = false;
+			}
 		}
 
+		if(GUI.Button(new Rect(20,190,40,20), "+1")) {
+			int addone = (summonquantity + 1);
+			string addonetext = addone.ToString ();
+			summontextfield = addonetext;
+		}
+		if(GUI.Button(new Rect(50,190,40,20), "+10")) {
+			int addten = (summonquantity + 10);
+			string addtentext = addten.ToString ();
+			summontextfield = addtentext;
+		}
+		if(GUI.Button(new Rect(90,190,40,20), "+100")) {
+			int addhundred = (summonquantity + 100);
+			string addhundredtext = addhundred.ToString ();
+			summontextfield = addhundredtext;
+		}
 	}
 }
 
