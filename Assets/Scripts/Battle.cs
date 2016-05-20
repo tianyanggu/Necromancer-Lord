@@ -45,7 +45,24 @@ public class Battle : MonoBehaviour {
 			if (playermovement == 1) {
 				possmovement = movement.GetCellIndexesOneHexAway (selectedindex);
 			} else if (playermovement == 2) {
-				possmovement = movement.GetCellIndexesTwoHexAway (selectedindex);
+//				possmovement = movement.GetCellIndexesTwoHexAway (selectedindex);
+				possmovement = movement.GetCellIndexesTwoHexAwayBlockers (selectedindex);
+//				List<int> test = movement.GetCellIndexesTwoHexAwayBlockers (13);
+//						int test0 = test [0];
+//						//int test1 = test [1];
+//						//int test2 = test [2];
+//						//int test3 = test [3];
+//						//int test4 = test [4];
+//						//int test5 = test [5];
+//						Debug.Log (test0);
+//						//Debug.Log (test1);
+//						//Debug.Log (test2);
+//						//Debug.Log (test3);
+//						//Debug.Log (test4);
+//						//Debug.Log (test5);
+//				List<int> test2 = movement.GetCellIndexesTwoHexAwayBlockers (39);
+//						int test21 = test2 [1];
+//						Debug.Log (test21);
 			}
 
 			if (possmovement.Contains (currindex)) {

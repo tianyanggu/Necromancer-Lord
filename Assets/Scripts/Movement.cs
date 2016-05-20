@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Movement : MonoBehaviour {
 
 	public HexGrid hexGrid;
-
+	public List<int> availablepositions;
 
 //	public List<int> GetCellIndexesOneHexAway (int index) {
 //		int width = hexGrid.width;
@@ -155,66 +155,118 @@ public class Movement : MonoBehaviour {
 	}
 
 	public List<int> GetCellIndexesTwoHexAwayBlockers (int index) {
+		int movementpoints = 2;
+		availablepositions.Clear();
 
-		List<int> positions = new List<int> ();
-		HexCoordinates coord = hexGrid.GetCellCoord (index);
-		int coordx = coord.X;
-		int coordz = coord.Z;
+		GetCellIndexesTwoHexAwayBlockersHelper (index, movementpoints);
 
-		//left and right
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx - 1, coordz));
-		int left = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz);
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx + 1, coordz));
-		int right = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz);
-		//far left and right 
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx - 2, coordz));
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx + 2, coordz));
+		return availablepositions;
+	}
 
-		//one level upper left and right
-		int uleft = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz + 1);
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx - 1, coordz + 1));
-		int uright = hexGrid.GetCellIndexFromCoord (coordx, coordz + 1);
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx, coordz + 1));
-		//one level upper far left and right
-		int ufleft = hexGrid.GetCellIndexFromCoord (coordx - 2, coordz + 1);
-//		if (hexGrid.GetTerrain (left) != "Mountain" || hexGrid.GetTerrain (uleft) != "Mountain") {
-//			if (hexGrid.GetEntity (left) == "Empty" || hexGrid.GetEntity (uleft) == "Empty") {
-				positions.Add (hexGrid.GetCellIndexFromCoord (coordx - 2, coordz + 1));
-//			}
-//		}
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx + 1, coordz + 1));
-		//two level upper center
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx - 1, coordz + 2));
-		//two level upper left and right
-		int uuleft = hexGrid.GetCellIndexFromCoord (coordx - 2, coordz + 2);
-//		if (hexGrid.GetTerrain (uuleft) != "Mountain" && hexGrid.GetTerrain (uleft) != "Mountain") {
-//			if (hexGrid.GetEntity (uleft) == "Empty") {
-				positions.Add (hexGrid.GetCellIndexFromCoord (coordx - 2, coordz + 2));
-//			}
-//		}
-		int uuright = hexGrid.GetCellIndexFromCoord (coordx, coordz + 2);
-//		if (hexGrid.GetTerrain (uuright) != "Mountain" && hexGrid.GetTerrain (uright) != "Mountain") {
-//			if (hexGrid.GetEntity (uright) == "Empty") {
-				positions.Add (hexGrid.GetCellIndexFromCoord (coordx, coordz + 2));
-//			}
-//		}
+	public void GetCellIndexesTwoHexAwayBlockersHelper (int index, int movementpoints) {
+		if (movementpoints > 0) {
+			Debug.Log ("run");
 
-		//one level lower left and right
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx, coordz - 1));
-		int lleft = hexGrid.GetCellIndexFromCoord (coordx, coordz - 1);
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx + 1, coordz - 1));
-		int lright = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz - 1);
-		//one level lower far left and right
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx - 1, coordz - 1));
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx + 2, coordz - 1));
+			HexCoordinates coord = hexGrid.GetCellCoord (index);
+			int coordx = coord.X;
+			int coordz = coord.Z;
 
-		//two level lower center
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx + 1, coordz - 2));
-		//two level lower left and right
+			int left = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz);
+			//Debug.Log ("left"+left);
+			int right = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz);
+			//Debug.Log ("right"+right);
+			int uleft = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz + 1);
+			//Debug.Log ("uleft"+uleft);
+			int uright = hexGrid.GetCellIndexFromCoord (coordx, coordz + 1);
+			//Debug.Log ("uright"+uright);
+			int lleft = hexGrid.GetCellIndexFromCoord (coordx, coordz - 1);
+			//Debug.Log ("lleft"+lleft);
+			int lright = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz - 1);
+			//Debug.Log ("lright"+lright);
 
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx, coordz - 2));
-		positions.Add(hexGrid.GetCellIndexFromCoord (coordx + 2, coordz - 2));
+			//left and right 
+			if (left > 0) {
+				if (hexGrid.GetEntity (left) == "Empty") {
+					if (hexGrid.GetTerrain (left) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						availablepositions.Add (left);
+						GetCellIndexesTwoHexAwayBlockersHelper (left, newmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						availablepositions.Add (left);
+						GetCellIndexesTwoHexAwayBlockersHelper (left, newmovementpoints);
+					}
+				}
+			}
+			if (right > 0) {
+				if (hexGrid.GetEntity (right) == "Empty") {
+					if (hexGrid.GetTerrain (right) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						availablepositions.Add (right);
+						GetCellIndexesTwoHexAwayBlockersHelper (right, newmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						availablepositions.Add (right);
+						GetCellIndexesTwoHexAwayBlockersHelper (right, newmovementpoints);
+					}
+				}
+			}
 
-		return positions;
+			//upper left and right
+			if (uleft > 0) {
+				if (hexGrid.GetEntity (uleft) == "Empty") {
+					if (hexGrid.GetTerrain (uleft) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						availablepositions.Add (uleft);
+						GetCellIndexesTwoHexAwayBlockersHelper (uleft, newmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						availablepositions.Add (uleft);
+						GetCellIndexesTwoHexAwayBlockersHelper (uleft, newmovementpoints);
+					}
+				}
+			}
+			if (uright > 0) {
+				if (hexGrid.GetEntity (uright) == "Empty") {
+					if (hexGrid.GetTerrain (uright) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						availablepositions.Add (uright);
+						GetCellIndexesTwoHexAwayBlockersHelper (uright, newmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						availablepositions.Add (uright);
+						GetCellIndexesTwoHexAwayBlockersHelper (uright, newmovementpoints);
+					}
+				}
+			}
+
+			//lower left and right
+			if (lleft > 0) {
+				if (hexGrid.GetEntity (lleft) == "Empty") {
+					if (hexGrid.GetTerrain (lleft) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						availablepositions.Add (lleft);
+						GetCellIndexesTwoHexAwayBlockersHelper (lleft, newmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						availablepositions.Add (lleft);
+						GetCellIndexesTwoHexAwayBlockersHelper (lleft, newmovementpoints);
+					}
+				}
+			}
+			if (lright > 0) {
+				if (hexGrid.GetEntity (lright) == "Empty") {
+					if (hexGrid.GetTerrain (lright) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						availablepositions.Add (lright);
+						GetCellIndexesTwoHexAwayBlockersHelper (lright, newmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						availablepositions.Add (lright);
+						GetCellIndexesTwoHexAwayBlockersHelper (lright, newmovementpoints);
+					}
+				}
+			}
+		}
 	}
 }
