@@ -165,8 +165,6 @@ public class Movement : MonoBehaviour {
 
 	public void GetCellIndexesTwoHexAwayBlockersHelper (int index, int movementpoints) {
 		if (movementpoints > 0) {
-			Debug.Log ("run");
-
 			HexCoordinates coord = hexGrid.GetCellCoord (index);
 			int coordx = coord.X;
 			int coordz = coord.Z;

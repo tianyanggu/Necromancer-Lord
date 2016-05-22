@@ -26,7 +26,11 @@ public class HexMapEditor : MonoBehaviour {
 	public bool lockbattle;
 	public bool editmode;
 
-	public string summontextfield = "";
+	private string summontextfieldeditor = "";
+	private string summontextfield = "";
+	private int summonquantityeditor;
+	private int summonquantity;
+
 
 	void Awake () {
 		SelectColor(0);
@@ -79,7 +83,6 @@ public class HexMapEditor : MonoBehaviour {
 		} else {
 			currindex = select.GetCurrIndex ();
 		}
-		//Debug.Log (currindex);
 		//----PlayerEntities----------
 		List<string> playerEntities = new List<string> ();
 		playerEntities.Add ("Necromancer");
@@ -111,18 +114,41 @@ public class HexMapEditor : MonoBehaviour {
 	void OnGUI () {
 		// Make a background box
 		//x position, y position, width, length
-		GUI.Box(new Rect(10,120,140,90), "Menu");
+		GUI.Box(new Rect(10,120,140,150), "Menu");
 
-		//		GUIStyle summoninputstyle = new GUIStyle();
-		//		summoninputstyle.onActive.textColor = Color.yellow;
-		summontextfield = GUI.TextField (new Rect (20, 170, 120, 20), summontextfield, 5);
-		summontextfield = Regex.Replace(summontextfield, "[^0-9 -]", string.Empty);
+		int availablecorpses = hexGrid.GetCorpses (currindex);
+
+		if (editmode == true) {
+			//		GUIStyle summoninputstyle = new GUIStyle();
+			//		summoninputstyle.onActive.textColor = Color.yellow;
+			summontextfieldeditor = GUI.TextField (new Rect (20, 170, 120, 20), summontextfieldeditor, 5);
+			summontextfieldeditor = Regex.Replace (summontextfieldeditor, "[^0-9 -]", string.Empty);
+			int summontextfieldnumeditor = 0;
+			Int32.TryParse (summontextfieldeditor, out summontextfieldnumeditor);
+			summonquantityeditor = summontextfieldnumeditor;
+		}
+		summontextfield = GUI.TextField (new Rect (20, 250, 120, 20), summontextfield, 5);
+		summontextfield = Regex.Replace (summontextfield, "[^0-9 -]", string.Empty);
 		int summontextfieldnum = 0;
-		Int32.TryParse(summontextfield, out summontextfieldnum);
-		int summonquantity = summontextfieldnum;
+		Int32.TryParse (summontextfield, out summontextfieldnum);
+		if (summontextfieldnum > availablecorpses) {
+			summonquantity = availablecorpses;
+			string availablecorpsesstring = availablecorpses.ToString ();
+			summontextfield = availablecorpsesstring;
+		} else {
+			summonquantity = summontextfieldnum;
+		}
 
 		if(GUI.Button(new Rect(20,150,120,20), "Summon Skeleton")) {
-			summon.SummonEntity(summonquantity,currindex,"Skeleton");
+			if (editmode == true) {
+				if (summonquantityeditor > 0) {
+					summon.SummonEntity (summonquantityeditor, currindex, "Skeleton");
+				}
+			} else {
+				if (summonquantity > 0) {
+					summon.SummonEntity (summonquantity, currindex, "Skeleton");
+				}
+			}
 		}
 			
 		if(GUI.Button(new Rect(20,220,120,20), "Toggle Map Edit")) {
@@ -133,20 +159,52 @@ public class HexMapEditor : MonoBehaviour {
 			}
 		}
 
+		//editor summon buttons
 		if(GUI.Button(new Rect(20,190,40,20), "+1")) {
-			int addone = (summonquantity + 1);
+			int addone = (summonquantityeditor + 1);
 			string addonetext = addone.ToString ();
-			summontextfield = addonetext;
+			summontextfieldeditor = addonetext;
 		}
 		if(GUI.Button(new Rect(50,190,40,20), "+10")) {
-			int addten = (summonquantity + 10);
+			int addten = (summonquantityeditor + 10);
 			string addtentext = addten.ToString ();
-			summontextfield = addtentext;
+			summontextfieldeditor = addtentext;
 		}
 		if(GUI.Button(new Rect(90,190,40,20), "+100")) {
+			int addhundred = (summonquantityeditor + 100);
+			string addhundredtext = addhundred.ToString ();
+			summontextfieldeditor = addhundredtext;
+		}
+		//summon buttons
+		if(GUI.Button(new Rect(20,270,40,20), "+1")) {
+			int addone = (summonquantity + 1);
+			string addonetext = addone.ToString ();
+			if (availablecorpses < addone) {
+				string availablecorpsesstring = availablecorpses.ToString ();
+				summontextfield = availablecorpsesstring;
+			} else {
+				summontextfield = addonetext;
+			}
+		}
+		if(GUI.Button(new Rect(50,270,40,20), "+10")) {
+			int addten = (summonquantity + 10);
+			string addtentext = addten.ToString ();
+			if (availablecorpses < addten) {
+				string availablecorpsesstring = availablecorpses.ToString ();
+				summontextfield = availablecorpsesstring;
+			} else {
+				summontextfield = addtentext;
+			}
+		}
+		if(GUI.Button(new Rect(90,270,40,20), "+100")) {
 			int addhundred = (summonquantity + 100);
 			string addhundredtext = addhundred.ToString ();
-			summontextfield = addhundredtext;
+			if (availablecorpses < addhundred) {
+				string availablecorpsesstring = availablecorpses.ToString ();
+				summontextfield = availablecorpsesstring;
+			} else {
+				summontextfield = addhundredtext;
+			}
 		}
 	}
 }

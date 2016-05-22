@@ -74,6 +74,11 @@ public class HexGrid : MonoBehaviour {
 		cell.terrain = newTerrain;
 	}
 
+	public void CorpsesCellIndex (int index, int newCorpses) {
+		HexCell cell = cells[index];
+		cell.corpses = newCorpses;
+	}
+
 	// ------------GET --------------------------
 	public Color GetCellColor (Vector3 position) {
 		position = transform.InverseTransformPoint(position);
@@ -129,6 +134,12 @@ public class HexGrid : MonoBehaviour {
 		HexCell cell = cells[index];
 		string currTerrain = cell.terrain;
 		return currTerrain;
+	}
+
+	public int GetCorpses (int index) {
+		HexCell cell = cells[index];
+		int currCorpses = cell.corpses;
+		return currCorpses;
 	}
 
 	//-----------CREATE-----------------------------

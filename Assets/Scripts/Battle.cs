@@ -88,6 +88,9 @@ public class Battle : MonoBehaviour {
 			GetAttackerInfo (selectedentity);
 			GetDefenderInfo (currEntity);
 
+			int unitsdied = hexGrid.GetCorpses(currindex);
+			int olddefendersize = defendersize;
+
 			//------Determine Attack Range------
 			if (attackerrange == 1) {
 				possattacktiles = movement.GetCellIndexesOneHexAway (selectedindex);
@@ -105,8 +108,17 @@ public class Battle : MonoBehaviour {
 						defenderdmgtotal = defenderdmg * defendersize;
 						defenderhealthtotal = defenderhealth * (defendersize - 1) + defenderlasthealth;
 
+						//calc dmg to defender health and size
 						defenderhealthtotal = defenderhealthtotal - attackerdmgtotal;
 						defendersize = (defenderhealthtotal + defenderhealth - 1) / defenderhealth;
+						if (defendersize < 0) {
+							defendersize = 0;
+						}
+						//set new corpses created on tile
+						int addcorpses = olddefendersize - defendersize;
+						unitsdied = unitsdied + addcorpses;
+						hexGrid.CorpsesCellIndex(currindex, unitsdied);
+
 						int defenderhealthmod = defenderhealthtotal % defenderhealth;
 						if (defenderhealthmod == 0) {
 							defenderlasthealth = defenderhealth;
@@ -127,8 +139,16 @@ public class Battle : MonoBehaviour {
 						attackerdmgtotal = attackerrangedmg * attackersize;
 						defenderhealthtotal = defenderhealth * (defendersize - 1) + defenderlasthealth;
 
+						//calc dmg to defender health and size
 						defenderhealthtotal = defenderhealthtotal - attackerdmgtotal;
 						defendersize = (defenderhealthtotal + defenderhealth - 1) / defenderhealth;
+						if (defendersize < 0) {
+							defendersize = 0;
+						}
+						//set new corpses created on tile
+						int addcorpses = olddefendersize - defendersize;
+						unitsdied = unitsdied + addcorpses;
+						hexGrid.CorpsesCellIndex(currindex, unitsdied);
 						int defenderhealthmod = defenderhealthtotal % defenderhealth;
 						if (defenderhealthmod == 0) {
 							defenderlasthealth = defenderhealth;
