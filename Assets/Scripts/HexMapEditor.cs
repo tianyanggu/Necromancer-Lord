@@ -218,6 +218,7 @@ public class HexMapEditor : MonoBehaviour {
 				turn++;
 				locate.SetAllActive();
 				locate.SetAllMovementPoints();
+				locate.SetAllAttackPoints();
 			}
 		}
 

@@ -27,7 +27,7 @@ public class Summon : MonoBehaviour {
 
 	//CHECK FOR NEXT AVALIABLE NUMBER
 	string AvailableName (string summonname) {
-		for (int i = 1; i <= 999; i++) {
+		for (int i = 1; i <= 99; i++) {
 			string num = i.ToString ();
 			if (GameObject.Find (summonname) == null) {
 				avaliablename = summonname;
@@ -36,8 +36,10 @@ public class Summon : MonoBehaviour {
 				avaliablename = summonname + num;
 				Debug.Log (avaliablename);
 				return avaliablename;
+			} else {
+				Debug.Log ("Inform Max is 99");
 			}
-		}
+		} 
 		//split for optimization if over 9
 //		for (int i = 10; i <= 999; i++) {
 //			string num = i.ToString ();
