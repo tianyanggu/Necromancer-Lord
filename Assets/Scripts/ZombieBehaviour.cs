@@ -14,4 +14,6 @@ public class ZombieBehaviour : MonoBehaviour {
 	public int lasthealth;
 	public int currattackpoint;
 	public int currmovementpoint;
+
+	public bool idle;
 }

@@ -29,14 +29,15 @@ public class Battle : MonoBehaviour {
 	private string cleanSelectedEntity;
 	private string cleanCurrEntity;
 
+	private List<string> playerEntities = new List<string> ();
+	private List<string> enemyEntities = new List<string> ();
+
 	public bool Attack (int selectedindex, int currindex, string selectedentity) {
 		//player controlled entities
-		List<string> playerEntities = new List<string> ();
 		playerEntities.Add ("Necromancer");
 		playerEntities.Add ("Skeleton");
 		playerEntities.Add ("Zombie");
 		//enemy entities
-		List<string> enemyEntities = new List<string> ();
 		enemyEntities.Add ("Militia");
 
 		//------Parses Entities------

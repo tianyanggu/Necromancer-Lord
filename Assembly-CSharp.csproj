@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\HexMesh.cs" />
      <Compile Include="Assets\Scripts\HexMetrics.cs" />
      <Compile Include="Assets\Scripts\LoadMap.cs" />
+     <Compile Include="Assets\Scripts\Locate.cs" />
      <Compile Include="Assets\Scripts\MilitiaBehaviour.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
      <Compile Include="Assets\Scripts\NecromancerBehaviour.cs" />

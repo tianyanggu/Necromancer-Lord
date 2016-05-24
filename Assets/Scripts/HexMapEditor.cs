@@ -16,6 +16,7 @@ public class HexMapEditor : MonoBehaviour {
 	public LoadMap loadMap;
 	public Battle battle;
 	public Summon summon;
+	public Locate locate;
 
 	public int currindex;
 
@@ -25,6 +26,8 @@ public class HexMapEditor : MonoBehaviour {
 
 	public bool lockbattle;
 	public bool editmode;
+
+	public int turn;
 
 	private string summontextfieldeditor = "";
 	private string summontextfield = "";
@@ -205,6 +208,21 @@ public class HexMapEditor : MonoBehaviour {
 			} else {
 				summontextfield = addhundredtext;
 			}
+		}
+
+		//determine if all troops moved and turn can end
+		string turnstring = turn.ToString ();
+		if(GUI.Button(new Rect(30,330,60,60), turnstring)) {
+			bool checkall = locate.CheckAll ();
+			if (checkall == true) {
+				turn++;
+				locate.SetAllActive();
+				locate.SetAllMovementPoints();
+			}
+		}
+
+		if(GUI.Button(new Rect(30,300,60,20), "Set All Idle")) {
+			locate.SetAllIdle ();
 		}
 	}
 }
