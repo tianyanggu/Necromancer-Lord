@@ -72,12 +72,9 @@ public class Battle : MonoBehaviour {
 			}
 			else if (playermovement == 1 && playercurrmovepoint == 1) {
 				possmovement = movement.GetCellIndexesOneHexAway (selectedindex);
-			} else if (playermovement != 1 && playercurrmovepoint == 1) {
-				//TODO create one hex away blockers
-				possmovement = movement.GetCellIndexesOneHexAway (selectedindex);
-			} else if (playermovement == 2) {
-//				possmovement = movement.GetCellIndexesTwoHexAway (selectedindex);
-				possmovement = movement.GetCellIndexesTwoHexAwayBlockers (selectedindex);
+			} else if (playermovement != 1) {
+				//possmovement = movement.GetCellIndexesTwoHexAway (selectedindex);
+				possmovement = movement.GetCellIndexesBlockers (selectedindex, playercurrmovepoint);
 			}
 
 			if (possmovement.Contains (currindex)) {
@@ -86,10 +83,9 @@ public class Battle : MonoBehaviour {
 				playerSize.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 				hexGrid.EntityCellIndex (selectedindex, "Empty");
 				hexGrid.EntityCellIndex (currindex, selectedentity);
-				return true;
 
-
-
+				//function to determine distance of curr index from selectedindex
+				int distance = movement.GetDistance (selectedindex, currindex);
 				//if used one movementpoint
 //				if (cleanSelectedEntity == "Zombie") {
 //					playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint = playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint - 1;
@@ -106,6 +102,8 @@ public class Battle : MonoBehaviour {
 //				} else if (cleanSelectedEntity == "Necromancer") {
 //					playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint - 2;
 //				}
+
+				return true;
 			}
 			//------Encounter Enemy------
 		} else if (playerEntities.Contains (cleanSelectedEntity) && enemyEntities.Contains (cleanCurrEntity)) {

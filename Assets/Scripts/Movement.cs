@@ -154,16 +154,15 @@ public class Movement : MonoBehaviour {
 		return positions;
 	}
 
-	public List<int> GetCellIndexesTwoHexAwayBlockers (int index) {
-		int movementpoints = 2;
+	public List<int> GetCellIndexesBlockers (int index, int movementpoints) {
 		availablepositions.Clear();
 
-		GetCellIndexesTwoHexAwayBlockersHelper (index, movementpoints);
+		GetCellIndexesBlockersHelper (index, movementpoints);
 
 		return availablepositions;
 	}
 
-	public void GetCellIndexesTwoHexAwayBlockersHelper (int index, int movementpoints) {
+	public void GetCellIndexesBlockersHelper (int index, int movementpoints) {
 		if (movementpoints > 0) {
 			HexCoordinates coord = hexGrid.GetCellCoord (index);
 			int coordx = coord.X;
@@ -188,11 +187,11 @@ public class Movement : MonoBehaviour {
 					if (hexGrid.GetTerrain (left) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
 						availablepositions.Add (left);
-						GetCellIndexesTwoHexAwayBlockersHelper (left, newmovementpoints);
+						GetCellIndexesBlockersHelper (left, newmovementpoints);
 					} else {
 						int newmovementpoints = movementpoints - 1;
 						availablepositions.Add (left);
-						GetCellIndexesTwoHexAwayBlockersHelper (left, newmovementpoints);
+						GetCellIndexesBlockersHelper (left, newmovementpoints);
 					}
 				}
 			}
@@ -201,11 +200,11 @@ public class Movement : MonoBehaviour {
 					if (hexGrid.GetTerrain (right) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
 						availablepositions.Add (right);
-						GetCellIndexesTwoHexAwayBlockersHelper (right, newmovementpoints);
+						GetCellIndexesBlockersHelper (right, newmovementpoints);
 					} else {
 						int newmovementpoints = movementpoints - 1;
 						availablepositions.Add (right);
-						GetCellIndexesTwoHexAwayBlockersHelper (right, newmovementpoints);
+						GetCellIndexesBlockersHelper (right, newmovementpoints);
 					}
 				}
 			}
@@ -216,11 +215,11 @@ public class Movement : MonoBehaviour {
 					if (hexGrid.GetTerrain (uleft) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
 						availablepositions.Add (uleft);
-						GetCellIndexesTwoHexAwayBlockersHelper (uleft, newmovementpoints);
+						GetCellIndexesBlockersHelper (uleft, newmovementpoints);
 					} else {
 						int newmovementpoints = movementpoints - 1;
 						availablepositions.Add (uleft);
-						GetCellIndexesTwoHexAwayBlockersHelper (uleft, newmovementpoints);
+						GetCellIndexesBlockersHelper (uleft, newmovementpoints);
 					}
 				}
 			}
@@ -229,11 +228,11 @@ public class Movement : MonoBehaviour {
 					if (hexGrid.GetTerrain (uright) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
 						availablepositions.Add (uright);
-						GetCellIndexesTwoHexAwayBlockersHelper (uright, newmovementpoints);
+						GetCellIndexesBlockersHelper (uright, newmovementpoints);
 					} else {
 						int newmovementpoints = movementpoints - 1;
 						availablepositions.Add (uright);
-						GetCellIndexesTwoHexAwayBlockersHelper (uright, newmovementpoints);
+						GetCellIndexesBlockersHelper (uright, newmovementpoints);
 					}
 				}
 			}
@@ -244,11 +243,11 @@ public class Movement : MonoBehaviour {
 					if (hexGrid.GetTerrain (lleft) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
 						availablepositions.Add (lleft);
-						GetCellIndexesTwoHexAwayBlockersHelper (lleft, newmovementpoints);
+						GetCellIndexesBlockersHelper (lleft, newmovementpoints);
 					} else {
 						int newmovementpoints = movementpoints - 1;
 						availablepositions.Add (lleft);
-						GetCellIndexesTwoHexAwayBlockersHelper (lleft, newmovementpoints);
+						GetCellIndexesBlockersHelper (lleft, newmovementpoints);
 					}
 				}
 			}
@@ -257,14 +256,65 @@ public class Movement : MonoBehaviour {
 					if (hexGrid.GetTerrain (lright) == "Mountain") {
 						int newmovementpoints = movementpoints - 2;
 						availablepositions.Add (lright);
-						GetCellIndexesTwoHexAwayBlockersHelper (lright, newmovementpoints);
+						GetCellIndexesBlockersHelper (lright, newmovementpoints);
 					} else {
 						int newmovementpoints = movementpoints - 1;
 						availablepositions.Add (lright);
-						GetCellIndexesTwoHexAwayBlockersHelper (lright, newmovementpoints);
+						GetCellIndexesBlockersHelper (lright, newmovementpoints);
 					}
 				}
 			}
 		}
+	}
+
+	public int GetDistance (int selectedindex, int currindex) {
+		HexCoordinates currcoord = hexGrid.GetCellCoord (currindex);
+		int currcoordx = currcoord.X;
+		int currcoordy = currcoord.Y;
+		int currcoordz = currcoord.Z;
+		HexCoordinates selcoord = hexGrid.GetCellCoord (selectedindex);
+		int selcoordx = selcoord.X;
+		int selcoordy = selcoord.Y;
+		int selcoordz = selcoord.Z;
+		int distance = 0;
+
+		if (currcoordz < selcoordz) {
+			if (currcoordx > selcoordx) {
+				if (currcoordy <= selcoordy) {
+					distance = currcoordx - selcoordx;
+				} else if (currcoordy > selcoordy) {
+					distance = (currcoordx - selcoordx) + (currcoordy - selcoordy);
+				}
+				return distance;
+			} else if (currcoordx <= selcoordx) {
+				distance = currcoordy - selcoordy;
+				return distance;
+			}
+		} else if (currcoordz > selcoordz) {
+			if (currcoordx <= selcoordx) {
+				if (currcoordy >= selcoordy) {
+					distance = selcoordx - currcoordx;
+				} else if (currcoordy < selcoordy) {
+					distance = (selcoordx - currcoordx) + (currcoordy - selcoordy);
+				}
+				return distance;
+			} else if (currcoordx > selcoordx) {
+				distance = selcoordy - currcoordy;
+				return distance;
+			}
+		} else if (currcoordz == selcoordz) {
+			if (currcoordx < selcoordx) {
+				distance = selcoordx - currcoordx;
+				return distance;
+			} else if (currcoordx > selcoordx) {
+				distance = currcoordx - selcoordx;
+				return distance;
+			} else if (currcoordx == selcoordx) {
+				distance = 0;
+				return distance;
+			}
+		}
+
+		return distance;
 	}
 }
