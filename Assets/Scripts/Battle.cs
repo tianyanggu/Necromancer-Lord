@@ -85,23 +85,17 @@ public class Battle : MonoBehaviour {
 				hexGrid.EntityCellIndex (currindex, selectedentity);
 
 				//function to determine distance of curr index from selectedindex
-				int distance = movement.GetDistance (selectedindex, currindex);
-				//if used one movementpoint
-//				if (cleanSelectedEntity == "Zombie") {
-//					playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint = playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint - 1;
-//				} else if (cleanSelectedEntity == "Skeleton") {
-//					playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint = playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint - 1;
-//				} else if (cleanSelectedEntity == "Necromancer") {
-//					playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint - 1;
-//				}
-//				// if used two movementpoints
-//				if (cleanSelectedEntity == "Zombie") {
-//					playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint = playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint - 2;
-//				} else if (cleanSelectedEntity == "Skeleton") {
-//					playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint = playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint - 2;
-//				} else if (cleanSelectedEntity == "Necromancer") {
-//					playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint - 2;
-//				}
+				//int distance = movement.GetDistance (selectedindex, currindex);
+				int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
+
+				if (cleanSelectedEntity == "Zombie") {
+					playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint = playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint - minmove;
+				} else if (cleanSelectedEntity == "Skeleton") {
+					playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint = playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint - minmove;
+				} else if (cleanSelectedEntity == "Necromancer") {
+					playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint - minmove;
+				}
+
 
 				return true;
 			}

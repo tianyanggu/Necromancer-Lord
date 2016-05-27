@@ -93,6 +93,7 @@ public class HexMapEditor : MonoBehaviour {
 		playerEntities.Add ("Zombie");
 
 		//-----Selector--------------
+		//Debug.Log(currindex);
 		string currEntity = hexGrid.GetEntity (currindex);
 		string cleanCurrEntity = Regex.Replace(currEntity, @"[\d-]", string.Empty);
 
@@ -107,7 +108,6 @@ public class HexMapEditor : MonoBehaviour {
 				lockbattle = true;
 			}
 		}
-		//Debug.Log (lockbattle);
 	}
 
 	public void SelectColor (int index) {

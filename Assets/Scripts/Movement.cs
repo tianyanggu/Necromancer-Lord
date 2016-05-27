@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Movement : MonoBehaviour {
 
 	public HexGrid hexGrid;
 	public List<int> availablepositions;
+	public List<int> possminmovepoints;
 
 //	public List<int> GetCellIndexesOneHexAway (int index) {
 //		int width = hexGrid.width;
@@ -316,5 +318,138 @@ public class Movement : MonoBehaviour {
 		}
 
 		return distance;
+	}
+
+	public int GetMovementPointsUsed (int selindex, int currindex, int movementpoints) {
+		possminmovepoints.Clear();
+
+		GetMovementPointsUsedHelper (selindex, currindex, movementpoints, 0);
+
+		int minmovepoints = possminmovepoints.Min ();
+
+		return minmovepoints;
+
+	}
+
+	public void GetMovementPointsUsedHelper (int selindex, int currindex, int movementpoints, int usedmovementpoints) {
+		if (movementpoints > 0) {
+			HexCoordinates coord = hexGrid.GetCellCoord (selindex);
+			int coordx = coord.X;
+			int coordz = coord.Z;
+
+			int left = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz);
+			if (left == currindex) {
+				possminmovepoints.Add (usedmovementpoints + 1);
+			}
+
+			int right = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz);
+			if (right == currindex) {
+				possminmovepoints.Add (usedmovementpoints + 1);
+			}
+
+			int uleft = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz + 1);
+			if (uleft == currindex) {
+				possminmovepoints.Add (usedmovementpoints + 1);
+			}
+
+			int uright = hexGrid.GetCellIndexFromCoord (coordx, coordz + 1);
+			if (uright == currindex) {
+				possminmovepoints.Add (usedmovementpoints + 1);
+			}
+
+			int lleft = hexGrid.GetCellIndexFromCoord (coordx, coordz - 1);
+			if (lleft == currindex) {
+				possminmovepoints.Add (usedmovementpoints + 1);
+			}
+
+			int lright = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz - 1);
+			if (lright == currindex) {
+				possminmovepoints.Add (usedmovementpoints + 1);
+			}
+
+			//left and right 
+			if (left >= 0) {
+				if (hexGrid.GetEntity (left) == "Empty") {
+					if (hexGrid.GetTerrain (left) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						int newusedmovementpoints = usedmovementpoints + 2;
+						GetMovementPointsUsedHelper (left, currindex, newmovementpoints, newusedmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						int newusedmovementpoints = usedmovementpoints + 1;
+						GetMovementPointsUsedHelper (left, currindex, newmovementpoints, newusedmovementpoints);
+					}
+				}
+			}
+			if (right >= 0) {
+				if (hexGrid.GetEntity (right) == "Empty") {
+					if (hexGrid.GetTerrain (right) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						int newusedmovementpoints = usedmovementpoints + 2;
+						GetMovementPointsUsedHelper (right, currindex, newmovementpoints, newusedmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						int newusedmovementpoints = usedmovementpoints + 1;
+						GetMovementPointsUsedHelper (right, currindex, newmovementpoints, newusedmovementpoints);
+					}
+				}
+			}
+
+			//upper left and right
+			if (uleft >= 0) {
+				if (hexGrid.GetEntity (uleft) == "Empty") {
+					if (hexGrid.GetTerrain (uleft) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						int newusedmovementpoints = usedmovementpoints + 2;
+						GetMovementPointsUsedHelper (uleft, currindex, newmovementpoints, newusedmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						int newusedmovementpoints = usedmovementpoints + 1;
+						GetMovementPointsUsedHelper (uleft, currindex, newmovementpoints, newusedmovementpoints);
+					}
+				}
+			}
+			if (uright >= 0) {
+				if (hexGrid.GetEntity (uright) == "Empty") {
+					if (hexGrid.GetTerrain (uright) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						int newusedmovementpoints = usedmovementpoints + 2;
+						GetMovementPointsUsedHelper (uright, currindex, newmovementpoints, newusedmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						int newusedmovementpoints = usedmovementpoints + 1;
+						GetMovementPointsUsedHelper (uright, currindex, newmovementpoints, newusedmovementpoints);
+					}
+				}
+			}
+
+			//lower left and right
+			if (lleft >= 0) {
+				if (hexGrid.GetEntity (lleft) == "Empty") {
+					if (hexGrid.GetTerrain (lleft) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						int newusedmovementpoints = usedmovementpoints + 2;
+						GetMovementPointsUsedHelper (lleft, currindex, newmovementpoints, newusedmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						int newusedmovementpoints = usedmovementpoints + 1;
+						GetMovementPointsUsedHelper (lleft, currindex, newmovementpoints, newusedmovementpoints);
+					}
+				}
+			}
+			if (lright >= 0) {
+				if (hexGrid.GetEntity (lright) == "Empty") {
+					if (hexGrid.GetTerrain (lright) == "Mountain") {
+						int newmovementpoints = movementpoints - 2;
+						int newusedmovementpoints = usedmovementpoints + 2;
+						GetMovementPointsUsedHelper (lright, currindex, newmovementpoints, newusedmovementpoints);
+					} else {
+						int newmovementpoints = movementpoints - 1;
+						int newusedmovementpoints = usedmovementpoints + 1;
+						GetMovementPointsUsedHelper (lright, currindex, newmovementpoints, newusedmovementpoints);
+					}
+				}
+			}
+		}
 	}
 }
