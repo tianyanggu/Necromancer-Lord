@@ -10,6 +10,7 @@ public class Battle : MonoBehaviour {
 	public LoadMap loadMap;
 	public Movement movement;
 
+	//entity stats
 	private int attackerdmg = 0;
 	private int attackerdmgtotal = 0;
 	private int attackerhealth = 0;
@@ -24,7 +25,11 @@ public class Battle : MonoBehaviour {
 	private int defenderhealthtotal = 0;
 	private int defenderlasthealth = 0;
 	private int defendersize = 0;
-	//private int defenderrange = 0;
+
+	//entity action points
+	private int playermovement = 0;
+	private int playercurrmovepoint = 0;
+	private int playercurrattpoint = 0;
 
 	private string cleanSelectedEntity;
 	private string cleanCurrEntity;
@@ -49,22 +54,10 @@ public class Battle : MonoBehaviour {
 		//Debug.Log ("Size " + cleanCurrEntity + numCurrEntity);
 		Vector3 cellcoord = hexGrid.GetCellPos(currindex);
 
+		GetMovementInfo (selectedentity);
+
 		//------Movement Empty Cell------
 		if (playerEntities.Contains (cleanSelectedEntity) && currEntity == "Empty") {
-			GameObject playerEntity = GameObject.Find (selectedentity);
-			//find movement
-			int playermovement = 0;
-			int playercurrmovepoint = 0;
-			if (cleanSelectedEntity == "Zombie") {
-				playermovement = playerEntity.GetComponent<ZombieBehaviour> ().movementpoint;
-				playercurrmovepoint = playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint;
-			} else if (cleanSelectedEntity == "Skeleton") {
-				playermovement = playerEntity.GetComponent<SkeletonBehaviour> ().movementpoint;
-				playercurrmovepoint = playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint;
-			} else if (cleanSelectedEntity == "Necromancer") {
-				playermovement = playerEntity.GetComponent<NecromancerBehaviour> ().movementpoint;
-				playercurrmovepoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint;
-			}
 			//determine movement tiles
 			List<int> possmovement = null;
 			if (playercurrmovepoint == 0) {
@@ -78,6 +71,7 @@ public class Battle : MonoBehaviour {
 			}
 
 			if (possmovement.Contains (currindex)) {
+				GameObject playerEntity = GameObject.Find (selectedentity);
 				GameObject playerSize = GameObject.Find ("Size " + selectedentity);
 				playerEntity.transform.position = cellcoord;
 				playerSize.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
@@ -88,15 +82,9 @@ public class Battle : MonoBehaviour {
 				//int distance = movement.GetDistance (selectedindex, currindex);
 				int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
 
-				if (cleanSelectedEntity == "Zombie") {
-					playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint = playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint - minmove;
-				} else if (cleanSelectedEntity == "Skeleton") {
-					playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint = playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint - minmove;
-				} else if (cleanSelectedEntity == "Necromancer") {
-					playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint - minmove;
-				}
-
-
+				//set new movement points remaining
+				SetMovementInfo (selectedentity, minmove);
+					
 				return true;
 			}
 			//------Encounter Enemy------
@@ -104,23 +92,14 @@ public class Battle : MonoBehaviour {
 			GameObject attacker = GameObject.Find (selectedentity);
 			GameObject defender = GameObject.Find (currEntity);
 
+			GetAttackerInfo (selectedentity);
+			GetDefenderInfo (currEntity);
+
 			//check if you can attack
-			int playercurrattpoint = 0;
-			if (cleanSelectedEntity == "Zombie") {
-				playercurrattpoint = attacker.GetComponent<ZombieBehaviour> ().currattackpoint;
-			} else if (cleanSelectedEntity == "Skeleton") {
-				playercurrattpoint = attacker.GetComponent<SkeletonBehaviour> ().currattackpoint;;
-			} else if (cleanSelectedEntity == "Necromancer") {
-				playercurrattpoint = attacker.GetComponent<NecromancerBehaviour> ().currattackpoint;
-			}
 			if (playercurrattpoint == 0) {
 				return false;
 			}
-				
 			List<int> possattacktiles = null;
-
-			GetAttackerInfo (selectedentity);
-			GetDefenderInfo (currEntity);
 
 			int unitsdied = hexGrid.GetCorpses(currindex);
 			int olddefendersize = defendersize;
@@ -191,6 +170,7 @@ public class Battle : MonoBehaviour {
 						}
 					}
 
+					//check new status
 					if (defendersize <= 0) {
 						Destroy (defender);
 						hexGrid.EntityCellIndex (currindex, "Empty");
@@ -202,44 +182,19 @@ public class Battle : MonoBehaviour {
 						hexGrid.EntityCellIndex (selectedindex, "Empty");
 						GameObject attackerSizeText = GameObject.Find ("Size " + selectedentity);
 						Destroy (attackerSizeText);
-					} else if (attackersize > 0 && defendersize <= 0) {
-						attacker.transform.position = cellcoord;
-						hexGrid.EntityCellIndex (currindex, selectedentity);
-						hexGrid.EntityCellIndex (selectedindex, "Empty");
-						GameObject defenderSizeText = GameObject.Find ("Size " + currEntity);
-						Destroy (defenderSizeText);
-						GameObject attackerSizeText = GameObject.Find ("Size " + selectedentity);
-						attackerSizeText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
+					} 
+					if (attackersize > 0 && defendersize <= 0) {
+						if (playercurrmovepoint > 0) {
+							attacker.transform.position = cellcoord;
+							hexGrid.EntityCellIndex (currindex, selectedentity);
+							GameObject attackerSizeText = GameObject.Find ("Size " + selectedentity);
+							attackerSizeText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
+						}
 					}
 
-					//------Set New Info Attacker------
-					if (cleanSelectedEntity == "Necromancer") {
-						attacker.GetComponent<NecromancerBehaviour> ().size = attackersize;
-						attacker.GetComponent<NecromancerBehaviour> ().lasthealth = attackerlasthealth;
-						Text attsizetext = GameObject.Find ("Size " + selectedentity).GetComponent<Text> ();
-						attsizetext.text = attackersize.ToString ();
-						attacker.GetComponent<NecromancerBehaviour> ().currattackpoint = attacker.GetComponent<NecromancerBehaviour> ().currattackpoint - 1;
-					} else if (cleanSelectedEntity == "Skeleton") {
-						attacker.GetComponent<SkeletonBehaviour> ().size = attackersize;
-						attacker.GetComponent<SkeletonBehaviour> ().lasthealth = attackerlasthealth;
-						Text attsizetext = GameObject.Find ("Size " + selectedentity).GetComponent<Text> ();
-						attsizetext.text = attackersize.ToString ();
-						attacker.GetComponent<SkeletonBehaviour> ().currattackpoint = attacker.GetComponent<SkeletonBehaviour> ().currattackpoint - 1;
-					} else if (cleanSelectedEntity == "Zombie") {
-						attacker.GetComponent<ZombieBehaviour> ().size = attackersize;
-						attacker.GetComponent<ZombieBehaviour> ().lasthealth = attackerlasthealth;
-						Text attsizetext = GameObject.Find ("Size " + selectedentity).GetComponent<Text> ();
-						attsizetext.text = attackersize.ToString ();
-						attacker.GetComponent<ZombieBehaviour> ().currattackpoint = attacker.GetComponent<ZombieBehaviour> ().currattackpoint - 1;
-					}
-
-					//------Set New Info Defender------
-					if (cleanCurrEntity == "Militia") {
-						defender.GetComponent<MilitiaBehaviour> ().size = defendersize;
-						defender.GetComponent<MilitiaBehaviour> ().lasthealth = defenderlasthealth;
-						Text defsizetext = GameObject.Find ("Size " + currEntity).GetComponent<Text> ();
-						defsizetext.text = defendersize.ToString ();
-					}
+					//Set New Info
+					SetAttackerInfo (selectedentity);
+					SetDefenderInfo (currEntity);
 
 					return true;
 				}
@@ -258,6 +213,14 @@ public class Battle : MonoBehaviour {
 		GameObject attacker = GameObject.Find (selectedentity);
 
 		//------Grab Info Attacker------
+		if (cleanSelectedEntity == "Zombie") {
+			playercurrattpoint = attacker.GetComponent<ZombieBehaviour> ().currattackpoint;
+		} else if (cleanSelectedEntity == "Skeleton") {
+			playercurrattpoint = attacker.GetComponent<SkeletonBehaviour> ().currattackpoint;;
+		} else if (cleanSelectedEntity == "Necromancer") {
+			playercurrattpoint = attacker.GetComponent<NecromancerBehaviour> ().currattackpoint;
+		}
+			
 		if (cleanSelectedEntity == "Necromancer") {
 			attackersize = attacker.GetComponent<NecromancerBehaviour> ().size;
 			attackerdmg = attacker.GetComponent<NecromancerBehaviour> ().attack;
@@ -265,7 +228,6 @@ public class Battle : MonoBehaviour {
 			attackerlasthealth = attacker.GetComponent<NecromancerBehaviour> ().lasthealth;
 			attackerrange = attacker.GetComponent<NecromancerBehaviour> ().range;
 			attackerrangedmg = attacker.GetComponent<NecromancerBehaviour> ().rangeattack;
-
 		} else if (cleanSelectedEntity == "Skeleton") {
 			attackersize = attacker.GetComponent<SkeletonBehaviour> ().size;
 			attackerdmg = attacker.GetComponent<SkeletonBehaviour> ().attack;
@@ -291,6 +253,70 @@ public class Battle : MonoBehaviour {
 			defenderhealth = defender.GetComponent<MilitiaBehaviour> ().health;
 			defenderlasthealth = defender.GetComponent<MilitiaBehaviour> ().lasthealth;
 			//defenderrange = defender.GetComponent<MilitiaBehaviour> ().range;
+		}
+	}
+
+	void SetAttackerInfo(string selectedentity) {
+		GameObject attacker = GameObject.Find (selectedentity);
+
+		//------Set New Info Attacker------
+		if (cleanSelectedEntity == "Necromancer") {
+			attacker.GetComponent<NecromancerBehaviour> ().size = attackersize;
+			attacker.GetComponent<NecromancerBehaviour> ().lasthealth = attackerlasthealth;
+			Text attsizetext = GameObject.Find ("Size " + selectedentity).GetComponent<Text> ();
+			attsizetext.text = attackersize.ToString ();
+			attacker.GetComponent<NecromancerBehaviour> ().currattackpoint = attacker.GetComponent<NecromancerBehaviour> ().currattackpoint - 1;
+		} else if (cleanSelectedEntity == "Skeleton") {
+			attacker.GetComponent<SkeletonBehaviour> ().size = attackersize;
+			attacker.GetComponent<SkeletonBehaviour> ().lasthealth = attackerlasthealth;
+			Text attsizetext = GameObject.Find ("Size " + selectedentity).GetComponent<Text> ();
+			attsizetext.text = attackersize.ToString ();
+			attacker.GetComponent<SkeletonBehaviour> ().currattackpoint = attacker.GetComponent<SkeletonBehaviour> ().currattackpoint - 1;
+		} else if (cleanSelectedEntity == "Zombie") {
+			attacker.GetComponent<ZombieBehaviour> ().size = attackersize;
+			attacker.GetComponent<ZombieBehaviour> ().lasthealth = attackerlasthealth;
+			Text attsizetext = GameObject.Find ("Size " + selectedentity).GetComponent<Text> ();
+			attsizetext.text = attackersize.ToString ();
+			attacker.GetComponent<ZombieBehaviour> ().currattackpoint = attacker.GetComponent<ZombieBehaviour> ().currattackpoint - 1;
+		}
+	}
+
+	void SetDefenderInfo(string currEntity) {
+		GameObject defender = GameObject.Find (currEntity);
+
+		//------Set New Info Defender------
+		if (cleanCurrEntity == "Militia") {
+			defender.GetComponent<MilitiaBehaviour> ().size = defendersize;
+			defender.GetComponent<MilitiaBehaviour> ().lasthealth = defenderlasthealth;
+			Text defsizetext = GameObject.Find ("Size " + currEntity).GetComponent<Text> ();
+			defsizetext.text = defendersize.ToString ();
+		}
+	}
+
+	void GetMovementInfo(string selectedentity) {
+		GameObject playerEntity = GameObject.Find (selectedentity);
+		//find movement points
+		if (cleanSelectedEntity == "Zombie") {
+			playermovement = playerEntity.GetComponent<ZombieBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint;
+		} else if (cleanSelectedEntity == "Skeleton") {
+			playermovement = playerEntity.GetComponent<SkeletonBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint;
+		} else if (cleanSelectedEntity == "Necromancer") {
+			playermovement = playerEntity.GetComponent<NecromancerBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint;
+		}
+	}
+
+	void SetMovementInfo(string selectedentity, int change) {
+		GameObject playerEntity = GameObject.Find (selectedentity);
+		//set movement points
+		if (cleanSelectedEntity == "Zombie") {
+			playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint = playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint - change;
+		} else if (cleanSelectedEntity == "Skeleton") {
+			playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint = playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint - change;
+		} else if (cleanSelectedEntity == "Necromancer") {
+			playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint - change;
 		}
 	}
 }

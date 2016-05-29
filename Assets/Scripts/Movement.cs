@@ -9,88 +9,6 @@ public class Movement : MonoBehaviour {
 	public List<int> availablepositions;
 	public List<int> possminmovepoints;
 
-//	public List<int> GetCellIndexesOneHexAway (int index) {
-//		int width = hexGrid.width;
-//		int height = hexGrid.height;
-//
-//		List<int> positions = new List<int> ();
-//		//right case
-//		if ((index % width) == (width - 1)) {
-//			positions.Add (index - 1);
-//		}
-//		//left case
-//		else if ((index % width) == 0) {
-//			positions.Add (index + 1);
-//		} else {
-//			positions.Add (index - 1);
-//			positions.Add (index + 1);
-//		}
-//		//determine borders by even or odd rows
-//		int row = index / width;
-//		//Odd rows
-//		if (row % 2 == 1) {
-//			if ((index + width) >= (height * width - 1)) {
-//				//upper is empty, only add lower cells
-//				if ((index % width) != (width - 1)) {
-//					//left side
-//					positions.Add (index - width); //lower left
-//					positions.Add (index - width + 1); //lower right
-//				} else {
-//					//right side
-//					positions.Add (index - width); //lower left
-//				}
-//			} else {
-//				if ((index % width) != (width - 1)) {
-//					//left side
-//					positions.Add (index + width); //upper left
-//					positions.Add (index + width + 1); //upper right
-//					positions.Add (index - width); //lower left
-//					positions.Add (index - width + 1); //lower right
-//				} else {
-//					//right side
-//					positions.Add (index + width); //upper left
-//					positions.Add (index - width); //lower left
-//				}
-//			}
-//
-//		}		
-//		if (row % 2 == 0) {
-//
-//			if ((index + width) >= (height * width - 1)) {
-//				//upper is empty, only add lower cells
-//				if ((index % width) != (width - 1)) {
-//					//left side
-//					positions.Add (index - width); //lower right
-//				} else {
-//					positions.Add (index - width - 1); //lower left
-//					positions.Add (index - width); //lower right
-//				}
-//			} else if (row == 0) {
-//				//lower is empty, only add upper cells
-//				if ((index % width) != (width - 1)) {
-//					//left side
-//					positions.Add (index + width); //upper right
-//				} else {
-//					positions.Add (index + width - 1); //upper left
-//					positions.Add (index + width); //upper right
-//				}
-//			} else {
-//				if ((index % width) == 0) {
-//					//left side
-//					positions.Add (index + width); //upper right
-//					positions.Add (index - width); //lower right
-//				} else {
-//					positions.Add (index + width - 1); //upper left
-//					positions.Add (index + width); //upper right
-//					positions.Add (index - width - 1); //lower left
-//					positions.Add (index - width); //lower right
-//				}
-//			}
-//		}
-//		return positions;
-//	}
-
-
 	public List<int> GetCellIndexesOneHexAway (int index) {
 
 		List<int> positions = new List<int> ();
@@ -171,98 +89,25 @@ public class Movement : MonoBehaviour {
 			int coordz = coord.Z;
 
 			int left = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz);
-			//Debug.Log ("left"+left);
 			int right = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz);
-			//Debug.Log ("right"+right);
 			int uleft = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz + 1);
-			//Debug.Log ("uleft"+uleft);
 			int uright = hexGrid.GetCellIndexFromCoord (coordx, coordz + 1);
-			//Debug.Log ("uright"+uright);
 			int lleft = hexGrid.GetCellIndexFromCoord (coordx, coordz - 1);
-			//Debug.Log ("lleft"+lleft);
 			int lright = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz - 1);
-			//Debug.Log ("lright"+lright);
+			int[] hexdirections = new int[] { left, right, uleft, uright, lleft, lright };
 
-			//left and right 
-			if (left >= 0) {
-				if (hexGrid.GetEntity (left) == "Empty") {
-					if (hexGrid.GetTerrain (left) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						availablepositions.Add (left);
-						GetCellIndexesBlockersHelper (left, newmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						availablepositions.Add (left);
-						GetCellIndexesBlockersHelper (left, newmovementpoints);
-					}
-				}
-			}
-			if (right >= 0) {
-				if (hexGrid.GetEntity (right) == "Empty") {
-					if (hexGrid.GetTerrain (right) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						availablepositions.Add (right);
-						GetCellIndexesBlockersHelper (right, newmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						availablepositions.Add (right);
-						GetCellIndexesBlockersHelper (right, newmovementpoints);
-					}
-				}
-			}
-
-			//upper left and right
-			if (uleft >= 0) {
-				if (hexGrid.GetEntity (uleft) == "Empty") {
-					if (hexGrid.GetTerrain (uleft) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						availablepositions.Add (uleft);
-						GetCellIndexesBlockersHelper (uleft, newmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						availablepositions.Add (uleft);
-						GetCellIndexesBlockersHelper (uleft, newmovementpoints);
-					}
-				}
-			}
-			if (uright >= 0) {
-				if (hexGrid.GetEntity (uright) == "Empty") {
-					if (hexGrid.GetTerrain (uright) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						availablepositions.Add (uright);
-						GetCellIndexesBlockersHelper (uright, newmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						availablepositions.Add (uright);
-						GetCellIndexesBlockersHelper (uright, newmovementpoints);
-					}
-				}
-			}
-
-			//lower left and right
-			if (lleft >= 0) {
-				if (hexGrid.GetEntity (lleft) == "Empty") {
-					if (hexGrid.GetTerrain (lleft) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						availablepositions.Add (lleft);
-						GetCellIndexesBlockersHelper (lleft, newmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						availablepositions.Add (lleft);
-						GetCellIndexesBlockersHelper (lleft, newmovementpoints);
-					}
-				}
-			}
-			if (lright >= 0) {
-				if (hexGrid.GetEntity (lright) == "Empty") {
-					if (hexGrid.GetTerrain (lright) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						availablepositions.Add (lright);
-						GetCellIndexesBlockersHelper (lright, newmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						availablepositions.Add (lright);
-						GetCellIndexesBlockersHelper (lright, newmovementpoints);
+			foreach (int direction in hexdirections) {
+				if (direction >= 0) {
+					if (hexGrid.GetEntity (direction) == "Empty") {
+						if (hexGrid.GetTerrain (direction) == "Mountain") {
+							int newmovementpoints = movementpoints - 2;
+							availablepositions.Add (direction);
+							GetCellIndexesBlockersHelper (direction, newmovementpoints);
+						} else {
+							int newmovementpoints = movementpoints - 1;
+							availablepositions.Add (direction);
+							GetCellIndexesBlockersHelper (direction, newmovementpoints);
+						}
 					}
 				}
 			}
@@ -338,115 +183,31 @@ public class Movement : MonoBehaviour {
 			int coordz = coord.Z;
 
 			int left = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz);
-			if (left == currindex) {
-				possminmovepoints.Add (usedmovementpoints + 1);
-			}
-
 			int right = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz);
-			if (right == currindex) {
-				possminmovepoints.Add (usedmovementpoints + 1);
-			}
-
 			int uleft = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz + 1);
-			if (uleft == currindex) {
-				possminmovepoints.Add (usedmovementpoints + 1);
-			}
-
 			int uright = hexGrid.GetCellIndexFromCoord (coordx, coordz + 1);
-			if (uright == currindex) {
-				possminmovepoints.Add (usedmovementpoints + 1);
-			}
-
 			int lleft = hexGrid.GetCellIndexFromCoord (coordx, coordz - 1);
-			if (lleft == currindex) {
-				possminmovepoints.Add (usedmovementpoints + 1);
-			}
-
 			int lright = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz - 1);
-			if (lright == currindex) {
-				possminmovepoints.Add (usedmovementpoints + 1);
-			}
+			int[] hexdirections = new int[] { left, right, uleft, uright, lleft, lright };
 
-			//left and right 
-			if (left >= 0) {
-				if (hexGrid.GetEntity (left) == "Empty") {
-					if (hexGrid.GetTerrain (left) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						int newusedmovementpoints = usedmovementpoints + 2;
-						GetMovementPointsUsedHelper (left, currindex, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						int newusedmovementpoints = usedmovementpoints + 1;
-						GetMovementPointsUsedHelper (left, currindex, newmovementpoints, newusedmovementpoints);
-					}
-				}
-			}
-			if (right >= 0) {
-				if (hexGrid.GetEntity (right) == "Empty") {
-					if (hexGrid.GetTerrain (right) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						int newusedmovementpoints = usedmovementpoints + 2;
-						GetMovementPointsUsedHelper (right, currindex, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						int newusedmovementpoints = usedmovementpoints + 1;
-						GetMovementPointsUsedHelper (right, currindex, newmovementpoints, newusedmovementpoints);
-					}
+			foreach (int direction in hexdirections) {
+				if (direction == currindex) {
+					possminmovepoints.Add (usedmovementpoints + 1);
 				}
 			}
 
-			//upper left and right
-			if (uleft >= 0) {
-				if (hexGrid.GetEntity (uleft) == "Empty") {
-					if (hexGrid.GetTerrain (uleft) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						int newusedmovementpoints = usedmovementpoints + 2;
-						GetMovementPointsUsedHelper (uleft, currindex, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						int newusedmovementpoints = usedmovementpoints + 1;
-						GetMovementPointsUsedHelper (uleft, currindex, newmovementpoints, newusedmovementpoints);
-					}
-				}
-			}
-			if (uright >= 0) {
-				if (hexGrid.GetEntity (uright) == "Empty") {
-					if (hexGrid.GetTerrain (uright) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						int newusedmovementpoints = usedmovementpoints + 2;
-						GetMovementPointsUsedHelper (uright, currindex, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						int newusedmovementpoints = usedmovementpoints + 1;
-						GetMovementPointsUsedHelper (uright, currindex, newmovementpoints, newusedmovementpoints);
-					}
-				}
-			}
-
-			//lower left and right
-			if (lleft >= 0) {
-				if (hexGrid.GetEntity (lleft) == "Empty") {
-					if (hexGrid.GetTerrain (lleft) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						int newusedmovementpoints = usedmovementpoints + 2;
-						GetMovementPointsUsedHelper (lleft, currindex, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						int newusedmovementpoints = usedmovementpoints + 1;
-						GetMovementPointsUsedHelper (lleft, currindex, newmovementpoints, newusedmovementpoints);
-					}
-				}
-			}
-			if (lright >= 0) {
-				if (hexGrid.GetEntity (lright) == "Empty") {
-					if (hexGrid.GetTerrain (lright) == "Mountain") {
-						int newmovementpoints = movementpoints - 2;
-						int newusedmovementpoints = usedmovementpoints + 2;
-						GetMovementPointsUsedHelper (lright, currindex, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = movementpoints - 1;
-						int newusedmovementpoints = usedmovementpoints + 1;
-						GetMovementPointsUsedHelper (lright, currindex, newmovementpoints, newusedmovementpoints);
+			foreach (int direction in hexdirections) {
+				if (direction >= 0) {
+					if (hexGrid.GetEntity (direction) == "Empty") {
+						if (hexGrid.GetTerrain (direction) == "Mountain") {
+							int newmovementpoints = movementpoints - 2;
+							int newusedmovementpoints = usedmovementpoints + 2;
+							GetMovementPointsUsedHelper (direction, currindex, newmovementpoints, newusedmovementpoints);
+						} else {
+							int newmovementpoints = movementpoints - 1;
+							int newusedmovementpoints = usedmovementpoints + 1;
+							GetMovementPointsUsedHelper (direction, currindex, newmovementpoints, newusedmovementpoints);
+						}
 					}
 				}
 			}

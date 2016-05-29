@@ -66,16 +66,6 @@ public class HexMapEditor : MonoBehaviour {
 
 	void FixedUpdate () {
 		if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject ()) {
-			//Vector3 pos = new Vector3(50.3f, 0.0f, 25.0f);
-			//hexGrid.ColorCell(pos, activeColor);
-
-			//coordy equals -2 -3 which equals -5
-			//use coord x and z for coordinates
-			//hexGrid.ColorCellCoordinates(2, 3, activeColor);
-			//hexGrid.ColorCellCoordinates(3, 3, activeColor);
-
-			//Vector3 pos2 = poslist[1];
-			//hexGrid.ColorCell(pos2, activeColor);
 			HandleInput ();
 		}
 	}
