@@ -237,7 +237,7 @@ public class Battle : MonoBehaviour {
 					if (cleanCurrEntity == "Militia") {
 						defender.GetComponent<MilitiaBehaviour> ().size = defendersize;
 						defender.GetComponent<MilitiaBehaviour> ().lasthealth = defenderlasthealth;
-						Text defsizetext = GameObject.Find ("Size " + cleanCurrEntity + numCurrEntity).GetComponent<Text> ();
+						Text defsizetext = GameObject.Find ("Size " + currEntity).GetComponent<Text> ();
 						defsizetext.text = defendersize.ToString ();
 					}
 
