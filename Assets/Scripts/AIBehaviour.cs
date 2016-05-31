@@ -52,133 +52,34 @@ public class AIBehaviour : MonoBehaviour {
 			int coordz = coord.Z;
 
 			int left = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz);
-			string leftEntity = hexGrid.GetEntity(index);
-			string cleanleftEntity = Regex.Replace(leftEntity, @"[\d-]", string.Empty);
-			if (playerEntities.Contains(cleanleftEntity)) {
-				nearbyPlayerEntities.Add (leftEntity);
-				nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-			}
-
 			int right = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz);
-			string rightEntity = hexGrid.GetEntity(index);
-			string cleanrightEntity = Regex.Replace(rightEntity, @"[\d-]", string.Empty);
-			if (playerEntities.Contains(cleanrightEntity)) {
-				nearbyPlayerEntities.Add (rightEntity);
-				nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-			}
-
 			int uleft = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz + 1);
-			string uleftEntity = hexGrid.GetEntity(index);
-			string cleanuleftEntity = Regex.Replace(uleftEntity, @"[\d-]", string.Empty);
-			if (playerEntities.Contains(cleanuleftEntity)) {
-				nearbyPlayerEntities.Add (uleftEntity);
-				nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-			}
-
 			int uright = hexGrid.GetCellIndexFromCoord (coordx, coordz + 1);
-			string urightEntity = hexGrid.GetEntity(index);
-			string cleanurightEntity = Regex.Replace(urightEntity, @"[\d-]", string.Empty);
-			if (playerEntities.Contains(cleanurightEntity)) {
-				nearbyPlayerEntities.Add (urightEntity);
-				nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-			}
-
 			int lleft = hexGrid.GetCellIndexFromCoord (coordx, coordz - 1);
-			string lleftEntity = hexGrid.GetEntity(index);
-			string cleanlleftEntity = Regex.Replace(lleftEntity, @"[\d-]", string.Empty);
-			if (playerEntities.Contains(cleanlleftEntity)) {
-				nearbyPlayerEntities.Add (lleftEntity);
-				nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-			}
-
 			int lright = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz - 1);
-			string lrightEntity = hexGrid.GetEntity(index);
-			string cleanlrightEntity = Regex.Replace(lrightEntity, @"[\d-]", string.Empty);
-			if (playerEntities.Contains(cleanlrightEntity)) {
-				nearbyPlayerEntities.Add (lrightEntity);
-				nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-			}
+			int[] hexdirections = new int[] { left, right, uleft, uright, lleft, lright };
 
-			//left and right 
-			if (left >= 0) {
-				if (hexGrid.GetEntity (left) == "Empty") {
-					if (hexGrid.GetTerrain (left) == "Mountain") {
-						int newmovementpoints = maxDistance - 2;
-						int newusedmovementpoints = usedDistance + 2;
-						ScanEntitiesHelper (left, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = maxDistance - 1;
-						int newusedmovementpoints = usedDistance + 1;
-						ScanEntitiesHelper (left, newmovementpoints, newusedmovementpoints);
-					}
-				}
-			}
-			if (right >= 0) {
-				if (hexGrid.GetEntity (right) == "Empty") {
-					if (hexGrid.GetTerrain (right) == "Mountain") {
-						int newmovementpoints = maxDistance - 2;
-						int newusedmovementpoints = usedDistance + 2;
-						ScanEntitiesHelper (right, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = maxDistance - 1;
-						int newusedmovementpoints = usedDistance + 1;
-						ScanEntitiesHelper (right, newmovementpoints, newusedmovementpoints);
-					}
+			foreach (int direction in hexdirections) {
+				string dirEntity = hexGrid.GetEntity (direction);
+				string cleandirEntity = Regex.Replace (dirEntity, @"[\d-]", string.Empty);
+				if (playerEntities.Contains (cleandirEntity)) {
+					nearbyPlayerEntities.Add (dirEntity);
+					nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
 				}
 			}
 
-			//upper left and right
-			if (uleft >= 0) {
-				if (hexGrid.GetEntity (uleft) == "Empty") {
-					if (hexGrid.GetTerrain (uleft) == "Mountain") {
-						int newmovementpoints = maxDistance - 2;
-						int newusedmovementpoints = usedDistance + 2;
-						ScanEntitiesHelper (uleft, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = maxDistance - 1;
-						int newusedmovementpoints = usedDistance + 1;
-						ScanEntitiesHelper (uleft, newmovementpoints, newusedmovementpoints);
-					}
-				}
-			}
-			if (uright >= 0) {
-				if (hexGrid.GetEntity (uright) == "Empty") {
-					if (hexGrid.GetTerrain (uright) == "Mountain") {
-						int newmovementpoints = maxDistance - 2;
-						int newusedmovementpoints = usedDistance + 2;
-						ScanEntitiesHelper (uright, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = maxDistance - 1;
-						int newusedmovementpoints = usedDistance + 1;
-						ScanEntitiesHelper (uright, newmovementpoints, newusedmovementpoints);
-					}
-				}
-			}
-
-			//lower left and right
-			if (lleft >= 0) {
-				if (hexGrid.GetEntity (lleft) == "Empty") {
-					if (hexGrid.GetTerrain (lleft) == "Mountain") {
-						int newmovementpoints = maxDistance - 2;
-						int newusedmovementpoints = usedDistance + 2;
-						ScanEntitiesHelper (lleft, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = maxDistance - 1;
-						int newusedmovementpoints = usedDistance + 1;
-						ScanEntitiesHelper (lleft, newmovementpoints, newusedmovementpoints);
-					}
-				}
-			}
-			if (lright >= 0) {
-				if (hexGrid.GetEntity (lright) == "Empty") {
-					if (hexGrid.GetTerrain (lright) == "Mountain") {
-						int newmovementpoints = maxDistance - 2;
-						int newusedmovementpoints = usedDistance + 2;
-						ScanEntitiesHelper (lright, newmovementpoints, newusedmovementpoints);
-					} else {
-						int newmovementpoints = maxDistance - 1;
-						int newusedmovementpoints = usedDistance + 1;
-						ScanEntitiesHelper (lright, newmovementpoints, newusedmovementpoints);
+			foreach (int direction in hexdirections) {
+				if (direction >= 0) {
+					if (hexGrid.GetEntity (direction) == "Empty") {
+						if (hexGrid.GetTerrain (direction) == "Mountain") {
+							int newmovementpoints = maxDistance - 2;
+							int newusedmovementpoints = usedDistance + 2;
+							ScanEntitiesHelper (direction, newmovementpoints, newusedmovementpoints);
+						} else {
+							int newmovementpoints = maxDistance - 1;
+							int newusedmovementpoints = usedDistance + 1;
+							ScanEntitiesHelper (direction, newmovementpoints, newusedmovementpoints);
+						}
 					}
 				}
 			}
@@ -292,32 +193,8 @@ public class AIBehaviour : MonoBehaviour {
 					attackerSizeText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 				}
 
-				//------Set New Info Defender------
-				if (cleanpEntity == "Necromancer") {
-					defender.GetComponent<NecromancerBehaviour> ().size = defendersize;
-					defender.GetComponent<NecromancerBehaviour> ().lasthealth = defenderlasthealth;
-					Text defsizetext = GameObject.Find ("Size " + eEntity).GetComponent<Text> ();
-					defsizetext.text = attackersize.ToString ();
-				} else if (cleanpEntity == "Skeleton") {
-					defender.GetComponent<SkeletonBehaviour> ().size = defendersize;
-					defender.GetComponent<SkeletonBehaviour> ().lasthealth = defenderlasthealth;
-					Text defsizetext = GameObject.Find ("Size " + eEntity).GetComponent<Text> ();
-					defsizetext.text = defendersize.ToString ();
-				} else if (cleanpEntity == "Zombie") {
-					defender.GetComponent<ZombieBehaviour> ().size = defendersize;
-					defender.GetComponent<ZombieBehaviour> ().lasthealth = defenderlasthealth;
-					Text defsizetext = GameObject.Find ("Size " + eEntity).GetComponent<Text> ();
-					defsizetext.text = defendersize.ToString ();
-				}
-
-				//------Set New Info Defender------
-				if (cleaneEntity == "Militia") {
-					attacker.GetComponent<MilitiaBehaviour> ().size = attackersize;
-					attacker.GetComponent<MilitiaBehaviour> ().lasthealth = attackerlasthealth;
-					Text attsizetext = GameObject.Find ("Size " + pEntity).GetComponent<Text> ();
-					attsizetext.text = attackersize.ToString ();
-					attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
-				}
+				SetDefenderInfo (pEntity);
+				SetAttackerInfo (eEntity);
 			}
 		}
 	}
@@ -357,6 +234,43 @@ public class AIBehaviour : MonoBehaviour {
 			attackerlasthealth = attacker.GetComponent<MilitiaBehaviour> ().lasthealth;
 			attackerrange = attacker.GetComponent<MilitiaBehaviour> ().range;
 			attackercurrattpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint;
+		}
+	}
+
+	void SetDefenderInfo(string pEntity) {
+		GameObject defender = GameObject.Find (pEntity);
+		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
+
+		//------Set New Info Defender------
+		if (cleanpEntity == "Necromancer") {
+			defender.GetComponent<NecromancerBehaviour> ().size = defendersize;
+			defender.GetComponent<NecromancerBehaviour> ().lasthealth = defenderlasthealth;
+			Text defsizetext = GameObject.Find ("Size " + pEntity).GetComponent<Text> ();
+			defsizetext.text = attackersize.ToString ();
+		} else if (cleanpEntity == "Skeleton") {
+			defender.GetComponent<SkeletonBehaviour> ().size = defendersize;
+			defender.GetComponent<SkeletonBehaviour> ().lasthealth = defenderlasthealth;
+			Text defsizetext = GameObject.Find ("Size " + pEntity).GetComponent<Text> ();
+			defsizetext.text = defendersize.ToString ();
+		} else if (cleanpEntity == "Zombie") {
+			defender.GetComponent<ZombieBehaviour> ().size = defendersize;
+			defender.GetComponent<ZombieBehaviour> ().lasthealth = defenderlasthealth;
+			Text defsizetext = GameObject.Find ("Size " + pEntity).GetComponent<Text> ();
+			defsizetext.text = defendersize.ToString ();
+		}
+	}
+
+	void SetAttackerInfo(string eEntity) {
+		GameObject attacker = GameObject.Find (eEntity);
+		string cleaneEntity = Regex.Replace(eEntity, @"[\d-]", string.Empty);
+
+		//------Set New Info Attacker------
+		if (cleaneEntity == "Militia") {
+			attacker.GetComponent<MilitiaBehaviour> ().size = attackersize;
+			attacker.GetComponent<MilitiaBehaviour> ().lasthealth = attackerlasthealth;
+			Text attsizetext = GameObject.Find ("Size " + eEntity).GetComponent<Text> ();
+			attsizetext.text = attackersize.ToString ();
+			attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
 		}
 	}
 }
