@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\AIBehaviour.cs" />
      <Compile Include="Assets\Scripts\Battle.cs" />
      <Compile Include="Assets\Scripts\DragCamera.cs" />
+     <Compile Include="Assets\Scripts\EntityStorage.cs" />
      <Compile Include="Assets\Scripts\HexCell.cs" />
      <Compile Include="Assets\Scripts\HexCoordinates.cs" />
      <Compile Include="Assets\Scripts\HexGrid.cs" />

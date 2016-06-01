@@ -10,6 +10,9 @@ public class Battle : MonoBehaviour {
 	public LoadMap loadMap;
 	public Movement movement;
 
+	private List<string> playerEntities = new List<string> ();
+	private List<string> enemyEntities = new List<string> ();
+
 	//entity stats
 	private int attackerdmg = 0;
 	private int attackerdmgtotal = 0;
@@ -34,17 +37,17 @@ public class Battle : MonoBehaviour {
 	private string cleanSelectedEntity;
 	private string cleanCurrEntity;
 
-	private List<string> playerEntities = new List<string> ();
-	private List<string> enemyEntities = new List<string> ();
 
-	public bool Attack (int selectedindex, int currindex, string selectedentity) {
+	void Awake () {
 		//player controlled entities
 		playerEntities.Add ("Necromancer");
 		playerEntities.Add ("Skeleton");
 		playerEntities.Add ("Zombie");
 		//enemy entities
 		enemyEntities.Add ("Militia");
+	}
 
+	public bool Attack (int selectedindex, int currindex, string selectedentity) {
 		//------Parses Entities------
 		string currEntity = hexGrid.GetEntity(currindex);
 		//get first part of currEntity as clean and number as num

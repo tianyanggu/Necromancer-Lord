@@ -32,13 +32,20 @@ public class AIBehaviour : MonoBehaviour {
 	private int defendersize = 0;
 
 	private int attackercurrattpoint = 0;
+	private int attackercurrmovepoint = 0;
 
-	// Use this for initialization
-	public List<string> ScanEntities (int index) {
+	// Use this for initialization of player and enemy lists
+	void Awake () {
+		//player controlled entities
 		playerEntities.Add ("Necromancer");
 		playerEntities.Add ("Skeleton");
 		playerEntities.Add ("Zombie");
+		//enemy entities
+		enemyEntities.Add ("Militia");
 
+	}
+
+	public List<string> ScanEntities (int index) {
 		ScanEntitiesHelper (index, 3, 0);
 		List<string> scan = nearbyPlayerEntities;
 
@@ -64,6 +71,7 @@ public class AIBehaviour : MonoBehaviour {
 				string cleandirEntity = Regex.Replace (dirEntity, @"[\d-]", string.Empty);
 				if (playerEntities.Contains (cleandirEntity)) {
 					nearbyPlayerEntities.Add (dirEntity);
+					//TODO nearbyPlayerEntitiesSize.Add (dirEntitySize);
 					nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
 				}
 			}
@@ -85,11 +93,11 @@ public class AIBehaviour : MonoBehaviour {
 			}
 		}
 	}
-		
+
 	// given list of player entities and their size, decide if attack and which
-	public void DecideAttack (int eindex, List<int> plist, List<int> psize) {
-		enemyEntities.Add ("Militia");
+	public void DecideAttack (int eindex, List<int> plist, List<int> psize, List<int> pdist) {
 		string eEntity = hexGrid.GetEntity(eindex);
+
 		//TODO DecideAttack
 	}
 
