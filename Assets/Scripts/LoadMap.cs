@@ -24,10 +24,10 @@ public class LoadMap : MonoBehaviour {
 
 		Vector3 start = hexGrid.GetCellPos(14);
 		GameObject playerNecromancer = (GameObject)Instantiate (Necromancer, start, Quaternion.identity);
-		playerNecromancer.name = "Necromancer";
-		hexGrid.EntityCellIndex (14, "Necromancer");
+		playerNecromancer.name = "Necromancer1";
+		hexGrid.EntityCellIndex (14, "Necromancer1");
 		playerNecromancer.GetComponent<NecromancerBehaviour> ().size = 1;
-		CreateSizeLabel (14, 1, "Necromancer");
+		CreateSizeLabel (14, 1, "Necromancer1");
 
 		Vector3 militiastart = hexGrid.GetCellPos(12);
 		GameObject militia1 = (GameObject)Instantiate (Militia, militiastart, Quaternion.identity);
@@ -45,17 +45,17 @@ public class LoadMap : MonoBehaviour {
 
 		Vector3 start2 = hexGrid.GetCellPos(3);
 		GameObject playerSkeleton = (GameObject)Instantiate (Skeleton, start2, Quaternion.identity);
-		playerSkeleton.name = "Skeleton";
-		hexGrid.EntityCellIndex (3, "Skeleton");
+		playerSkeleton.name = "Skeleton1";
+		hexGrid.EntityCellIndex (3, "Skeleton1");
 		playerSkeleton.GetComponent<SkeletonBehaviour> ().size = 10;
-		CreateSizeLabel (3, 10, "Skeleton");
+		CreateSizeLabel (3, 10, "Skeleton1");
 
 		Vector3 start3 = hexGrid.GetCellPos(18);
 		GameObject playerZombie = (GameObject)Instantiate (Zombie, start3, Quaternion.identity);
-		playerZombie.name = "Zombie";
-		hexGrid.EntityCellIndex (18, "Zombie");
+		playerZombie.name = "Zombie1";
+		hexGrid.EntityCellIndex (18, "Zombie1");
 		playerZombie.GetComponent<ZombieBehaviour> ().size = 10;
-		CreateSizeLabel (18, 10, "Zombie");
+		CreateSizeLabel (18, 10, "Zombie1");
 	}
 
 	public void CreateSizeLabel (int index, int size, string entity) {
