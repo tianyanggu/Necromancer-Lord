@@ -29,11 +29,10 @@ public class Summon : MonoBehaviour {
 	string AvailableName (string summonname) {
 		for (int i = 1; i <= 999; i++) {
 			string num = i.ToString ();
-			List<string> activeEntities = entityStorage.activeEntities;
 
-			if (!activeEntities.Contains(summonname + num)) {
+			if (!entityStorage.activeEntities.Contains(summonname + num)) {
 				availableName = summonname + num;
-				entityStorage.AddActiveEntities (availableName);
+				entityStorage.AddActiveEntity (availableName);
 				return availableName;
 			} else if (num == "999") {
 				//TODO error message of 999 max reached

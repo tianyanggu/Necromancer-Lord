@@ -17,6 +17,7 @@ public class HexMapEditor : MonoBehaviour {
 	public Battle battle;
 	public Summon summon;
 	public Locate locate;
+	public EntityStorage entityStorage;
 
 	public int currindex;
 
@@ -76,18 +77,13 @@ public class HexMapEditor : MonoBehaviour {
 		} else {
 			currindex = select.GetCurrIndex ();
 		}
-		//----PlayerEntities----------
-		List<string> playerEntities = new List<string> ();
-		playerEntities.Add ("Necromancer");
-		playerEntities.Add ("Skeleton");
-		playerEntities.Add ("Zombie");
 
 		//-----Selector--------------
 		//Debug.Log(currindex);
 		string currEntity = hexGrid.GetEntity (currindex);
 		string cleanCurrEntity = Regex.Replace(currEntity, @"[\d-]", string.Empty);
 
-		if (playerEntities.Contains (cleanCurrEntity)) {
+		if (entityStorage.playerEntities.Contains (cleanCurrEntity)) {
 			selectedindex = currindex;
 			selectedentity = currEntity;
 			lockbattle = false;

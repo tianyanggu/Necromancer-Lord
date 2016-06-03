@@ -9,9 +9,7 @@ public class Battle : MonoBehaviour {
 	public HexGrid hexGrid;
 	public LoadMap loadMap;
 	public Movement movement;
-
-	private List<string> playerEntities = new List<string> ();
-	private List<string> enemyEntities = new List<string> ();
+	public EntityStorage entityStorage;
 
 	//entity stats
 	private int attackerdmg = 0;
@@ -37,30 +35,20 @@ public class Battle : MonoBehaviour {
 	private string cleanSelectedEntity;
 	private string cleanCurrEntity;
 
-
-	void Awake () {
-		//player controlled entities
-		playerEntities.Add ("Necromancer");
-		playerEntities.Add ("Skeleton");
-		playerEntities.Add ("Zombie");
-		//enemy entities
-		enemyEntities.Add ("Militia");
-	}
-
-	public bool Attack (int selectedindex, int currindex, string selectedentity) {
+	public bool Attack (int selectedindex, int currindex, string selectedEntity) {
 		//------Parses Entities------
 		string currEntity = hexGrid.GetEntity(currindex);
 		//get first part of currEntity as clean and number as num
 		cleanCurrEntity = Regex.Replace(currEntity, @"[\d-]", string.Empty);
 		string numCurrEntity = Regex.Replace(currEntity, "[^0-9 -]", string.Empty);
-		cleanSelectedEntity = Regex.Replace(selectedentity, @"[\d-]", string.Empty);
+		cleanSelectedEntity = Regex.Replace(selectedEntity, @"[\d-]", string.Empty);
 		//Debug.Log ("Size " + cleanCurrEntity + numCurrEntity);
 		Vector3 cellcoord = hexGrid.GetCellPos(currindex);
 
-		GetMovementInfo (selectedentity);
+		GetMovementInfo (selectedEntity);
 
 		//------Movement Empty Cell------
-		if (playerEntities.Contains (cleanSelectedEntity) && currEntity == "Empty") {
+		if (entityStorage.playerEntities.Contains (cleanSelectedEntity) && currEntity == "Empty") {
 			//determine movement tiles
 			List<int> possmovement = null;
 			if (playercurrmovepoint == 0) {
@@ -74,28 +62,28 @@ public class Battle : MonoBehaviour {
 			}
 
 			if (possmovement.Contains (currindex)) {
-				GameObject playerEntity = GameObject.Find (selectedentity);
-				GameObject playerSize = GameObject.Find ("Size " + selectedentity);
+				GameObject playerEntity = GameObject.Find (selectedEntity);
+				GameObject playerSize = GameObject.Find ("Size " + selectedEntity);
 				playerEntity.transform.position = cellcoord;
 				playerSize.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 				hexGrid.EntityCellIndex (selectedindex, "Empty");
-				hexGrid.EntityCellIndex (currindex, selectedentity);
+				hexGrid.EntityCellIndex (currindex, selectedEntity);
 
 				//function to determine distance of curr index from selectedindex
 				//int distance = movement.GetDistance (selectedindex, currindex);
 				int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
 
 				//set new movement points remaining
-				SetMovementInfo (selectedentity, minmove);
+				SetMovementInfo (selectedEntity, minmove);
 					
 				return true;
 			}
 			//------Encounter Enemy------
-		} else if (playerEntities.Contains (cleanSelectedEntity) && enemyEntities.Contains (cleanCurrEntity)) {
-			GameObject attacker = GameObject.Find (selectedentity);
+		} else if (entityStorage.playerEntities.Contains (cleanSelectedEntity) && entityStorage.enemyEntities.Contains (cleanCurrEntity)) {
+			GameObject attacker = GameObject.Find (selectedEntity);
 			GameObject defender = GameObject.Find (currEntity);
 
-			GetAttackerInfo (selectedentity);
+			GetAttackerInfo (selectedEntity);
 			GetDefenderInfo (currEntity);
 
 			//check if you can attack
@@ -179,24 +167,26 @@ public class Battle : MonoBehaviour {
 						hexGrid.EntityCellIndex (currindex, "Empty");
 						GameObject defenderSizeText = GameObject.Find ("Size " + currEntity);
 						Destroy (defenderSizeText);
+						entityStorage.RemoveActiveEntity (currEntity);
 					}
 					if (attackersize <= 0) {
 						Destroy (attacker);
 						hexGrid.EntityCellIndex (selectedindex, "Empty");
-						GameObject attackerSizeText = GameObject.Find ("Size " + selectedentity);
+						GameObject attackerSizeText = GameObject.Find ("Size " + selectedEntity);
 						Destroy (attackerSizeText);
+						entityStorage.RemoveActiveEntity (selectedEntity);
 					} 
 					if (attackersize > 0 && defendersize <= 0) {
 						if (playercurrmovepoint > 0) {
 							attacker.transform.position = cellcoord;
-							hexGrid.EntityCellIndex (currindex, selectedentity);
-							GameObject attackerSizeText = GameObject.Find ("Size " + selectedentity);
+							hexGrid.EntityCellIndex (currindex, selectedEntity);
+							GameObject attackerSizeText = GameObject.Find ("Size " + selectedEntity);
 							attackerSizeText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 						}
 					}
 
 					//Set New Info
-					SetAttackerInfo (selectedentity);
+					SetAttackerInfo (selectedEntity);
 					SetDefenderInfo (currEntity);
 
 					return true;

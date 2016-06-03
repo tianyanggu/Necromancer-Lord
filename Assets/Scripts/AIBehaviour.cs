@@ -8,9 +8,7 @@ public class AIBehaviour : MonoBehaviour {
 
 	public Movement movement;
 	public HexGrid hexGrid;
-
-	private List<string> playerEntities = new List<string> ();
-	private List<string> enemyEntities = new List<string> ();
+	public EntityStorage entityStorage;
 
 	private List<string> nearbyPlayerEntities = new List<string> ();
 	private List<int> nearbyPlayerEntitiesDistance = new List<int> ();
@@ -33,17 +31,6 @@ public class AIBehaviour : MonoBehaviour {
 
 	private int attackercurrattpoint = 0;
 	private int attackercurrmovepoint = 0;
-
-	// Use this for initialization of player and enemy lists
-	void Awake () {
-		//player controlled entities
-		playerEntities.Add ("Necromancer");
-		playerEntities.Add ("Skeleton");
-		playerEntities.Add ("Zombie");
-		//enemy entities
-		enemyEntities.Add ("Militia");
-
-	}
 
 	public List<string> ScanEntities (int index) {
 		ScanEntitiesHelper (index, 3, 0);
@@ -69,7 +56,7 @@ public class AIBehaviour : MonoBehaviour {
 			foreach (int direction in hexdirections) {
 				string dirEntity = hexGrid.GetEntity (direction);
 				string cleandirEntity = Regex.Replace (dirEntity, @"[\d-]", string.Empty);
-				if (playerEntities.Contains (cleandirEntity)) {
+				if (entityStorage.playerEntities.Contains (cleandirEntity)) {
 					nearbyPlayerEntities.Add (dirEntity);
 					//TODO nearbyPlayerEntitiesSize.Add (dirEntitySize);
 					nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
@@ -103,11 +90,6 @@ public class AIBehaviour : MonoBehaviour {
 
 	// attack player entity on pindex
 	public void Attack (int eindex, int pindex) {
-		enemyEntities.Add ("Militia");
-		playerEntities.Add ("Necromancer");
-		playerEntities.Add ("Skeleton");
-		playerEntities.Add ("Zombie");
-
 		string pEntity = hexGrid.GetEntity(pindex);
 		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
 		string eEntity = hexGrid.GetEntity(eindex);
@@ -185,12 +167,14 @@ public class AIBehaviour : MonoBehaviour {
 					hexGrid.EntityCellIndex (eindex, "Empty");
 					GameObject defenderSizeText = GameObject.Find ("Size " + pEntity);
 					Destroy (defenderSizeText);
+					entityStorage.RemoveActiveEntity (pEntity);
 				}
 				if (attackersize <= 0) {
 					Destroy (attacker);
 					hexGrid.EntityCellIndex (eindex, "Empty");
 					GameObject attackerSizeText = GameObject.Find ("Size " + eEntity);
 					Destroy (attackerSizeText);
+					entityStorage.RemoveActiveEntity (eEntity);
 				} else if (attackersize > 0 && defendersize <= 0) {
 					attacker.transform.position = cellcoord;
 					hexGrid.EntityCellIndex (pindex, eEntity);

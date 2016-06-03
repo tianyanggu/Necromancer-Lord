@@ -33,7 +33,11 @@ public class EntityStorage : MonoBehaviour {
 		}
 	}
 
-	public void AddActiveEntities (string entityName) {
+	public void AddActiveEntity (string entityName) {
 		activeEntities.Add (entityName);
+	} 
+
+	public void RemoveActiveEntity (string entityName) {
+		activeEntities.Remove (entityName);
 	} 
 }
