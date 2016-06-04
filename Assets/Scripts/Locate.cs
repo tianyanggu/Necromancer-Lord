@@ -14,7 +14,7 @@ public class Locate : MonoBehaviour {
 	//		}
 
 	public void SetAllMovementPoints () {
-		foreach (string entity in entityStorage.activeEntities) {
+		foreach (string entity in entityStorage.activePlayerEntities) {
 			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
 				GameObject gameEntity = GameObject.Find (entity);
@@ -27,10 +27,18 @@ public class Locate : MonoBehaviour {
 				gameEntity.GetComponent<ZombieBehaviour> ().currmovementpoint = gameEntity.GetComponent<ZombieBehaviour> ().movementpoint;
 			}
 		}
+
+		foreach (string entity in entityStorage.activeEnemyEntities) {
+			string cleanEntity = Regex.Replace (entity, @"[\d-]", string.Empty);
+			if (cleanEntity == "Militia") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint = gameEntity.GetComponent<MilitiaBehaviour> ().movementpoint;
+			}
+		}
 	}
 
 	public void SetAllAttackPoints () {
-		foreach (string entity in entityStorage.activeEntities) {
+		foreach (string entity in entityStorage.activePlayerEntities) {
 			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
 				GameObject gameEntity = GameObject.Find (entity);
@@ -43,10 +51,18 @@ public class Locate : MonoBehaviour {
 				gameEntity.GetComponent<ZombieBehaviour> ().currattackpoint = gameEntity.GetComponent<ZombieBehaviour> ().attackpoint;
 			}
 		}
+
+		foreach (string entity in entityStorage.activeEnemyEntities) {
+			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
+			if (cleanEntity == "Militia") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<MilitiaBehaviour> ().currattackpoint = gameEntity.GetComponent<MilitiaBehaviour> ().attackpoint;
+			}
+		}
 	}
 
 	public void SetAllIdle () {
-		foreach (string entity in entityStorage.activeEntities) {
+		foreach (string entity in entityStorage.activePlayerEntities) {
 			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
 				GameObject gameEntity = GameObject.Find (entity);
@@ -62,7 +78,7 @@ public class Locate : MonoBehaviour {
 	}
 
 	public void SetAllActive () {
-		foreach (string entity in entityStorage.activeEntities) {
+		foreach (string entity in entityStorage.activePlayerEntities) {
 			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
 				GameObject gameEntity = GameObject.Find (entity);
@@ -78,7 +94,7 @@ public class Locate : MonoBehaviour {
 	}
 
 	public bool CheckAllMovementPoints () {
-		foreach (string entity in entityStorage.activeEntities) {
+		foreach (string entity in entityStorage.activePlayerEntities) {
 			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
 				GameObject gameEntity = GameObject.Find (entity);
@@ -101,7 +117,7 @@ public class Locate : MonoBehaviour {
 	}
 
 	public bool CheckAll () {
-		foreach (string entity in entityStorage.activeEntities) {
+		foreach (string entity in entityStorage.activePlayerEntities) {
 			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
 				GameObject gameEntity = GameObject.Find (entity);

@@ -18,12 +18,12 @@ public class HexMapEditor : MonoBehaviour {
 	public Summon summon;
 	public Locate locate;
 	public EntityStorage entityStorage;
+	public AIBehaviour aiBehaviour;
 
 	public int currindex;
 
 	public int selectedindex;
 	public string selectedentity;
-	public string actionpoint;
 
 	public bool lockbattle;
 	public bool editmode;
@@ -108,6 +108,7 @@ public class HexMapEditor : MonoBehaviour {
 
 		int availablecorpses = hexGrid.GetCorpses (currindex);
 
+		//editor summon
 		if (editmode == true) {
 			//		GUIStyle summoninputstyle = new GUIStyle();
 			//		summoninputstyle.onActive.textColor = Color.yellow;
@@ -117,6 +118,7 @@ public class HexMapEditor : MonoBehaviour {
 			Int32.TryParse (summontextfieldeditor, out summontextfieldnumeditor);
 			summonquantityeditor = summontextfieldnumeditor;
 		}
+		//regular summon
 		summontextfield = GUI.TextField (new Rect (20, 250, 120, 20), summontextfield, 5);
 		summontextfield = Regex.Replace (summontextfield, "[^0-9 -]", string.Empty);
 		int summontextfieldnum = 0;
@@ -128,7 +130,8 @@ public class HexMapEditor : MonoBehaviour {
 		} else {
 			summonquantity = summontextfieldnum;
 		}
-			
+
+		//drop down menu after summon for various entities
 		if (GUI.Button (new Rect (20, 150, 120, 20), "Summon")) {
 			summonclicked = true;
 		}
@@ -152,7 +155,8 @@ public class HexMapEditor : MonoBehaviour {
 				i++;
 			}
 		}
-			
+
+		//toggles editor mode
 		if(GUI.Button(new Rect(20,220,120,20), "Toggle Map Edit")) {
 			if (editmode == false) {
 				editmode = true;
@@ -216,12 +220,17 @@ public class HexMapEditor : MonoBehaviour {
 			bool checkall = locate.CheckAll ();
 			if (checkall == true) {
 				turn++;
+				//add points back to units
 				locate.SetAllActive();
 				locate.SetAllMovementPoints();
 				locate.SetAllAttackPoints();
+
+				//enemy units turn
+				//aiBehaviour.Attack (15, 3);
 			}
 		}
 
+		//sets remaining units idle
 		if(GUI.Button(new Rect(30,300,60,20), "Set All Idle")) {
 			locate.SetAllIdle ();
 		}

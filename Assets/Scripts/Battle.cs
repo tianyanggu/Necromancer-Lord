@@ -40,9 +40,8 @@ public class Battle : MonoBehaviour {
 		string currEntity = hexGrid.GetEntity(currindex);
 		//get first part of currEntity as clean and number as num
 		cleanCurrEntity = Regex.Replace(currEntity, @"[\d-]", string.Empty);
-		string numCurrEntity = Regex.Replace(currEntity, "[^0-9 -]", string.Empty);
+		//string numCurrEntity = Regex.Replace(currEntity, "[^0-9 -]", string.Empty);
 		cleanSelectedEntity = Regex.Replace(selectedEntity, @"[\d-]", string.Empty);
-		//Debug.Log ("Size " + cleanCurrEntity + numCurrEntity);
 		Vector3 cellcoord = hexGrid.GetCellPos(currindex);
 
 		GetMovementInfo (selectedEntity);
@@ -167,14 +166,14 @@ public class Battle : MonoBehaviour {
 						hexGrid.EntityCellIndex (currindex, "Empty");
 						GameObject defenderSizeText = GameObject.Find ("Size " + currEntity);
 						Destroy (defenderSizeText);
-						entityStorage.RemoveActiveEntity (currEntity);
+						entityStorage.RemoveActiveEnemyEntity (currEntity);
 					}
 					if (attackersize <= 0) {
 						Destroy (attacker);
 						hexGrid.EntityCellIndex (selectedindex, "Empty");
 						GameObject attackerSizeText = GameObject.Find ("Size " + selectedEntity);
 						Destroy (attackerSizeText);
-						entityStorage.RemoveActiveEntity (selectedEntity);
+						entityStorage.RemoveActivePlayerEntity (selectedEntity);
 					} 
 					if (attackersize > 0 && defendersize <= 0) {
 						if (playercurrmovepoint > 0) {
@@ -191,8 +190,6 @@ public class Battle : MonoBehaviour {
 
 					return true;
 				}
-
-
 			} else {
 				//Debug.Log ("problem");
 			}

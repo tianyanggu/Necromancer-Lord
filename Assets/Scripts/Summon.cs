@@ -41,9 +41,9 @@ public class Summon : MonoBehaviour {
 		for (int i = 1; i <= 999; i++) {
 			string num = i.ToString ();
 
-			if (!entityStorage.activeEntities.Contains(summonname + num)) {
+			if (!entityStorage.activePlayerEntities.Contains(summonname + num)) {
 				availableName = summonname + num;
-				entityStorage.AddActiveEntity (availableName);
+				entityStorage.AddActivePlayerEntity (availableName);
 				return availableName;
 			} else if (num == "999") {
 				//TODO error message of 999 max reached

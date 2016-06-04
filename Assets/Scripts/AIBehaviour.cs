@@ -99,8 +99,8 @@ public class AIBehaviour : MonoBehaviour {
 		GameObject attacker = GameObject.Find (eEntity);
 		GameObject defender = GameObject.Find (pEntity);
 
-		GetAttackerInfo (cleaneEntity);
-		GetDefenderInfo (cleanpEntity);
+		GetAttackerInfo (eEntity);
+		GetDefenderInfo (pEntity);
 
 		int unitsdied = hexGrid.GetCorpses(eindex);
 		int oldattackersize = attackersize;
@@ -167,14 +167,14 @@ public class AIBehaviour : MonoBehaviour {
 					hexGrid.EntityCellIndex (eindex, "Empty");
 					GameObject defenderSizeText = GameObject.Find ("Size " + pEntity);
 					Destroy (defenderSizeText);
-					entityStorage.RemoveActiveEntity (pEntity);
+					entityStorage.RemoveActivePlayerEntity (pEntity);
 				}
 				if (attackersize <= 0) {
 					Destroy (attacker);
 					hexGrid.EntityCellIndex (eindex, "Empty");
 					GameObject attackerSizeText = GameObject.Find ("Size " + eEntity);
 					Destroy (attackerSizeText);
-					entityStorage.RemoveActiveEntity (eEntity);
+					entityStorage.RemoveActiveEnemyEntity (eEntity);
 				} else if (attackersize > 0 && defendersize <= 0) {
 					attacker.transform.position = cellcoord;
 					hexGrid.EntityCellIndex (pindex, eEntity);
