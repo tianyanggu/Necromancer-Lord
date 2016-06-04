@@ -30,6 +30,7 @@ public class HexMapEditor : MonoBehaviour {
 
 	public int turn;
 
+	private bool summonclicked;
 	private string summontextfieldeditor = "";
 	private string summontextfield = "";
 	private int summonquantityeditor;
@@ -127,16 +128,28 @@ public class HexMapEditor : MonoBehaviour {
 		} else {
 			summonquantity = summontextfieldnum;
 		}
-
-		if(GUI.Button(new Rect(20,150,120,20), "Summon Skeleton")) {
-			if (editmode == true) {
-				if (summonquantityeditor > 0) {
-					summon.SummonEntity (summonquantityeditor, currindex, "Skeleton");
+			
+		if (GUI.Button (new Rect (20, 150, 120, 20), "Summon")) {
+			summonclicked = true;
+		}
+		if (summonclicked) {
+			int i = 0;
+			foreach (string entity in entityStorage.playerEntities) {
+				int spacing = i * 20;
+				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
+					if (editmode == true) {
+						if (summonquantityeditor > 0) {
+							summon.SummonEntity (summonquantityeditor, currindex, entity);
+							summonclicked = false;
+						}
+					} else {
+						if (summonquantity > 0) {
+							summon.SummonEntity (summonquantity, currindex, entity);
+							summonclicked = false;
+						}
+					}
 				}
-			} else {
-				if (summonquantity > 0) {
-					summon.SummonEntity (summonquantity, currindex, "Skeleton");
-				}
+				i++;
 			}
 		}
 			
@@ -164,6 +177,7 @@ public class HexMapEditor : MonoBehaviour {
 			string addhundredtext = addhundred.ToString ();
 			summontextfieldeditor = addhundredtext;
 		}
+
 		//summon buttons
 		if(GUI.Button(new Rect(20,270,40,20), "+1")) {
 			int addone = (summonquantity + 1);

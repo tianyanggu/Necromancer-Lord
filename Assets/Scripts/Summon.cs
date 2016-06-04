@@ -9,6 +9,7 @@ public class Summon : MonoBehaviour {
 
 	public GameObject Necromancer;
 	public GameObject Skeleton;
+	public GameObject Zombie;
 	public GameObject Militia;
 
 	private string availableName;
@@ -16,11 +17,21 @@ public class Summon : MonoBehaviour {
 	public void SummonEntity (int size, int cellindex, string summonname) {
 		Vector3 summonindex = hexGrid.GetCellPos(cellindex);
 		availableName = AvailableName (summonname);
-		GameObject playerentity = (GameObject)Instantiate (Skeleton, summonindex, Quaternion.identity);
+
 		if (summonname == "Skeleton") {
+			GameObject playerentity = (GameObject)Instantiate (Skeleton, summonindex, Quaternion.identity);
 			playerentity.GetComponent<SkeletonBehaviour> ().size = size;
+			playerentity.name = availableName;
+		} else if (summonname == "Necromancer") {
+			GameObject playerentity = (GameObject)Instantiate (Necromancer, summonindex, Quaternion.identity);
+			playerentity.GetComponent<NecromancerBehaviour> ().size = size;
+			playerentity.name = availableName;
+		} else if (summonname == "Zombie") {
+			GameObject playerentity = (GameObject)Instantiate (Zombie, summonindex, Quaternion.identity);
+			playerentity.GetComponent<ZombieBehaviour> ().size = size;
+			playerentity.name = availableName;
 		}
-		playerentity.name = availableName;
+
 		hexGrid.EntityCellIndex (cellindex, availableName);
 		loadMap.CreateSizeLabel (cellindex, size, availableName);
 	}
