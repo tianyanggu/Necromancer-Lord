@@ -56,14 +56,18 @@ public class Battle : MonoBehaviour {
 			else if (playermovepoint == 1 && playercurrmovepoint == 1) {
 				possmovement = movement.GetCellIndexesOneHexAway (selectedindex);
 			} else if (playermovepoint != 1) {
-				//possmovement = movement.GetCellIndexesTwoHexAway (selectedindex);
 				possmovement = movement.GetCellIndexesBlockers (selectedindex, playercurrmovepoint);
 			}
 
 			if (possmovement.Contains (currindex)) {
-				//function to determine distance of curr index from selectedindex
-				//int distance = movement.GetDistance (selectedindex, currindex);
-				int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
+				//get min movement points used
+				if (playermovepoint == 1 && playercurrmovepoint == 1) {
+					SetMovementInfo (selectedEntity, 1);
+				} else if (playermovepoint != 1) {
+					int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
+					//set new movement points remaining
+					SetMovementInfo (selectedEntity, minmove);
+				}
 
 				GameObject playerEntity = GameObject.Find (selectedEntity);
 				GameObject playerSize = GameObject.Find ("Size " + selectedEntity);
@@ -72,9 +76,6 @@ public class Battle : MonoBehaviour {
 				hexGrid.EntityCellIndex (selectedindex, "Empty");
 				hexGrid.EntityCellIndex (currindex, selectedEntity);
 
-				//set new movement points remaining
-				SetMovementInfo (selectedEntity, minmove);
-					
 				return true;
 			}
 			//------Encounter Enemy------

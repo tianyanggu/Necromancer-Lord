@@ -42,12 +42,9 @@ public class HexMapEditor : MonoBehaviour {
 		lockbattle = false;
 		editmode = false;
 		loadMap.LoadHexTiles ();
-
 		loadMap.LoadTerrain ();
-
+		loadMap.LoadBuildings ();
 		loadMap.LoadEntities ();
-
-
 //		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
 //		int test0 = test [0];
 //		int test1 = test [1];
@@ -132,8 +129,11 @@ public class HexMapEditor : MonoBehaviour {
 		}
 
 		//drop down menu after summon for various entities
-		if (GUI.Button (new Rect (20, 150, 120, 20), "Summon")) {
-			summonclicked = true;
+		string currEntity = hexGrid.GetEntity(currindex);
+		if (currEntity == "Empty") {
+			if (GUI.Button (new Rect (20, 150, 120, 20), "Summon")) {
+				summonclicked = true;
+			}
 		}
 		if (summonclicked) {
 			int i = 0;

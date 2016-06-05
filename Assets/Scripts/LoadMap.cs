@@ -2,10 +2,12 @@
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class LoadMap : MonoBehaviour {
 	public HexGrid hexGrid;
 	public Text sizeLabel;
+	public EntityStorage entityStorage;
 	Canvas gridCanvas;
 
 	public GameObject Necromancer;
@@ -56,6 +58,43 @@ public class LoadMap : MonoBehaviour {
 		hexGrid.EntityCellIndex (18, "Zombie1");
 		playerZombie.GetComponent<ZombieBehaviour> ().size = 10;
 		CreateSizeLabel (18, 10, "Zombie1");
+
+		for (int i = 0; i < hexGrid.size; i++) {
+			string allEntity = PlayerPrefs.GetString ("HexEntity" + i);
+			string cleanEntity = Regex.Replace(allEntity, @"[\d-]", string.Empty);
+			int allSize = PlayerPrefs.GetInt ("HexEntitySize" + i);
+			int allIndex = PlayerPrefs.GetInt ("HexEntityIndex" + i);
+
+			if (cleanEntity == "Necromancer") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				GameObject pNecromancer = (GameObject)Instantiate (Necromancer, spawn, Quaternion.identity);
+				pNecromancer.name = allEntity;
+				hexGrid.EntityCellIndex (allIndex, allEntity);
+				pNecromancer.GetComponent<NecromancerBehaviour> ().size = allSize;
+				CreateSizeLabel (allIndex, allSize, allEntity);
+			} else if (cleanEntity == "Zombie") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				GameObject pZombie = (GameObject)Instantiate (Zombie, spawn, Quaternion.identity);
+				pZombie.name = allEntity;
+				hexGrid.EntityCellIndex (allIndex, allEntity);
+				pZombie.GetComponent<ZombieBehaviour> ().size = allSize;
+				CreateSizeLabel (allIndex, allSize, allEntity);
+			} else if (cleanEntity == "Skeleton") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				GameObject pSkeleton = (GameObject)Instantiate (Skeleton, spawn, Quaternion.identity);
+				pSkeleton.name = allEntity;
+				hexGrid.EntityCellIndex (allIndex, allEntity);
+				pSkeleton.GetComponent<SkeletonBehaviour> ().size = allSize;
+				CreateSizeLabel (allIndex, allSize, allEntity);
+			} else if (cleanEntity == "Militia") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				GameObject pMilitia = (GameObject)Instantiate (Militia, spawn, Quaternion.identity);
+				pMilitia.name = allEntity;
+				hexGrid.EntityCellIndex (allIndex, allEntity);
+				pMilitia.GetComponent<MilitiaBehaviour> ().size = allSize;
+				CreateSizeLabel (allIndex, allSize, allEntity);
+			}
+		}
 	}
 
 	public void CreateSizeLabel (int index, int size, string entity) {
@@ -70,24 +109,30 @@ public class LoadMap : MonoBehaviour {
 
 	public void LoadTerrain () {
 		
-		for (int i = 0; i < 144; i++) {
-			string allcolor = PlayerPrefs.GetString ("Hex" + i);
+		for (int i = 0; i < hexGrid.size; i++) {
+			string allTerrain = PlayerPrefs.GetString ("Hex" + i);
 
-			if (allcolor == "Village") {
-				hexGrid.ColorCellIndex (i, Color.yellow);
-				hexGrid.TerrainCellIndex (i, "Village");
-			}
-			if (allcolor == "Grass") {
+			if (allTerrain == "Grass") {
 				hexGrid.ColorCellIndex (i, Color.green);
 				hexGrid.TerrainCellIndex (i, "Grass");
-			}
-			if (allcolor == "Water") {
+			} else if (allTerrain == "Water") {
 				hexGrid.ColorCellIndex (i, Color.blue);
 				hexGrid.TerrainCellIndex (i, "Water");
-			}
-			if (allcolor == "Mountain") {
+			} else if (allTerrain == "Mountain") {
 				hexGrid.ColorCellIndex (i, Color.red);
 				hexGrid.TerrainCellIndex (i, "Mountain");
+			}
+		}
+	}
+
+	public void LoadBuildings () {
+
+		for (int i = 0; i < hexGrid.size; i++) {
+			string allBuildings = PlayerPrefs.GetString ("Hex" + i);
+
+			if (allBuildings == "Village") {
+				hexGrid.ColorCellIndex (i, Color.yellow);
+				hexGrid.BuildingCellIndex (i, "Village");
 			}
 		}
 	}

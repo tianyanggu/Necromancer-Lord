@@ -9,8 +9,8 @@ public class Movement : MonoBehaviour {
 	public List<int> availablepositions;
 	public List<int> possminmovepoints;
 
+	//get all cell indexes one hex away
 	public List<int> GetCellIndexesOneHexAway (int index) {
-
 		List<int> positions = new List<int> ();
 		HexCoordinates coord = hexGrid.GetCellCoord (index);
 		int coordx = coord.X;
@@ -30,9 +30,8 @@ public class Movement : MonoBehaviour {
 
 		return positions;
 	}
-
+	//get all cell indexes two hex away
 	public List<int> GetCellIndexesTwoHexAway (int index) {
-
 		List<int> positions = new List<int> ();
 		HexCoordinates coord = hexGrid.GetCellCoord (index);
 		int coordx = coord.X;
@@ -74,6 +73,7 @@ public class Movement : MonoBehaviour {
 		return positions;
 	}
 
+	//get cell indexes that can be moved to from given movement points
 	public List<int> GetCellIndexesBlockers (int index, int movementpoints) {
 		availablepositions.Clear();
 
@@ -97,7 +97,7 @@ public class Movement : MonoBehaviour {
 			int[] hexdirections = new int[] { left, right, uleft, uright, lleft, lright };
 
 			foreach (int direction in hexdirections) {
-				if (direction >= 0) {
+				if (direction >= 0 && direction < hexGrid.size) {
 					if (hexGrid.GetEntity (direction) == "Empty") {
 						if (hexGrid.GetTerrain (direction) == "Mountain" && movementpoints > 1) {
 							int newmovementpoints = movementpoints - 2;
@@ -114,6 +114,7 @@ public class Movement : MonoBehaviour {
 		}
 	}
 
+	//get distance between two indexes
 	public int GetDistance (int selectedindex, int currindex) {
 		HexCoordinates currcoord = hexGrid.GetCellCoord (currindex);
 		int currcoordx = currcoord.X;
@@ -165,6 +166,7 @@ public class Movement : MonoBehaviour {
 		return distance;
 	}
 
+	//get minimum movement points used to get from selindex to currindex
 	public int GetMovementPointsUsed (int selindex, int currindex, int movementpoints) {
 		possminmovepoints.Clear();
 
@@ -173,7 +175,6 @@ public class Movement : MonoBehaviour {
 		int minmovepoints = possminmovepoints.Min ();
 
 		return minmovepoints;
-
 	}
 
 	public void GetMovementPointsUsedHelper (int selindex, int currindex, int movementpoints, int usedmovementpoints) {
@@ -191,7 +192,7 @@ public class Movement : MonoBehaviour {
 			int[] hexdirections = new int[] { left, right, uleft, uright, lleft, lright };
 
 			foreach (int direction in hexdirections) {
-				if (direction >= 0) {
+				if (direction >= 0 && direction < hexGrid.size) {
 					if (hexGrid.GetEntity (direction) == "Empty") {
 						if (hexGrid.GetTerrain (direction) == "Mountain" && movementpoints > 1) {
 							if (direction == currindex) {

@@ -6,6 +6,7 @@ public class HexGrid : MonoBehaviour {
 
 	public int width;
 	public int height;
+	public int size;
 
 	public Color defaultColor = Color.white;
 
@@ -28,9 +29,11 @@ public class HexGrid : MonoBehaviour {
 		hexMesh.Triangulate(cells);
 	}
 
+	// ------------SET--------------------------
 	public void SetSize (int newheight, int newwidth) {
 		height = newheight;
 		width = newwidth;
+		size = newheight * newwidth;
 
 		cells = new HexCell[height * width];
 
@@ -74,12 +77,17 @@ public class HexGrid : MonoBehaviour {
 		cell.terrain = newTerrain;
 	}
 
+	public void BuildingCellIndex (int index, string newBuilding) {
+		HexCell cell = cells[index];
+		cell.building = newBuilding;
+	}
+
 	public void CorpsesCellIndex (int index, int newCorpses) {
 		HexCell cell = cells[index];
 		cell.corpses = newCorpses;
 	}
 
-	// ------------GET --------------------------
+	// ------------GET--------------------------
 	public Color GetCellColor (Vector3 position) {
 		position = transform.InverseTransformPoint(position);
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
@@ -136,6 +144,12 @@ public class HexGrid : MonoBehaviour {
 		return currTerrain;
 	}
 
+	public string GetBuilding (int index) {
+		HexCell cell = cells[index];
+		string currBuilding = cell.building;
+		return currBuilding;
+	}
+
 	public int GetCorpses (int index) {
 		HexCell cell = cells[index];
 		int currCorpses = cell.corpses;
@@ -156,6 +170,7 @@ public class HexGrid : MonoBehaviour {
 		cell.color = defaultColor;
 
 		cell.terrain = "Empty";
+		cell.building = "Empty";
 		cell.entity = "Empty";
 		cell.corpses = 0;
 

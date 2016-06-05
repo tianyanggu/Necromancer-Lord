@@ -8,6 +8,8 @@ public class HexCell : MonoBehaviour {
 
 	public string terrain;
 
+	public string building;
+
 	public string entity;
 
 	public int corpses;

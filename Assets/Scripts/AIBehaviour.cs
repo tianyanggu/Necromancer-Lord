@@ -72,7 +72,7 @@ public class AIBehaviour : MonoBehaviour {
 			}
 
 			foreach (int direction in hexdirections) {
-				if (direction >= 0) {
+				if (direction >= 0 && direction < hexGrid.size) {
 					if (hexGrid.GetEntity (direction) == "Empty") {
 						if (hexGrid.GetTerrain (direction) == "Mountain" && maxDistance > 1) {
 							int newmovementpoints = maxDistance - 2;
