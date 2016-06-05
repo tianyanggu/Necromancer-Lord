@@ -75,15 +75,19 @@ public class LoadMap : MonoBehaviour {
 
 			if (allcolor == "Village") {
 				hexGrid.ColorCellIndex (i, Color.yellow);
+				hexGrid.TerrainCellIndex (i, "Village");
 			}
 			if (allcolor == "Grass") {
 				hexGrid.ColorCellIndex (i, Color.green);
+				hexGrid.TerrainCellIndex (i, "Grass");
 			}
 			if (allcolor == "Water") {
 				hexGrid.ColorCellIndex (i, Color.blue);
+				hexGrid.TerrainCellIndex (i, "Water");
 			}
 			if (allcolor == "Mountain") {
 				hexGrid.ColorCellIndex (i, Color.red);
+				hexGrid.TerrainCellIndex (i, "Mountain");
 			}
 		}
 	}

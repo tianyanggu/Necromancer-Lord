@@ -11,6 +11,7 @@ public class AIBehaviour : MonoBehaviour {
 	public EntityStorage entityStorage;
 
 	private List<string> nearbyPlayerEntities = new List<string> ();
+	private List<int> nearbyPlayerEntitiesIndex = new List<int> ();
 	private List<int> nearbyPlayerEntitiesDistance = new List<int> ();
 	private List<int> nearbyPlayerEntitiesSize = new List<int> ();
 
@@ -29,11 +30,16 @@ public class AIBehaviour : MonoBehaviour {
 	private int defenderlasthealth = 0;
 	private int defendersize = 0;
 
+	private int attackermovepoint = 0;
 	private int attackercurrattpoint = 0;
 	private int attackercurrmovepoint = 0;
 
-	public List<string> ScanEntities (int index) {
-		ScanEntitiesHelper (index, 3, 0);
+	//eindex is the current enemy entity that scans for player entities within movement range of it
+	public List<string> ScanEntities (int eindex) {
+		string eEntity = hexGrid.GetEntity(eindex);
+		GetAttackerInfo (eEntity);
+
+		ScanEntitiesHelper (eindex, attackermovepoint, 0);
 		List<string> scan = nearbyPlayerEntities;
 
 		return scan;
@@ -58,19 +64,21 @@ public class AIBehaviour : MonoBehaviour {
 				string cleandirEntity = Regex.Replace (dirEntity, @"[\d-]", string.Empty);
 				if (entityStorage.playerEntities.Contains (cleandirEntity)) {
 					nearbyPlayerEntities.Add (dirEntity);
-					//TODO nearbyPlayerEntitiesSize.Add (dirEntitySize);
+					nearbyPlayerEntitiesIndex.Add (direction);
 					nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
+					int playerEntitySize = GetPlayerEntitySize (dirEntity);
+					nearbyPlayerEntitiesSize.Add (playerEntitySize);
 				}
 			}
 
 			foreach (int direction in hexdirections) {
 				if (direction >= 0) {
 					if (hexGrid.GetEntity (direction) == "Empty") {
-						if (hexGrid.GetTerrain (direction) == "Mountain") {
+						if (hexGrid.GetTerrain (direction) == "Mountain" && maxDistance > 1) {
 							int newmovementpoints = maxDistance - 2;
 							int newusedmovementpoints = usedDistance + 2;
 							ScanEntitiesHelper (direction, newmovementpoints, newusedmovementpoints);
-						} else {
+						} else if (hexGrid.GetTerrain (direction) != "Mountain") {
 							int newmovementpoints = maxDistance - 1;
 							int newusedmovementpoints = usedDistance + 1;
 							ScanEntitiesHelper (direction, newmovementpoints, newusedmovementpoints);
@@ -82,11 +90,41 @@ public class AIBehaviour : MonoBehaviour {
 	}
 
 	// given list of player entities and their size, decide if attack and which
-	public void DecideAttack (int eindex, List<int> plist, List<int> psize, List<int> pdist) {
+	public void DecideAttack (int eindex, List<int> plist, List<int> pindex, List<int> pdist, List<int> psize) {
 		string eEntity = hexGrid.GetEntity(eindex);
+		foreach (int index in pindex) {
+			//if can attack enemy
+			availableAttackIndexes (index);
+		}
 
 		//TODO DecideAttack
 	}
+
+	public List<int> availableAttackIndexes (int pindex) {
+		List <int> availableIndex = new List<int> ();
+		HexCoordinates coord = hexGrid.GetCellCoord (pindex);
+		
+		int coordx = coord.X;
+		int coordz = coord.Z;
+
+		int left = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz);
+		int right = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz);
+		int uleft = hexGrid.GetCellIndexFromCoord (coordx - 1, coordz + 1);
+		int uright = hexGrid.GetCellIndexFromCoord (coordx, coordz + 1);
+		int lleft = hexGrid.GetCellIndexFromCoord (coordx, coordz - 1);
+		int lright = hexGrid.GetCellIndexFromCoord (coordx + 1, coordz - 1);
+		int[] hexdirections = new int[] { left, right, uleft, uright, lleft, lright };
+
+		foreach (int direction in hexdirections) {
+			string dirEntity = hexGrid.GetEntity (direction);
+			if (dirEntity == "Empty") {
+				availableIndex.Add (direction);
+			}
+		}
+		return availableIndex;
+	}
+
+
 
 	// attack player entity on pindex
 	public void Attack (int eindex, int pindex) {
@@ -226,6 +264,8 @@ public class AIBehaviour : MonoBehaviour {
 			attackerlasthealth = attacker.GetComponent<MilitiaBehaviour> ().lasthealth;
 			attackerrange = attacker.GetComponent<MilitiaBehaviour> ().range;
 			attackercurrattpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint;
+			attackermovepoint = attacker.GetComponent<MilitiaBehaviour> ().movementpoint;
+			attackercurrmovepoint = attacker.GetComponent<MilitiaBehaviour> ().currmovementpoint;
 		}
 	}
 
@@ -264,5 +304,20 @@ public class AIBehaviour : MonoBehaviour {
 			attsizetext.text = attackersize.ToString ();
 			attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
 		}
+	}
+
+	private int GetPlayerEntitySize(string pEntity) {
+		GameObject pEntityObject = GameObject.Find (pEntity);
+		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
+
+		//------Grab Info Defender------
+		if (cleanpEntity == "Necromancer") {
+			return pEntityObject.GetComponent<NecromancerBehaviour> ().size;
+		} else if (cleanpEntity == "Skeleton") {
+			return pEntityObject.GetComponent<SkeletonBehaviour> ().size;
+		} else if (cleanpEntity == "Zombie") {
+			return pEntityObject.GetComponent<ZombieBehaviour> ().size;
+		}
+		return 0;
 	}
 }

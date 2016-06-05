@@ -28,7 +28,7 @@ public class Battle : MonoBehaviour {
 	private int defendersize = 0;
 
 	//entity action points
-	private int playermovement = 0;
+	private int playermovepoint = 0;
 	private int playercurrmovepoint = 0;
 	private int playercurrattpoint = 0;
 
@@ -53,24 +53,24 @@ public class Battle : MonoBehaviour {
 			if (playercurrmovepoint == 0) {
 				return false;
 			}
-			else if (playermovement == 1 && playercurrmovepoint == 1) {
+			else if (playermovepoint == 1 && playercurrmovepoint == 1) {
 				possmovement = movement.GetCellIndexesOneHexAway (selectedindex);
-			} else if (playermovement != 1) {
+			} else if (playermovepoint != 1) {
 				//possmovement = movement.GetCellIndexesTwoHexAway (selectedindex);
 				possmovement = movement.GetCellIndexesBlockers (selectedindex, playercurrmovepoint);
 			}
 
 			if (possmovement.Contains (currindex)) {
+				//function to determine distance of curr index from selectedindex
+				//int distance = movement.GetDistance (selectedindex, currindex);
+				int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
+
 				GameObject playerEntity = GameObject.Find (selectedEntity);
 				GameObject playerSize = GameObject.Find ("Size " + selectedEntity);
 				playerEntity.transform.position = cellcoord;
 				playerSize.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 				hexGrid.EntityCellIndex (selectedindex, "Empty");
 				hexGrid.EntityCellIndex (currindex, selectedEntity);
-
-				//function to determine distance of curr index from selectedindex
-				//int distance = movement.GetDistance (selectedindex, currindex);
-				int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
 
 				//set new movement points remaining
 				SetMovementInfo (selectedEntity, minmove);
@@ -287,13 +287,13 @@ public class Battle : MonoBehaviour {
 		GameObject playerEntity = GameObject.Find (selectedentity);
 		//find movement points
 		if (cleanSelectedEntity == "Zombie") {
-			playermovement = playerEntity.GetComponent<ZombieBehaviour> ().movementpoint;
+			playermovepoint = playerEntity.GetComponent<ZombieBehaviour> ().movementpoint;
 			playercurrmovepoint = playerEntity.GetComponent<ZombieBehaviour> ().currmovementpoint;
 		} else if (cleanSelectedEntity == "Skeleton") {
-			playermovement = playerEntity.GetComponent<SkeletonBehaviour> ().movementpoint;
+			playermovepoint = playerEntity.GetComponent<SkeletonBehaviour> ().movementpoint;
 			playercurrmovepoint = playerEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint;
 		} else if (cleanSelectedEntity == "Necromancer") {
-			playermovement = playerEntity.GetComponent<NecromancerBehaviour> ().movementpoint;
+			playermovepoint = playerEntity.GetComponent<NecromancerBehaviour> ().movementpoint;
 			playercurrmovepoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint;
 		}
 	}
