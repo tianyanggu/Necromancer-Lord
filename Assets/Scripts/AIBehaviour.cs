@@ -13,22 +13,16 @@ public class AIBehaviour : MonoBehaviour {
 	private List<string> nearbyPlayerEntities = new List<string> ();
 	private List<int> nearbyPlayerEntitiesIndex = new List<int> ();
 	private List<int> nearbyPlayerEntitiesDistance = new List<int> ();
-	private List<int> nearbyPlayerEntitiesSize = new List<int> ();
+	private List<int> nearbyPlayerEntitiesHealth = new List<int> ();
 
 	private int attackerdmg = 0;
-	private int attackerdmgtotal = 0;
-	private int attackerhealth = 0;
-	private int attackerhealthtotal = 0;
+	//private int attackerhealth = 0;
 	private int attackerlasthealth = 0;
-	private int attackersize = 0;
 	private int attackerrange = 0;
 	private int attackerrangedmg = 0;
 	private int defenderdmg = 0;
-	private int defenderdmgtotal = 0;
-	private int defenderhealth = 0;
-	private int defenderhealthtotal = 0;
+	//private int defenderhealth = 0;
 	private int defenderlasthealth = 0;
-	private int defendersize = 0;
 
 	private int attackermovepoint = 0;
 	private int attackercurrattpoint = 0;
@@ -66,8 +60,8 @@ public class AIBehaviour : MonoBehaviour {
 					nearbyPlayerEntities.Add (dirEntity);
 					nearbyPlayerEntitiesIndex.Add (direction);
 					nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-					int playerEntitySize = GetPlayerEntitySize (dirEntity);
-					nearbyPlayerEntitiesSize.Add (playerEntitySize);
+					int playerEntityHealth = GetPlayerEntityHealth (dirEntity);
+					nearbyPlayerEntitiesHealth.Add (playerEntityHealth);
 				}
 			}
 
@@ -89,8 +83,8 @@ public class AIBehaviour : MonoBehaviour {
 		}
 	}
 
-	// given list of player entities and their size, decide if attack and which
-	public void DecideAttack (int eindex, List<int> plist, List<int> pindex, List<int> pdist, List<int> psize) {
+	// given list of player entities, decide if attack and which
+	public void DecideAttack (int eindex, List<int> plist, List<int> pindex, List<int> pdist, List<int> phealth) {
 		string eEntity = hexGrid.GetEntity(eindex);
 		foreach (int index in pindex) {
 			//if can attack enemy
@@ -129,9 +123,7 @@ public class AIBehaviour : MonoBehaviour {
 	// attack player entity on pindex
 	public void Attack (int eindex, int pindex) {
 		string pEntity = hexGrid.GetEntity(pindex);
-		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
 		string eEntity = hexGrid.GetEntity(eindex);
-		string cleaneEntity = Regex.Replace(eEntity, @"[\d-]", string.Empty);
 		Vector3 cellcoord = hexGrid.GetCellPos(pindex);
 
 		GameObject attacker = GameObject.Find (eEntity);
@@ -141,86 +133,50 @@ public class AIBehaviour : MonoBehaviour {
 		GetDefenderInfo (pEntity);
 
 		int unitsdied = hexGrid.GetCorpses(eindex);
-		int oldattackersize = attackersize;
+		int oldattackerhealth = attackerlasthealth;
 
 		if (attackercurrattpoint == 0) {
 			//do nothing
 		} else {
-			if (defendersize > 0) {
+			if (attackerlasthealth > 0) {
 				//if melee attack or range attack
 				if (attackerrange == 1) {
-					attackerdmgtotal = attackerdmg * attackersize;
-					attackerhealthtotal = attackerhealth * (attackersize - 1) + attackerlasthealth;
-					defenderdmgtotal = defenderdmg * defendersize;
-					defenderhealthtotal = defenderhealth * (defendersize - 1) + defenderlasthealth;
+					//calc dmg to attacker and defender health
+					defenderlasthealth = defenderlasthealth - attackerdmg;
+					attackerlasthealth = attackerlasthealth - defenderdmg;
 
-					//calc dmg to defender health and size
-					defenderhealthtotal = defenderhealthtotal - attackerdmgtotal;
-					defendersize = (defenderhealthtotal + defenderhealth - 1) / defenderhealth;
-					if (defendersize < 0) {
-						defendersize = 0;
-					}
 					//set new corpses created on tile
-					int addcorpses = oldattackersize - attackersize;
+					int addcorpses = oldattackerhealth - attackerlasthealth;
 					unitsdied = unitsdied + addcorpses;
 					hexGrid.CorpsesCellIndex (eindex, unitsdied);
-
-					int defenderhealthmod = defenderhealthtotal % defenderhealth;
-					if (defenderhealthmod == 0) {
-						defenderlasthealth = defenderhealth;
-					} else {
-						defenderlasthealth = defenderhealthmod;
-					}
-
-					attackerhealthtotal = attackerhealthtotal - defenderdmgtotal;
-					attackersize = (attackerhealthtotal + attackerhealth - 1) / attackerhealth;
-
-					int attackerhealthmod = attackerhealthtotal % attackerhealth;
-					if (attackerhealthmod == 0) {
-						attackerlasthealth = attackerhealth;
-					} else {
-						attackerlasthealth = attackerhealthmod;
-					}
 				} else if (attackerrange >= 2) {
-					attackerdmgtotal = attackerrangedmg * attackersize;
-					defenderhealthtotal = defenderhealth * (defendersize - 1) + defenderlasthealth;
+					//calc dmg to defender health
+					defenderlasthealth = defenderlasthealth - attackerrangedmg;
 
-					//calc dmg to defender health and size
-					defenderhealthtotal = defenderhealthtotal - attackerdmgtotal;
-					defendersize = (defenderhealthtotal + defenderhealth - 1) / defenderhealth;
-					if (defendersize < 0) {
-						defendersize = 0;
-					}
 					//set zero new corpses since ranged
-					int defenderhealthmod = defenderhealthtotal % defenderhealth;
-					if (defenderhealthmod == 0) {
-						defenderlasthealth = defenderhealth;
-					} else {
-						defenderlasthealth = defenderhealthmod;
-					}
 				}
 
-				if (defendersize <= 0) {
+				//check new status
+				if (defenderlasthealth <= 0) {
 					Destroy (defender);
 					hexGrid.EntityCellIndex (eindex, "Empty");
-					GameObject defenderSizeText = GameObject.Find ("Size " + pEntity);
-					Destroy (defenderSizeText);
+					GameObject defenderHealthText = GameObject.Find ("Health " + pEntity);
+					Destroy (defenderHealthText);
 					entityStorage.RemoveActivePlayerEntity (pEntity);
 				}
-				if (attackersize <= 0) {
+				if (attackerlasthealth <= 0) {
 					Destroy (attacker);
 					hexGrid.EntityCellIndex (eindex, "Empty");
-					GameObject attackerSizeText = GameObject.Find ("Size " + eEntity);
-					Destroy (attackerSizeText);
+					GameObject attackerHealthText = GameObject.Find ("Health " + eEntity);
+					Destroy (attackerHealthText);
 					entityStorage.RemoveActiveEnemyEntity (eEntity);
-				} else if (attackersize > 0 && defendersize <= 0) {
+				} 
+				if (attackerlasthealth > 0 && defenderlasthealth <= 0) {
 					attacker.transform.position = cellcoord;
 					hexGrid.EntityCellIndex (pindex, eEntity);
 					hexGrid.EntityCellIndex (eindex, "Empty");
-					GameObject defenderSizeText = GameObject.Find ("Size " + pEntity);
-					Destroy (defenderSizeText);
-					GameObject attackerSizeText = GameObject.Find ("Size " + eEntity);
-					attackerSizeText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
+					GameObject attackerHealthText = GameObject.Find ("Health " + eEntity);
+					attackerHealthText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 				}
 
 				SetDefenderInfo (pEntity);
@@ -235,19 +191,16 @@ public class AIBehaviour : MonoBehaviour {
 
 		//------Grab Info Defender------
 		if (cleanpEntity == "Necromancer") {
-			defendersize = defender.GetComponent<NecromancerBehaviour> ().size;
 			defenderdmg = defender.GetComponent<NecromancerBehaviour> ().attack;
-			defenderhealth = defender.GetComponent<NecromancerBehaviour> ().health;
+			//defenderhealth = defender.GetComponent<NecromancerBehaviour> ().health;
 			defenderlasthealth = defender.GetComponent<NecromancerBehaviour> ().lasthealth;
 		} else if (cleanpEntity == "Skeleton") {
-			defendersize = defender.GetComponent<SkeletonBehaviour> ().size;
 			defenderdmg = defender.GetComponent<SkeletonBehaviour> ().attack;
-			defenderhealth = defender.GetComponent<SkeletonBehaviour> ().health;
+			//defenderhealth = defender.GetComponent<SkeletonBehaviour> ().health;
 			defenderlasthealth = defender.GetComponent<SkeletonBehaviour> ().lasthealth;
 		} else if (cleanpEntity == "Zombie") {
-			defendersize = defender.GetComponent<ZombieBehaviour> ().size;
 			defenderdmg = defender.GetComponent<ZombieBehaviour> ().attack;
-			defenderhealth = defender.GetComponent<ZombieBehaviour> ().health;
+			//defenderhealth = defender.GetComponent<ZombieBehaviour> ().health;
 			defenderlasthealth = defender.GetComponent<ZombieBehaviour> ().lasthealth;
 		}
 	}
@@ -258,9 +211,8 @@ public class AIBehaviour : MonoBehaviour {
 
 		//------Grab Info Attacker------
 		if (cleaneEntity == "Militia") {
-			attackersize = attacker.GetComponent<MilitiaBehaviour> ().size;
 			attackerdmg = attacker.GetComponent<MilitiaBehaviour> ().attack;
-			attackerhealth = attacker.GetComponent<MilitiaBehaviour> ().health;
+			//attackerhealth = attacker.GetComponent<MilitiaBehaviour> ().health;
 			attackerlasthealth = attacker.GetComponent<MilitiaBehaviour> ().lasthealth;
 			attackerrange = attacker.GetComponent<MilitiaBehaviour> ().range;
 			attackercurrattpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint;
@@ -275,20 +227,17 @@ public class AIBehaviour : MonoBehaviour {
 
 		//------Set New Info Defender------
 		if (cleanpEntity == "Necromancer") {
-			defender.GetComponent<NecromancerBehaviour> ().size = defendersize;
 			defender.GetComponent<NecromancerBehaviour> ().lasthealth = defenderlasthealth;
-			Text defsizetext = GameObject.Find ("Size " + pEntity).GetComponent<Text> ();
-			defsizetext.text = attackersize.ToString ();
+			Text defhealthtext = GameObject.Find ("Health " + pEntity).GetComponent<Text> ();
+			defhealthtext.text = attackerlasthealth.ToString ();
 		} else if (cleanpEntity == "Skeleton") {
-			defender.GetComponent<SkeletonBehaviour> ().size = defendersize;
 			defender.GetComponent<SkeletonBehaviour> ().lasthealth = defenderlasthealth;
-			Text defsizetext = GameObject.Find ("Size " + pEntity).GetComponent<Text> ();
-			defsizetext.text = defendersize.ToString ();
+			Text defhealthtext = GameObject.Find ("Health " + pEntity).GetComponent<Text> ();
+			defhealthtext.text = defenderlasthealth.ToString ();
 		} else if (cleanpEntity == "Zombie") {
-			defender.GetComponent<ZombieBehaviour> ().size = defendersize;
 			defender.GetComponent<ZombieBehaviour> ().lasthealth = defenderlasthealth;
-			Text defsizetext = GameObject.Find ("Size " + pEntity).GetComponent<Text> ();
-			defsizetext.text = defendersize.ToString ();
+			Text defhealthtext = GameObject.Find ("Health " + pEntity).GetComponent<Text> ();
+			defhealthtext.text = defenderlasthealth.ToString ();
 		}
 	}
 
@@ -298,25 +247,24 @@ public class AIBehaviour : MonoBehaviour {
 
 		//------Set New Info Attacker------
 		if (cleaneEntity == "Militia") {
-			attacker.GetComponent<MilitiaBehaviour> ().size = attackersize;
 			attacker.GetComponent<MilitiaBehaviour> ().lasthealth = attackerlasthealth;
-			Text attsizetext = GameObject.Find ("Size " + eEntity).GetComponent<Text> ();
-			attsizetext.text = attackersize.ToString ();
+			Text atthealthtext = GameObject.Find ("Health " + eEntity).GetComponent<Text> ();
+			atthealthtext.text = attackerlasthealth.ToString ();
 			attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
 		}
 	}
 
-	private int GetPlayerEntitySize(string pEntity) {
+	private int GetPlayerEntityHealth(string pEntity) {
 		GameObject pEntityObject = GameObject.Find (pEntity);
 		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
 
 		//------Grab Info Defender------
 		if (cleanpEntity == "Necromancer") {
-			return pEntityObject.GetComponent<NecromancerBehaviour> ().size;
+			return pEntityObject.GetComponent<NecromancerBehaviour> ().lasthealth;
 		} else if (cleanpEntity == "Skeleton") {
-			return pEntityObject.GetComponent<SkeletonBehaviour> ().size;
+			return pEntityObject.GetComponent<SkeletonBehaviour> ().lasthealth;
 		} else if (cleanpEntity == "Zombie") {
-			return pEntityObject.GetComponent<ZombieBehaviour> ().size;
+			return pEntityObject.GetComponent<ZombieBehaviour> ().lasthealth;
 		}
 		return 0;
 	}
