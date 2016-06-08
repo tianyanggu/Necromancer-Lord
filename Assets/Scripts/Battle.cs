@@ -38,6 +38,11 @@ public class Battle : MonoBehaviour {
 		cleanSelectedEntity = Regex.Replace(selectedEntity, @"[\d-]", string.Empty);
 		Vector3 cellcoord = hexGrid.GetCellPos(currindex);
 
+		string storedNamePlayer = PlayerPrefs.GetString (selectedEntity);
+		string numPlayerEntity = Regex.Replace(storedNamePlayer, "[^0-9 -]", string.Empty);
+		string storedNameEnemy = PlayerPrefs.GetString (currEntity);
+		string numEnemyEntity = Regex.Replace(storedNameEnemy, "[^0-9 -]", string.Empty);
+
 		GetMovementInfo (selectedEntity);
 
 		//------Movement Empty Cell------
@@ -56,11 +61,11 @@ public class Battle : MonoBehaviour {
 			if (possmovement.Contains (currindex)) {
 				//get min movement points used
 				if (playermovepoint == 1 && playercurrmovepoint == 1) {
-					SetMovementInfo (selectedEntity, 1);
+					NewMovementPoints (selectedEntity, 1);
 				} else if (playermovepoint != 1) {
 					int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
 					//set new movement points remaining
-					SetMovementInfo (selectedEntity, minmove);
+					NewMovementPoints (selectedEntity, minmove);
 				}
 
 				GameObject playerEntity = GameObject.Find (selectedEntity);
@@ -69,6 +74,8 @@ public class Battle : MonoBehaviour {
 				playerHealth.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 				hexGrid.EntityCellIndex (selectedindex, "Empty");
 				hexGrid.EntityCellIndex (currindex, selectedEntity);
+
+				PlayerPrefs.SetInt ("HexEntityIndex" + numPlayerEntity, currindex);
 
 				return true;
 			}
@@ -105,6 +112,9 @@ public class Battle : MonoBehaviour {
 						defenderlasthealth = defenderlasthealth - attackerdmg;
 						attackerlasthealth = attackerlasthealth - defenderdmg;
 
+						PlayerPrefs.SetInt ("HexEntityHealth" + numEnemyEntity, defenderlasthealth);
+						PlayerPrefs.SetInt ("HexEntityHealth" + numPlayerEntity, attackerlasthealth);
+
 						//set new corpses created on tile
 						int addcorpses = olddefenderhealth - defenderlasthealth;
 						unitsdied = unitsdied + addcorpses;
@@ -112,6 +122,8 @@ public class Battle : MonoBehaviour {
 					} else if (attackerrange >= 2) {
 						//calc dmg to defender health
 						defenderlasthealth = defenderlasthealth - attackerrangedmg;
+
+						PlayerPrefs.SetInt ("HexEntityHealth" + numEnemyEntity, defenderlasthealth);
 
 						//set new corpses created on tile
 						int addcorpses = olddefenderhealth - defenderlasthealth;
@@ -126,6 +138,11 @@ public class Battle : MonoBehaviour {
 						GameObject defenderHealthText = GameObject.Find ("Health " + currEntity);
 						Destroy (defenderHealthText);
 						entityStorage.RemoveActiveEnemyEntity (currEntity);
+						//store new info
+						PlayerPrefs.DeleteKey ("HexEntity" + numEnemyEntity);
+						PlayerPrefs.DeleteKey ("HexEntityHealth" + numEnemyEntity);
+						PlayerPrefs.DeleteKey ("HexEntityIndex" + numEnemyEntity);
+						PlayerPrefs.DeleteKey (selectedEntity);
 					}
 					if (attackerlasthealth <= 0) {
 						Destroy (attacker);
@@ -133,13 +150,24 @@ public class Battle : MonoBehaviour {
 						GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntity);
 						Destroy (attackerHealthText);
 						entityStorage.RemoveActivePlayerEntity (selectedEntity);
+						//store new info
+						PlayerPrefs.DeleteKey ("HexEntity" + numPlayerEntity);
+						PlayerPrefs.DeleteKey ("HexEntityHealth" + numPlayerEntity);
+						PlayerPrefs.DeleteKey ("HexEntityIndex" + numPlayerEntity);
+						PlayerPrefs.DeleteKey (currEntity);
 					} 
 					if (attackerlasthealth > 0 && defenderlasthealth <= 0) {
-						if (playercurrmovepoint > 0) {
+						//move to defender's position if have enough movement points
+						int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
+						if (playercurrmovepoint >= minmove && attackerrange == 1) {
 							attacker.transform.position = cellcoord;
 							hexGrid.EntityCellIndex (currindex, selectedEntity);
 							GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntity);
 							attackerHealthText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
+							NewMovementPoints (selectedEntity, minmove);
+							PlayerPrefs.SetInt ("HexEntityIndex" + numPlayerEntity, currindex);
+						} else if (attackerrange == 2) {
+							//do nothing
 						}
 					}
 
@@ -154,7 +182,6 @@ public class Battle : MonoBehaviour {
 			}
 		}
 
-		//playerNecromancer.GetComponent<NecromancerBehaviour> ().health = playerNecromancer.GetComponent<NecromancerBehaviour> ().health - 2;
 		return false;
 	}
 
@@ -249,7 +276,7 @@ public class Battle : MonoBehaviour {
 		}
 	}
 
-	void SetMovementInfo(string selectedentity, int change) {
+	void NewMovementPoints(string selectedentity, int change) {
 		GameObject playerEntity = GameObject.Find (selectedentity);
 		//set movement points
 		if (cleanSelectedEntity == "Zombie") {

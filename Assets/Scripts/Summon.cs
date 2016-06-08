@@ -12,9 +12,11 @@ public class Summon : MonoBehaviour {
 	public GameObject Zombie;
 	public GameObject Militia;
 
+	//given an index and the type of summon, summons that entity with the next available name
 	public void SummonEntity (int cellindex, string summonname) {
 		Vector3 summonindex = hexGrid.GetCellPos(cellindex);
-		string availableNum = AvailableName (summonname);
+		string faction = whichFaction (summonname);
+		string availableNum = AvailableName (summonname, faction);
 		string availableName = summonname + availableNum;
 		int health = GetHealthInfo (summonname);
 
@@ -27,30 +29,53 @@ public class Summon : MonoBehaviour {
 		} else if (summonname == "Zombie") {
 			GameObject playerentity = (GameObject)Instantiate (Zombie, summonindex, Quaternion.identity);
 			playerentity.name = availableName;
+		} else if (summonname == "Militia") {
+			GameObject enemyentity = (GameObject)Instantiate (Militia, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
 		}
+		//stores info of new summon to playerprefs for saving
+		string ppName = AvailablePlayerPrefsName ();
 
-		PlayerPrefs.SetString (availableName, "HexEntity" + availableNum);
-		PlayerPrefs.SetString ("HexEntity" + availableNum, availableName);
-		PlayerPrefs.SetInt ("HexEntityHealth" + availableNum, health);
-		PlayerPrefs.SetInt ("HexEntityIndex" + availableNum, cellindex);
+		PlayerPrefs.SetString ("HexEntity" + ppName, availableName);
+		PlayerPrefs.SetString (availableName, "HexEntity" + ppName);
+		PlayerPrefs.SetInt ("HexEntityHealth" + ppName, health);
+		PlayerPrefs.SetInt ("HexEntityIndex" + ppName, cellindex);
 		hexGrid.EntityCellIndex (cellindex, availableName);
 		loadMap.CreateHealthLabel (cellindex, health, availableName);
 	}
 
-	//CHECK FOR NEXT AVALIABLE NUMBER
-	string AvailableName (string summonname) {
+	//Check for next available entity number
+	string AvailableName (string summonname, string faction) {
 		for (int i = 1; i <= 999; i++) {
 			string num = i.ToString ();
-
-			if (!entityStorage.activePlayerEntities.Contains(summonname + num)) {
-				string availableName = summonname + num;
-				entityStorage.AddActivePlayerEntity (availableName);
-				return num;
-			} else if (num == "999") {
-				//TODO error message of 999 max reached
+			if (faction == "undead") {
+				if (!entityStorage.activePlayerEntities.Contains (summonname + num)) {
+					string availableName = summonname + num;
+					entityStorage.AddActivePlayerEntity (availableName);
+					return num;
+				}
+			}
+			if (faction == "human") {
+				if (!entityStorage.activeEnemyEntities.Contains (summonname + num)) {
+					string availableName = summonname + num;
+					entityStorage.AddActiveEnemyEntity (availableName);
+					return num;
+				}
 			}
 		} 
 		return null;
+	}
+
+	//Check for next available setstring number
+	string AvailablePlayerPrefsName () {
+		for (int i = 0; i < hexGrid.size; i++) {
+			string num = i.ToString ();
+			string allEntity = PlayerPrefs.GetString ("HexEntity" + i);
+			if (allEntity == "") {
+				return num;
+			}
+		}
+		return null; //TODO error message if no available spaces, should not be possible to give null
 	}
 
 	//grabs health info
@@ -61,13 +86,28 @@ public class Summon : MonoBehaviour {
 		if (entity == "Zombie") {
 			return sumentity.GetComponent<ZombieBehaviour> ().health;
 		} else if (entity == "Skeleton") {
-			return sumentity.GetComponent<SkeletonBehaviour> ().health;;
+			return sumentity.GetComponent<SkeletonBehaviour> ().health;
 		} else if (entity == "Necromancer") {
 			return sumentity.GetComponent<NecromancerBehaviour> ().health;
 		} else if (entity == "Militia") {
 			return sumentity.GetComponent<MilitiaBehaviour> ().health;
 		}
 		return 0;
+	}
+
+	//returns faction
+	string whichFaction(string entity) {
+		//------Determine Faction------
+		if (entity == "Zombie") {
+			return "undead";
+		} else if (entity == "Skeleton") {
+			return "undead";
+		} else if (entity == "Necromancer") {
+			return "undead";
+		} else if (entity == "Militia") {
+			return "human";
+		}
+		return "unknown";
 	}
 
 }

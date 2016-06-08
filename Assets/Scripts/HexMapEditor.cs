@@ -120,6 +120,16 @@ public class HexMapEditor : MonoBehaviour {
 				}
 				i++;
 			}
+			foreach (string entity in entityStorage.enemyEntities) {
+				int spacing = i * 20;
+				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
+					if (editmode == true) {
+						summon.SummonEntity (currindex, entity);
+						summonclicked = false;
+					}
+				}
+				i++;
+			}
 		}
 
 		//toggles editor mode

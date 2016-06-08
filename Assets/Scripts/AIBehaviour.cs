@@ -172,12 +172,19 @@ public class AIBehaviour : MonoBehaviour {
 					entityStorage.RemoveActiveEnemyEntity (eEntity);
 				} 
 				if (attackerlasthealth > 0 && defenderlasthealth <= 0) {
-					attacker.transform.position = cellcoord;
-					hexGrid.EntityCellIndex (pindex, eEntity);
-					hexGrid.EntityCellIndex (eindex, "Empty");
-					GameObject attackerHealthText = GameObject.Find ("Health " + eEntity);
-					attackerHealthText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
-				}
+					//move to defender's position if have enough movement points
+					int minmove = movement.GetMovementPointsUsed (eindex, pindex, attackercurrmovepoint);
+					if (attackercurrmovepoint > 0 && attackerrange == 1) {
+						attacker.transform.position = cellcoord;
+						hexGrid.EntityCellIndex (pindex, eEntity);
+						hexGrid.EntityCellIndex (eindex, "Empty");
+						GameObject attackerHealthText = GameObject.Find ("Health " + eEntity);
+						attackerHealthText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
+						NewMovementPoints (eEntity, minmove);
+					} else if (attackerrange == 2) {
+						//do nothing
+					}
+				} 
 
 				SetDefenderInfo (pEntity);
 				SetAttackerInfo (eEntity);
@@ -267,5 +274,14 @@ public class AIBehaviour : MonoBehaviour {
 			return pEntityObject.GetComponent<ZombieBehaviour> ().lasthealth;
 		}
 		return 0;
+	}
+
+	void NewMovementPoints(string selectedentity, int change) {
+		GameObject eEntity = GameObject.Find (selectedentity);
+		string cleaneEntity = Regex.Replace (selectedentity, @"[\d-]", string.Empty);
+		//set movement points
+		if (cleaneEntity == "Militia") {
+			eEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint = eEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint - change;
+		}
 	}
 }
