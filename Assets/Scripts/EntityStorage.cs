@@ -48,6 +48,21 @@ public class EntityStorage : MonoBehaviour {
 		}
 	}
 
+	//returns faction
+	public string whichFaction(string entity) {
+		//------Determine Faction------
+		if (entity == "Zombie") {
+			return "undead";
+		} else if (entity == "Skeleton") {
+			return "undead";
+		} else if (entity == "Necromancer") {
+			return "undead";
+		} else if (entity == "Militia") {
+			return "human";
+		}
+		return "unknown";
+	}
+
 	public void AddActivePlayerEntity (string entityName) {
 		activePlayerEntities.Add (entityName);
 	} 

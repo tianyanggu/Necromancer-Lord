@@ -83,7 +83,7 @@ public class HexMapEditor : MonoBehaviour {
 			lockbattle = false;
 		} 
 		if (lockbattle == false) {
-			bool checkAttHappen = battle.Attack (selectedindex, currindex, selectedentity);
+			bool checkAttHappen = battle.Attack (selectedindex, currindex);
 			if (checkAttHappen == true) {
 				lockbattle = true;
 			}
@@ -153,7 +153,7 @@ public class HexMapEditor : MonoBehaviour {
 				locate.SetAllAttackPoints();
 
 				//enemy units turn
-				//aiBehaviour.Attack (15, 3);
+				battle.Attack (15, 3);
 			}
 		}
 

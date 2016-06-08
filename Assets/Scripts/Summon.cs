@@ -15,7 +15,7 @@ public class Summon : MonoBehaviour {
 	//given an index and the type of summon, summons that entity with the next available name
 	public void SummonEntity (int cellindex, string summonname) {
 		Vector3 summonindex = hexGrid.GetCellPos(cellindex);
-		string faction = whichFaction (summonname);
+		string faction = entityStorage.whichFaction (summonname);
 		string availableNum = AvailableName (summonname, faction);
 		string availableName = summonname + availableNum;
 		int health = GetHealthInfo (summonname);
@@ -94,20 +94,4 @@ public class Summon : MonoBehaviour {
 		}
 		return 0;
 	}
-
-	//returns faction
-	string whichFaction(string entity) {
-		//------Determine Faction------
-		if (entity == "Zombie") {
-			return "undead";
-		} else if (entity == "Skeleton") {
-			return "undead";
-		} else if (entity == "Necromancer") {
-			return "undead";
-		} else if (entity == "Militia") {
-			return "human";
-		}
-		return "unknown";
-	}
-
 }

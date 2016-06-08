@@ -15,15 +15,6 @@ public class AIBehaviour : MonoBehaviour {
 	private List<int> nearbyPlayerEntitiesDistance = new List<int> ();
 	private List<int> nearbyPlayerEntitiesHealth = new List<int> ();
 
-	private int attackerdmg = 0;
-	//private int attackerhealth = 0;
-	private int attackerlasthealth = 0;
-	private int attackerrange = 0;
-	private int attackerrangedmg = 0;
-	private int defenderdmg = 0;
-	//private int defenderhealth = 0;
-	private int defenderlasthealth = 0;
-
 	private int attackermovepoint = 0;
 	private int attackercurrattpoint = 0;
 	private int attackercurrmovepoint = 0;
@@ -118,148 +109,27 @@ public class AIBehaviour : MonoBehaviour {
 		return availableIndex;
 	}
 
-
-
-	// attack player entity on pindex
-	public void Attack (int eindex, int pindex) {
-		string pEntity = hexGrid.GetEntity(pindex);
-		string eEntity = hexGrid.GetEntity(eindex);
-		Vector3 cellcoord = hexGrid.GetCellPos(pindex);
-
-		GameObject attacker = GameObject.Find (eEntity);
-		GameObject defender = GameObject.Find (pEntity);
-
-		GetAttackerInfo (eEntity);
-		GetDefenderInfo (pEntity);
-
-		int unitsdied = hexGrid.GetCorpses(eindex);
-		int oldattackerhealth = attackerlasthealth;
-
-		if (attackercurrattpoint == 0) {
-			//do nothing
-		} else {
-			if (attackerlasthealth > 0) {
-				//if melee attack or range attack
-				if (attackerrange == 1) {
-					//calc dmg to attacker and defender health
-					defenderlasthealth = defenderlasthealth - attackerdmg;
-					attackerlasthealth = attackerlasthealth - defenderdmg;
-
-					//set new corpses created on tile
-					int addcorpses = oldattackerhealth - attackerlasthealth;
-					unitsdied = unitsdied + addcorpses;
-					hexGrid.CorpsesCellIndex (eindex, unitsdied);
-				} else if (attackerrange >= 2) {
-					//calc dmg to defender health
-					defenderlasthealth = defenderlasthealth - attackerrangedmg;
-
-					//set zero new corpses since ranged
-				}
-
-				//check new status
-				if (defenderlasthealth <= 0) {
-					Destroy (defender);
-					hexGrid.EntityCellIndex (eindex, "Empty");
-					GameObject defenderHealthText = GameObject.Find ("Health " + pEntity);
-					Destroy (defenderHealthText);
-					entityStorage.RemoveActivePlayerEntity (pEntity);
-				}
-				if (attackerlasthealth <= 0) {
-					Destroy (attacker);
-					hexGrid.EntityCellIndex (eindex, "Empty");
-					GameObject attackerHealthText = GameObject.Find ("Health " + eEntity);
-					Destroy (attackerHealthText);
-					entityStorage.RemoveActiveEnemyEntity (eEntity);
-				} 
-				if (attackerlasthealth > 0 && defenderlasthealth <= 0) {
-					//move to defender's position if have enough movement points
-					int minmove = movement.GetMovementPointsUsed (eindex, pindex, attackercurrmovepoint);
-					if (attackercurrmovepoint > 0 && attackerrange == 1) {
-						attacker.transform.position = cellcoord;
-						hexGrid.EntityCellIndex (pindex, eEntity);
-						hexGrid.EntityCellIndex (eindex, "Empty");
-						GameObject attackerHealthText = GameObject.Find ("Health " + eEntity);
-						attackerHealthText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
-						NewMovementPoints (eEntity, minmove);
-					} else if (attackerrange == 2) {
-						//do nothing
-					}
-				} 
-
-				SetDefenderInfo (pEntity);
-				SetAttackerInfo (eEntity);
-			}
-		}
-	}
-
-	void GetDefenderInfo(string pEntity) {
-		GameObject defender = GameObject.Find (pEntity);
-		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
-
-		//------Grab Info Defender------
-		if (cleanpEntity == "Necromancer") {
-			defenderdmg = defender.GetComponent<NecromancerBehaviour> ().attack;
-			//defenderhealth = defender.GetComponent<NecromancerBehaviour> ().health;
-			defenderlasthealth = defender.GetComponent<NecromancerBehaviour> ().lasthealth;
-		} else if (cleanpEntity == "Skeleton") {
-			defenderdmg = defender.GetComponent<SkeletonBehaviour> ().attack;
-			//defenderhealth = defender.GetComponent<SkeletonBehaviour> ().health;
-			defenderlasthealth = defender.GetComponent<SkeletonBehaviour> ().lasthealth;
-		} else if (cleanpEntity == "Zombie") {
-			defenderdmg = defender.GetComponent<ZombieBehaviour> ().attack;
-			//defenderhealth = defender.GetComponent<ZombieBehaviour> ().health;
-			defenderlasthealth = defender.GetComponent<ZombieBehaviour> ().lasthealth;
-		}
-	}
-
 	void GetAttackerInfo(string eEntity) {
 		GameObject attacker = GameObject.Find (eEntity);
 		string cleaneEntity = Regex.Replace(eEntity, @"[\d-]", string.Empty);
 
 		//------Grab Info Attacker------
 		if (cleaneEntity == "Militia") {
-			attackerdmg = attacker.GetComponent<MilitiaBehaviour> ().attack;
-			//attackerhealth = attacker.GetComponent<MilitiaBehaviour> ().health;
-			attackerlasthealth = attacker.GetComponent<MilitiaBehaviour> ().lasthealth;
-			attackerrange = attacker.GetComponent<MilitiaBehaviour> ().range;
 			attackercurrattpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint;
 			attackermovepoint = attacker.GetComponent<MilitiaBehaviour> ().movementpoint;
 			attackercurrmovepoint = attacker.GetComponent<MilitiaBehaviour> ().currmovementpoint;
 		}
 	}
 
-	void SetDefenderInfo(string pEntity) {
-		GameObject defender = GameObject.Find (pEntity);
-		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
-
-		//------Set New Info Defender------
-		if (cleanpEntity == "Necromancer") {
-			defender.GetComponent<NecromancerBehaviour> ().lasthealth = defenderlasthealth;
-			Text defhealthtext = GameObject.Find ("Health " + pEntity).GetComponent<Text> ();
-			defhealthtext.text = attackerlasthealth.ToString ();
-		} else if (cleanpEntity == "Skeleton") {
-			defender.GetComponent<SkeletonBehaviour> ().lasthealth = defenderlasthealth;
-			Text defhealthtext = GameObject.Find ("Health " + pEntity).GetComponent<Text> ();
-			defhealthtext.text = defenderlasthealth.ToString ();
-		} else if (cleanpEntity == "Zombie") {
-			defender.GetComponent<ZombieBehaviour> ().lasthealth = defenderlasthealth;
-			Text defhealthtext = GameObject.Find ("Health " + pEntity).GetComponent<Text> ();
-			defhealthtext.text = defenderlasthealth.ToString ();
-		}
-	}
-
-	void SetAttackerInfo(string eEntity) {
-		GameObject attacker = GameObject.Find (eEntity);
-		string cleaneEntity = Regex.Replace(eEntity, @"[\d-]", string.Empty);
-
-		//------Set New Info Attacker------
-		if (cleaneEntity == "Militia") {
-			attacker.GetComponent<MilitiaBehaviour> ().lasthealth = attackerlasthealth;
-			Text atthealthtext = GameObject.Find ("Health " + eEntity).GetComponent<Text> ();
-			atthealthtext.text = attackerlasthealth.ToString ();
-			attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
-		}
-	}
+//	void SetAttackerInfo(string eEntity) {
+//		GameObject attacker = GameObject.Find (eEntity);
+//		string cleaneEntity = Regex.Replace(eEntity, @"[\d-]", string.Empty);
+//
+//		//------Set New Info Attacker------
+//		if (cleaneEntity == "Militia") {
+//			attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
+//		}
+//	}
 
 	private int GetPlayerEntityHealth(string pEntity) {
 		GameObject pEntityObject = GameObject.Find (pEntity);
