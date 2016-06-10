@@ -6,6 +6,7 @@ public class Summon : MonoBehaviour {
 	public HexGrid hexGrid;
 	public LoadMap loadMap;
 	public EntityStorage entityStorage;
+	public Resources resources;
 
 	public GameObject Necromancer;
 	public GameObject Skeleton;
@@ -93,5 +94,15 @@ public class Summon : MonoBehaviour {
 			return sumentity.GetComponent<MilitiaBehaviour> ().health;
 		}
 		return 0;
+	}
+
+	public bool ValidSummon(string entity) {
+		int corpses = PlayerPrefs.GetInt ("Corpses");
+		int cost = entityStorage.summonCorpseCost (entity);
+		if (corpses >= cost) {
+			resources.ChangeCorpses (-cost);
+			return true;
+		}
+		return false;
 	}
 }

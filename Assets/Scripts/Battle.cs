@@ -10,6 +10,7 @@ public class Battle : MonoBehaviour {
 	public LoadMap loadMap;
 	public Movement movement;
 	public EntityStorage entityStorage;
+	public Resources resources;
 
 	//entity stats
 	private int attackerdmg = 0;
@@ -99,7 +100,6 @@ public class Battle : MonoBehaviour {
 			}
 			List<int> possattacktiles = null;
 
-			int unitsdied = hexGrid.GetCorpses(currindex);
 			int olddefenderhealth = defenderlasthealth;
 
 			//------Determine Attack Range------
@@ -121,20 +121,11 @@ public class Battle : MonoBehaviour {
 						PlayerPrefs.SetInt ("HexEntityHealth" + numCurrEntity, defenderlasthealth);
 						PlayerPrefs.SetInt ("HexEntityHealth" + numSelEntity, attackerlasthealth);
 
-						//set new corpses created on tile
-						int addcorpses = olddefenderhealth - defenderlasthealth;
-						unitsdied = unitsdied + addcorpses;
-						hexGrid.CorpsesCellIndex(currindex, unitsdied);
 					} else if (attackerrange >= 2) {
 						//calc dmg to defender health
 						defenderlasthealth = defenderlasthealth - attackerrangedmg;
 
 						PlayerPrefs.SetInt ("HexEntityHealth" + numCurrEntity, defenderlasthealth);
-
-						//set new corpses created on tile
-						int addcorpses = olddefenderhealth - defenderlasthealth;
-						unitsdied = unitsdied + addcorpses;
-						hexGrid.CorpsesCellIndex(currindex, unitsdied);
 					}
 
 					//check new status
@@ -149,6 +140,7 @@ public class Battle : MonoBehaviour {
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numCurrEntity);
 						PlayerPrefs.DeleteKey ("HexEntityIndex" + numCurrEntity);
 						PlayerPrefs.DeleteKey (selectedEntity);
+						CalcCorpses (selFaction, cleanCurrEntity);
 					}
 					if (attackerlasthealth <= 0) {
 						Destroy (attacker);
@@ -163,7 +155,7 @@ public class Battle : MonoBehaviour {
 						PlayerPrefs.DeleteKey (currEntity);
 					} 
 					if (attackerlasthealth > 0 && defenderlasthealth <= 0) {
-						//move to defender's position if have enough movement points
+						//move to defender's position if have enough movement points and is not ranged unit
 						int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
 						if (playercurrmovepoint >= minmove && attackerrange == 1) {
 							attacker.transform.position = cellcoord;
@@ -333,6 +325,14 @@ public class Battle : MonoBehaviour {
 			playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint - change;
 		} else if (cleanSelEntity == "Militia") {
 			playerEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint = playerEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint - change;
+		}
+	}
+
+	void CalcCorpses(string faction, string diedentity) {
+		if (faction == "undead") {
+			if (diedentity == "Militia") {
+				resources.ChangeCorpses (100);
+			}
 		}
 	}
 }

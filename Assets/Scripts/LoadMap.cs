@@ -8,6 +8,7 @@ public class LoadMap : MonoBehaviour {
 	public HexGrid hexGrid;
 	public Text healthLabel;
 	public EntityStorage entityStorage;
+	public Resources resources;
 	Canvas gridCanvas;
 
 	public GameObject Necromancer;
@@ -15,10 +16,16 @@ public class LoadMap : MonoBehaviour {
 	public GameObject Militia;
 	public GameObject Zombie;
 
+	public GameObject Corpses;
+
+
 	public void LoadHexTiles () {
-
 		hexGrid.SetSize (12,12);
+	}
 
+	public void LoadResources () {
+		int corpseAmount = PlayerPrefs.GetInt ("Corpses");
+		resources.SetCorpses (corpseAmount);
 	}
 
 	public void LoadEntities () {

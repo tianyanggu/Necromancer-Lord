@@ -82,11 +82,6 @@ public class HexGrid : MonoBehaviour {
 		cell.building = newBuilding;
 	}
 
-	public void CorpsesCellIndex (int index, int newCorpses) {
-		HexCell cell = cells[index];
-		cell.corpses = newCorpses;
-	}
-
 	// ------------GET--------------------------
 	public Color GetCellColor (Vector3 position) {
 		position = transform.InverseTransformPoint(position);
@@ -150,12 +145,6 @@ public class HexGrid : MonoBehaviour {
 		return currBuilding;
 	}
 
-	public int GetCorpses (int index) {
-		HexCell cell = cells[index];
-		int currCorpses = cell.corpses;
-		return currCorpses;
-	}
-
 	//-----------CREATE-----------------------------
 	void CreateCell (int x, int z, int i) {
 		Vector3 position;
@@ -172,7 +161,6 @@ public class HexGrid : MonoBehaviour {
 		cell.terrain = "Empty";
 		cell.building = "Empty";
 		cell.entity = "Empty";
-		cell.corpses = 0;
 
 		Text label = Instantiate<Text>(cellLabelPrefab);
 		label.rectTransform.SetParent(gridCanvas.transform, false);

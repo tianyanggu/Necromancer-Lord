@@ -63,6 +63,19 @@ public class EntityStorage : MonoBehaviour {
 		return "unknown";
 	}
 
+	//returns summon corpse cost
+	public int summonCorpseCost(string entity) {
+		//------Determine Cost------
+		if (entity == "Zombie") {
+			return 100;
+		} else if (entity == "Skeleton") {
+			return 150;
+		} else if (entity == "Necromancer") {
+			return 10000;
+		}
+		return 0;
+	}
+
 	public void AddActivePlayerEntity (string entityName) {
 		activePlayerEntities.Add (entityName);
 	} 

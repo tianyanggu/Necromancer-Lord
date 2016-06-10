@@ -30,6 +30,7 @@ public class HexMapEditor : MonoBehaviour {
 
 	public int turn;
 
+	private bool summonclickededitor;
 	private bool summonclicked;
 
 
@@ -41,6 +42,7 @@ public class HexMapEditor : MonoBehaviour {
 		loadMap.LoadTerrain ();
 		loadMap.LoadBuildings ();
 		loadMap.LoadEntities ();
+		loadMap.LoadResources ();
 //		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
 //		int test0 = test [0];
 //		int test1 = test [1];
@@ -99,9 +101,7 @@ public class HexMapEditor : MonoBehaviour {
 		//x position, y position, width, length
 		GUI.Box(new Rect(10,120,140,150), "Menu");
 
-		int availablecorpses = hexGrid.GetCorpses (currindex);
-
-		//drop down menu after summon for various entities
+		//drop down menu after summon for various entities, non-editor with validation for corpses
 		string currEntity = hexGrid.GetEntity(currindex);
 		if (currEntity == "Empty") {
 			if (GUI.Button (new Rect (20, 150, 120, 20), "Summon")) {
@@ -109,6 +109,27 @@ public class HexMapEditor : MonoBehaviour {
 			}
 		}
 		if (summonclicked) {
+			int i = 0;
+			foreach (string entity in entityStorage.playerEntities) {
+				int spacing = i * 20;
+				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
+					bool validsummon = summon.ValidSummon (entity);
+					if (validsummon) {
+						summon.SummonEntity (currindex, entity);
+					}
+					summonclicked = false;
+				}
+				i++;
+			}
+		}
+
+		//drop down menu after summon for various entities
+		if (currEntity == "Empty") {
+			if (GUI.Button (new Rect (20, 180, 120, 20), "Summon")) {
+				summonclickededitor = true;
+			}
+		}
+		if (summonclickededitor) {
 			int i = 0;
 			foreach (string entity in entityStorage.playerEntities) {
 				int spacing = i * 20;

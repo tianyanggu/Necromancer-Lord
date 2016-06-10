@@ -11,6 +11,4 @@ public class HexCell : MonoBehaviour {
 	public string building;
 
 	public string entity;
-
-	public int corpses;
 }
