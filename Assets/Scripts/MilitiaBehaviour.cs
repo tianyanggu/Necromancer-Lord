@@ -9,8 +9,10 @@ public class MilitiaBehaviour : MonoBehaviour {
 	public int attackpoint = 1;
 	public int movementpoint = 1;
 	public int range = 1;
+	public int armor = 10;
+	public int armorpiercing = 5;
 
-	public int lasthealth;
+	public int lasthealth = 200;
 	public int currattackpoint;
 	public int currmovementpoint;
 
