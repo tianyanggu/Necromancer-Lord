@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 public class LoadMap : MonoBehaviour {
 	public HexGrid hexGrid;
 	public Text healthLabel;
-	public EntityStorage entityStorage;
 	public Resources resources;
 	Canvas gridCanvas;
 
@@ -73,56 +72,44 @@ public class LoadMap : MonoBehaviour {
 		int zcurrhealth = playerZombie.GetComponent<ZombieBehaviour> ().health;
 		CreateHealthLabel (18, zcurrhealth, "Zombie1");
 
-		Vector3 build1 = hexGrid.GetCellPos(15);
-		build1.y = 0.1f;
-		GameObject eVillage = (GameObject)Instantiate (Village, build1, Quaternion.Euler(90,0,0));
-		eVillage.name = "Village1";
-		hexGrid.BuildingCellIndex (15, "Village1");
-
-		Vector3 build2 = hexGrid.GetCellPos(14);
-		build2.y = 0.1f;
-		GameObject pNecropolis = (GameObject)Instantiate (Necropolis, build2, Quaternion.Euler(90,0,0));
-		pNecropolis.name = "Necropolis1";
-		hexGrid.BuildingCellIndex (14, "Necropolis1");
-
 		for (int i = 0; i < hexGrid.size; i++) {
-			string allEntity = PlayerPrefs.GetString ("HexEntity" + i);
+			string allEntities = PlayerPrefs.GetString ("HexEntity" + i);
 			int allHealth = PlayerPrefs.GetInt ("HexEntityHealth" + i);
-			string cleanEntity = Regex.Replace(allEntity, @"[\d-]", string.Empty);
+			string cleanEntity = Regex.Replace(allEntities, @"[\d-]", string.Empty);
 			int allIndex = PlayerPrefs.GetInt ("HexEntityIndex" + i);
 
 			if (cleanEntity == "Necromancer") {
 				Vector3 spawn = hexGrid.GetCellPos(allIndex);
 				spawn.y = 0.2f;
 				GameObject pNecromancer = (GameObject)Instantiate (Necromancer, spawn, Quaternion.identity);
-				pNecromancer.name = allEntity;
-				hexGrid.EntityCellIndex (allIndex, allEntity);
+				pNecromancer.name = allEntities;
+				hexGrid.EntityCellIndex (allIndex, allEntities);
 				pNecromancer.GetComponent<NecromancerBehaviour> ().lasthealth = allHealth;
-				CreateHealthLabel (allIndex, allHealth, allEntity);
+				CreateHealthLabel (allIndex, allHealth, allEntities);
 			} else if (cleanEntity == "Zombie") {
 				Vector3 spawn = hexGrid.GetCellPos(allIndex);
 				spawn.y = 0.2f;
 				GameObject pZombie = (GameObject)Instantiate (Zombie, spawn, Quaternion.identity);
-				pZombie.name = allEntity;
-				hexGrid.EntityCellIndex (allIndex, allEntity);
+				pZombie.name = allEntities;
+				hexGrid.EntityCellIndex (allIndex, allEntities);
 				pZombie.GetComponent<ZombieBehaviour> ().lasthealth = allHealth;
-				CreateHealthLabel (allIndex, allHealth, allEntity);
+				CreateHealthLabel (allIndex, allHealth, allEntities);
 			} else if (cleanEntity == "Skeleton") {
 				Vector3 spawn = hexGrid.GetCellPos(allIndex);
 				spawn.y = 0.2f;
 				GameObject pSkeleton = (GameObject)Instantiate (Skeleton, spawn, Quaternion.identity);
-				pSkeleton.name = allEntity;
-				hexGrid.EntityCellIndex (allIndex, allEntity);
+				pSkeleton.name = allEntities;
+				hexGrid.EntityCellIndex (allIndex, allEntities);
 				pSkeleton.GetComponent<SkeletonBehaviour> ().lasthealth = allHealth;
-				CreateHealthLabel (allIndex, allHealth, allEntity);
+				CreateHealthLabel (allIndex, allHealth, allEntities);
 			} else if (cleanEntity == "Militia") {
 				Vector3 spawn = hexGrid.GetCellPos(allIndex);
 				spawn.y = 0.2f;
-				GameObject pMilitia = (GameObject)Instantiate (Militia, spawn, Quaternion.identity);
-				pMilitia.name = allEntity;
-				hexGrid.EntityCellIndex (allIndex, allEntity);
-				pMilitia.GetComponent<MilitiaBehaviour> ().lasthealth = allHealth;
-				CreateHealthLabel (allIndex, allHealth, allEntity);
+				GameObject eMilitia = (GameObject)Instantiate (Militia, spawn, Quaternion.identity);
+				eMilitia.name = allEntities;
+				hexGrid.EntityCellIndex (allIndex, allEntities);
+				eMilitia.GetComponent<MilitiaBehaviour> ().lasthealth = allHealth;
+				CreateHealthLabel (allIndex, allHealth, allEntities);
 			}
 		}
 	}
@@ -155,16 +142,40 @@ public class LoadMap : MonoBehaviour {
 	}
 
 	public void LoadBuildings () {
+		gridCanvas = GetComponentInChildren<Canvas>();
+
+		Vector3 build1 = hexGrid.GetCellPos(15);
+		build1.y = 0.1f;
+		GameObject eVillagem = (GameObject)Instantiate (Village, build1, Quaternion.Euler(90,0,0));
+		eVillagem.name = "Village1";
+		hexGrid.BuildingCellIndex (15, "Village1");
+
+		Vector3 build2 = hexGrid.GetCellPos(14);
+		build2.y = 0.1f;
+		GameObject pNecropolisn = (GameObject)Instantiate (Necropolis, build2, Quaternion.Euler(90,0,0));
+		pNecropolisn.name = "Necropolis1";
+		hexGrid.BuildingCellIndex (14, "Necropolis1");
 
 		for (int i = 0; i < hexGrid.size; i++) {
-			string allBuildings = PlayerPrefs.GetString ("Hex" + i);
+			string allBuildings = PlayerPrefs.GetString ("HexBuilding" + i);
+			int allHealth = PlayerPrefs.GetInt ("HexBuildingHealth" + i);
+			string cleanBuilding = Regex.Replace(allBuildings, @"[\d-]", string.Empty);
+			int allIndex = PlayerPrefs.GetInt ("HexBuildingIndex" + i);
 
-			if (allBuildings == "Village") {
-				hexGrid.ColorCellIndex (i, Color.yellow);
-				hexGrid.BuildingCellIndex (i, "Village");
-			} else if (allBuildings == "Necropolis") {
-				hexGrid.ColorCellIndex (i, Color.black);
-				hexGrid.BuildingCellIndex (i, "Necropolis");
+			if (cleanBuilding == "Village") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				spawn.y = 0.1f;
+				GameObject eVillage = (GameObject)Instantiate (Village, spawn, Quaternion.Euler(90,0,0));
+				eVillage.name = allBuildings;
+				hexGrid.BuildingCellIndex (allIndex, allBuildings);
+				eVillage.GetComponent<VillageMechanics> ().lasthealth = allHealth;
+			} else if (cleanBuilding == "Necropolis") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				spawn.y = 0.1f;
+				GameObject pNecropolis = (GameObject)Instantiate (Necropolis, spawn, Quaternion.Euler(90,0,0));
+				pNecropolis.name = allBuildings;
+				hexGrid.BuildingCellIndex (allIndex, allBuildings);
+				pNecropolis.GetComponent<NecropolisMechanics> ().lasthealth = allHealth;
 			}
 		}
 	}

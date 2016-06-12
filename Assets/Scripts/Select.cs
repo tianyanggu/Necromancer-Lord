@@ -14,33 +14,22 @@ public class Select : MonoBehaviour {
 			if (hit.collider.tag == "HexMesh") {
 				currindex = hexGrid.GetCellIndex (hit.point);
 
-				if (activeColor == colors [0]) {
-					PlayerPrefs.SetString ("Hex" + currindex, "Village");
-					hexGrid.TerrainCellIndex(currindex, "Village");
-					hexGrid.ColorCell (hit.point, activeColor);
-				}
 					//else if (activeColor == Color.green) {
-					else if (activeColor == colors [1]) {
+				if (activeColor == colors [0]) {
 					PlayerPrefs.SetString ("Hex" + currindex, "Grass");
 					hexGrid.TerrainCellIndex(currindex, "Grass");
 					hexGrid.ColorCell (hit.point, activeColor);
 				}
 					//else if (activeColor == Color.blue) {
-					else if (activeColor == colors [2]) {
+					else if (activeColor == colors [1]) {
 					PlayerPrefs.SetString ("Hex" + currindex, "Water");
 					hexGrid.TerrainCellIndex(currindex, "Water");
 					hexGrid.ColorCell (hit.point, activeColor);
 				}
 					//else if (activeColor == Color.white) {
-					else if (activeColor == colors [3]) {
+					else if (activeColor == colors [2]) {
 					PlayerPrefs.SetString ("Hex" + currindex, "Mountain");
 					hexGrid.TerrainCellIndex(currindex, "Mountain");
-					hexGrid.ColorCell (hit.point, activeColor);
-				}
-					//else if (activeColor == Color.black) {
-					else if (activeColor == colors [4]) {
-					PlayerPrefs.SetString ("Hex" + currindex, "Necropolis");
-					hexGrid.TerrainCellIndex(currindex, "Necropolis");
 					hexGrid.ColorCell (hit.point, activeColor);
 				}
 			}

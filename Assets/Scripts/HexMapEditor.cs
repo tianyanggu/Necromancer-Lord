@@ -16,6 +16,7 @@ public class HexMapEditor : MonoBehaviour {
 	public LoadMap loadMap;
 	public Battle battle;
 	public Summon summon;
+	public Build build;
 	public Locate locate;
 	public EntityStorage entityStorage;
 	public BuildingStorage buildingStorage;
@@ -166,10 +167,10 @@ public class HexMapEditor : MonoBehaviour {
 			foreach (string building in buildingStorage.playerBuildings) {
 				int spacing = i * 20;
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Building " + building)) {
-					//bool validbuilding = build.ValidBuilding (building);
-					//if (validbuilding) {
-						//build.ValidBuilding (currindex, building);
-					//}
+					bool validbuilding = build.ValidBuilding (building);
+					if (validbuilding) {
+						build.BuildBuilding (currindex, building);
+					}
 					buildingclicked = false;
 				}
 				i++;

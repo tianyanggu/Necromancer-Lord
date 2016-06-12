@@ -61,24 +61,24 @@ public class BuildingStorage : MonoBehaviour {
 	public int buildingCorpseCost(string entity) {
 		//------Determine Cost------
 		if (entity == "Necropolis") {
-			return 500;
+			return 200;
 		}
 		return 0;
 	}
 
-	public void AddActivePlayerEntity (string entityName) {
+	public void AddActivePlayerBuilding (string entityName) {
 		activePlayerBuildings.Add (entityName);
 	} 
 
-	public void RemoveActivePlayerEntity (string entityName) {
+	public void RemoveActivePlayerBuilding (string entityName) {
 		activePlayerBuildings.Remove (entityName);
 	} 
 
-	public void AddActiveEnemyEntity (string entityName) {
+	public void AddActiveEnemyBuilding (string entityName) {
 		activeEnemyBuildings.Add (entityName);
 	} 
 
-	public void RemoveActiveEnemyEntity (string entityName) {
+	public void RemoveActiveEnemyBuilding (string entityName) {
 		activeEnemyBuildings.Remove (entityName);
 	} 
 }

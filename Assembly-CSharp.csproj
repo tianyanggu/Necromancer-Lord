@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\AIBehaviour.cs" />
      <Compile Include="Assets\Scripts\Battle.cs" />
+     <Compile Include="Assets\Scripts\Build.cs" />
      <Compile Include="Assets\Scripts\BuildingStorage.cs" />
      <Compile Include="Assets\Scripts\Corpses.cs" />
      <Compile Include="Assets\Scripts\DragCamera.cs" />
