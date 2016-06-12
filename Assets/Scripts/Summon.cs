@@ -16,6 +16,7 @@ public class Summon : MonoBehaviour {
 	//given an index and the type of summon, summons that entity with the next available name
 	public void SummonEntity (int cellindex, string summonname) {
 		Vector3 summonindex = hexGrid.GetCellPos(cellindex);
+		summonindex.y = 0.2f;
 		string faction = entityStorage.whichFaction (summonname);
 		string availableNum = AvailableName (summonname, faction);
 		string availableName = summonname + availableNum;

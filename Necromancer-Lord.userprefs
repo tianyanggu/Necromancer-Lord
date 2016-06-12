@@ -1,15 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ZombieBehaviour.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LoadMap.cs">
     <Files>
-      <File FileName="Assets\Scripts\HexMapEditor.cs" Line="79" Column="40" />
+      <File FileName="Assets\Scripts\HexMapEditor.cs" Line="177" Column="4" />
+      <File FileName="Assets\Scripts\Summon.cs" Line="18" Column="38" />
+      <File FileName="Assets\Scripts\LoadMap.cs" Line="163" Column="5" />
+      <File FileName="Assets\Scripts\BuildingStorage.cs" Line="64" Column="14" />
       <File FileName="Assets\Scripts\Resources.cs" Line="18" Column="21" />
-      <File FileName="Assets\Scripts\LoadMap.cs" Line="33" Column="1" />
-      <File FileName="Assets\Scripts\Battle.cs" Line="143" Column="68" />
-      <File FileName="Assets\Scripts\ZombieBehaviour.cs" Line="15" Column="29" />
-      <File FileName="Assets\Scripts\SkeletonBehaviour.cs" Line="12" Column="23" />
-      <File FileName="Assets\Scripts\NecromancerBehaviour.cs" Line="14" Column="31" />
-      <File FileName="Assets\Scripts\MilitiaBehaviour.cs" Line="15" Column="29" />
+      <File FileName="Assets\Scripts\Battle.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SkeletonBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\NecromancerBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MilitiaBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Select.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EntityStorage.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\HexGrid.cs" Line="80" Column="31" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -37,6 +37,12 @@ public class Select : MonoBehaviour {
 					hexGrid.TerrainCellIndex(currindex, "Mountain");
 					hexGrid.ColorCell (hit.point, activeColor);
 				}
+					//else if (activeColor == Color.black) {
+					else if (activeColor == colors [4]) {
+					PlayerPrefs.SetString ("Hex" + currindex, "Necropolis");
+					hexGrid.TerrainCellIndex(currindex, "Necropolis");
+					hexGrid.ColorCell (hit.point, activeColor);
+				}
 			}
 			//hexGrid.ColorCell(hit.point, activeColor);
 		}

@@ -18,6 +18,7 @@ public class HexMapEditor : MonoBehaviour {
 	public Summon summon;
 	public Locate locate;
 	public EntityStorage entityStorage;
+	public BuildingStorage buildingStorage;
 	public AIBehaviour aiBehaviour;
 
 	public int currindex;
@@ -32,6 +33,7 @@ public class HexMapEditor : MonoBehaviour {
 
 	private bool summonclickededitor;
 	private bool summonclicked;
+	private bool buildingclicked;
 
 
 	void Awake () {
@@ -122,7 +124,6 @@ public class HexMapEditor : MonoBehaviour {
 				i++;
 			}
 		}
-
 		//drop down menu after summon for various entities
 		if (currEntity == "Empty") {
 			if (GUI.Button (new Rect (20, 180, 120, 20), "Summon")) {
@@ -153,8 +154,30 @@ public class HexMapEditor : MonoBehaviour {
 			}
 		}
 
+		//drop down menu after summon for various buildings
+		string currBuilding = hexGrid.GetBuilding(currindex);
+		if (currBuilding == "Empty") {
+			if (GUI.Button (new Rect (20, 210, 120, 20), "Building")) {
+				buildingclicked = true;
+			}
+		}
+		if (buildingclicked) {
+			int i = 0;
+			foreach (string building in buildingStorage.playerBuildings) {
+				int spacing = i * 20;
+				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Building " + building)) {
+					//bool validbuilding = build.ValidBuilding (building);
+					//if (validbuilding) {
+						//build.ValidBuilding (currindex, building);
+					//}
+					buildingclicked = false;
+				}
+				i++;
+			}
+		}
+
 		//toggles editor mode
-		if(GUI.Button(new Rect(20,220,120,20), "Toggle Map Edit")) {
+		if(GUI.Button(new Rect(20,240,120,20), "Toggle Map Edit")) {
 			if (editmode == false) {
 				editmode = true;
 			} else {
