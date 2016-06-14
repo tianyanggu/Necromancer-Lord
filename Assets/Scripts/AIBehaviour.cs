@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 public class AIBehaviour : MonoBehaviour {
 
@@ -10,21 +11,46 @@ public class AIBehaviour : MonoBehaviour {
 	public HexGrid hexGrid;
 	public EntityStorage entityStorage;
 
+	private List<int> aiMovementIndexes = new List<int> ();
+
 	private List<string> nearbyPlayerEntities = new List<string> ();
 	private List<int> nearbyPlayerEntitiesIndex = new List<int> ();
 	private List<int> nearbyPlayerEntitiesDistance = new List<int> ();
 	private List<int> nearbyPlayerEntitiesHealth = new List<int> ();
 
-	private int attackermovepoint = 0;
-	private int attackercurrattpoint = 0;
-	private int attackercurrmovepoint = 0;
+	private int aimovepoint = 0;
+	private int aicurrattpoint = 0;
+	private int aicurrmovepoint = 0;
+
+	//testing remove after
+	void Start () {
+		List<string> scannedentities = ScanEntities (15);
+		//string decideattentity = DecideAttack (15, nearbyPlayerEntities, nearbyPlayerEntitiesIndex, nearbyPlayerEntitiesDistance, nearbyPlayerEntitiesHealth);
+
+		//List<string> test = ScanEntities (15);
+		//		string test0 = test [0];
+		//		int test1 = test [1];
+		//		int test2 = test [2];
+		//		int test3 = test [3];
+		//		int test4 = test [4];
+		//		int test5 = test [5];
+		//		//int test6 = test [6];
+		//		Debug.Log (test0);
+		//		Debug.Log (test1);
+		//		Debug.Log (test2);
+		//		Debug.Log (test3);
+		//		Debug.Log (test4);
+		//		Debug.Log (test5);
+		//		//Debug.Log (test6);
+	}
 
 	//eindex is the current enemy entity that scans for player entities within movement range of it
 	public List<string> ScanEntities (int eindex) {
 		string eEntity = hexGrid.GetEntity(eindex);
-		GetAttackerInfo (eEntity);
+		GetAIInfo (eEntity);
 
-		ScanEntitiesHelper (eindex, attackermovepoint, 0);
+		aiMovementIndexes = movement.GetCellIndexesBlockers (eindex, aicurrmovepoint);
+		ScanEntitiesHelper (eindex, aicurrmovepoint, 0);
 		List<string> scan = nearbyPlayerEntities;
 
 		return scan;
@@ -75,16 +101,43 @@ public class AIBehaviour : MonoBehaviour {
 	}
 
 	// given list of player entities, decide if attack and which
-	public void DecideAttack (int eindex, List<int> plist, List<int> pindex, List<int> pdist, List<int> phealth) {
+	public string DecideAttack (int eindex, List<string> plist, List<int> pindex, List<int> pdist, List<int> phealth) {
 		string eEntity = hexGrid.GetEntity(eindex);
+		//list of the index of each list to get the corresponding plist, pindex, pdist, and phealth values
+		List<int> canBeAttListPos = new List<int>();
 		foreach (int index in pindex) {
 			//if can attack enemy
-			availableAttackIndexes (index);
+			List<int> attIndexesList = availableAttackIndexes (index);
+			foreach (int attIndex in attIndexesList) {
+				if (aiMovementIndexes.Contains (attIndex)) {
+					int posIndex = aiMovementIndexes.IndexOf(attIndex);
+					canBeAttListPos.Add (posIndex);
+				}
+			}
 		}
 
-		//TODO DecideAttack
+		//add entities that can be attacked into new list
+		List<string> plistAtt = new List<string>();
+		List<int> pindexAtt = new List<int>();
+		List<int> pdistAtt = new List<int>();
+		List<int> phealthAtt = new List<int>();
+		foreach (int posIndex in canBeAttListPos) {
+			plistAtt.Add(plist[posIndex]);
+			pindexAtt.Add(pindex[posIndex]);
+			pdistAtt.Add(pdist[posIndex]);
+			phealthAtt.Add(phealth[posIndex]);
+		}
+
+		//attack lowest health unit that can be attacked
+		int posLowest = phealthAtt.IndexOf(phealthAtt.Min());
+		string healthLowest = plistAtt [posLowest];
+
+		return healthLowest;
+
+		//TODO DecideAttack kill most valuable player unit if possible
 	}
 
+	//avaliable tiles that pindex entity can be attacked from
 	public List<int> availableAttackIndexes (int pindex) {
 		List <int> availableIndex = new List<int> ();
 		HexCoordinates coord = hexGrid.GetCellCoord (pindex);
@@ -109,15 +162,15 @@ public class AIBehaviour : MonoBehaviour {
 		return availableIndex;
 	}
 
-	void GetAttackerInfo(string eEntity) {
-		GameObject attacker = GameObject.Find (eEntity);
+	void GetAIInfo(string eEntity) {
+		GameObject atentity = GameObject.Find (eEntity);
 		string cleaneEntity = Regex.Replace(eEntity, @"[\d-]", string.Empty);
 
 		//------Grab Info Attacker------
 		if (cleaneEntity == "Militia") {
-			attackercurrattpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint;
-			attackermovepoint = attacker.GetComponent<MilitiaBehaviour> ().movementpoint;
-			attackercurrmovepoint = attacker.GetComponent<MilitiaBehaviour> ().currmovementpoint;
+			aicurrattpoint = atentity.GetComponent<MilitiaBehaviour> ().currattackpoint;
+			aimovepoint = atentity.GetComponent<MilitiaBehaviour> ().movementpoint;
+			aicurrmovepoint = atentity.GetComponent<MilitiaBehaviour> ().currmovementpoint;
 		}
 	}
 
