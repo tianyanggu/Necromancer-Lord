@@ -23,37 +23,36 @@ public class AIBehaviour : MonoBehaviour {
 	private int aicurrmovepoint = 0;
 
 	//testing remove after
-	void Start () {
-		List<string> scannedentities = ScanEntities (15);
-		//string decideattentity = DecideAttack (15, nearbyPlayerEntities, nearbyPlayerEntitiesIndex, nearbyPlayerEntitiesDistance, nearbyPlayerEntitiesHealth);
-
-		//List<string> test = ScanEntities (15);
-		//		string test0 = test [0];
-		//		int test1 = test [1];
-		//		int test2 = test [2];
-		//		int test3 = test [3];
-		//		int test4 = test [4];
-		//		int test5 = test [5];
-		//		//int test6 = test [6];
-		//		Debug.Log (test0);
-		//		Debug.Log (test1);
-		//		Debug.Log (test2);
-		//		Debug.Log (test3);
-		//		Debug.Log (test4);
-		//		Debug.Log (test5);
-		//		//Debug.Log (test6);
-	}
+//	void Start () {
+//		List<string> scannedentities = ScanEntities (15);
+//		string decideattentity = DecideAttack (15, nearbyPlayerEntities, nearbyPlayerEntitiesIndex, nearbyPlayerEntitiesDistance, nearbyPlayerEntitiesHealth);
+//
+//		Debug.Log (decideattentity);
+//	}
 
 	//eindex is the current enemy entity that scans for player entities within movement range of it
 	public List<string> ScanEntities (int eindex) {
+		aiMovementIndexes.Clear ();
+		nearbyPlayerEntities.Clear ();
+		nearbyPlayerEntitiesIndex.Clear ();
+		nearbyPlayerEntitiesDistance.Clear ();
+		nearbyPlayerEntitiesHealth.Clear ();
+
 		string eEntity = hexGrid.GetEntity(eindex);
 		GetAIInfo (eEntity);
 
-		aiMovementIndexes = movement.GetCellIndexesBlockers (eindex, aicurrmovepoint);
-		ScanEntitiesHelper (eindex, aicurrmovepoint, 0);
-		List<string> scan = nearbyPlayerEntities;
+		//aiMovementIndexes = movement.GetCellIndexesBlockers (eindex, aicurrmovepoint);
+		//ScanEntitiesHelper (eindex, aicurrmovepoint, 0);
 
-		return scan;
+		//test
+		aiMovementIndexes = movement.GetCellIndexesBlockers (eindex, 2);
+		ScanEntitiesHelper (eindex, 2, 0);
+
+		if (nearbyPlayerEntities.Any ()) {
+			List<string> scan = nearbyPlayerEntities;
+			return scan;
+		}
+		return new List<string> {"Empty"};
 	}
 
 	public void ScanEntitiesHelper (int index, int maxDistance, int usedDistance) {
@@ -71,20 +70,11 @@ public class AIBehaviour : MonoBehaviour {
 			int[] hexdirections = new int[] { left, right, uleft, uright, lleft, lright };
 
 			foreach (int direction in hexdirections) {
-				string dirEntity = hexGrid.GetEntity (direction);
-				string cleandirEntity = Regex.Replace (dirEntity, @"[\d-]", string.Empty);
-				if (entityStorage.playerEntities.Contains (cleandirEntity)) {
-					nearbyPlayerEntities.Add (dirEntity);
-					nearbyPlayerEntitiesIndex.Add (direction);
-					nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-					int playerEntityHealth = GetPlayerEntityHealth (dirEntity);
-					nearbyPlayerEntitiesHealth.Add (playerEntityHealth);
-				}
-			}
-
-			foreach (int direction in hexdirections) {
+				//ensures no index error from index being out of bounds in hexgrid
 				if (direction >= 0 && direction < hexGrid.size) {
-					if (hexGrid.GetEntity (direction) == "Empty") {
+					string dirEntity = hexGrid.GetEntity (direction);
+					string cleandirEntity = Regex.Replace (dirEntity, @"[\d-]", string.Empty);
+					if (dirEntity == "Empty") {
 						if (hexGrid.GetTerrain (direction) == "Mountain" && maxDistance > 1) {
 							int newmovementpoints = maxDistance - 2;
 							int newusedmovementpoints = usedDistance + 2;
@@ -93,6 +83,15 @@ public class AIBehaviour : MonoBehaviour {
 							int newmovementpoints = maxDistance - 1;
 							int newusedmovementpoints = usedDistance + 1;
 							ScanEntitiesHelper (direction, newmovementpoints, newusedmovementpoints);
+						}
+					//if index not empty and is from undead faction, get the entity
+					} else if (entityStorage.whichFaction(cleandirEntity) == "undead") {
+						if (entityStorage.playerEntities.Contains (cleandirEntity)) {
+							nearbyPlayerEntities.Add (dirEntity);
+							nearbyPlayerEntitiesIndex.Add (direction);
+							nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
+							int playerEntityHealth = GetPlayerEntityHealth (dirEntity);
+							nearbyPlayerEntitiesHealth.Add (playerEntityHealth);
 						}
 					}
 				}
@@ -109,8 +108,8 @@ public class AIBehaviour : MonoBehaviour {
 			//if can attack enemy
 			List<int> attIndexesList = availableAttackIndexes (index);
 			foreach (int attIndex in attIndexesList) {
-				if (aiMovementIndexes.Contains (attIndex)) {
-					int posIndex = aiMovementIndexes.IndexOf(attIndex);
+				if (aiMovementIndexes.Contains (attIndex)) {					
+					int posIndex = pindex.IndexOf(index);
 					canBeAttListPos.Add (posIndex);
 				}
 			}
@@ -121,19 +120,25 @@ public class AIBehaviour : MonoBehaviour {
 		List<int> pindexAtt = new List<int>();
 		List<int> pdistAtt = new List<int>();
 		List<int> phealthAtt = new List<int>();
-		foreach (int posIndex in canBeAttListPos) {
-			plistAtt.Add(plist[posIndex]);
-			pindexAtt.Add(pindex[posIndex]);
-			pdistAtt.Add(pdist[posIndex]);
-			phealthAtt.Add(phealth[posIndex]);
+		if (canBeAttListPos.Any ()) {
+			foreach (int posIndex in canBeAttListPos) {
+				plistAtt.Add (plist [posIndex]);
+				pindexAtt.Add (pindex [posIndex]);
+				pdistAtt.Add (pdist [posIndex]);
+				phealthAtt.Add (phealth [posIndex]);
+			}
 		}
 
 		//attack lowest health unit that can be attacked
-		int posLowest = phealthAtt.IndexOf(phealthAtt.Min());
-		string healthLowest = plistAtt [posLowest];
+		//check if phealth is null
+		if (phealthAtt.Any()) {
+			int posLowest = phealthAtt.IndexOf (phealthAtt.Min ());
+			string healthLowestEntity = plistAtt [posLowest];
+			return healthLowestEntity;
+		}
 
-		return healthLowest;
-
+		return "Empty";
+		//TODO also return the positions to attack from or move the player to attack
 		//TODO DecideAttack kill most valuable player unit if possible
 	}
 
@@ -154,9 +159,11 @@ public class AIBehaviour : MonoBehaviour {
 		int[] hexdirections = new int[] { left, right, uleft, uright, lleft, lright };
 
 		foreach (int direction in hexdirections) {
-			string dirEntity = hexGrid.GetEntity (direction);
-			if (dirEntity == "Empty") {
-				availableIndex.Add (direction);
+			if (direction >= 0 && direction < hexGrid.size) {
+				string dirEntity = hexGrid.GetEntity (direction);
+				if (dirEntity == "Empty") {
+					availableIndex.Add (direction);
+				}
 			}
 		}
 		return availableIndex;

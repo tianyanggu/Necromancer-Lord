@@ -198,7 +198,6 @@ public class HexMapEditor : MonoBehaviour {
 				locate.SetAllAttackPoints();
 
 				//enemy units turn
-				battle.Attack (15, 3);
 			}
 		}
 
