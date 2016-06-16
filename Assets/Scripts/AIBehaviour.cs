@@ -10,6 +10,7 @@ public class AIBehaviour : MonoBehaviour {
 	public Movement movement;
 	public HexGrid hexGrid;
 	public EntityStorage entityStorage;
+	public Battle battle;
 
 	private List<int> aiMovementIndexes = new List<int> ();
 
@@ -22,6 +23,11 @@ public class AIBehaviour : MonoBehaviour {
 	private int aicurrattpoint = 0;
 	private int aicurrmovepoint = 0;
 
+	private List<string> plistAtt = new List<string>();
+	private List<int> pindexAtt = new List<int>();
+	private List<int> pdistAtt = new List<int>();
+	private List<int> phealthAtt = new List<int>();
+
 	//testing remove after
 //	void Start () {
 //		List<string> scannedentities = ScanEntities (15);
@@ -29,6 +35,23 @@ public class AIBehaviour : MonoBehaviour {
 //
 //		Debug.Log (decideattentity);
 //	}
+	public void Actions (int eindex) {
+		ScanEntities (eindex);
+		int decideAttEntity = DecideAttack (eindex, nearbyPlayerEntities, nearbyPlayerEntitiesIndex, nearbyPlayerEntitiesDistance, nearbyPlayerEntitiesHealth);
+
+		//find postions where player entity can be attacked at then attacks it
+		List<int> attackPos = new List<int>();
+		if (decideAttEntity != -1) {
+			List<int> attIndexesList = availableAttackIndexes (decideAttEntity);
+			foreach (int attIndex in attIndexesList) {
+				if (aiMovementIndexes.Contains (attIndex)) {					
+					attackPos.Add (attIndex);
+				}
+			}
+			battle.Attack (eindex, attackPos[0]);
+			battle.Attack (attackPos[0], decideAttEntity);
+		}
+	}
 
 	//eindex is the current enemy entity that scans for player entities within movement range of it
 	public List<string> ScanEntities (int eindex) {
@@ -41,12 +64,8 @@ public class AIBehaviour : MonoBehaviour {
 		string eEntity = hexGrid.GetEntity(eindex);
 		GetAIInfo (eEntity);
 
-		//aiMovementIndexes = movement.GetCellIndexesBlockers (eindex, aicurrmovepoint);
-		//ScanEntitiesHelper (eindex, aicurrmovepoint, 0);
-
-		//test
-		aiMovementIndexes = movement.GetCellIndexesBlockers (eindex, 2);
-		ScanEntitiesHelper (eindex, 2, 0);
+		aiMovementIndexes = movement.GetCellIndexesBlockers (eindex, aicurrmovepoint);
+		ScanEntitiesHelper (eindex, aicurrmovepoint, 0);
 
 		if (nearbyPlayerEntities.Any ()) {
 			List<string> scan = nearbyPlayerEntities;
@@ -100,7 +119,7 @@ public class AIBehaviour : MonoBehaviour {
 	}
 
 	// given list of player entities, decide if attack and which
-	public string DecideAttack (int eindex, List<string> plist, List<int> pindex, List<int> pdist, List<int> phealth) {
+	public int DecideAttack (int eindex, List<string> plist, List<int> pindex, List<int> pdist, List<int> phealth) {
 		string eEntity = hexGrid.GetEntity(eindex);
 		//list of the index of each list to get the corresponding plist, pindex, pdist, and phealth values
 		List<int> canBeAttListPos = new List<int>();
@@ -116,10 +135,6 @@ public class AIBehaviour : MonoBehaviour {
 		}
 
 		//add entities that can be attacked into new list
-		List<string> plistAtt = new List<string>();
-		List<int> pindexAtt = new List<int>();
-		List<int> pdistAtt = new List<int>();
-		List<int> phealthAtt = new List<int>();
 		if (canBeAttListPos.Any ()) {
 			foreach (int posIndex in canBeAttListPos) {
 				plistAtt.Add (plist [posIndex]);
@@ -133,11 +148,13 @@ public class AIBehaviour : MonoBehaviour {
 		//check if phealth is null
 		if (phealthAtt.Any()) {
 			int posLowest = phealthAtt.IndexOf (phealthAtt.Min ());
-			string healthLowestEntity = plistAtt [posLowest];
+			int healthLowestEntity = pindexAtt [posLowest];
+				
 			return healthLowestEntity;
 		}
-
-		return "Empty";
+		
+		//if no entities found
+		return -1;
 		//TODO also return the positions to attack from or move the player to attack
 		//TODO DecideAttack kill most valuable player unit if possible
 	}
