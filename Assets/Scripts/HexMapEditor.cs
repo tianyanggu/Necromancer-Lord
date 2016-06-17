@@ -104,7 +104,7 @@ public class HexMapEditor : MonoBehaviour {
 		//x position, y position, width, length
 		GUI.Box(new Rect(10,120,140,150), "Menu");
 
-		//drop down menu after summon for various entities, non-editor with validation for corpses
+		//drop down menu after summon for various entities, non-editor with validation for souls
 		string currEntity = hexGrid.GetEntity(currindex);
 		if (currEntity == "Empty") {
 			if (GUI.Button (new Rect (20, 150, 120, 20), "Summon")) {
@@ -198,7 +198,7 @@ public class HexMapEditor : MonoBehaviour {
 				locate.SetAllAttackPoints();
 
 				//enemy units turn
-				aiBehaviour.Actions(15);
+				//aiBehaviour.Actions(15);
 			}
 		}
 

@@ -57,8 +57,8 @@ public class BuildingStorage : MonoBehaviour {
 		return "unknown";
 	}
 
-	//returns summon corpse cost
-	public int buildingCorpseCost(string entity) {
+	//returns summon soul cost
+	public int buildingSoulCost(string entity) {
 		//------Determine Cost------
 		if (entity == "Necropolis") {
 			return 200;

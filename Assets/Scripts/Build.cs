@@ -74,7 +74,6 @@ public class Build : MonoBehaviour {
 
 	//grabs health info
 	int GetHealthInfo(string building) {
-		Debug.Log (building);
 		GameObject buildingObj = GameObject.Find (building);
 
 		//------Grab Info Attacker------
@@ -87,10 +86,10 @@ public class Build : MonoBehaviour {
 	}
 
 	public bool ValidBuilding(string building) {
-		int corpses = PlayerPrefs.GetInt ("Corpses");
-		int cost = buildingStorage.buildingCorpseCost (building);
-		if (corpses >= cost) {
-			resources.ChangeCorpses (-cost);
+		int souls = PlayerPrefs.GetInt ("Souls");
+		int cost = buildingStorage.buildingSoulCost (building);
+		if (souls >= cost) {
+			resources.ChangeSouls (-cost);
 			return true;
 		}
 		return false;

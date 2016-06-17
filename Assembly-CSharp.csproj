@@ -49,7 +49,6 @@
      <Compile Include="Assets\Scripts\Battle.cs" />
      <Compile Include="Assets\Scripts\Build.cs" />
      <Compile Include="Assets\Scripts\BuildingStorage.cs" />
-     <Compile Include="Assets\Scripts\Corpses.cs" />
      <Compile Include="Assets\Scripts\DragCamera.cs" />
      <Compile Include="Assets\Scripts\EntityStorage.cs" />
      <Compile Include="Assets\Scripts\HexCell.cs" />
@@ -68,6 +67,7 @@
      <Compile Include="Assets\Scripts\Resources.cs" />
      <Compile Include="Assets\Scripts\Select.cs" />
      <Compile Include="Assets\Scripts\SkeletonBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Souls.cs" />
      <Compile Include="Assets\Scripts\Summon.cs" />
      <Compile Include="Assets\Scripts\VillageMechanics.cs" />
      <Compile Include="Assets\Scripts\ZombieBehaviour.cs" />

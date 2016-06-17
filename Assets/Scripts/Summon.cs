@@ -98,10 +98,10 @@ public class Summon : MonoBehaviour {
 	}
 
 	public bool ValidSummon(string entity) {
-		int corpses = PlayerPrefs.GetInt ("Corpses");
-		int cost = entityStorage.summonCorpseCost (entity);
-		if (corpses >= cost) {
-			resources.ChangeCorpses (-cost);
+		int souls = PlayerPrefs.GetInt ("Souls");
+		int cost = entityStorage.summonSoulCost (entity);
+		if (souls >= cost) {
+			resources.ChangeSouls (-cost);
 			return true;
 		}
 		return false;

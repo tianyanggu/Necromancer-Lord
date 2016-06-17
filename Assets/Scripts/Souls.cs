@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Corpses : MonoBehaviour {
+public class Souls : MonoBehaviour {
 
 	public int amount;
 }

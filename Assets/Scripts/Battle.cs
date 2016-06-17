@@ -161,7 +161,7 @@ public class Battle : MonoBehaviour {
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numCurrEntity);
 						PlayerPrefs.DeleteKey ("HexEntityIndex" + numCurrEntity);
 						PlayerPrefs.DeleteKey (selectedEntity);
-						CalcCorpses (selFaction, cleanCurrEntity);
+						CalcSouls (selFaction, cleanCurrEntity);
 					}
 					if (attackerlasthealth <= 0) {
 						Destroy (attacker);
@@ -365,10 +365,10 @@ public class Battle : MonoBehaviour {
 		}
 	}
 
-	void CalcCorpses(string faction, string diedentity) {
+	void CalcSouls(string faction, string diedentity) {
 		if (faction == "undead") {
 			if (diedentity == "Militia") {
-				resources.ChangeCorpses (100);
+				resources.ChangeSouls (100);
 			}
 		}
 	}

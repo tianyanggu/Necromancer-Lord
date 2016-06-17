@@ -63,8 +63,8 @@ public class EntityStorage : MonoBehaviour {
 		return "unknown";
 	}
 
-	//returns summon corpse cost
-	public int summonCorpseCost(string entity) {
+	//returns summon soul cost
+	public int summonSoulCost(string entity) {
 		//------Determine Cost------
 		if (entity == "Zombie") {
 			return 100;

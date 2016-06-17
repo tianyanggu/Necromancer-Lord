@@ -17,7 +17,7 @@ public class LoadMap : MonoBehaviour {
 	public GameObject Village;
 	public GameObject Necropolis;
 
-	public GameObject Corpses;
+	public GameObject Souls;
 
 
 	public void LoadHexTiles () {
@@ -25,8 +25,8 @@ public class LoadMap : MonoBehaviour {
 	}
 
 	public void LoadResources () {
-		int corpseAmount = PlayerPrefs.GetInt ("Corpses");
-		resources.SetCorpses (corpseAmount);
+		int soulAmount = PlayerPrefs.GetInt ("Souls");
+		resources.SetSouls (soulAmount);
 	}
 
 	public void LoadEntities () {

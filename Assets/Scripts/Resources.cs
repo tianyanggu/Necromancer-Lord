@@ -4,30 +4,27 @@ using UnityEngine.UI;
 
 public class Resources : MonoBehaviour {
 
-	public GameObject corpses;
+	public GameObject souls;
 
-	//change amount of corpses
-	public void ChangeCorpses(int change) {
-		corpses = GameObject.Find ("Corpses");
-		//gets amount of corpses
-//		corpses.GetComponent<Corpses> ().amount = corpses.GetComponent<Corpses> ().amount + change;
-//		int corpsesAmount = corpses.GetComponent<Corpses> ().amount;
-		int corpsesAmount = PlayerPrefs.GetInt("Corpses") + change;
+	//change amount of souls
+	public void ChangeSouls(int change) {
+		souls = GameObject.Find ("Souls");
+		int soulsAmount = PlayerPrefs.GetInt("Souls") + change;
 
 		//sets to new amount
-		Text corpsesNum = corpses.GetComponent<Text> ();
-		corpsesNum.text = "Corpses:" + corpsesAmount.ToString ();
+		Text soulsNum = souls.GetComponent<Text> ();
+		soulsNum.text = "Souls:" + soulsAmount.ToString ();
 
 		//saves to playerprefs
-		PlayerPrefs.SetInt ("Corpses", corpsesAmount);
+		PlayerPrefs.SetInt ("Souls", soulsAmount);
 	}
 
-	public void SetCorpses(int amount) {
-		corpses = GameObject.Find ("Corpses");
+	public void SetSouls(int amount) {
+		souls = GameObject.Find ("Souls");
 
-		Text corpsesNum = corpses.GetComponent<Text> ();
-		corpsesNum.text = "Corpses:" + amount.ToString ();
+		Text soulsNum = souls.GetComponent<Text> ();
+		soulsNum.text = "Souls:" + amount.ToString ();
 
-		PlayerPrefs.SetInt ("Corpses", amount);
+		PlayerPrefs.SetInt ("Souls", amount);
 	}
 }
