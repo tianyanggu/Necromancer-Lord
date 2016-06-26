@@ -47,6 +47,7 @@ public class HexMapEditor : MonoBehaviour {
 		loadMap.LoadEntities ();
 		loadMap.LoadResources ();
 		loadMap.LoadCorpses ();
+		loadMap.LoadRandom (12);
 //		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
 //		int test0 = test [0];
 //		int test1 = test [1];

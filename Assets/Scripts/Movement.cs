@@ -172,7 +172,10 @@ public class Movement : MonoBehaviour {
 
 		GetMovementPointsUsedHelper (selindex, currindex, movementpoints, 0);
 
-		int minmovepoints = possminmovepoints.Min ();
+		int minmovepoints = 100;
+		if (possminmovepoints.Any ()) {
+			minmovepoints = possminmovepoints.Min ();
+		}
 
 		return minmovepoints;
 	}

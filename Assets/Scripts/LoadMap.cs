@@ -8,6 +8,7 @@ public class LoadMap : MonoBehaviour {
 	public HexGrid hexGrid;
 	public Text healthLabel;
 	public Resources resources;
+	public Build build;
 	Canvas gridCanvas;
 
 	public GameObject Necromancer;
@@ -189,6 +190,33 @@ public class LoadMap : MonoBehaviour {
 				if (cleanCorpse == "Militia") {
 					hexGrid.SetCorpses (i, allCorpses);
 				}
+			}
+		}
+	}
+
+	public void LoadRandom (int seed) {
+		Random.seed = seed;
+		for (int i = 0; i < hexGrid.size; i++) {
+			//terrain generated via seed
+			float terrainSeedVal = Random.value;
+			if (terrainSeedVal >= 0.25) {
+				hexGrid.SetTerrain (i, "Grass");
+				PlayerPrefs.SetString ("Hex" + i, "Grass");
+			} else if (terrainSeedVal < 0.25 && terrainSeedVal >= 0.10) {
+				hexGrid.SetTerrain (i, "Water");
+				PlayerPrefs.SetString ("Hex" + i, "Water");
+			} else if (terrainSeedVal < 0.10) {
+				hexGrid.SetTerrain (i, "Mountain");
+				PlayerPrefs.SetString ("Hex" + i, "Mountain");
+			}
+
+			//buildings generated via seed
+			float buildingSeedVal = Random.value;
+			if (buildingSeedVal >= 0.15) {
+				//TODO remove when finished implementing storing several maps
+				build.DestroyBuilding(i);
+			} else if (terrainSeedVal < 0.15 && terrainSeedVal >= 0.10) {
+				build.BuildBuilding (i, "Village");
 			}
 		}
 	}
