@@ -36,7 +36,7 @@ public class LoadMap : MonoBehaviour {
 		start.y = 0.2f;
 		GameObject playerNecromancer = (GameObject)Instantiate (Necromancer, start, Quaternion.identity);
 		playerNecromancer.name = "Necromancer1";
-		hexGrid.EntityCellIndex (14, "Necromancer1");
+		hexGrid.SetEntity (14, "Necromancer1");
 		int ncurrhealth = playerNecromancer.GetComponent<NecromancerBehaviour> ().health;
 		CreateHealthLabel (14, ncurrhealth, "Necromancer1");
 
@@ -44,7 +44,7 @@ public class LoadMap : MonoBehaviour {
 		militiastart.y = 0.2f;
 		GameObject militia1 = (GameObject)Instantiate (Militia, militiastart, Quaternion.identity);
 		militia1.name = "Militia1";
-		hexGrid.EntityCellIndex (12, "Militia1");
+		hexGrid.SetEntity (12, "Militia1");
 		int mcurrhealth = militia1.GetComponent<MilitiaBehaviour> ().health;
 		CreateHealthLabel (12, mcurrhealth, "Militia1");
 
@@ -52,7 +52,7 @@ public class LoadMap : MonoBehaviour {
 		militiastart2.y = 0.2f;
 		GameObject militia2 = (GameObject)Instantiate (Militia, militiastart2, Quaternion.identity);
 		militia2.name = "Militia2";
-		hexGrid.EntityCellIndex (15, "Militia2");
+		hexGrid.SetEntity (15, "Militia2");
 		int m2currhealth = militia2.GetComponent<MilitiaBehaviour> ().health;
 		CreateHealthLabel (15, m2currhealth, "Militia2");
 
@@ -60,7 +60,7 @@ public class LoadMap : MonoBehaviour {
 		start2.y = 0.2f;
 		GameObject playerSkeleton = (GameObject)Instantiate (Skeleton, start2, Quaternion.identity);
 		playerSkeleton.name = "Skeleton1";
-		hexGrid.EntityCellIndex (3, "Skeleton1");
+		hexGrid.SetEntity (3, "Skeleton1");
 		int scurrhealth = playerSkeleton.GetComponent<SkeletonBehaviour> ().health;
 		CreateHealthLabel (3, scurrhealth, "Skeleton1");
 
@@ -68,7 +68,7 @@ public class LoadMap : MonoBehaviour {
 		start3.y = 0.2f;
 		GameObject playerZombie = (GameObject)Instantiate (Zombie, start3, Quaternion.identity);
 		playerZombie.name = "Zombie1";
-		hexGrid.EntityCellIndex (18, "Zombie1");
+		hexGrid.SetEntity (18, "Zombie1");
 		int zcurrhealth = playerZombie.GetComponent<ZombieBehaviour> ().health;
 		CreateHealthLabel (18, zcurrhealth, "Zombie1");
 
@@ -83,7 +83,7 @@ public class LoadMap : MonoBehaviour {
 				spawn.y = 0.2f;
 				GameObject pNecromancer = (GameObject)Instantiate (Necromancer, spawn, Quaternion.identity);
 				pNecromancer.name = allEntities;
-				hexGrid.EntityCellIndex (allIndex, allEntities);
+				hexGrid.SetEntity (allIndex, allEntities);
 				pNecromancer.GetComponent<NecromancerBehaviour> ().lasthealth = allHealth;
 				CreateHealthLabel (allIndex, allHealth, allEntities);
 			} else if (cleanEntity == "Zombie") {
@@ -91,7 +91,7 @@ public class LoadMap : MonoBehaviour {
 				spawn.y = 0.2f;
 				GameObject pZombie = (GameObject)Instantiate (Zombie, spawn, Quaternion.identity);
 				pZombie.name = allEntities;
-				hexGrid.EntityCellIndex (allIndex, allEntities);
+				hexGrid.SetEntity (allIndex, allEntities);
 				pZombie.GetComponent<ZombieBehaviour> ().lasthealth = allHealth;
 				CreateHealthLabel (allIndex, allHealth, allEntities);
 			} else if (cleanEntity == "Skeleton") {
@@ -99,7 +99,7 @@ public class LoadMap : MonoBehaviour {
 				spawn.y = 0.2f;
 				GameObject pSkeleton = (GameObject)Instantiate (Skeleton, spawn, Quaternion.identity);
 				pSkeleton.name = allEntities;
-				hexGrid.EntityCellIndex (allIndex, allEntities);
+				hexGrid.SetEntity (allIndex, allEntities);
 				pSkeleton.GetComponent<SkeletonBehaviour> ().lasthealth = allHealth;
 				CreateHealthLabel (allIndex, allHealth, allEntities);
 			} else if (cleanEntity == "Militia") {
@@ -107,7 +107,7 @@ public class LoadMap : MonoBehaviour {
 				spawn.y = 0.2f;
 				GameObject eMilitia = (GameObject)Instantiate (Militia, spawn, Quaternion.identity);
 				eMilitia.name = allEntities;
-				hexGrid.EntityCellIndex (allIndex, allEntities);
+				hexGrid.SetEntity (allIndex, allEntities);
 				eMilitia.GetComponent<MilitiaBehaviour> ().lasthealth = allHealth;
 				CreateHealthLabel (allIndex, allHealth, allEntities);
 			}
@@ -130,13 +130,13 @@ public class LoadMap : MonoBehaviour {
 
 			if (allTerrain == "Grass") {
 				hexGrid.ColorCellIndex (i, Color.green);
-				hexGrid.TerrainCellIndex (i, "Grass");
+				hexGrid.SetTerrain (i, "Grass");
 			} else if (allTerrain == "Water") {
 				hexGrid.ColorCellIndex (i, Color.blue);
-				hexGrid.TerrainCellIndex (i, "Water");
+				hexGrid.SetTerrain (i, "Water");
 			} else if (allTerrain == "Mountain") {
 				hexGrid.ColorCellIndex (i, Color.red);
-				hexGrid.TerrainCellIndex (i, "Mountain");
+				hexGrid.SetTerrain (i, "Mountain");
 			}
 		}
 	}
@@ -148,13 +148,13 @@ public class LoadMap : MonoBehaviour {
 		build1.y = 0.1f;
 		GameObject eVillagem = (GameObject)Instantiate (Village, build1, Quaternion.Euler(90,0,0));
 		eVillagem.name = "Village1";
-		hexGrid.BuildingCellIndex (15, "Village1");
+		hexGrid.SetBuilding (15, "Village1");
 
 		Vector3 build2 = hexGrid.GetCellPos(14);
 		build2.y = 0.1f;
 		GameObject pNecropolisn = (GameObject)Instantiate (Necropolis, build2, Quaternion.Euler(90,0,0));
 		pNecropolisn.name = "Necropolis1";
-		hexGrid.BuildingCellIndex (14, "Necropolis1");
+		hexGrid.SetBuilding (14, "Necropolis1");
 
 		for (int i = 0; i < hexGrid.size; i++) {
 			string allBuildings = PlayerPrefs.GetString ("HexBuilding" + i);
@@ -167,15 +167,28 @@ public class LoadMap : MonoBehaviour {
 				spawn.y = 0.1f;
 				GameObject eVillage = (GameObject)Instantiate (Village, spawn, Quaternion.Euler(90,0,0));
 				eVillage.name = allBuildings;
-				hexGrid.BuildingCellIndex (allIndex, allBuildings);
+				hexGrid.SetBuilding (allIndex, allBuildings);
 				eVillage.GetComponent<VillageMechanics> ().lasthealth = allHealth;
 			} else if (cleanBuilding == "Necropolis") {
 				Vector3 spawn = hexGrid.GetCellPos(allIndex);
 				spawn.y = 0.1f;
 				GameObject pNecropolis = (GameObject)Instantiate (Necropolis, spawn, Quaternion.Euler(90,0,0));
 				pNecropolis.name = allBuildings;
-				hexGrid.BuildingCellIndex (allIndex, allBuildings);
+				hexGrid.SetBuilding (allIndex, allBuildings);
 				pNecropolis.GetComponent<NecropolisMechanics> ().lasthealth = allHealth;
+			}
+		}
+	}
+
+	public void LoadCorpses () {
+		for (int i = 0; i < hexGrid.size; i++) {
+			for (int j = 0; j < 4; j++) {
+				string allCorpses = PlayerPrefs.GetString ("HexCorpses" + i + "corpse" + j);
+				string cleanCorpse = Regex.Replace(allCorpses, @"[\d-]", string.Empty);
+
+				if (cleanCorpse == "Militia") {
+					hexGrid.SetCorpses (i, allCorpses);
+				}
 			}
 		}
 	}

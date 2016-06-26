@@ -83,8 +83,8 @@ public class Battle : MonoBehaviour {
 				GameObject playerHealth = GameObject.Find ("Health " + selectedEntity);
 				selEntity.transform.position = cellcoord;
 				playerHealth.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
-				hexGrid.EntityCellIndex (selectedindex, "Empty");
-				hexGrid.EntityCellIndex (currindex, selectedEntity);
+				hexGrid.SetEntity (selectedindex, "Empty");
+				hexGrid.SetEntity (currindex, selectedEntity);
 
 				PlayerPrefs.SetInt ("HexEntityIndex" + numSelEntity, currindex);
 
@@ -116,7 +116,7 @@ public class Battle : MonoBehaviour {
 			//------Calc Defender New Health-------
 			if (possattacktiles.Contains (currindex)) {
 				if (defenderlasthealth > 0) {
-					//if melee attack or range attack
+					//if melee attack 
 					if (attackerrange == 1) {
 						//armor piercing damage is minimum of armor or piercing damage
 						int attackerpierceddmg = Mathf.Min(defenderarmor, attackerarmorpiercing);
@@ -135,7 +135,7 @@ public class Battle : MonoBehaviour {
 
 						PlayerPrefs.SetInt ("HexEntityHealth" + numCurrEntity, defenderlasthealth);
 						PlayerPrefs.SetInt ("HexEntityHealth" + numSelEntity, attackerlasthealth);
-
+					//range attack
 					} else if (attackerrange >= 2) {
 						//armor piercing damage is minimum of armor or piercing damage
 						int attackerpierceddmg = Mathf.Min(defenderarmor, attackerarmorpiercing);
@@ -152,7 +152,7 @@ public class Battle : MonoBehaviour {
 					//check new status
 					if (defenderlasthealth <= 0) {
 						Destroy (defender);
-						hexGrid.EntityCellIndex (currindex, "Empty");
+						hexGrid.SetEntity (currindex, "Empty");
 						GameObject defenderHealthText = GameObject.Find ("Health " + currEntity);
 						Destroy (defenderHealthText);
 						entityStorage.RemoveActiveEnemyEntity (currEntity);
@@ -160,12 +160,15 @@ public class Battle : MonoBehaviour {
 						PlayerPrefs.DeleteKey ("HexEntity" + numCurrEntity);
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numCurrEntity);
 						PlayerPrefs.DeleteKey ("HexEntityIndex" + numCurrEntity);
-						PlayerPrefs.DeleteKey (selectedEntity);
+						PlayerPrefs.DeleteKey (currEntity);
 						CalcSouls (selFaction, cleanCurrEntity);
+						if (currFaction != "undead") {
+							hexGrid.SetCorpses (currindex, currEntity);
+						}
 					}
 					if (attackerlasthealth <= 0) {
 						Destroy (attacker);
-						hexGrid.EntityCellIndex (selectedindex, "Empty");
+						hexGrid.SetEntity (selectedindex, "Empty");
 						GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntity);
 						Destroy (attackerHealthText);
 						entityStorage.RemoveActivePlayerEntity (selectedEntity);
@@ -173,14 +176,17 @@ public class Battle : MonoBehaviour {
 						PlayerPrefs.DeleteKey ("HexEntity" + numSelEntity);
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numSelEntity);
 						PlayerPrefs.DeleteKey ("HexEntityIndex" + numSelEntity);
-						PlayerPrefs.DeleteKey (currEntity);
+						PlayerPrefs.DeleteKey (selectedEntity);
+						if (selFaction != "undead") {
+							hexGrid.SetCorpses (selectedindex, selectedEntity);
+						}
 					} 
 					if (attackerlasthealth > 0 && defenderlasthealth <= 0) {
 						//move to defender's position if have enough movement points and is not ranged unit
 						int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
 						if (playercurrmovepoint >= minmove && attackerrange == 1) {
 							attacker.transform.position = cellcoord;
-							hexGrid.EntityCellIndex (currindex, selectedEntity);
+							hexGrid.SetEntity (currindex, selectedEntity);
 							GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntity);
 							attackerHealthText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 							NewMovementPoints (selectedEntity, minmove);

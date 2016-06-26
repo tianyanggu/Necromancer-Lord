@@ -46,6 +46,7 @@ public class HexMapEditor : MonoBehaviour {
 		loadMap.LoadBuildings ();
 		loadMap.LoadEntities ();
 		loadMap.LoadResources ();
+		loadMap.LoadCorpses ();
 //		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
 //		int test0 = test [0];
 //		int test1 = test [1];
@@ -167,7 +168,7 @@ public class HexMapEditor : MonoBehaviour {
 			foreach (string building in buildingStorage.playerBuildings) {
 				int spacing = i * 20;
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Building " + building)) {
-					bool validbuilding = build.ValidBuilding (building);
+					bool validbuilding = build.ValidBuilding (building, currindex);
 					if (validbuilding) {
 						build.BuildBuilding (currindex, building);
 					}

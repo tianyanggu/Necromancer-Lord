@@ -42,7 +42,7 @@ public class Summon : MonoBehaviour {
 		PlayerPrefs.SetString (availableName, "HexEntity" + ppName);
 		PlayerPrefs.SetInt ("HexEntityHealth" + ppName, health);
 		PlayerPrefs.SetInt ("HexEntityIndex" + ppName, cellindex);
-		hexGrid.EntityCellIndex (cellindex, availableName);
+		hexGrid.SetEntity (cellindex, availableName);
 		loadMap.CreateHealthLabel (cellindex, health, availableName);
 	}
 

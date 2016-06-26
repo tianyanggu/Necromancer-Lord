@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class HexGrid : MonoBehaviour {
 
@@ -67,19 +68,61 @@ public class HexGrid : MonoBehaviour {
 		hexMesh.Triangulate(cells);
 	}
 
-	public void EntityCellIndex (int index, string newEntity) {
+	public void SetEntity (int index, string newEntity) {
 		HexCell cell = cells[index];
 		cell.entity = newEntity;
 	}
 
-	public void TerrainCellIndex (int index, string newTerrain) {
+	public void SetTerrain (int index, string newTerrain) {
 		HexCell cell = cells[index];
 		cell.terrain = newTerrain;
 	}
 
-	public void BuildingCellIndex (int index, string newBuilding) {
+	public void SetBuilding (int index, string newBuilding) {
 		HexCell cell = cells[index];
 		cell.building = newBuilding;
+	}
+
+	public void SetCorpses (int index, string corpse) {
+		int availCorpseNum = AvailableCorpseNum (index);
+
+		//if corpses not over 5, if over 5 then do not add to pile
+		if (availCorpseNum != 5) {
+			string cleanCorpse = Regex.Replace(corpse, @"[\d-]", string.Empty);
+			HexCell cell = cells [index];
+			cell.corpses.Add (cleanCorpse);
+
+			//set to playerprefs
+			PlayerPrefs.SetString ("HexCorpses" + index + "corpse" + availCorpseNum, cleanCorpse);
+		}
+	}
+
+	public void RemoveCorpses (int index, string corpse) {
+		HexCell cell = cells [index];
+		cell.corpses.Remove (corpse);
+
+		//get index of the corpse to be removed
+		int corpseIndex = 5;
+		for (int i = 0; i < 4; i++) {
+			string allEntity = PlayerPrefs.GetString ("HexCorpses" + index + "corpse" + i);
+			if (allEntity == corpse) {
+				corpseIndex = i;
+			}
+		}
+
+		//set to playerprefs
+		PlayerPrefs.DeleteKey ("HexCorpses" + index + "corpse" + corpseIndex);
+	}
+
+	//Check for next available setstring number for corpses on that tile
+	private int AvailableCorpseNum (int index) {
+		for (int i = 0; i < 4; i++) {
+			string allEntity = PlayerPrefs.GetString ("HexCorpses" + index + "corpse" + i);
+			if (allEntity == "") {
+				return i;
+			}
+		}
+		return 5; //TODO error message if no available spaces, should not be possible to give null
 	}
 
 	// ------------GET--------------------------
@@ -143,6 +186,12 @@ public class HexGrid : MonoBehaviour {
 		HexCell cell = cells[index];
 		string currBuilding = cell.building;
 		return currBuilding;
+	}
+
+	public List<string> GetCorpses (int index) {
+		HexCell cell = cells[index];
+		List<string> currCorpses = cell.corpses;
+		return currCorpses;
 	}
 
 	//-----------CREATE-----------------------------

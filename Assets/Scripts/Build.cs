@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class Build : MonoBehaviour {
 
@@ -7,6 +9,7 @@ public class Build : MonoBehaviour {
 	public LoadMap loadMap;
 	public BuildingStorage buildingStorage;
 	public Resources resources;
+	public EntityStorage entityStorage;
 
 	public GameObject Village;
 	public GameObject Necropolis;
@@ -35,7 +38,7 @@ public class Build : MonoBehaviour {
 		PlayerPrefs.SetString (availableName, "HexBuilding" + ppName);
 		PlayerPrefs.SetInt ("HexBuildingHealth" + ppName, health);
 		PlayerPrefs.SetInt ("HexBuildingIndex" + ppName, cellindex);
-		hexGrid.BuildingCellIndex (cellindex, availableName);
+		hexGrid.SetBuilding (cellindex, availableName);
 	}
 
 	//Check for next available entity number
@@ -85,12 +88,36 @@ public class Build : MonoBehaviour {
 		return 0;
 	}
 
-	public bool ValidBuilding(string building) {
+	//valid if have soul cost and entity/corpse cost
+	public bool ValidBuilding(string building, int index) {
 		int souls = PlayerPrefs.GetInt ("Souls");
 		int cost = buildingStorage.buildingSoulCost (building);
+
+		List<string> corpses = hexGrid.GetCorpses (index);
+		string entity = hexGrid.GetEntity (index);
+		string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
+		string numEntity = Regex.Replace(entity, "[^0-9 -]", string.Empty);
+
+		//checks if fulfilled cost and removes paid cost from game
 		if (souls >= cost) {
-			resources.ChangeSouls (-cost);
-			return true;
+			if (corpses.Contains("Militia")) {
+				resources.ChangeSouls (-cost);
+				hexGrid.RemoveCorpses (index, "Militia");
+				return true;
+			} else if (cleanEntity == "Skeleton" || cleanEntity == "Zombie") {
+				resources.ChangeSouls (-cost);
+				GameObject entityGameObj = GameObject.Find (entity);
+				Destroy (entityGameObj);
+				hexGrid.SetEntity (index, "Empty");
+				GameObject healthText = GameObject.Find ("Health " + entity);
+				Destroy (healthText);
+				entityStorage.RemoveActiveEnemyEntity (entity);
+				PlayerPrefs.DeleteKey ("HexEntity" + numEntity);
+				PlayerPrefs.DeleteKey ("HexEntityHealth" + numEntity);
+				PlayerPrefs.DeleteKey ("HexEntityIndex" + numEntity);
+				PlayerPrefs.DeleteKey (entity);
+				return true;
+			}
 		}
 		return false;
 	}
