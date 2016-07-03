@@ -11,8 +11,9 @@ public class SkeletonBehaviour : MonoBehaviour {
 	public int range = 1;
 	public int armor = 15;
 	public int armorpiercing = 10;
+    public int vision = 2;
 
-	public int lasthealth = 150;
+    public int lasthealth = 150;
 	public int currattackpoint;
 	public int currmovementpoint;
 

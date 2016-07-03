@@ -12,6 +12,7 @@ public class NecromancerBehaviour : MonoBehaviour {
 	public int range = 2;
 	public int armor = 30;
 	public int armorpiercing = 30;
+    public int vision = 4;
 
 	public int lasthealth = 300;
 	public int currattackpoint;

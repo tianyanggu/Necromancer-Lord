@@ -11,6 +11,7 @@ public class MilitiaBehaviour : MonoBehaviour {
 	public int range = 1;
 	public int armor = 10;
 	public int armorpiercing = 5;
+    public int vision = 2;
 
 	public int lasthealth = 200;
 	public int currattackpoint;

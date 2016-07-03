@@ -14,4 +14,6 @@ public class HexCell : MonoBehaviour {
 	public string entity;
 
 	public List<string> corpses = new List<string>();
+
+    public bool fog;
 }

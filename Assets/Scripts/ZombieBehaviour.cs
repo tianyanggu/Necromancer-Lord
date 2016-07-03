@@ -11,8 +11,9 @@ public class ZombieBehaviour : MonoBehaviour {
 	public int range = 1;
 	public int armor = 0;
 	public int armorpiercing = 0;
+    public int vision = 2;
 
-	public int lasthealth = 200;
+    public int lasthealth = 200;
 	public int currattackpoint;
 	public int currmovementpoint;
 
