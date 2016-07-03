@@ -17,7 +17,7 @@ public class Vision : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //AllPlayerVision();
+        AllPlayerVision();
     }
 
     public void AddAllFog()
@@ -27,6 +27,7 @@ public class Vision : MonoBehaviour {
             bool checkFog = hexGrid.GetFog(i);
             if (checkFog == true) {
                 Vector3 pos = hexGrid.GetCellPos(i);
+                pos.y = 2;
                 Fog fog = fogs[i] = Instantiate<Fog>(fogPrefab);
                 fog.transform.localPosition = pos;
             }
@@ -54,8 +55,7 @@ public class Vision : MonoBehaviour {
 
     //removes fog of war from an index given the vision distance
     public void PlayerVisionHelper (int index, int visionDistance) {
-        if (visionDistance > 0)
-        {
+        if (visionDistance > 0) {
             HexCoordinates coord = hexGrid.GetCellCoord(index);
             int coordx = coord.X;
             int coordz = coord.Z;
@@ -68,16 +68,13 @@ public class Vision : MonoBehaviour {
             int lright = hexGrid.GetCellIndexFromCoord(coordx + 1, coordz - 1);
             int[] hexdirections = new int[] { left, right, uleft, uright, lleft, lright };
 
-            foreach (int direction in hexdirections)
-            {
-                if (direction >= 0 && direction < hexGrid.size)
-                {
+            foreach (int direction in hexdirections) {
+                if (direction >= 0 && direction < hexGrid.size) {
                     int newVisionDistance = visionDistance - 1;
                     hexGrid.SetFogOff(direction);
-                    if (hexGrid.GetFog(direction) == true)
-                    {
+                    if (hexGrid.GetFog(direction) == false) {
                         Fog fog = fogs[index];
-                        Destroy(fog);
+                        fog.GetComponent<Renderer>().enabled = false;
                     }
                     PlayerVisionHelper(direction, visionDistance - 1);
                 }
