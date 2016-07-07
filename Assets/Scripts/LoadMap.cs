@@ -15,7 +15,9 @@ public class LoadMap : MonoBehaviour {
 	public GameObject Skeleton;
 	public GameObject Militia;
 	public GameObject Zombie;
-	public GameObject Village;
+    public GameObject SkeletonArcher;
+
+    public GameObject Village;
 	public GameObject Necropolis;
 
 	public GameObject Souls;
@@ -111,8 +113,16 @@ public class LoadMap : MonoBehaviour {
 				hexGrid.SetEntity (allIndex, allEntities);
 				eMilitia.GetComponent<MilitiaBehaviour> ().lasthealth = allHealth;
 				CreateHealthLabel (allIndex, allHealth, allEntities);
-			}
-		}
+            } else if (cleanEntity == "SkeletonArcher") {
+                Vector3 spawn = hexGrid.GetCellPos(allIndex);
+                spawn.y = 0.2f;
+                GameObject eSkeletonArcher = (GameObject)Instantiate(SkeletonArcher, spawn, Quaternion.identity);
+                eSkeletonArcher.name = allEntities;
+                hexGrid.SetEntity(allIndex, allEntities);
+                eSkeletonArcher.GetComponent<SkeletonArcherBehaviour>().lasthealth = allHealth;
+                CreateHealthLabel(allIndex, allHealth, allEntities);
+            }
+        }
 	}
 
 	public void CreateHealthLabel (int index, int health, string entity) {

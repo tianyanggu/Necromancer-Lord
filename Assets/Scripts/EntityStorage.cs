@@ -15,6 +15,7 @@ public class EntityStorage : MonoBehaviour {
 		playerEntities.Add ("Necromancer");
 		playerEntities.Add ("Skeleton");
 		playerEntities.Add ("Zombie");
+        playerEntities.Add ("SkeletonArcher");
 		//enemy entities
 		enemyEntities.Add ("Militia");
 
@@ -57,7 +58,11 @@ public class EntityStorage : MonoBehaviour {
 			return "undead";
 		} else if (entity == "Necromancer") {
 			return "undead";
-		} else if (entity == "Militia") {
+		} else if (entity == "SkeletonArcher") {
+			return "undead";
+		}
+
+        else if (entity == "Militia") {
 			return "human";
 		}
 		return "unknown";
@@ -72,6 +77,8 @@ public class EntityStorage : MonoBehaviour {
 			return 150;
 		} else if (entity == "Necromancer") {
 			return 10000;
+		} else if (entity == "SkeletonArcher") {
+			return 150;
 		}
 		return 0;
 	}

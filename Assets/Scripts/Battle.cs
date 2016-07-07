@@ -104,8 +104,6 @@ public class Battle : MonoBehaviour {
 			}
 			List<int> possattacktiles = null;
 
-			int olddefenderhealth = defenderlasthealth;
-
 			//------Determine Attack Range------
 			if (attackerrange == 1) {
 				possattacktiles = movement.GetCellIndexesOneHexAway (selectedindex);
@@ -220,9 +218,11 @@ public class Battle : MonoBehaviour {
 			playercurrattpoint = attacker.GetComponent<NecromancerBehaviour> ().currattackpoint;
 		} else if (cleanSelEntity == "Militia") {
 			playercurrattpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint;
-		}
-			
-		if (cleanSelEntity == "Necromancer") {
+		} else if (cleanSelEntity == "SkeletonArcher") {
+            playercurrattpoint = attacker.GetComponent<SkeletonArcherBehaviour>().currattackpoint;
+        }
+
+        if (cleanSelEntity == "Necromancer") {
 			attackerdmg = attacker.GetComponent<NecromancerBehaviour> ().attack;
 			//attackerhealth = attacker.GetComponent<NecromancerBehaviour> ().health;
 			attackerlasthealth = attacker.GetComponent<NecromancerBehaviour> ().lasthealth;
@@ -251,8 +251,16 @@ public class Battle : MonoBehaviour {
 			attackerrange = attacker.GetComponent<MilitiaBehaviour> ().range;
 			attackerarmor = attacker.GetComponent<MilitiaBehaviour> ().armor;
 			attackerarmorpiercing = attacker.GetComponent<MilitiaBehaviour> ().armorpiercing;
-		}
-	}
+		} else if (cleanSelEntity == "SkeletonArcher") {
+            attackerdmg = attacker.GetComponent<SkeletonArcherBehaviour>().attack;
+            //attackerhealth = attacker.GetComponent<SkeletonArcherBehaviour> ().health;
+            attackerlasthealth = attacker.GetComponent<SkeletonArcherBehaviour>().lasthealth;
+            attackerrange = attacker.GetComponent<SkeletonArcherBehaviour>().range;
+            attackerrangedmg = attacker.GetComponent<SkeletonArcherBehaviour> ().rangeattack;
+            attackerarmor = attacker.GetComponent<SkeletonArcherBehaviour>().armor;
+            attackerarmorpiercing = attacker.GetComponent<SkeletonArcherBehaviour>().armorpiercing;
+        }
+    }
 
 	void GetDefenderInfo(string currEntity) {
 		GameObject defender = GameObject.Find (currEntity);
@@ -286,6 +294,13 @@ public class Battle : MonoBehaviour {
 			//defenderrange = defender.GetComponent<SkeletonBehaviour> ().range;
 			defenderarmor = defender.GetComponent<SkeletonBehaviour> ().armor;
 			defenderarmorpiercing = defender.GetComponent<SkeletonBehaviour> ().armorpiercing;
+		} else if (cleanCurrEntity == "SkeletonArcher") {
+			defenderdmg = defender.GetComponent<SkeletonArcherBehaviour> ().attack;
+			//defenderhealth = defender.GetComponent<SkeletonArcherBehaviour> ().health;
+			defenderlasthealth = defender.GetComponent<SkeletonArcherBehaviour> ().lasthealth;
+			//defenderrange = defender.GetComponent<SkeletonBehaviour> ().range;
+			defenderarmor = defender.GetComponent<SkeletonArcherBehaviour> ().armor;
+			defenderarmorpiercing = defender.GetComponent<SkeletonArcherBehaviour> ().armorpiercing;
 		}
 	}
 
@@ -313,6 +328,11 @@ public class Battle : MonoBehaviour {
 			Text atthealthtext = GameObject.Find ("Health " + selectedentity).GetComponent<Text> ();
 			atthealthtext.text = attackerlasthealth.ToString ();
 			attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
+		} else if (cleanSelEntity == "SkeletonArcher") {
+			attacker.GetComponent<SkeletonArcherBehaviour> ().lasthealth = attackerlasthealth;
+			Text atthealthtext = GameObject.Find ("Health " + selectedentity).GetComponent<Text> ();
+			atthealthtext.text = attackerlasthealth.ToString ();
+			attacker.GetComponent<SkeletonArcherBehaviour> ().currattackpoint = attacker.GetComponent<SkeletonArcherBehaviour> ().currattackpoint - 1;
 		}
 	}
 
@@ -336,6 +356,10 @@ public class Battle : MonoBehaviour {
 			defender.GetComponent<NecromancerBehaviour> ().lasthealth = defenderlasthealth;
 			Text defhealthtext = GameObject.Find ("Health " + currEntity).GetComponent<Text> ();
 			defhealthtext.text = defenderlasthealth.ToString ();
+		} else if (cleanCurrEntity == "SkeletonArcher") {
+			defender.GetComponent<SkeletonArcherBehaviour> ().lasthealth = defenderlasthealth;
+			Text defhealthtext = GameObject.Find ("Health " + currEntity).GetComponent<Text> ();
+			defhealthtext.text = defenderlasthealth.ToString ();
 		}
 	}
 
@@ -354,6 +378,9 @@ public class Battle : MonoBehaviour {
 		} else if (cleanSelEntity == "Militia") {
 			playermovepoint = playerEntity.GetComponent<MilitiaBehaviour> ().movementpoint;
 			playercurrmovepoint = playerEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint;
+		} else if (cleanSelEntity == "SkeletonArcher") {
+			playermovepoint = playerEntity.GetComponent<SkeletonArcherBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint;
 		}
 	}
 
@@ -368,6 +395,8 @@ public class Battle : MonoBehaviour {
 			playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint = playerEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint - change;
 		} else if (cleanSelEntity == "Militia") {
 			playerEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint = playerEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint - change;
+		} else if (cleanSelEntity == "SkeletonArcher") {
+			playerEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint = playerEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint - change;
 		}
 	}
 

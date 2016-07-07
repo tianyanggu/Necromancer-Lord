@@ -219,6 +219,8 @@ public class AIBehaviour : MonoBehaviour {
 			return pEntityObject.GetComponent<SkeletonBehaviour> ().lasthealth;
 		} else if (cleanpEntity == "Zombie") {
 			return pEntityObject.GetComponent<ZombieBehaviour> ().lasthealth;
+		} else if (cleanpEntity == "SkeletonArcher") {
+			return pEntityObject.GetComponent<SkeletonArcherBehaviour> ().lasthealth;
 		}
 		return 0;
 	}

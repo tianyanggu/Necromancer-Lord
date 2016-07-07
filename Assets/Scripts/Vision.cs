@@ -27,8 +27,9 @@ public class Vision : MonoBehaviour {
             bool checkFog = hexGrid.GetFog(i);
             if (checkFog == true) {
                 Vector3 pos = hexGrid.GetCellPos(i);
-                pos.y = 2;
+                pos.y = 0.1f;
                 Fog fog = fogs[i] = Instantiate<Fog>(fogPrefab);
+                fog.transform.SetParent(transform, false);
                 fog.transform.localPosition = pos;
             }
         }
@@ -46,6 +47,8 @@ public class Vision : MonoBehaviour {
                 visionDistance = playerEntity.GetComponent<SkeletonBehaviour>().vision;
             } else if (cleanpEntity == "Necromancer") {
                 visionDistance = playerEntity.GetComponent<NecromancerBehaviour>().vision;
+            } else if (cleanpEntity == "SkeletonArcher") {
+                visionDistance = playerEntity.GetComponent<SkeletonArcherBehaviour>().vision;
             }
             Vector3 playerEntityPosition = playerEntity.transform.position;
             int index = hexGrid.GetCellIndex(playerEntityPosition);
@@ -70,7 +73,6 @@ public class Vision : MonoBehaviour {
 
             foreach (int direction in hexdirections) {
                 if (direction >= 0 && direction < hexGrid.size) {
-                    int newVisionDistance = visionDistance - 1;
                     hexGrid.SetFogOff(direction);
                     if (hexGrid.GetFog(direction) == false) {
                         Fog fog = fogs[index];

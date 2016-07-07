@@ -12,6 +12,7 @@ public class Summon : MonoBehaviour {
 	public GameObject Skeleton;
 	public GameObject Zombie;
 	public GameObject Militia;
+    public GameObject SkeletonArcher;
 
 	//given an index and the type of summon, summons that entity with the next available name
 	public void SummonEntity (int cellindex, string summonname) {
@@ -33,6 +34,9 @@ public class Summon : MonoBehaviour {
 			playerentity.name = availableName;
 		} else if (summonname == "Militia") {
 			GameObject enemyentity = (GameObject)Instantiate (Militia, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
+		} else if (summonname == "SkeletonArcher") {
+			GameObject enemyentity = (GameObject)Instantiate (SkeletonArcher, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
 		}
 		//stores info of new summon to playerprefs for saving
@@ -93,6 +97,8 @@ public class Summon : MonoBehaviour {
 			return sumentity.GetComponent<NecromancerBehaviour> ().health;
 		} else if (entity == "Militia") {
 			return sumentity.GetComponent<MilitiaBehaviour> ().health;
+		} else if (entity == "SkeletonArcher") {
+			return sumentity.GetComponent<SkeletonArcherBehaviour> ().health;
 		}
 		return 0;
 	}

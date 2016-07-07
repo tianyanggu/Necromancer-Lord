@@ -70,7 +70,7 @@ public class Build : MonoBehaviour {
 
 		//delete from playerprefs
 		string playerprefsName = PlayerPrefs.GetString (buildingName);
-		string playerprefsNum = Regex.Replace(buildingName, "[^0-9 -]", string.Empty);
+		string playerprefsNum = Regex.Replace(playerprefsName, "[^0-9 -]", string.Empty);
 		PlayerPrefs.DeleteKey ("HexBuilding" + playerprefsNum);
 		PlayerPrefs.DeleteKey (buildingName);
 		PlayerPrefs.DeleteKey ("HexBuildingHealth" + playerprefsNum);
@@ -119,7 +119,7 @@ public class Build : MonoBehaviour {
 				resources.ChangeSouls (-cost);
 				hexGrid.RemoveCorpses (index, "Militia");
 				return true;
-			} else if (cleanEntity == "Skeleton" || cleanEntity == "Zombie") {
+			} else if (cleanEntity == "Skeleton" || cleanEntity == "Zombie" || cleanEntity == "SkeletonArcher") {
 				resources.ChangeSouls (-cost);
 				GameObject entityGameObj = GameObject.Find (entity);
 				Destroy (entityGameObj);

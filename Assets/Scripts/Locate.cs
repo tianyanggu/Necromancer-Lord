@@ -25,6 +25,9 @@ public class Locate : MonoBehaviour {
 			} else if (cleanEntity == "Zombie") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<ZombieBehaviour> ().currmovementpoint = gameEntity.GetComponent<ZombieBehaviour> ().movementpoint;
+			} else if (cleanEntity == "SkeletonArcher") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint = gameEntity.GetComponent<SkeletonArcherBehaviour> ().movementpoint;
 			}
 		}
 
@@ -49,6 +52,9 @@ public class Locate : MonoBehaviour {
 			} else if (cleanEntity == "Zombie") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<ZombieBehaviour> ().currattackpoint = gameEntity.GetComponent<ZombieBehaviour> ().attackpoint;
+			} else if (cleanEntity == "SkeletonArcher") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<SkeletonArcherBehaviour> ().currattackpoint = gameEntity.GetComponent<SkeletonArcherBehaviour> ().attackpoint;
 			}
 		}
 
@@ -73,6 +79,9 @@ public class Locate : MonoBehaviour {
 			} else if (cleanEntity == "Zombie") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<ZombieBehaviour> ().idle = true;
+			} else if (cleanEntity == "SkeletonArcher") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<SkeletonArcherBehaviour> ().idle = true;
 			}
 		}
 	}
@@ -89,6 +98,9 @@ public class Locate : MonoBehaviour {
 			} else if (cleanEntity == "Zombie") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<ZombieBehaviour> ().idle = false;
+			} else if (cleanEntity == "SkeletonArcher") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<SkeletonArcherBehaviour> ().idle = false;
 			}
 		}
 	}
@@ -109,6 +121,11 @@ public class Locate : MonoBehaviour {
 			} else if (cleanEntity == "Zombie") {
 				GameObject gameEntity = GameObject.Find (entity);
 				if (gameEntity.GetComponent<ZombieBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
+			} else if (cleanEntity == "SkeletonArcher") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			}
@@ -137,6 +154,13 @@ public class Locate : MonoBehaviour {
 				GameObject gameEntity = GameObject.Find (entity);
 				if (gameEntity.GetComponent<ZombieBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<ZombieBehaviour> ().currattackpoint != 0) {
 					if (gameEntity.GetComponent<ZombieBehaviour> ().idle == false) {
+						return false;
+					}
+				}
+			} else if (cleanEntity == "SkeletonArcher") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<SkeletonArcherBehaviour> ().currattackpoint != 0) {
+					if (gameEntity.GetComponent<SkeletonArcherBehaviour> ().idle == false) {
 						return false;
 					}
 				}
