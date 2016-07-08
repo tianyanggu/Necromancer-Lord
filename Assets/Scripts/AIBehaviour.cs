@@ -212,7 +212,6 @@ public class AIBehaviour : MonoBehaviour {
 		GameObject pEntityObject = GameObject.Find (pEntity);
 		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
 
-		//------Grab Info Defender------
 		if (cleanpEntity == "Necromancer") {
 			return pEntityObject.GetComponent<NecromancerBehaviour> ().lasthealth;
 		} else if (cleanpEntity == "Skeleton") {
@@ -221,6 +220,10 @@ public class AIBehaviour : MonoBehaviour {
 			return pEntityObject.GetComponent<ZombieBehaviour> ().lasthealth;
 		} else if (cleanpEntity == "SkeletonArcher") {
 			return pEntityObject.GetComponent<SkeletonArcherBehaviour> ().lasthealth;
+		} else if (cleanpEntity == "ArmoredSkeleton") {
+			return pEntityObject.GetComponent<ArmoredSkeletonBehaviour> ().lasthealth;
+		} else if (cleanpEntity == "DeathKnight") {
+			return pEntityObject.GetComponent<DeathKnightBehaviour> ().lasthealth;
 		}
 		return 0;
 	}

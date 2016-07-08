@@ -13,6 +13,8 @@ public class Summon : MonoBehaviour {
 	public GameObject Zombie;
 	public GameObject Militia;
     public GameObject SkeletonArcher;
+    public GameObject ArmoredSkeleton;
+    public GameObject DeathKnight;
 
 	//given an index and the type of summon, summons that entity with the next available name
 	public void SummonEntity (int cellindex, string summonname) {
@@ -32,13 +34,21 @@ public class Summon : MonoBehaviour {
 		} else if (summonname == "Zombie") {
 			GameObject playerentity = (GameObject)Instantiate (Zombie, summonindex, Quaternion.identity);
 			playerentity.name = availableName;
-		} else if (summonname == "Militia") {
-			GameObject enemyentity = (GameObject)Instantiate (Militia, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
 		} else if (summonname == "SkeletonArcher") {
 			GameObject enemyentity = (GameObject)Instantiate (SkeletonArcher, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
+		} else if (summonname == "ArmoredSkeleton") {
+			GameObject enemyentity = (GameObject)Instantiate (ArmoredSkeleton, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
+		} else if (summonname == "DeathKnight") {
+			GameObject enemyentity = (GameObject)Instantiate (DeathKnight, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
 		}
+
+        else if (summonname == "Militia") {
+			GameObject enemyentity = (GameObject)Instantiate (Militia, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
+		} 
 		//stores info of new summon to playerprefs for saving
 		string ppName = AvailablePlayerPrefsName ();
 
@@ -99,6 +109,10 @@ public class Summon : MonoBehaviour {
 			return sumentity.GetComponent<MilitiaBehaviour> ().health;
 		} else if (entity == "SkeletonArcher") {
 			return sumentity.GetComponent<SkeletonArcherBehaviour> ().health;
+		} else if (entity == "ArmoredSkeleton") {
+			return sumentity.GetComponent<ArmoredSkeletonBehaviour> ().health;
+		} else if (entity == "DeathKnight") {
+			return sumentity.GetComponent<DeathKnightBehaviour> ().health;
 		}
 		return 0;
 	}

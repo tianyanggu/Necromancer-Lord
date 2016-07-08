@@ -28,8 +28,17 @@ public class Locate : MonoBehaviour {
 			} else if (cleanEntity == "SkeletonArcher") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint = gameEntity.GetComponent<SkeletonArcherBehaviour> ().movementpoint;
+			} else if (cleanEntity == "ArmoredSkeleton") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currmovementpoint = gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().movementpoint;
+			} else if (cleanEntity == "DeathKnight") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<DeathKnightBehaviour> ().currmovementpoint = gameEntity.GetComponent<DeathKnightBehaviour> ().movementpoint;
 			}
 		}
+
+        //TODO human class update
+        //update on both sides for each class
 
 		foreach (string entity in entityStorage.activeEnemyEntities) {
 			string cleanEntity = Regex.Replace (entity, @"[\d-]", string.Empty);
@@ -55,8 +64,17 @@ public class Locate : MonoBehaviour {
 			} else if (cleanEntity == "SkeletonArcher") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<SkeletonArcherBehaviour> ().currattackpoint = gameEntity.GetComponent<SkeletonArcherBehaviour> ().attackpoint;
+			} else if (cleanEntity == "ArmoredSkeleton") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currattackpoint = gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().attackpoint;
+			} else if (cleanEntity == "DeathKnight") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<DeathKnightBehaviour> ().currattackpoint = gameEntity.GetComponent<DeathKnightBehaviour> ().attackpoint;
 			}
 		}
+
+        //TODO human class update
+        //update on both sides for each class
 
 		foreach (string entity in entityStorage.activeEnemyEntities) {
 			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
@@ -82,7 +100,19 @@ public class Locate : MonoBehaviour {
 			} else if (cleanEntity == "SkeletonArcher") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<SkeletonArcherBehaviour> ().idle = true;
+			} else if (cleanEntity == "ArmoredSkeleton") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().idle = true;
+			} else if (cleanEntity == "DeathKnight") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<DeathKnightBehaviour> ().idle = true;
 			}
+
+            //TODO human class update
+            //else if (cleanEntity == "Militia") {
+			//	GameObject gameEntity = GameObject.Find (entity);
+			//	gameEntity.GetComponent<Militia> ().idle = true;
+			//}
 		}
 	}
 
@@ -101,7 +131,19 @@ public class Locate : MonoBehaviour {
 			} else if (cleanEntity == "SkeletonArcher") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<SkeletonArcherBehaviour> ().idle = false;
+			} else if (cleanEntity == "ArmoredSkeleton") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().idle = false;
+			} else if (cleanEntity == "DeathKnight") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<DeathKnightBehaviour> ().idle = false;
 			}
+
+            //TODO human class update
+            //else if (cleanEntity == "Militia") {
+			//	GameObject gameEntity = GameObject.Find (entity);
+			//	gameEntity.GetComponent<Militia> ().idle = true;
+			//}
 		}
 	}
 
@@ -128,12 +170,29 @@ public class Locate : MonoBehaviour {
 				if (gameEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
+			} else if (cleanEntity == "ArmoredSkeleton") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
+			} else if (cleanEntity == "DeathKnight") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<DeathKnightBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
+			}
+
+            else if (cleanEntity == "Militia") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
 			}
 		}
 		return true;
 	}
 
-	public bool CheckAll () {
+	public bool CheckAllAttack () {
 		foreach (string entity in entityStorage.activePlayerEntities) {
 			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
@@ -164,7 +223,31 @@ public class Locate : MonoBehaviour {
 						return false;
 					}
 				}
-			} 
+			} else if (cleanEntity == "ArmoredSkeleton") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currattackpoint != 0) {
+					if (gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().idle == false) {
+						return false;
+					}
+				}
+			} else if (cleanEntity == "DeathKnight") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<DeathKnightBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<DeathKnightBehaviour> ().currattackpoint != 0) {
+					if (gameEntity.GetComponent<DeathKnightBehaviour> ().idle == false) {
+						return false;
+					}
+				}
+			}
+
+            //TODO human update
+            //else if (cleanEntity == "Militia") {
+			//	GameObject gameEntity = GameObject.Find (entity);
+			//	if (gameEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<MilitiaBehaviour> ().currattackpoint != 0) {
+			//		if (gameEntity.GetComponent<MilitiaBehaviour> ().idle == false) {
+			//  		return false;
+			//		}
+			//	}
+			//} 
 		}
 		return true;
 	}

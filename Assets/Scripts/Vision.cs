@@ -49,7 +49,20 @@ public class Vision : MonoBehaviour {
                 visionDistance = playerEntity.GetComponent<NecromancerBehaviour>().vision;
             } else if (cleanpEntity == "SkeletonArcher") {
                 visionDistance = playerEntity.GetComponent<SkeletonArcherBehaviour>().vision;
+            } else if (cleanpEntity == "ArmoredSkeleton") {
+                visionDistance = playerEntity.GetComponent<ArmoredSkeletonBehaviour>().vision;
+            } else if (cleanpEntity == "DeathKnight") {
+                visionDistance = playerEntity.GetComponent<DeathKnightBehaviour>().vision;
             }
+
+            //TODO Future update for human class
+            //else if (cleanpEntity == "Militia") {
+            //    visionDistance = playerEntity.GetComponent<MilitiaBehaviour>().vision;
+            //} else if (cleanpEntity == "Militia") {
+            //    visionDistance = playerEntity.GetComponent<MilitiaBehaviour>().vision;
+            //} else if (cleanpEntity == "Militia") {
+            //    visionDistance = playerEntity.GetComponent<MilitiaBehaviour>().vision;
+            //}
             Vector3 playerEntityPosition = playerEntity.transform.position;
             int index = hexGrid.GetCellIndex(playerEntityPosition);
             PlayerVisionHelper(index, visionDistance);

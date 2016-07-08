@@ -191,7 +191,7 @@ public class HexMapEditor : MonoBehaviour {
 		//determine if all troops moved and turn can end
 		string turnstring = turn.ToString ();
 		if(GUI.Button(new Rect(30,330,60,60), turnstring)) {
-			bool checkall = locate.CheckAll ();
+			bool checkall = locate.CheckAllAttack ();
 			if (checkall == true) {
 				turn++;
 				//add points back to units

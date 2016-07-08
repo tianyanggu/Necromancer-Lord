@@ -13,9 +13,13 @@ public class LoadMap : MonoBehaviour {
 
 	public GameObject Necromancer;
 	public GameObject Skeleton;
-	public GameObject Militia;
 	public GameObject Zombie;
     public GameObject SkeletonArcher;
+    public GameObject ArmoredSkeleton;
+    public GameObject DeathKnight;
+
+    public GameObject Militia;
+
 
     public GameObject Village;
 	public GameObject Necropolis;
@@ -105,15 +109,7 @@ public class LoadMap : MonoBehaviour {
 				hexGrid.SetEntity (allIndex, allEntities);
 				pSkeleton.GetComponent<SkeletonBehaviour> ().lasthealth = allHealth;
 				CreateHealthLabel (allIndex, allHealth, allEntities);
-			} else if (cleanEntity == "Militia") {
-				Vector3 spawn = hexGrid.GetCellPos(allIndex);
-				spawn.y = 0.2f;
-				GameObject eMilitia = (GameObject)Instantiate (Militia, spawn, Quaternion.identity);
-				eMilitia.name = allEntities;
-				hexGrid.SetEntity (allIndex, allEntities);
-				eMilitia.GetComponent<MilitiaBehaviour> ().lasthealth = allHealth;
-				CreateHealthLabel (allIndex, allHealth, allEntities);
-            } else if (cleanEntity == "SkeletonArcher") {
+			} else if (cleanEntity == "SkeletonArcher") {
                 Vector3 spawn = hexGrid.GetCellPos(allIndex);
                 spawn.y = 0.2f;
                 GameObject eSkeletonArcher = (GameObject)Instantiate(SkeletonArcher, spawn, Quaternion.identity);
@@ -121,7 +117,33 @@ public class LoadMap : MonoBehaviour {
                 hexGrid.SetEntity(allIndex, allEntities);
                 eSkeletonArcher.GetComponent<SkeletonArcherBehaviour>().lasthealth = allHealth;
                 CreateHealthLabel(allIndex, allHealth, allEntities);
+            } else if (cleanEntity == "ArmoredSkeleton") {
+                Vector3 spawn = hexGrid.GetCellPos(allIndex);
+                spawn.y = 0.2f;
+                GameObject eArmoredSkeleton = (GameObject)Instantiate(ArmoredSkeleton, spawn, Quaternion.identity);
+                eArmoredSkeleton.name = allEntities;
+                hexGrid.SetEntity(allIndex, allEntities);
+                eArmoredSkeleton.GetComponent<ArmoredSkeletonBehaviour>().lasthealth = allHealth;
+                CreateHealthLabel(allIndex, allHealth, allEntities);
+            } else if (cleanEntity == "DeathKnight") {
+                Vector3 spawn = hexGrid.GetCellPos(allIndex);
+                spawn.y = 0.2f;
+                GameObject eDeathKnight = (GameObject)Instantiate(DeathKnight, spawn, Quaternion.identity);
+                eDeathKnight.name = allEntities;
+                hexGrid.SetEntity(allIndex, allEntities);
+                eDeathKnight.GetComponent<DeathKnightBehaviour>().lasthealth = allHealth;
+                CreateHealthLabel(allIndex, allHealth, allEntities);
             }
+
+            else if (cleanEntity == "Militia") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				spawn.y = 0.2f;
+				GameObject eMilitia = (GameObject)Instantiate (Militia, spawn, Quaternion.identity);
+				eMilitia.name = allEntities;
+				hexGrid.SetEntity (allIndex, allEntities);
+				eMilitia.GetComponent<MilitiaBehaviour> ().lasthealth = allHealth;
+				CreateHealthLabel (allIndex, allHealth, allEntities);
+            } 
         }
 	}
 

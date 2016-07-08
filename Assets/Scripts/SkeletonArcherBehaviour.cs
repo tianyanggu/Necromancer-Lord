@@ -14,7 +14,7 @@ public class SkeletonArcherBehaviour : MonoBehaviour {
 	public int armorpiercing = 20;
     public int vision = 2;
 
-	public int lasthealth = 150;
+	public int lasthealth = 120;
 	public int currattackpoint;
 	public int currmovementpoint;
 
