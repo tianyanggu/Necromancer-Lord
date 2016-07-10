@@ -64,14 +64,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AIBehaviour.cs" />
+    <Compile Include="Assets\Scripts\ArcherBehaviour.cs" />
     <Compile Include="Assets\Scripts\ArmoredSkeletonBehaviour.cs" />
     <Compile Include="Assets\Scripts\Battle.cs" />
     <Compile Include="Assets\Scripts\Build.cs" />
     <Compile Include="Assets\Scripts\BuildingStorage.cs" />
+    <Compile Include="Assets\Scripts\CrossbowmanBehaviour.cs" />
     <Compile Include="Assets\Scripts\DeathKnightBehaviour.cs" />
     <Compile Include="Assets\Scripts\DragCamera.cs" />
     <Compile Include="Assets\Scripts\EntityStorage.cs" />
     <Compile Include="Assets\Scripts\Fog.cs" />
+    <Compile Include="Assets\Scripts\FootmanBehaviour.cs" />
+    <Compile Include="Assets\Scripts\HeroKingBehaviour.cs" />
     <Compile Include="Assets\Scripts\HexCell.cs" />
     <Compile Include="Assets\Scripts\HexCoordinates.cs" />
     <Compile Include="Assets\Scripts\HexGrid.cs" />
@@ -80,7 +84,9 @@
     <Compile Include="Assets\Scripts\HexMetrics.cs" />
     <Compile Include="Assets\Scripts\LoadMap.cs" />
     <Compile Include="Assets\Scripts\Locate.cs" />
+    <Compile Include="Assets\Scripts\LongbowmanBehaviour.cs" />
     <Compile Include="Assets\Scripts\MilitiaBehaviour.cs" />
+    <Compile Include="Assets\Scripts\MountedKnightBehaviour.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\NecromancerBehaviour.cs" />
     <Compile Include="Assets\Scripts\NecropolisMechanics.cs" />

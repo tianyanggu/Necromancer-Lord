@@ -20,6 +20,12 @@ public class EntityStorage : MonoBehaviour {
         playerEntities.Add ("DeathKnight");
 		//enemy entities
 		enemyEntities.Add ("Militia");
+        enemyEntities.Add ("Archer");
+        enemyEntities.Add ("Longbowman");
+        enemyEntities.Add ("Crossbowman");
+        enemyEntities.Add ("Footman");
+        enemyEntities.Add ("MountedKnight");
+        enemyEntities.Add ("HeroKing");
 
 		ListActivePlayerEntities ();
 		ListActiveEnemyEntities ();
@@ -69,6 +75,18 @@ public class EntityStorage : MonoBehaviour {
 		}
 
         else if (entity == "Militia") {
+			return "human";
+		} else if (entity == "Archer") {
+			return "human";
+		} else if (entity == "Longbowman") {
+			return "human";
+		} else if (entity == "Crossbowman") {
+			return "human";
+		} else if (entity == "Footman") {
+			return "human";
+		} else if (entity == "MountedKnight") {
+			return "human";
+		} else if (entity == "HeroKing") {
 			return "human";
 		}
 		return "unknown";

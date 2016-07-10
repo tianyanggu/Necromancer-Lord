@@ -45,6 +45,24 @@ public class Locate : MonoBehaviour {
 			if (cleanEntity == "Militia") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint = gameEntity.GetComponent<MilitiaBehaviour> ().movementpoint;
+			} else if (cleanEntity == "Archer") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<ArcherBehaviour> ().currmovementpoint = gameEntity.GetComponent<ArcherBehaviour> ().movementpoint;
+			} else if (cleanEntity == "Longbowman") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<LongbowmanBehaviour> ().movementpoint;
+			} else if (cleanEntity == "Crossbowman") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<CrossbowmanBehaviour> ().movementpoint;
+			} else if (cleanEntity == "Footman") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<FootmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<FootmanBehaviour> ().movementpoint;
+			} else if (cleanEntity == "MountedKnight") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = gameEntity.GetComponent<MountedKnightBehaviour> ().movementpoint;
+			} else if (cleanEntity == "HeroKing") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint = gameEntity.GetComponent<HeroKingBehaviour> ().movementpoint;
 			}
 		}
 	}
@@ -81,6 +99,24 @@ public class Locate : MonoBehaviour {
 			if (cleanEntity == "Militia") {
 				GameObject gameEntity = GameObject.Find (entity);
 				gameEntity.GetComponent<MilitiaBehaviour> ().currattackpoint = gameEntity.GetComponent<MilitiaBehaviour> ().attackpoint;
+			} else if (cleanEntity == "Archer") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<ArcherBehaviour> ().currmovementpoint = gameEntity.GetComponent<ArcherBehaviour> ().attackpoint;
+			} else if (cleanEntity == "Longbowman") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<LongbowmanBehaviour> ().attackpoint;
+			} else if (cleanEntity == "Crossbowman") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<CrossbowmanBehaviour> ().attackpoint;
+			} else if (cleanEntity == "Footman") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<FootmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<FootmanBehaviour> ().attackpoint;
+			} else if (cleanEntity == "MountedKnight") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = gameEntity.GetComponent<MountedKnightBehaviour> ().attackpoint;
+			} else if (cleanEntity == "HeroKing") {
+				GameObject gameEntity = GameObject.Find (entity);
+				gameEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint = gameEntity.GetComponent<HeroKingBehaviour> ().attackpoint;
 			}
 		}
 	}
@@ -185,6 +221,36 @@ public class Locate : MonoBehaviour {
             else if (cleanEntity == "Militia") {
 				GameObject gameEntity = GameObject.Find (entity);
 				if (gameEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
+			} else if (cleanEntity == "Archer") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<ArcherBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
+			} else if (cleanEntity == "Longbowman") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
+			} else if (cleanEntity == "Crossbowman") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
+			} else if (cleanEntity == "Footman") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<FootmanBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
+			} else if (cleanEntity == "MountedKnight") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint != 0) {
+					return false;
+				}
+			} else if (cleanEntity == "HeroKing") {
+				GameObject gameEntity = GameObject.Find (entity);
+				if (gameEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			}

@@ -58,10 +58,10 @@ public class Vision : MonoBehaviour {
             //TODO Future update for human class
             //else if (cleanpEntity == "Militia") {
             //    visionDistance = playerEntity.GetComponent<MilitiaBehaviour>().vision;
-            //} else if (cleanpEntity == "Militia") {
-            //    visionDistance = playerEntity.GetComponent<MilitiaBehaviour>().vision;
-            //} else if (cleanpEntity == "Militia") {
-            //    visionDistance = playerEntity.GetComponent<MilitiaBehaviour>().vision;
+            //} else if (cleanpEntity == "Archer") {
+            //    visionDistance = playerEntity.GetComponent<ArcherBehaviour>().vision;
+            //} else if (cleanpEntity == "Longbowman") {
+            //    visionDistance = playerEntity.GetComponent<LongbowmanBehaviour>().vision;
             //}
             Vector3 playerEntityPosition = playerEntity.transform.position;
             int index = hexGrid.GetCellIndex(playerEntityPosition);

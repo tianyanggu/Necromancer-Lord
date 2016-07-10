@@ -226,6 +226,18 @@ public class Battle : MonoBehaviour {
 
         else if (cleanSelEntity == "Militia") {
 			playercurrattpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint;
+		} else if (cleanSelEntity == "Archer") {
+			playercurrattpoint = attacker.GetComponent<ArcherBehaviour> ().currattackpoint;
+		} else if (cleanSelEntity == "Longbowman") {
+			playercurrattpoint = attacker.GetComponent<LongbowmanBehaviour> ().currattackpoint;
+		} else if (cleanSelEntity == "Crossbowman") {
+			playercurrattpoint = attacker.GetComponent<CrossbowmanBehaviour> ().currattackpoint;
+		} else if (cleanSelEntity == "Footman") {
+			playercurrattpoint = attacker.GetComponent<FootmanBehaviour> ().currattackpoint;
+		} else if (cleanSelEntity == "MountedKnight") {
+			playercurrattpoint = attacker.GetComponent<MountedKnightBehaviour> ().currattackpoint;
+		} else if (cleanSelEntity == "HeroKing") {
+			playercurrattpoint = attacker.GetComponent<HeroKingBehaviour> ().currattackpoint;
 		}
 
         if (cleanSelEntity == "Necromancer") {
@@ -281,6 +293,51 @@ public class Battle : MonoBehaviour {
 			attackerrange = attacker.GetComponent<MilitiaBehaviour> ().range;
 			attackerarmor = attacker.GetComponent<MilitiaBehaviour> ().armor;
 			attackerarmorpiercing = attacker.GetComponent<MilitiaBehaviour> ().armorpiercing;
+		} else if (cleanSelEntity == "Archer") {
+			attackerdmg = attacker.GetComponent<ArcherBehaviour> ().attack;
+			//attackerhealth = attacker.GetComponent<ArcherBehaviour> ().health;
+			attackerlasthealth = attacker.GetComponent<ArcherBehaviour> ().lasthealth;
+			attackerrange = attacker.GetComponent<ArcherBehaviour> ().range;
+            attackerrangedmg = attacker.GetComponent<ArcherBehaviour> ().rangeattack;
+			attackerarmor = attacker.GetComponent<ArcherBehaviour> ().armor;
+			attackerarmorpiercing = attacker.GetComponent<ArcherBehaviour> ().armorpiercing;
+		} else if (cleanSelEntity == "Longbowman") {
+			attackerdmg = attacker.GetComponent<LongbowmanBehaviour> ().attack;
+			//attackerhealth = attacker.GetComponent<LongbowmanBehaviour> ().health;
+			attackerlasthealth = attacker.GetComponent<LongbowmanBehaviour> ().lasthealth;
+			attackerrange = attacker.GetComponent<LongbowmanBehaviour> ().range;
+            attackerrangedmg = attacker.GetComponent<LongbowmanBehaviour> ().rangeattack;
+			attackerarmor = attacker.GetComponent<LongbowmanBehaviour> ().armor;
+			attackerarmorpiercing = attacker.GetComponent<LongbowmanBehaviour> ().armorpiercing;
+		} else if (cleanSelEntity == "Crossbowman") {
+			attackerdmg = attacker.GetComponent<CrossbowmanBehaviour> ().attack;
+			//attackerhealth = attacker.GetComponent<CrossbowmanBehaviour> ().health;
+			attackerlasthealth = attacker.GetComponent<CrossbowmanBehaviour> ().lasthealth;
+			attackerrange = attacker.GetComponent<CrossbowmanBehaviour> ().range;
+            attackerrangedmg = attacker.GetComponent<CrossbowmanBehaviour> ().rangeattack;
+			attackerarmor = attacker.GetComponent<CrossbowmanBehaviour> ().armor;
+			attackerarmorpiercing = attacker.GetComponent<CrossbowmanBehaviour> ().armorpiercing;
+		} else if (cleanSelEntity == "Footman") {
+			attackerdmg = attacker.GetComponent<FootmanBehaviour> ().attack;
+			//attackerhealth = attacker.GetComponent<FootmanBehaviour> ().health;
+			attackerlasthealth = attacker.GetComponent<FootmanBehaviour> ().lasthealth;
+			attackerrange = attacker.GetComponent<FootmanBehaviour> ().range;
+			attackerarmor = attacker.GetComponent<FootmanBehaviour> ().armor;
+			attackerarmorpiercing = attacker.GetComponent<FootmanBehaviour> ().armorpiercing;
+		} else if (cleanSelEntity == "MountedKnight") {
+			attackerdmg = attacker.GetComponent<MountedKnightBehaviour> ().attack;
+			//attackerhealth = attacker.GetComponent<MountedKnightBehaviour> ().health;
+			attackerlasthealth = attacker.GetComponent<MountedKnightBehaviour> ().lasthealth;
+			attackerrange = attacker.GetComponent<MountedKnightBehaviour> ().range;
+			attackerarmor = attacker.GetComponent<MountedKnightBehaviour> ().armor;
+			attackerarmorpiercing = attacker.GetComponent<MountedKnightBehaviour> ().armorpiercing;
+		} else if (cleanSelEntity == "HeroKing") {
+			attackerdmg = attacker.GetComponent<HeroKingBehaviour> ().attack;
+			//attackerhealth = attacker.GetComponent<HeroKingBehaviour> ().health;
+			attackerlasthealth = attacker.GetComponent<HeroKingBehaviour> ().lasthealth;
+			attackerrange = attacker.GetComponent<HeroKingBehaviour> ().range;
+			attackerarmor = attacker.GetComponent<HeroKingBehaviour> ().armor;
+			attackerarmorpiercing = attacker.GetComponent<HeroKingBehaviour> ().armorpiercing;
 		} 
     }
 
@@ -295,6 +352,48 @@ public class Battle : MonoBehaviour {
 			//defenderrange = defender.GetComponent<MilitiaBehaviour> ().range;
 			defenderarmor = defender.GetComponent<MilitiaBehaviour> ().armor;
 			defenderarmorpiercing = defender.GetComponent<MilitiaBehaviour> ().armorpiercing;
+		} else if (cleanCurrEntity == "Archer") {
+			defenderdmg = defender.GetComponent<ArcherBehaviour> ().attack;
+			//defenderhealth = defender.GetComponent<ArcherBehaviour> ().health;
+			defenderlasthealth = defender.GetComponent<ArcherBehaviour> ().lasthealth;
+			//defenderrange = defender.GetComponent<ArcherBehaviour> ().range;
+			defenderarmor = defender.GetComponent<ArcherBehaviour> ().armor;
+			defenderarmorpiercing = defender.GetComponent<ArcherBehaviour> ().armorpiercing;
+		} else if (cleanCurrEntity == "Longbowman") {
+			defenderdmg = defender.GetComponent<LongbowmanBehaviour> ().attack;
+			//defenderhealth = defender.GetComponent<LongbowmanBehaviour> ().health;
+			defenderlasthealth = defender.GetComponent<LongbowmanBehaviour> ().lasthealth;
+			//defenderrange = defender.GetComponent<LongbowmanBehaviour> ().range;
+			defenderarmor = defender.GetComponent<LongbowmanBehaviour> ().armor;
+			defenderarmorpiercing = defender.GetComponent<LongbowmanBehaviour> ().armorpiercing;
+		} else if (cleanCurrEntity == "Crossbowman") {
+			defenderdmg = defender.GetComponent<CrossbowmanBehaviour> ().attack;
+			//defenderhealth = defender.GetComponent<CrossbowmanBehaviour> ().health;
+			defenderlasthealth = defender.GetComponent<CrossbowmanBehaviour> ().lasthealth;
+			//defenderrange = defender.GetComponent<CrossbowmanBehaviour> ().range;
+			defenderarmor = defender.GetComponent<CrossbowmanBehaviour> ().armor;
+			defenderarmorpiercing = defender.GetComponent<CrossbowmanBehaviour> ().armorpiercing;
+		} else if (cleanCurrEntity == "Footman") {
+			defenderdmg = defender.GetComponent<FootmanBehaviour> ().attack;
+			//defenderhealth = defender.GetComponent<FootmanBehaviour> ().health;
+			defenderlasthealth = defender.GetComponent<FootmanBehaviour> ().lasthealth;
+			//defenderrange = defender.GetComponent<FootmanBehaviour> ().range;
+			defenderarmor = defender.GetComponent<FootmanBehaviour> ().armor;
+			defenderarmorpiercing = defender.GetComponent<FootmanBehaviour> ().armorpiercing;
+		} else if (cleanCurrEntity == "MountedKnight") {
+			defenderdmg = defender.GetComponent<MountedKnightBehaviour> ().attack;
+			//defenderhealth = defender.GetComponent<MountedKnightBehaviour> ().health;
+			defenderlasthealth = defender.GetComponent<MountedKnightBehaviour> ().lasthealth;
+			//defenderrange = defender.GetComponent<MountedKnightBehaviour> ().range;
+			defenderarmor = defender.GetComponent<MountedKnightBehaviour> ().armor;
+			defenderarmorpiercing = defender.GetComponent<MountedKnightBehaviour> ().armorpiercing;
+		} else if (cleanCurrEntity == "HeroKing") {
+			defenderdmg = defender.GetComponent<HeroKingBehaviour> ().attack;
+			//defenderhealth = defender.GetComponent<HeroKingBehaviour> ().health;
+			defenderlasthealth = defender.GetComponent<HeroKingBehaviour> ().lasthealth;
+			//defenderrange = defender.GetComponent<HeroKingBehaviour> ().range;
+			defenderarmor = defender.GetComponent<HeroKingBehaviour> ().armor;
+			defenderarmorpiercing = defender.GetComponent<HeroKingBehaviour> ().armorpiercing;
 		}
 
         else if (cleanCurrEntity == "Zombie") {
@@ -383,6 +482,36 @@ public class Battle : MonoBehaviour {
 			Text atthealthtext = GameObject.Find ("Health " + selectedentity).GetComponent<Text> ();
 			atthealthtext.text = attackerlasthealth.ToString ();
 			attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
+		} else if (cleanSelEntity == "Archer") {
+			attacker.GetComponent<ArcherBehaviour> ().lasthealth = attackerlasthealth;
+			Text atthealthtext = GameObject.Find ("Health " + selectedentity).GetComponent<Text> ();
+			atthealthtext.text = attackerlasthealth.ToString ();
+			attacker.GetComponent<ArcherBehaviour> ().currattackpoint = attacker.GetComponent<ArcherBehaviour> ().currattackpoint - 1;
+		} else if (cleanSelEntity == "Longbowman") {
+			attacker.GetComponent<LongbowmanBehaviour> ().lasthealth = attackerlasthealth;
+			Text atthealthtext = GameObject.Find ("Health " + selectedentity).GetComponent<Text> ();
+			atthealthtext.text = attackerlasthealth.ToString ();
+			attacker.GetComponent<LongbowmanBehaviour> ().currattackpoint = attacker.GetComponent<LongbowmanBehaviour> ().currattackpoint - 1;
+		} else if (cleanSelEntity == "Crossbowman") {
+			attacker.GetComponent<CrossbowmanBehaviour> ().lasthealth = attackerlasthealth;
+			Text atthealthtext = GameObject.Find ("Health " + selectedentity).GetComponent<Text> ();
+			atthealthtext.text = attackerlasthealth.ToString ();
+			attacker.GetComponent<CrossbowmanBehaviour> ().currattackpoint = attacker.GetComponent<CrossbowmanBehaviour> ().currattackpoint - 1;
+		} else if (cleanSelEntity == "Footman") {
+			attacker.GetComponent<FootmanBehaviour> ().lasthealth = attackerlasthealth;
+			Text atthealthtext = GameObject.Find ("Health " + selectedentity).GetComponent<Text> ();
+			atthealthtext.text = attackerlasthealth.ToString ();
+			attacker.GetComponent<FootmanBehaviour> ().currattackpoint = attacker.GetComponent<FootmanBehaviour> ().currattackpoint - 1;
+		} else if (cleanSelEntity == "MountedKnight") {
+			attacker.GetComponent<MountedKnightBehaviour> ().lasthealth = attackerlasthealth;
+			Text atthealthtext = GameObject.Find ("Health " + selectedentity).GetComponent<Text> ();
+			atthealthtext.text = attackerlasthealth.ToString ();
+			attacker.GetComponent<MountedKnightBehaviour> ().currattackpoint = attacker.GetComponent<MountedKnightBehaviour> ().currattackpoint - 1;
+		} else if (cleanSelEntity == "HeroKing") {
+			attacker.GetComponent<HeroKingBehaviour> ().lasthealth = attackerlasthealth;
+			Text atthealthtext = GameObject.Find ("Health " + selectedentity).GetComponent<Text> ();
+			atthealthtext.text = attackerlasthealth.ToString ();
+			attacker.GetComponent<HeroKingBehaviour> ().currattackpoint = attacker.GetComponent<HeroKingBehaviour> ().currattackpoint - 1;
 		} 
 	}
 
@@ -392,6 +521,30 @@ public class Battle : MonoBehaviour {
 		//------Set New Info Defender------
 		if (cleanCurrEntity == "Militia") {
 			defender.GetComponent<MilitiaBehaviour> ().lasthealth = defenderlasthealth;
+			Text defhealthtext = GameObject.Find ("Health " + currEntity).GetComponent<Text> ();
+			defhealthtext.text = defenderlasthealth.ToString ();
+		} else if (cleanCurrEntity == "Archer") {
+			defender.GetComponent<ArcherBehaviour> ().lasthealth = defenderlasthealth;
+			Text defhealthtext = GameObject.Find ("Health " + currEntity).GetComponent<Text> ();
+			defhealthtext.text = defenderlasthealth.ToString ();
+		} else if (cleanCurrEntity == "Longbowman") {
+			defender.GetComponent<LongbowmanBehaviour> ().lasthealth = defenderlasthealth;
+			Text defhealthtext = GameObject.Find ("Health " + currEntity).GetComponent<Text> ();
+			defhealthtext.text = defenderlasthealth.ToString ();
+		} else if (cleanCurrEntity == "Crossbowman") {
+			defender.GetComponent<CrossbowmanBehaviour> ().lasthealth = defenderlasthealth;
+			Text defhealthtext = GameObject.Find ("Health " + currEntity).GetComponent<Text> ();
+			defhealthtext.text = defenderlasthealth.ToString ();
+		} else if (cleanCurrEntity == "Footman") {
+			defender.GetComponent<FootmanBehaviour> ().lasthealth = defenderlasthealth;
+			Text defhealthtext = GameObject.Find ("Health " + currEntity).GetComponent<Text> ();
+			defhealthtext.text = defenderlasthealth.ToString ();
+		} else if (cleanCurrEntity == "MountedKnight") {
+			defender.GetComponent<MountedKnightBehaviour> ().lasthealth = defenderlasthealth;
+			Text defhealthtext = GameObject.Find ("Health " + currEntity).GetComponent<Text> ();
+			defhealthtext.text = defenderlasthealth.ToString ();
+		} else if (cleanCurrEntity == "HeroKing") {
+			defender.GetComponent<HeroKingBehaviour> ().lasthealth = defenderlasthealth;
 			Text defhealthtext = GameObject.Find ("Health " + currEntity).GetComponent<Text> ();
 			defhealthtext.text = defenderlasthealth.ToString ();
 		}
@@ -449,7 +602,25 @@ public class Battle : MonoBehaviour {
         else if (cleanSelEntity == "Militia") {
 			playermovepoint = playerEntity.GetComponent<MilitiaBehaviour> ().movementpoint;
 			playercurrmovepoint = playerEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint;
-		} 
+		} else if (cleanSelEntity == "Archer") {
+			playermovepoint = playerEntity.GetComponent<ArcherBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<ArcherBehaviour> ().currmovementpoint;
+		} else if (cleanSelEntity == "Longbowman") {
+			playermovepoint = playerEntity.GetComponent<LongbowmanBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint;
+		} else if (cleanSelEntity == "Crossbowman") {
+			playermovepoint = playerEntity.GetComponent<CrossbowmanBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint;
+		} else if (cleanSelEntity == "Footman") {
+			playermovepoint = playerEntity.GetComponent<FootmanBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<FootmanBehaviour> ().currmovementpoint;
+		} else if (cleanSelEntity == "MountedKnight") {
+			playermovepoint = playerEntity.GetComponent<MountedKnightBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint;
+		} else if (cleanSelEntity == "HeroKing") {
+			playermovepoint = playerEntity.GetComponent<HeroKingBehaviour> ().movementpoint;
+			playercurrmovepoint = playerEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint;
+		}
 	}
 
 	void NewMovementPoints(string selectedentity, int change) {
@@ -471,6 +642,18 @@ public class Battle : MonoBehaviour {
 
         else if (cleanSelEntity == "Militia") {
 			playerEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint = playerEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint - change;
+		} else if (cleanSelEntity == "Archer") {
+			playerEntity.GetComponent<ArcherBehaviour> ().currmovementpoint = playerEntity.GetComponent<ArcherBehaviour> ().currmovementpoint - change;
+		} else if (cleanSelEntity == "Longbowman") {
+			playerEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = playerEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint - change;
+		} else if (cleanSelEntity == "Crossbowman") {
+			playerEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = playerEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint - change;
+		} else if (cleanSelEntity == "Footman") {
+			playerEntity.GetComponent<FootmanBehaviour> ().currmovementpoint = playerEntity.GetComponent<FootmanBehaviour> ().currmovementpoint - change;
+		} else if (cleanSelEntity == "MountedKnight") {
+			playerEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = playerEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint - change;
+		} else if (cleanSelEntity == "HeroKing") {
+			playerEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint = playerEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint - change;
 		} 
 	}
 
@@ -478,6 +661,18 @@ public class Battle : MonoBehaviour {
 		if (faction == "undead") {
 			if (diedentity == "Militia") {
 				resources.ChangeSouls (100);
+			} else if (diedentity == "Archer") {
+				resources.ChangeSouls (150);
+			} else if (diedentity == "Longbowman") {
+				resources.ChangeSouls (200);
+			} else if (diedentity == "Crossbowman") {
+				resources.ChangeSouls (150);
+			} else if (diedentity == "Footman") {
+				resources.ChangeSouls (150);
+			} else if (diedentity == "MountedKnight") {
+				resources.ChangeSouls (200);
+			} else if (diedentity == "HeroKing") {
+				resources.ChangeSouls (1000);
 			}
 		}
 	}

@@ -195,6 +195,30 @@ public class AIBehaviour : MonoBehaviour {
 			aicurrattpoint = atentity.GetComponent<MilitiaBehaviour> ().currattackpoint;
 			aimovepoint = atentity.GetComponent<MilitiaBehaviour> ().movementpoint;
 			aicurrmovepoint = atentity.GetComponent<MilitiaBehaviour> ().currmovementpoint;
+		} else if (cleaneEntity == "Archer") {
+			aicurrattpoint = atentity.GetComponent<ArcherBehaviour> ().currattackpoint;
+			aimovepoint = atentity.GetComponent<ArcherBehaviour> ().movementpoint;
+			aicurrmovepoint = atentity.GetComponent<ArcherBehaviour> ().currmovementpoint;
+		} else if (cleaneEntity == "Longbowman") {
+			aicurrattpoint = atentity.GetComponent<LongbowmanBehaviour> ().currattackpoint;
+			aimovepoint = atentity.GetComponent<LongbowmanBehaviour> ().movementpoint;
+			aicurrmovepoint = atentity.GetComponent<LongbowmanBehaviour> ().currmovementpoint;
+		} else if (cleaneEntity == "Crossbowman") {
+			aicurrattpoint = atentity.GetComponent<CrossbowmanBehaviour> ().currattackpoint;
+			aimovepoint = atentity.GetComponent<CrossbowmanBehaviour> ().movementpoint;
+			aicurrmovepoint = atentity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint;
+		} else if (cleaneEntity == "Footman") {
+			aicurrattpoint = atentity.GetComponent<FootmanBehaviour> ().currattackpoint;
+			aimovepoint = atentity.GetComponent<FootmanBehaviour> ().movementpoint;
+			aicurrmovepoint = atentity.GetComponent<FootmanBehaviour> ().currmovementpoint;
+		} else if (cleaneEntity == "MountedKnight") {
+			aicurrattpoint = atentity.GetComponent<MountedKnightBehaviour> ().currattackpoint;
+			aimovepoint = atentity.GetComponent<MountedKnightBehaviour> ().movementpoint;
+			aicurrmovepoint = atentity.GetComponent<MountedKnightBehaviour> ().currmovementpoint;
+		} else if (cleaneEntity == "HeroKing") {
+			aicurrattpoint = atentity.GetComponent<HeroKingBehaviour> ().currattackpoint;
+			aimovepoint = atentity.GetComponent<HeroKingBehaviour> ().movementpoint;
+			aicurrmovepoint = atentity.GetComponent<HeroKingBehaviour> ().currmovementpoint;
 		}
 	}
 
@@ -234,6 +258,18 @@ public class AIBehaviour : MonoBehaviour {
 		//set movement points
 		if (cleaneEntity == "Militia") {
 			eEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint = eEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint - change;
+		} else if (cleaneEntity == "Archer") {
+			eEntity.GetComponent<ArcherBehaviour> ().currmovementpoint = eEntity.GetComponent<ArcherBehaviour> ().currmovementpoint - change;
+		} else if (cleaneEntity == "Longbowman") {
+			eEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = eEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint - change;
+		} else if (cleaneEntity == "Crossbowman") {
+			eEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = eEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint - change;
+		} else if (cleaneEntity == "Footman") {
+			eEntity.GetComponent<FootmanBehaviour> ().currmovementpoint = eEntity.GetComponent<FootmanBehaviour> ().currmovementpoint - change;
+		} else if (cleaneEntity == "MountedKnight") {
+			eEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = eEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint - change;
+		} else if (cleaneEntity == "HeroKing") {
+			eEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint = eEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint - change;
 		}
 	}
 }

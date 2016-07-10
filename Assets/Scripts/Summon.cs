@@ -11,10 +11,17 @@ public class Summon : MonoBehaviour {
 	public GameObject Necromancer;
 	public GameObject Skeleton;
 	public GameObject Zombie;
-	public GameObject Militia;
     public GameObject SkeletonArcher;
     public GameObject ArmoredSkeleton;
     public GameObject DeathKnight;
+
+    public GameObject Militia;
+    public GameObject Archer;
+    public GameObject Longbowman;
+    public GameObject Crossbowman;
+    public GameObject Footman;
+    public GameObject MountedKnight;
+    public GameObject HeroKing;
 
 	//given an index and the type of summon, summons that entity with the next available name
 	public void SummonEntity (int cellindex, string summonname) {
@@ -48,7 +55,25 @@ public class Summon : MonoBehaviour {
         else if (summonname == "Militia") {
 			GameObject enemyentity = (GameObject)Instantiate (Militia, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
-		} 
+		} else if (summonname == "Archer") {
+			GameObject enemyentity = (GameObject)Instantiate (Archer, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
+		} else if (summonname == "Longbowman") {
+			GameObject enemyentity = (GameObject)Instantiate (Longbowman, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
+		} else if (summonname == "Crossbowman") {
+			GameObject enemyentity = (GameObject)Instantiate (Crossbowman, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
+		} else if (summonname == "Footman") {
+			GameObject enemyentity = (GameObject)Instantiate (Footman, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
+		} else if (summonname == "MountedKnight") {
+			GameObject enemyentity = (GameObject)Instantiate (MountedKnight, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
+		} else if (summonname == "HeroKing") {
+			GameObject enemyentity = (GameObject)Instantiate (HeroKing, summonindex, Quaternion.identity);
+			enemyentity.name = availableName;
+		}
 		//stores info of new summon to playerprefs for saving
 		string ppName = AvailablePlayerPrefsName ();
 
@@ -105,8 +130,6 @@ public class Summon : MonoBehaviour {
 			return sumentity.GetComponent<SkeletonBehaviour> ().health;
 		} else if (entity == "Necromancer") {
 			return sumentity.GetComponent<NecromancerBehaviour> ().health;
-		} else if (entity == "Militia") {
-			return sumentity.GetComponent<MilitiaBehaviour> ().health;
 		} else if (entity == "SkeletonArcher") {
 			return sumentity.GetComponent<SkeletonArcherBehaviour> ().health;
 		} else if (entity == "ArmoredSkeleton") {
@@ -114,6 +137,22 @@ public class Summon : MonoBehaviour {
 		} else if (entity == "DeathKnight") {
 			return sumentity.GetComponent<DeathKnightBehaviour> ().health;
 		}
+
+        else if (entity == "Militia") {
+			return sumentity.GetComponent<MilitiaBehaviour> ().health;
+		}  else if (entity == "Archer") {
+			return sumentity.GetComponent<ArcherBehaviour> ().health;
+		}  else if (entity == "Longbowman") {
+			return sumentity.GetComponent<LongbowmanBehaviour> ().health;
+		}  else if (entity == "Crossbowman") {
+			return sumentity.GetComponent<CrossbowmanBehaviour> ().health;
+		}  else if (entity == "Footman") {
+			return sumentity.GetComponent<FootmanBehaviour> ().health;
+		}  else if (entity == "MountedKnight") {
+			return sumentity.GetComponent<MountedKnightBehaviour> ().health;
+		}  else if (entity == "HeroKing") {
+			return sumentity.GetComponent<HeroKingBehaviour> ().health;
+		} 
 		return 0;
 	}
 

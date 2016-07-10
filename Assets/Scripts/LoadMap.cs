@@ -19,6 +19,12 @@ public class LoadMap : MonoBehaviour {
     public GameObject DeathKnight;
 
     public GameObject Militia;
+    public GameObject Archer;
+    public GameObject Longbowman;
+    public GameObject Crossbowman;
+    public GameObject Footman;
+    public GameObject MountedKnight;
+    public GameObject HeroKing;
 
 
     public GameObject Village;
@@ -143,7 +149,55 @@ public class LoadMap : MonoBehaviour {
 				hexGrid.SetEntity (allIndex, allEntities);
 				eMilitia.GetComponent<MilitiaBehaviour> ().lasthealth = allHealth;
 				CreateHealthLabel (allIndex, allHealth, allEntities);
-            } 
+            } else if (cleanEntity == "Archer") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				spawn.y = 0.2f;
+				GameObject eArcher = (GameObject)Instantiate (Archer, spawn, Quaternion.identity);
+				eArcher.name = allEntities;
+				hexGrid.SetEntity (allIndex, allEntities);
+				eArcher.GetComponent<ArcherBehaviour> ().lasthealth = allHealth;
+				CreateHealthLabel (allIndex, allHealth, allEntities);
+            } else if (cleanEntity == "Longbowman") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				spawn.y = 0.2f;
+				GameObject eLongbowman = (GameObject)Instantiate (Longbowman, spawn, Quaternion.identity);
+				eLongbowman.name = allEntities;
+				hexGrid.SetEntity (allIndex, allEntities);
+				eLongbowman.GetComponent<LongbowmanBehaviour> ().lasthealth = allHealth;
+				CreateHealthLabel (allIndex, allHealth, allEntities);
+            } else if (cleanEntity == "Crossbowman") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				spawn.y = 0.2f;
+				GameObject eCrossbowman = (GameObject)Instantiate (Crossbowman, spawn, Quaternion.identity);
+				eCrossbowman.name = allEntities;
+				hexGrid.SetEntity (allIndex, allEntities);
+				eCrossbowman.GetComponent<CrossbowmanBehaviour> ().lasthealth = allHealth;
+				CreateHealthLabel (allIndex, allHealth, allEntities);
+            } else if (cleanEntity == "Footman") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				spawn.y = 0.2f;
+				GameObject eFootman = (GameObject)Instantiate (Footman, spawn, Quaternion.identity);
+				eFootman.name = allEntities;
+				hexGrid.SetEntity (allIndex, allEntities);
+				eFootman.GetComponent<FootmanBehaviour> ().lasthealth = allHealth;
+				CreateHealthLabel (allIndex, allHealth, allEntities);
+            } else if (cleanEntity == "MountedKnight") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				spawn.y = 0.2f;
+				GameObject eMountedKnight = (GameObject)Instantiate (MountedKnight, spawn, Quaternion.identity);
+				eMountedKnight.name = allEntities;
+				hexGrid.SetEntity (allIndex, allEntities);
+				eMountedKnight.GetComponent<MountedKnightBehaviour> ().lasthealth = allHealth;
+				CreateHealthLabel (allIndex, allHealth, allEntities);
+            } else if (cleanEntity == "HeroKing") {
+				Vector3 spawn = hexGrid.GetCellPos(allIndex);
+				spawn.y = 0.2f;
+				GameObject eHeroKing = (GameObject)Instantiate (HeroKing, spawn, Quaternion.identity);
+				eHeroKing.name = allEntities;
+				hexGrid.SetEntity (allIndex, allEntities);
+				eHeroKing.GetComponent<HeroKingBehaviour> ().lasthealth = allHealth;
+				CreateHealthLabel (allIndex, allHealth, allEntities);
+            }
         }
 	}
 
@@ -220,6 +274,18 @@ public class LoadMap : MonoBehaviour {
 				string cleanCorpse = Regex.Replace(allCorpses, @"[\d-]", string.Empty);
 
 				if (cleanCorpse == "Militia") {
+					hexGrid.SetCorpses (i, allCorpses);
+				} else if (cleanCorpse == "Archer") {
+					hexGrid.SetCorpses (i, allCorpses);
+				} else if (cleanCorpse == "Longbowman") {
+					hexGrid.SetCorpses (i, allCorpses);
+				} else if (cleanCorpse == "Crossbowman") {
+					hexGrid.SetCorpses (i, allCorpses);
+				} else if (cleanCorpse == "Footman") {
+					hexGrid.SetCorpses (i, allCorpses);
+				} else if (cleanCorpse == "MountedKnight") {
+					hexGrid.SetCorpses (i, allCorpses);
+				} else if (cleanCorpse == "HeroKing") {
 					hexGrid.SetCorpses (i, allCorpses);
 				}
 			}
