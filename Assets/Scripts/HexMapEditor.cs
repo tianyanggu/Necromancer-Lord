@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 public class HexMapEditor : MonoBehaviour {
@@ -21,11 +18,13 @@ public class HexMapEditor : MonoBehaviour {
 	public EntityStorage entityStorage;
 	public BuildingStorage buildingStorage;
 	public AIBehaviour aiBehaviour;
+    public BuildingManager buildingManager;
 
 	public int currindex;
 
 	public int selectedindex;
-	public string selectedentity;
+	public string selectedEntity;
+    public string selectedBuilding;
 
 	public bool lockbattle;
 	public bool editmode;
@@ -47,7 +46,9 @@ public class HexMapEditor : MonoBehaviour {
 		loadMap.LoadEntities ();
 		loadMap.LoadResources ();
 		loadMap.LoadCorpses ();
-		loadMap.LoadRandom (12);
+        //sets the seed of the terrain spawn
+		//loadMap.LoadRandom (12);
+
 //		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
 //		int test0 = test [0];
 //		int test1 = test [1];
@@ -82,13 +83,22 @@ public class HexMapEditor : MonoBehaviour {
 		//-----Selector--------------
 		//Debug.Log(currindex);
 		string currEntity = hexGrid.GetEntity (currindex);
+        string currBuilding = hexGrid.GetBuilding (currindex);
 		string cleanCurrEntity = Regex.Replace(currEntity, @"[\d-]", string.Empty);
+        string cleanCurrBuilding = Regex.Replace(currBuilding, @"[\d-]", string.Empty);
 
 		if (entityStorage.playerEntities.Contains (cleanCurrEntity)) {
 			selectedindex = currindex;
-			selectedentity = currEntity;
+			//selectedEntity = currEntity;
+            //TODO list info for curr entity
 			lockbattle = false;
-		} 
+		}
+        if (buildingStorage.playerBuildings.Contains(cleanCurrBuilding)) {
+            selectedBuilding = currBuilding;
+            buildingManager.DisplayBuilding(selectedBuilding);
+            //TODO GUI for buildings
+        }
+        //ensures attacks only happen once per update 
 		if (lockbattle == false) {
 			bool checkAttHappen = battle.Attack (selectedindex, currindex);
 			if (checkAttHappen == true) {
@@ -110,7 +120,11 @@ public class HexMapEditor : MonoBehaviour {
 		string currEntity = hexGrid.GetEntity(currindex);
 		if (currEntity == "Empty") {
 			if (GUI.Button (new Rect (20, 150, 120, 20), "Summon")) {
-				summonclicked = true;
+                if (summonclicked == false) {
+                    summonclicked = true;
+                } else {
+                    summonclicked = false;
+                }
 			}
 		}
 		if (summonclicked) {
@@ -130,7 +144,11 @@ public class HexMapEditor : MonoBehaviour {
 		//drop down menu after summon for various entities
 		if (currEntity == "Empty") {
 			if (GUI.Button (new Rect (20, 180, 120, 20), "Summon")) {
-				summonclickededitor = true;
+                if (summonclickededitor == false) {
+                    summonclickededitor = true;
+                } else {
+                    summonclickededitor = false;
+                }
 			}
 		}
 		if (summonclickededitor) {
@@ -161,7 +179,11 @@ public class HexMapEditor : MonoBehaviour {
 		string currBuilding = hexGrid.GetBuilding(currindex);
 		if (currBuilding == "Empty") {
 			if (GUI.Button (new Rect (20, 210, 120, 20), "Building")) {
-				buildingclicked = true;
+				if (buildingclicked == false) {
+                    buildingclicked = true;
+                } else {
+                    buildingclicked = false;
+                }
 			}
 		}
 		if (buildingclicked) {

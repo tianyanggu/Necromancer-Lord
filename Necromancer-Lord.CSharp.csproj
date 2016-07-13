@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\ArmoredSkeletonBehaviour.cs" />
     <Compile Include="Assets\Scripts\Battle.cs" />
     <Compile Include="Assets\Scripts\Build.cs" />
+    <Compile Include="Assets\Scripts\BuildingManager.cs" />
     <Compile Include="Assets\Scripts\BuildingStorage.cs" />
     <Compile Include="Assets\Scripts\CrossbowmanBehaviour.cs" />
     <Compile Include="Assets\Scripts\DeathKnightBehaviour.cs" />
