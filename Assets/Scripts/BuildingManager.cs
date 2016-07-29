@@ -7,13 +7,16 @@ public class BuildingManager : MonoBehaviour {
     public BuildingStorage buildingStorage;
 
     private string cleanBuildingName;
+    private string selBuilding;
 
     private bool necropolisClicked;
     private bool necropolisBuild;
     private bool necropolisRecruitment;
 
     public void DisplayBuilding (string building) {
+        selBuilding = building;
         cleanBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);
+        
         string faction = buildingStorage.whichFactionBuilding(cleanBuildingName);
         if (faction == "undead") {
             if (cleanBuildingName == "Necropolis") {
@@ -26,15 +29,34 @@ public class BuildingManager : MonoBehaviour {
     }
 
     public void ProductionQueue (string building, string action, string production) {
-        GameObject currbuilding = GameObject.Find(building);
+        GameObject currBuilding = GameObject.Find(building);
         if (action == "Build") {
-            currbuilding.GetComponent<NecropolisMechanics> ().currConstruction = production;
+            if (cleanBuildingName == "Necropolis")
+            {
+                currBuilding.GetComponent<NecropolisMechanics>().UpdateProduction(production);
+            }
         }
         else if (action == "Recruit")
         {
-            currbuilding.GetComponent<NecropolisMechanics> ().currRecruitment = production;
+            if (cleanBuildingName == "Necropolis")
+            {
+                currBuilding.GetComponent<NecropolisMechanics>().UpdateRecruitment(production);
+            }
         }
+    }
 
+    public void TickProduction()
+    {
+        foreach (string building in buildingStorage.activePlayerBuildings)
+        {
+            GameObject currBuilding = GameObject.Find(building);
+            string cleanStorageBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);
+            if (cleanStorageBuildingName == "Necropolis")
+            {
+                currBuilding.GetComponent<NecropolisMechanics>().TickProductionTimer();
+                currBuilding.GetComponent<NecropolisMechanics>().TickRecruitmentTimer();
+            }
+        }
     }
 
     void OnGUI () {
@@ -63,19 +85,19 @@ public class BuildingManager : MonoBehaviour {
         if (necropolisBuild)
         {
             if(GUI.Button(new Rect(800,240,120,20), "Soul Harvester")) {
-                ProductionQueue(cleanBuildingName, "Build", "Soul Harvester");
-		    }
+                ProductionQueue(selBuilding, "Build", "Soul Harvester");
+            }
             if(GUI.Button(new Rect(800,260,120,20), "Graveyard")) {
-                ProductionQueue(cleanBuildingName, "Build", "Graveyard");
+                ProductionQueue(selBuilding, "Build", "Graveyard");
 		    }
         }
         if (necropolisRecruitment)
         {
             if(GUI.Button(new Rect(800,240,120,20), "Zombie")) {
-                ProductionQueue(cleanBuildingName, "Recruit", "Zombie");
+                ProductionQueue(selBuilding, "Recruit", "Zombie");
 		    }
             if(GUI.Button(new Rect(800,260,120,20), "Skeleton")) {
-                ProductionQueue(cleanBuildingName, "Recruit", "Skeleton");
+                ProductionQueue(selBuilding, "Recruit", "Skeleton");
 		    }
         }
     }

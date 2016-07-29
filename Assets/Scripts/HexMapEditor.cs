@@ -220,10 +220,10 @@ public class HexMapEditor : MonoBehaviour {
 				locate.SetAllActive();
 				locate.SetAllMovementPoints();
 				locate.SetAllAttackPoints();
-
-				//enemy units turn
-				//aiBehaviour.Actions(15);
-			}
+                buildingManager.TickProduction();
+                //enemy units turn
+                //aiBehaviour.Actions(15);
+            }
 		}
 
 		//sets remaining units idle
