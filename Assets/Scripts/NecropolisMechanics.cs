@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class NecropolisMechanics : MonoBehaviour {
 
 	public int health = 200;
-
-	public int lasthealth = 200;
+    public int lasthealth = 200;
+    public List<string> upgrades;
 
 	public string currConstruction = "Empty";
     public int currConstructionTimer;
@@ -14,12 +15,12 @@ public class NecropolisMechanics : MonoBehaviour {
     public int currRecruitmentTimer;
 
     //building times
-    public int timeSoulHarvester = 3;
+    public int timeExcavationSite = 3;
     public int timeGraveyard = 2;
     //recruitment times
     public int timeZombie = 2;
     public int timeSkeleton = 3;
-
+    public int timeSkeletonArcher = 3;
 
     public void TickProductionTimer ()
     {
@@ -39,14 +40,19 @@ public class NecropolisMechanics : MonoBehaviour {
 
     public void UpdateProduction(string buildingName)
     {
-        if (buildingName == "Soul Harvester")
-        {
-            currConstruction = "Soul Harvester";
-            currConstructionTimer = timeSoulHarvester;
-        }
-        else if (buildingName == "Graveyard")
+        if (buildingName == "Graveyard")
         {
             currConstruction = "Graveyard";
+            currConstructionTimer = timeGraveyard;
+        }
+        else if (buildingName == "Excavation Site")
+        {
+            currConstruction = "Excavation Site";
+            currConstructionTimer = timeExcavationSite;
+        }
+        else if (buildingName == "Dark Fletchery")
+        {
+            currConstruction = "Dark Fletchery";
             currConstructionTimer = timeGraveyard;
         }
     }
@@ -62,6 +68,20 @@ public class NecropolisMechanics : MonoBehaviour {
         {
             currRecruitment = "Skeleton";
             currRecruitmentTimer = timeSkeleton;
+        }
+        else if (recruitName == "Skeleton Archer")
+        {
+            currRecruitment = "Skeleton Archer";
+            currRecruitmentTimer = timeSkeletonArcher;
+        }
+    }
+
+    public void CompleteConstruction()
+    {
+        if (currConstruction != "Empty")
+        {
+            upgrades.Add(currConstruction);
+            currConstruction = "Empty";
         }
     }
 }

@@ -55,6 +55,10 @@ public class BuildingManager : MonoBehaviour {
             {
                 currBuilding.GetComponent<NecropolisMechanics>().TickProductionTimer();
                 currBuilding.GetComponent<NecropolisMechanics>().TickRecruitmentTimer();
+                if (currBuilding.GetComponent<NecropolisMechanics>().currConstructionTimer <= 0)
+                {
+                    currBuilding.GetComponent<NecropolisMechanics>().CompleteConstruction();
+                }
             }
         }
     }
@@ -84,21 +88,42 @@ public class BuildingManager : MonoBehaviour {
         }
         if (necropolisBuild)
         {
-            if(GUI.Button(new Rect(800,240,120,20), "Soul Harvester")) {
-                ProductionQueue(selBuilding, "Build", "Soul Harvester");
+            //TODO Add hover window for text details
+            if (GUI.Button(new Rect(800, 240, 120, 20), "Graveyard")) //Allows Recruiting Zombies
+            {
+                ProductionQueue(selBuilding, "Build", "Graveyard"); 
             }
-            if(GUI.Button(new Rect(800,260,120,20), "Graveyard")) {
-                ProductionQueue(selBuilding, "Build", "Graveyard");
-		    }
+            if (GUI.Button(new Rect(800,260,120,20), "Excavation Site")) //Allows Recruiting Skeletons
+            {
+                ProductionQueue(selBuilding, "Build", "Excavation Site"); 
+            }
+            if (GUI.Button(new Rect(800, 280, 120, 20), "Dark Fletchery")) //Allows Recruiting Skeleton Archers. Requires Excavation Site.
+            {
+                ProductionQueue(selBuilding, "Build", "Dark Fletchery");
+            }
+            //if (GUI.Button(new Rect(800, 260, 120, 20), "Dark Magic Forge")) //Allows Recruiting Skeletons Mages. Requires Excavation Site.
+            //{
+            //    ProductionQueue(selBuilding, "Build", "Skeleton Mage");
+            //}
         }
         if (necropolisRecruitment)
         {
-            if(GUI.Button(new Rect(800,240,120,20), "Zombie")) {
+            if(GUI.Button(new Rect(800,240,120,20), "Zombie")) //Weak Early Tier Melee Unit. Resistent to other weak unit's attacks.
+            {
                 ProductionQueue(selBuilding, "Recruit", "Zombie");
 		    }
-            if(GUI.Button(new Rect(800,260,120,20), "Skeleton")) {
+            if(GUI.Button(new Rect(800,260,120,20), "Skeleton")) //Early Tier Melee Unit.
+            {
                 ProductionQueue(selBuilding, "Recruit", "Skeleton");
 		    }
+            if (GUI.Button(new Rect(800, 280, 120, 20), "Skeleton Archer")) //Early Tier Physical Ranged Unit.
+            {
+                ProductionQueue(selBuilding, "Recruit", "Skeleton Archer");
+            }
+            //if (GUI.Button(new Rect(800, 260, 120, 20), "Skeleton Mage")) //Early Tier Magic Ranged Unit.
+            //{
+            //    ProductionQueue(selBuilding, "Recruit", "Skeleton Mage");
+            //}
         }
     }
 }
