@@ -59,6 +59,10 @@ public class BuildingManager : MonoBehaviour {
                 {
                     currBuilding.GetComponent<NecropolisMechanics>().CompleteConstruction();
                 }
+                if (currBuilding.GetComponent<NecropolisMechanics>().currRecruitmentTimer <= 0)
+                {
+                    currBuilding.GetComponent<NecropolisMechanics>().CompleteRecruitment();
+                }
             }
         }
     }

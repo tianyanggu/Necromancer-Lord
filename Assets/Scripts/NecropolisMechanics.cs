@@ -84,4 +84,18 @@ public class NecropolisMechanics : MonoBehaviour {
             currConstruction = "Empty";
         }
     }
+
+    public void CompleteRecruitment()
+    {
+        if (currRecruitment != "Empty")
+        {
+            
+            Vector3 currPos = gameObject.transform.position;
+            GameObject hexGrid = GameObject.Find("Hex Grid");
+            int currIndex = hexGrid.GetComponent<HexGrid>().GetCellIndex(currPos);
+            GameObject summon = GameObject.Find("Summon");
+            summon.GetComponent<Summon>().SummonEntity(currIndex, currRecruitment);
+            currRecruitment = "Empty";
+        }
+    }
 }
