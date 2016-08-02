@@ -111,7 +111,8 @@ public class Build : MonoBehaviour {
 		List<string> corpses = hexGrid.GetCorpses (index);
 		string entity = hexGrid.GetEntity (index);
 		string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
-		string numEntity = Regex.Replace(entity, "[^0-9 -]", string.Empty);
+        string ppNum = PlayerPrefs.GetString(entity);
+		string numEntity = Regex.Replace(ppNum, "[^0-9 -]", string.Empty);
 
 		//checks if fulfilled cost and removes paid cost from game
 		if (souls >= cost) {
@@ -126,7 +127,7 @@ public class Build : MonoBehaviour {
 				hexGrid.SetEntity (index, "Empty");
 				GameObject healthText = GameObject.Find ("Health " + entity);
 				Destroy (healthText);
-				entityStorage.RemoveActiveEnemyEntity (entity);
+				entityStorage.RemoveActivePlayerEntity (entity);
 				PlayerPrefs.DeleteKey ("HexEntity" + numEntity);
 				PlayerPrefs.DeleteKey ("HexEntityHealth" + numEntity);
 				PlayerPrefs.DeleteKey ("HexEntityIndex" + numEntity);

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 public class BuildingManager : MonoBehaviour {
 
@@ -47,6 +48,10 @@ public class BuildingManager : MonoBehaviour {
 
     public void TickProduction()
     {
+        //if (!buildingStorage.activePlayerBuildings.Any())
+        //{
+        //    return;
+        //}
         foreach (string building in buildingStorage.activePlayerBuildings)
         {
             GameObject currBuilding = GameObject.Find(building);
