@@ -98,6 +98,7 @@
     <Compile Include="Assets\Scripts\SkeletonBehaviour.cs" />
     <Compile Include="Assets\Scripts\Souls.cs" />
     <Compile Include="Assets\Scripts\Summon.cs" />
+    <Compile Include="Assets\Scripts\UndeadVillageMechanics.cs" />
     <Compile Include="Assets\Scripts\VillageMechanics.cs" />
     <Compile Include="Assets\Scripts\Vision.cs" />
     <Compile Include="Assets\Scripts\ZombieBehaviour.cs" />

@@ -6,6 +6,7 @@ using System.Linq;
 public class BuildingManager : MonoBehaviour {
 
     public BuildingStorage buildingStorage;
+    GameObject currBuilding;
 
     private string cleanBuildingName;
     private string selBuilding;
@@ -14,15 +15,21 @@ public class BuildingManager : MonoBehaviour {
     private bool necropolisBuild;
     private bool necropolisRecruitment;
 
+    private bool RecruitmentQueued;
+
     public void DisplayBuilding (string building) {
         selBuilding = building;
         cleanBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);
-        
+        currBuilding = GameObject.Find(building);
+
         string faction = buildingStorage.whichFactionBuilding(cleanBuildingName);
         if (faction == "undead") {
             if (cleanBuildingName == "Necropolis") {
                 necropolisClicked = true;
-                //determine for production what to queue for a building
+                if (currBuilding.GetComponent<NecropolisMechanics>().IsRecruitmentQueued == true)
+                {
+                    RecruitmentQueued = true;
+                }
             }
         } else if (faction == "human") {
 
@@ -30,7 +37,6 @@ public class BuildingManager : MonoBehaviour {
     }
 
     public void ProductionQueue (string building, string action, string production) {
-        GameObject currBuilding = GameObject.Find(building);
         if (action == "Build") {
             if (cleanBuildingName == "Necropolis")
             {
@@ -54,19 +60,19 @@ public class BuildingManager : MonoBehaviour {
         //}
         foreach (string building in buildingStorage.activePlayerBuildings)
         {
-            GameObject currBuilding = GameObject.Find(building);
+            GameObject currBuildings = GameObject.Find(building);
             string cleanStorageBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);
             if (cleanStorageBuildingName == "Necropolis")
             {
-                currBuilding.GetComponent<NecropolisMechanics>().TickProductionTimer();
-                currBuilding.GetComponent<NecropolisMechanics>().TickRecruitmentTimer();
-                if (currBuilding.GetComponent<NecropolisMechanics>().currConstructionTimer <= 0)
+                currBuildings.GetComponent<NecropolisMechanics>().TickProductionTimer();
+                currBuildings.GetComponent<NecropolisMechanics>().TickRecruitmentTimer();
+                if (currBuildings.GetComponent<NecropolisMechanics>().currConstructionTimer <= 0)
                 {
-                    currBuilding.GetComponent<NecropolisMechanics>().CompleteConstruction();
+                    currBuildings.GetComponent<NecropolisMechanics>().CompleteConstruction();
                 }
-                if (currBuilding.GetComponent<NecropolisMechanics>().currRecruitmentTimer <= 0)
+                if (currBuildings.GetComponent<NecropolisMechanics>().currRecruitmentTimer <= 0)
                 {
-                    currBuilding.GetComponent<NecropolisMechanics>().CompleteRecruitment();
+                    currBuildings.GetComponent<NecropolisMechanics>().CompleteRecruitment();
                 }
             }
         }
@@ -94,6 +100,17 @@ public class BuildingManager : MonoBehaviour {
                     necropolisBuild = false;
                 }
 		    }
+            if (RecruitmentQueued)
+            {
+                if (GUI.Button(new Rect(700, 280, 120, 20), "Complete Recruitment"))
+                {
+                    currBuilding.GetComponent<NecropolisMechanics>().CompleteRecruitment();
+                    if (currBuilding.GetComponent<NecropolisMechanics>().IsRecruitmentQueued == false)
+                    {
+                        RecruitmentQueued = false;
+                    }
+                }
+            }
         }
         if (necropolisBuild)
         {

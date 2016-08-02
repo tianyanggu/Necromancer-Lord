@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class NecropolisMechanics : MonoBehaviour {
+public class UndeadVillageMechanics : MonoBehaviour {
 
-	public int health = 200;
+    public int health = 200;
     public int lasthealth = 200;
     public List<string> upgrades;
 
-	public string currConstruction = "Empty";
+    public string currConstruction = "Empty";
     public int currConstructionTimer;
 
     public string currRecruitment = "Empty";
@@ -23,9 +23,9 @@ public class NecropolisMechanics : MonoBehaviour {
     public int timeSkeleton = 3;
     public int timeSkeletonArcher = 3;
 
-    public void TickProductionTimer ()
+    public void TickProductionTimer()
     {
-        if (currConstruction != "Empty" )
+        if (currConstruction != "Empty")
         {
             currConstructionTimer--;
         }
@@ -98,8 +98,8 @@ public class NecropolisMechanics : MonoBehaviour {
                 GameObject summon = GameObject.Find("Summon");
                 summon.GetComponent<Summon>().SummonEntity(currIndex, currRecruitment);
                 currRecruitment = "Empty";
-                IsRecruitmentQueued = false;
-            } else
+            }
+            else
             {
                 IsRecruitmentQueued = true;
             }
