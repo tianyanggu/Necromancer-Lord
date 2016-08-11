@@ -293,7 +293,7 @@ public class LoadMap : MonoBehaviour {
 	}
 
 	public void LoadRandom (int seed) {
-		Random.seed = seed;
+        Random.InitState(seed);
 		for (int i = 0; i < hexGrid.size; i++) {
 			//terrain generated via seed
 			float terrainSeedVal = Random.value;

@@ -7,10 +7,10 @@ public class BuildingStorage : MonoBehaviour {
 	public List<string> playerBuildings = new List<string> ();
 	public List<string> enemyBuildings = new List<string> ();
 
-	public List<string> activePlayerBuildings = new List<string> ();
-	public List<string> activeEnemyBuildings = new List<string> ();
+	public List<GameObject> activePlayerBuildings = new List<GameObject> ();
+	public List<GameObject> activeEnemyBuildings = new List<GameObject> ();
 
-	void Start () {
+    void Start () {
 		//player controlled buildings
 		playerBuildings.Add ("Necropolis");
 		//enemy entities
@@ -23,24 +23,25 @@ public class BuildingStorage : MonoBehaviour {
 	public void ListActivePlayerBuildings () {
 		foreach (string building in playerBuildings) {
 			for (int i = 1; i <= 99; i++) {
-				string num = i.ToString ();
-				string buildingName = building + num;
-				GameObject gameEntity = GameObject.Find (building + num);
-				if (gameEntity != null) {
-					activePlayerBuildings.Add (buildingName);
-				}
+                string num = i.ToString();
+                string buildingName = building + num;
+                GameObject gameEntity = GameObject.Find(building + num);
+                if (gameEntity != null)
+                {
+                    activePlayerBuildings.Add(gameEntity);
+                }
 			}
 		}
 	}
 
-	public void ListActiveEnemyBuildings () {
+    public void ListActiveEnemyBuildings () {
 		foreach (string building in enemyBuildings) {
 			for (int i = 1; i <= 99; i++) {
 				string num = i.ToString ();
 				string buildingName = building + num;
 				GameObject gameEntity = GameObject.Find (building + num);
 				if (gameEntity != null) {
-					activeEnemyBuildings.Add (buildingName);
+					activeEnemyBuildings.Add (gameEntity);
 				}
 			}
 		}
@@ -66,19 +67,19 @@ public class BuildingStorage : MonoBehaviour {
 		return 0;
 	}
 
-	public void AddActivePlayerBuilding (string entityName) {
-		activePlayerBuildings.Add (entityName);
+	public void AddActivePlayerBuilding (GameObject entityObject) {
+		activePlayerBuildings.Add (entityObject);
 	} 
 
-	public void RemoveActivePlayerBuilding (string entityName) {
-		activePlayerBuildings.Remove (entityName);
+	public void RemoveActivePlayerBuilding (GameObject entityObject) {
+		activePlayerBuildings.Remove (entityObject);
 	} 
 
-	public void AddActiveEnemyBuilding (string entityName) {
-		activeEnemyBuildings.Add (entityName);
+	public void AddActiveEnemyBuilding (GameObject entityObject) {
+		activeEnemyBuildings.Add (entityObject);
 	} 
 
-	public void RemoveActiveEnemyBuilding (string entityName) {
-		activeEnemyBuildings.Remove (entityName);
+	public void RemoveActiveEnemyBuilding (GameObject entityObject) {
+		activeEnemyBuildings.Remove (entityObject);
 	} 
 }

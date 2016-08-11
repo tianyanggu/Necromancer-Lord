@@ -22,15 +22,17 @@ public class Build : MonoBehaviour {
 		string faction = buildingStorage.whichFactionBuilding (buildingname);
 		string availableNum = AvailableName (buildingname, faction);
 		string availableName = buildingname + availableNum;
-		int health = GetHealthInfo (buildingname);
+        int health = GetHealthInfo (buildingname);
 
 		if (buildingname == "Village") {
 			GameObject enemybuilding = (GameObject)Instantiate (Village, buildindex, Quaternion.Euler(90,0,0));
 			enemybuilding.name = availableName;
-		} else if (buildingname == "Necropolis") {
+            buildingStorage.AddActivePlayerBuilding(enemybuilding);
+        } else if (buildingname == "Necropolis") {
 			GameObject playerbuilding = (GameObject)Instantiate (Necropolis, buildindex, Quaternion.Euler(90,0,0));
 			playerbuilding.name = availableName;
-		}
+            buildingStorage.AddActivePlayerBuilding(playerbuilding);
+        }
 		//stores info of new summon to playerprefs for saving
 		string ppName = AvailablePlayerPrefsName ();
 
@@ -46,19 +48,34 @@ public class Build : MonoBehaviour {
 		for (int i = 1; i <= 999; i++) {
 			string num = i.ToString ();
 			if (faction == "undead") {
-				if (!buildingStorage.activePlayerBuildings.Contains (buildingname + num)) {
-					string availableName = buildingname + num;
-					buildingStorage.AddActivePlayerBuilding (availableName);
-					return num;
+                bool nameExists = false;
+				foreach (GameObject playerBuildings in buildingStorage.activePlayerBuildings) {
+					if (playerBuildings.name == buildingname + num)
+                    {
+                        nameExists = true;
+                    }
 				}
-			}
+                if (!nameExists)
+                {
+                    string availableName = buildingname + num;
+                    return num;
+                }
+            }
 			if (faction == "human") {
-				if (!buildingStorage.activeEnemyBuildings.Contains (buildingname + num)) {
-					string availableName = buildingname + num;
-					buildingStorage.AddActiveEnemyBuilding (availableName);
-					return num;
-				}
-			}
+                bool nameExists = false;
+                foreach (GameObject playerBuildings in buildingStorage.activePlayerBuildings)
+                {
+                    if (playerBuildings.name == buildingname + num)
+                    {
+                        nameExists = true;
+                    }
+                }
+                if (!nameExists)
+                {
+                    string availableName = buildingname + num;
+                    return num;
+                }
+            }
 		} 
 		return null;
 	}
@@ -66,7 +83,8 @@ public class Build : MonoBehaviour {
 	public void DestroyBuilding (int cellindex) {
 		string buildingName = hexGrid.GetBuilding (cellindex);
 		GameObject building = GameObject.Find (buildingName);
-		Destroy (building);
+        buildingStorage.RemoveActivePlayerBuilding(building);
+        Destroy (building);
 
 		//delete from playerprefs
 		string playerprefsName = PlayerPrefs.GetString (buildingName);

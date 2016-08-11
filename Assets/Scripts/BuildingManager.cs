@@ -58,10 +58,9 @@ public class BuildingManager : MonoBehaviour {
         //{
         //    return;
         //}
-        foreach (string building in buildingStorage.activePlayerBuildings)
+        foreach (GameObject currBuildings in buildingStorage.activePlayerBuildings)
         {
-            GameObject currBuildings = GameObject.Find(building);
-            string cleanStorageBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);
+            string cleanStorageBuildingName = Regex.Replace(currBuildings.name, @"[\d-]", string.Empty);
             if (cleanStorageBuildingName == "Necropolis")
             {
                 currBuildings.GetComponent<NecropolisMechanics>().TickProductionTimer();
