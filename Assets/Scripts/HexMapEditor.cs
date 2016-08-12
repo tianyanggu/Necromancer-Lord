@@ -217,7 +217,7 @@ public class HexMapEditor : MonoBehaviour {
 			if (checkall == true) {
 				turn++;
 				//add points back to units
-				locate.SetAllActive();
+				locate.SetAllIdleStatus(false);
 				locate.SetAllMovementPoints();
 				locate.SetAllAttackPoints();
                 buildingManager.TickProduction();
@@ -228,7 +228,7 @@ public class HexMapEditor : MonoBehaviour {
 
 		//sets remaining units idle
 		if(GUI.Button(new Rect(30,300,60,20), "Set All Idle")) {
-			locate.SetAllIdle ();
+			locate.SetAllIdleStatus(true);
 		}
 	}
 }

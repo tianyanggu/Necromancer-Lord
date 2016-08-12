@@ -32,61 +32,104 @@ public class Summon : MonoBehaviour {
 		string availableName = summonname + availableNum;
 		int health = GetHealthInfo (summonname);
 
-		if (summonname == "Skeleton") {
-			GameObject playerentity = (GameObject)Instantiate (Skeleton, summonindex, Quaternion.identity);
-			playerentity.name = availableName;
-            entityStorage.AddActivePlayerEntity(playerentity);
-        } else if (summonname == "Necromancer") {
-			GameObject playerentity = (GameObject)Instantiate (Necromancer, summonindex, Quaternion.identity);
-			playerentity.name = availableName;
-            entityStorage.AddActivePlayerEntity(playerentity);
-        } else if (summonname == "Zombie") {
-			GameObject playerentity = (GameObject)Instantiate (Zombie, summonindex, Quaternion.identity);
-			playerentity.name = availableName;
-            entityStorage.AddActivePlayerEntity(playerentity);
-        } else if (summonname == "SkeletonArcher") {
-			GameObject playerentity = (GameObject)Instantiate (SkeletonArcher, summonindex, Quaternion.identity);
-            playerentity.name = availableName;
-            entityStorage.AddActivePlayerEntity(playerentity);
-        } else if (summonname == "ArmoredSkeleton") {
-			GameObject playerentity = (GameObject)Instantiate (ArmoredSkeleton, summonindex, Quaternion.identity);
-            playerentity.name = availableName;
-            entityStorage.AddActivePlayerEntity(playerentity);
-        } else if (summonname == "DeathKnight") {
-			GameObject playerentity = (GameObject)Instantiate (DeathKnight, summonindex, Quaternion.identity);
-            playerentity.name = availableName;
-            entityStorage.AddActivePlayerEntity(playerentity);
+        switch (summonname)
+        {
+            //UNDEAD
+            case "Zombie":
+                {
+                    GameObject playerentity = (GameObject)Instantiate(Zombie, summonindex, Quaternion.identity);
+                    playerentity.name = availableName;
+                    entityStorage.AddActivePlayerEntity(playerentity);
+                }
+                break;
+            case "Skeleton":
+                {
+                    GameObject playerentity = (GameObject)Instantiate(Skeleton, summonindex, Quaternion.identity);
+                    playerentity.name = availableName;
+                    entityStorage.AddActivePlayerEntity(playerentity);
+                }
+                break;
+            case "Necromancer":
+                {
+                    GameObject playerentity = (GameObject)Instantiate(Necromancer, summonindex, Quaternion.identity);
+                    playerentity.name = availableName;
+                    entityStorage.AddActivePlayerEntity(playerentity);
+                }
+                break;
+            case "SkeletonArcher":
+                {
+                    GameObject playerentity = (GameObject)Instantiate(SkeletonArcher, summonindex, Quaternion.identity);
+                    playerentity.name = availableName;
+                    entityStorage.AddActivePlayerEntity(playerentity);
+                }
+                break;
+            case "ArmoredSkeleton":
+                {
+                    GameObject playerentity = (GameObject)Instantiate(ArmoredSkeleton, summonindex, Quaternion.identity);
+                    playerentity.name = availableName;
+                    entityStorage.AddActivePlayerEntity(playerentity);
+                }
+                break;
+            case "DeathKnight":
+                {
+                    GameObject playerentity = (GameObject)Instantiate(DeathKnight, summonindex, Quaternion.identity);
+                    playerentity.name = availableName;
+                    entityStorage.AddActivePlayerEntity(playerentity);
+                }
+                break;
+
+            //HUMANS
+            case "Militia":
+                {
+                    GameObject enemyentity = (GameObject)Instantiate(Militia, summonindex, Quaternion.identity);
+                    enemyentity.name = availableName;
+                    entityStorage.AddActiveEnemyEntity(enemyentity);
+                }
+                break;
+            case "Archer":
+                {
+                    GameObject enemyentity = (GameObject)Instantiate(Archer, summonindex, Quaternion.identity);
+                    enemyentity.name = availableName;
+                    entityStorage.AddActiveEnemyEntity(enemyentity);
+                }
+                break;
+            case "Longbowman":
+                {
+                    GameObject enemyentity = (GameObject)Instantiate(Longbowman, summonindex, Quaternion.identity);
+                    enemyentity.name = availableName;
+                    entityStorage.AddActiveEnemyEntity(enemyentity);
+                }
+                break;
+            case "Crossbowman":
+                {
+                    GameObject enemyentity = (GameObject)Instantiate(Crossbowman, summonindex, Quaternion.identity);
+                    enemyentity.name = availableName;
+                    entityStorage.AddActiveEnemyEntity(enemyentity);
+                }
+                break;
+            case "Footman":
+                {
+                    GameObject enemyentity = (GameObject)Instantiate(Footman, summonindex, Quaternion.identity);
+                    enemyentity.name = availableName;
+                    entityStorage.AddActiveEnemyEntity(enemyentity);
+                }
+                break;
+            case "MountedKnight":
+                {
+                    GameObject enemyentity = (GameObject)Instantiate(MountedKnight, summonindex, Quaternion.identity);
+                    enemyentity.name = availableName;
+                    entityStorage.AddActiveEnemyEntity(enemyentity);
+                }
+                break;
+            case "HeroKing":
+                {
+                    GameObject enemyentity = (GameObject)Instantiate(HeroKing, summonindex, Quaternion.identity);
+                    enemyentity.name = availableName;
+                    entityStorage.AddActiveEnemyEntity(enemyentity);
+                }
+                break;
         }
 
-        else if (summonname == "Militia") {
-			GameObject enemyentity = (GameObject)Instantiate (Militia, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-            entityStorage.AddActiveEnemyEntity(enemyentity);
-        } else if (summonname == "Archer") {
-			GameObject enemyentity = (GameObject)Instantiate (Archer, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-            entityStorage.AddActiveEnemyEntity(enemyentity);
-        } else if (summonname == "Longbowman") {
-			GameObject enemyentity = (GameObject)Instantiate (Longbowman, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-            entityStorage.AddActiveEnemyEntity(enemyentity);
-        } else if (summonname == "Crossbowman") {
-			GameObject enemyentity = (GameObject)Instantiate (Crossbowman, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-            entityStorage.AddActiveEnemyEntity(enemyentity);
-        } else if (summonname == "Footman") {
-			GameObject enemyentity = (GameObject)Instantiate (Footman, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-            entityStorage.AddActiveEnemyEntity(enemyentity);
-        } else if (summonname == "MountedKnight") {
-			GameObject enemyentity = (GameObject)Instantiate (MountedKnight, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-            entityStorage.AddActiveEnemyEntity(enemyentity);
-        } else if (summonname == "HeroKing") {
-			GameObject enemyentity = (GameObject)Instantiate (HeroKing, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-            entityStorage.AddActiveEnemyEntity(enemyentity);
-        }
 		//stores info of new summon to playerprefs for saving
 		string ppName = AvailablePlayerPrefsName ();
 
@@ -147,37 +190,36 @@ public class Summon : MonoBehaviour {
 
 	//grabs health info
 	int GetHealthInfo(string entity) {
-		GameObject sumentity = GameObject.Find (entity);
-
 		//------Grab Info Attacker------
-		if (entity == "Zombie") {
-			return sumentity.GetComponent<ZombieBehaviour> ().health;
-		} else if (entity == "Skeleton") {
-			return sumentity.GetComponent<SkeletonBehaviour> ().health;
-		} else if (entity == "Necromancer") {
-			return sumentity.GetComponent<NecromancerBehaviour> ().health;
-		} else if (entity == "SkeletonArcher") {
-			return sumentity.GetComponent<SkeletonArcherBehaviour> ().health;
-		} else if (entity == "ArmoredSkeleton") {
-			return sumentity.GetComponent<ArmoredSkeletonBehaviour> ().health;
-		} else if (entity == "DeathKnight") {
-			return sumentity.GetComponent<DeathKnightBehaviour> ().health;
-		}
+        switch (entity)
+        {
+            case "Zombie":
+                return Zombie.GetComponent<ZombieBehaviour>().health;
+            case "Skeleton":
+                return Skeleton.GetComponent<SkeletonBehaviour>().health;
+            case "Necromancer":
+                return Necromancer.GetComponent<NecromancerBehaviour>().health;
+            case "SkeletonArcher":
+                return SkeletonArcher.GetComponent<SkeletonArcherBehaviour>().health;
+            case "ArmoredSkeleton":
+                return ArmoredSkeleton.GetComponent<ArmoredSkeletonBehaviour>().health;
+            case "DeathKnight":
+                return DeathKnight.GetComponent<DeathKnightBehaviour>().health;
 
-        else if (entity == "Militia") {
-			return sumentity.GetComponent<MilitiaBehaviour> ().health;
-		}  else if (entity == "Archer") {
-			return sumentity.GetComponent<ArcherBehaviour> ().health;
-		}  else if (entity == "Longbowman") {
-			return sumentity.GetComponent<LongbowmanBehaviour> ().health;
-		}  else if (entity == "Crossbowman") {
-			return sumentity.GetComponent<CrossbowmanBehaviour> ().health;
-		}  else if (entity == "Footman") {
-			return sumentity.GetComponent<FootmanBehaviour> ().health;
-		}  else if (entity == "MountedKnight") {
-			return sumentity.GetComponent<MountedKnightBehaviour> ().health;
-		}  else if (entity == "HeroKing") {
-			return sumentity.GetComponent<HeroKingBehaviour> ().health;
+            case "Militia":
+                return Militia.GetComponent<MilitiaBehaviour>().health;
+            case "Archer":
+                return Archer.GetComponent<ArcherBehaviour>().health;
+            case "Longbowman":
+                return Longbowman.GetComponent<LongbowmanBehaviour>().health;
+            case "Crossbowman":
+                return Crossbowman.GetComponent<CrossbowmanBehaviour>().health;
+            case "Footman":
+                return Footman.GetComponent<FootmanBehaviour>().health;
+            case "MountedKnight":
+                return MountedKnight.GetComponent<MountedKnightBehaviour>().health;
+            case "HeroKing":
+                return HeroKing.GetComponent<HeroKingBehaviour>().health;	
 		} 
 		return 0;
 	}

@@ -40,18 +40,26 @@ public class Vision : MonoBehaviour {
         foreach (GameObject playerEntity in entityStorage.activePlayerEntities) {
             string cleanPlayerEntity = Regex.Replace(playerEntity.name, @"[\d-]", string.Empty);
             int visionDistance = 0;
-            if (cleanPlayerEntity == "Zombie") {
-                visionDistance = playerEntity.GetComponent<ZombieBehaviour>().vision;
-            } else if (cleanPlayerEntity == "Skeleton") {
-                visionDistance = playerEntity.GetComponent<SkeletonBehaviour>().vision;
-            } else if (cleanPlayerEntity == "Necromancer") {
-                visionDistance = playerEntity.GetComponent<NecromancerBehaviour>().vision;
-            } else if (cleanPlayerEntity == "SkeletonArcher") {
-                visionDistance = playerEntity.GetComponent<SkeletonArcherBehaviour>().vision;
-            } else if (cleanPlayerEntity == "ArmoredSkeleton") {
-                visionDistance = playerEntity.GetComponent<ArmoredSkeletonBehaviour>().vision;
-            } else if (cleanPlayerEntity == "DeathKnight") {
-                visionDistance = playerEntity.GetComponent<DeathKnightBehaviour>().vision;
+            switch (cleanPlayerEntity)
+            {
+                case "Zombie":
+                    visionDistance = playerEntity.GetComponent<ZombieBehaviour>().vision;
+                    break;
+                case "Skeleton":
+                    visionDistance = playerEntity.GetComponent<SkeletonBehaviour>().vision;
+                    break;
+                case "Necromancer":
+                    visionDistance = playerEntity.GetComponent<NecromancerBehaviour>().vision;
+                    break;
+                case "SkeletonArcher":
+                    visionDistance = playerEntity.GetComponent<SkeletonArcherBehaviour>().vision;
+                    break;
+                case "ArmoredSkeleton":
+                    visionDistance = playerEntity.GetComponent<ArmoredSkeletonBehaviour>().vision;
+                    break;
+                case "DeathKnight":
+                    visionDistance = playerEntity.GetComponent<DeathKnightBehaviour>().vision;
+                    break;
             }
 
             //TODO Future update for human class

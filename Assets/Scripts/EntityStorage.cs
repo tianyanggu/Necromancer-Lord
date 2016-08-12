@@ -58,53 +58,56 @@ public class EntityStorage : MonoBehaviour {
 	//returns faction
 	public string whichFaction(string entity) {
 		//------Determine Faction------
-		if (entity == "Zombie") {
-			return "undead";
-		} else if (entity == "Skeleton") {
-			return "undead";
-		} else if (entity == "Necromancer") {
-			return "undead";
-		} else if (entity == "SkeletonArcher") {
-			return "undead";
-		} else if (entity == "ArmoredSkeleton") {
-			return "undead";
-		} else if (entity == "DeathKnight") {
-			return "undead";
-		}
+        switch (entity)
+        {
+            case "Zombie":
+                return "undead";
+            case "Skeleton":
+                return "undead";
+            case "Necromancer":
+                return "undead";
+            case "SkeletonArcher":
+                return "undead";
+            case "ArmoredSkeleton":
+                return "undead";
+            case "DeathKnight":
+                return "undead";
 
-        else if (entity == "Militia") {
-			return "human";
-		} else if (entity == "Archer") {
-			return "human";
-		} else if (entity == "Longbowman") {
-			return "human";
-		} else if (entity == "Crossbowman") {
-			return "human";
-		} else if (entity == "Footman") {
-			return "human";
-		} else if (entity == "MountedKnight") {
-			return "human";
-		} else if (entity == "HeroKing") {
-			return "human";
-		}
+            case "Militia":
+                return "human";
+            case "Archer":
+                return "human";
+            case "Longbowman":
+                return "human";
+            case "Crossbowman":
+                return "human";
+            case "Footman":
+                return "human";
+            case "MountedKnight":
+                return "human";
+            case "HeroKing":
+                return "human";
+        }
 		return "unknown";
 	}
 
 	//returns summon soul cost
 	public int summonSoulCost(string entity) {
-		//------Determine Cost------
-		if (entity == "Zombie") {
-			return 100;
-		} else if (entity == "Skeleton") {
-			return 150;
-		} else if (entity == "Necromancer") {
-			return 10000;
-		} else if (entity == "SkeletonArcher") {
-			return 150;
-		} else if (entity == "ArmoredSkeleton") {
-			return 200;
-		} else if (entity == "DeathKnight") {
-			return 250;
+        //------Determine Cost------
+        switch (entity)
+        {
+            case "Zombie":
+                return 100;
+            case "Skeleton":
+                return 150;
+            case "Necromancer":
+                return 10000;
+            case "SkeletonArcher":
+                return 150;
+            case "ArmoredSkeleton":
+                return 200;
+            case "DeathKnight":
+                return 250;
 		}
 		return 0;
 	}
