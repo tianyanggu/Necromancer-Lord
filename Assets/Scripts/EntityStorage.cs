@@ -7,8 +7,8 @@ public class EntityStorage : MonoBehaviour {
 	public List<string> playerEntities = new List<string> ();
 	public List<string> enemyEntities = new List<string> ();
 
-	public List<string> activePlayerEntities = new List<string> ();
-	public List<string> activeEnemyEntities = new List<string> ();
+	public List<GameObject> activePlayerEntities = new List<GameObject> ();
+	public List<GameObject> activeEnemyEntities = new List<GameObject> ();
 
 	void Start () {
 		//player controlled entities
@@ -35,10 +35,9 @@ public class EntityStorage : MonoBehaviour {
 		foreach (string entity in playerEntities) {
 			for (int i = 1; i <= 99; i++) {
 				string num = i.ToString ();
-				string entityName = entity + num;
 				GameObject gameEntity = GameObject.Find (entity + num);
 				if (gameEntity != null) {
-					activePlayerEntities.Add (entityName);
+					activePlayerEntities.Add (gameEntity);
 				}
 			}
 		}
@@ -48,10 +47,9 @@ public class EntityStorage : MonoBehaviour {
 		foreach (string entity in enemyEntities) {
 			for (int i = 1; i <= 99; i++) {
 				string num = i.ToString ();
-				string entityName = entity + num;
 				GameObject gameEntity = GameObject.Find (entity + num);
 				if (gameEntity != null) {
-					activeEnemyEntities.Add (entityName);
+					activeEnemyEntities.Add (gameEntity);
 				}
 			}
 		}
@@ -111,19 +109,19 @@ public class EntityStorage : MonoBehaviour {
 		return 0;
 	}
 
-	public void AddActivePlayerEntity (string entityName) {
-		activePlayerEntities.Add (entityName);
+	public void AddActivePlayerEntity (GameObject entityObject) {
+		activePlayerEntities.Add (entityObject);
 	} 
 
-	public void RemoveActivePlayerEntity (string entityName) {
-		activePlayerEntities.Remove (entityName);
+	public void RemoveActivePlayerEntity (GameObject entityObject) {
+		activePlayerEntities.Remove (entityObject);
 	} 
 
-	public void AddActiveEnemyEntity (string entityName) {
-		activeEnemyEntities.Add (entityName);
+	public void AddActiveEnemyEntity (GameObject entityObject) {
+		activeEnemyEntities.Add (entityObject);
 	} 
 
-	public void RemoveActiveEnemyEntity (string entityName) {
-		activeEnemyEntities.Remove (entityName);
+	public void RemoveActiveEnemyEntity (GameObject entityObject) {
+		activeEnemyEntities.Remove (entityObject);
 	} 
 }

@@ -14,134 +14,102 @@ public class Locate : MonoBehaviour {
 	//		}
 
 	public void SetAllMovementPoints () {
-		foreach (string entity in entityStorage.activePlayerEntities) {
-			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
+		foreach (GameObject entity in entityStorage.activePlayerEntities) {
+			string cleanEntity = Regex.Replace(entity.name, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint = gameEntity.GetComponent<NecromancerBehaviour> ().movementpoint;
+                entity.GetComponent<NecromancerBehaviour> ().currmovementpoint = entity.GetComponent<NecromancerBehaviour> ().movementpoint;
 			} else if (cleanEntity == "Skeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint = gameEntity.GetComponent<SkeletonBehaviour> ().movementpoint;
+                entity.GetComponent<SkeletonBehaviour> ().currmovementpoint = entity.GetComponent<SkeletonBehaviour> ().movementpoint;
 			} else if (cleanEntity == "Zombie") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ZombieBehaviour> ().currmovementpoint = gameEntity.GetComponent<ZombieBehaviour> ().movementpoint;
+                entity.GetComponent<ZombieBehaviour> ().currmovementpoint = entity.GetComponent<ZombieBehaviour> ().movementpoint;
 			} else if (cleanEntity == "SkeletonArcher") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint = gameEntity.GetComponent<SkeletonArcherBehaviour> ().movementpoint;
+                entity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint = entity.GetComponent<SkeletonArcherBehaviour> ().movementpoint;
 			} else if (cleanEntity == "ArmoredSkeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currmovementpoint = gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().movementpoint;
+                entity.GetComponent<ArmoredSkeletonBehaviour> ().currmovementpoint = entity.GetComponent<ArmoredSkeletonBehaviour> ().movementpoint;
 			} else if (cleanEntity == "DeathKnight") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<DeathKnightBehaviour> ().currmovementpoint = gameEntity.GetComponent<DeathKnightBehaviour> ().movementpoint;
+                entity.GetComponent<DeathKnightBehaviour> ().currmovementpoint = entity.GetComponent<DeathKnightBehaviour> ().movementpoint;
 			}
 		}
 
         //TODO human class update
         //update on both sides for each class
 
-		foreach (string entity in entityStorage.activeEnemyEntities) {
-			string cleanEntity = Regex.Replace (entity, @"[\d-]", string.Empty);
+		foreach (GameObject entity in entityStorage.activeEnemyEntities) {
+			string cleanEntity = Regex.Replace (entity.name, @"[\d-]", string.Empty);
 			if (cleanEntity == "Militia") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint = gameEntity.GetComponent<MilitiaBehaviour> ().movementpoint;
+                entity.GetComponent<MilitiaBehaviour> ().currmovementpoint = entity.GetComponent<MilitiaBehaviour> ().movementpoint;
 			} else if (cleanEntity == "Archer") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ArcherBehaviour> ().currmovementpoint = gameEntity.GetComponent<ArcherBehaviour> ().movementpoint;
+                entity.GetComponent<ArcherBehaviour> ().currmovementpoint = entity.GetComponent<ArcherBehaviour> ().movementpoint;
 			} else if (cleanEntity == "Longbowman") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<LongbowmanBehaviour> ().movementpoint;
+                entity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = entity.GetComponent<LongbowmanBehaviour> ().movementpoint;
 			} else if (cleanEntity == "Crossbowman") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<CrossbowmanBehaviour> ().movementpoint;
+                entity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = entity.GetComponent<CrossbowmanBehaviour> ().movementpoint;
 			} else if (cleanEntity == "Footman") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<FootmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<FootmanBehaviour> ().movementpoint;
+                entity.GetComponent<FootmanBehaviour> ().currmovementpoint = entity.GetComponent<FootmanBehaviour> ().movementpoint;
 			} else if (cleanEntity == "MountedKnight") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = gameEntity.GetComponent<MountedKnightBehaviour> ().movementpoint;
+                entity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = entity.GetComponent<MountedKnightBehaviour> ().movementpoint;
 			} else if (cleanEntity == "HeroKing") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint = gameEntity.GetComponent<HeroKingBehaviour> ().movementpoint;
+                entity.GetComponent<HeroKingBehaviour> ().currmovementpoint = entity.GetComponent<HeroKingBehaviour> ().movementpoint;
 			}
 		}
 	}
 
 	public void SetAllAttackPoints () {
-		foreach (string entity in entityStorage.activePlayerEntities) {
-			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
+		foreach (GameObject entity in entityStorage.activePlayerEntities) {
+			string cleanEntity = Regex.Replace(entity.name, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<NecromancerBehaviour> ().currattackpoint = gameEntity.GetComponent<NecromancerBehaviour> ().attackpoint;
+                entity.GetComponent<NecromancerBehaviour> ().currattackpoint = entity.GetComponent<NecromancerBehaviour> ().attackpoint;
 			} else if (cleanEntity == "Skeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<SkeletonBehaviour> ().currattackpoint = gameEntity.GetComponent<SkeletonBehaviour> ().attackpoint;
+                entity.GetComponent<SkeletonBehaviour> ().currattackpoint = entity.GetComponent<SkeletonBehaviour> ().attackpoint;
 			} else if (cleanEntity == "Zombie") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ZombieBehaviour> ().currattackpoint = gameEntity.GetComponent<ZombieBehaviour> ().attackpoint;
+                entity.GetComponent<ZombieBehaviour> ().currattackpoint = entity.GetComponent<ZombieBehaviour> ().attackpoint;
 			} else if (cleanEntity == "SkeletonArcher") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<SkeletonArcherBehaviour> ().currattackpoint = gameEntity.GetComponent<SkeletonArcherBehaviour> ().attackpoint;
+                entity.GetComponent<SkeletonArcherBehaviour> ().currattackpoint = entity.GetComponent<SkeletonArcherBehaviour> ().attackpoint;
 			} else if (cleanEntity == "ArmoredSkeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currattackpoint = gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().attackpoint;
+                entity.GetComponent<ArmoredSkeletonBehaviour> ().currattackpoint = entity.GetComponent<ArmoredSkeletonBehaviour> ().attackpoint;
 			} else if (cleanEntity == "DeathKnight") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<DeathKnightBehaviour> ().currattackpoint = gameEntity.GetComponent<DeathKnightBehaviour> ().attackpoint;
+                entity.GetComponent<DeathKnightBehaviour> ().currattackpoint = entity.GetComponent<DeathKnightBehaviour> ().attackpoint;
 			}
 		}
 
         //TODO human class update
         //update on both sides for each class
 
-		foreach (string entity in entityStorage.activeEnemyEntities) {
-			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
+		foreach (GameObject entity in entityStorage.activeEnemyEntities) {
+			string cleanEntity = Regex.Replace(entity.name, @"[\d-]", string.Empty);
 			if (cleanEntity == "Militia") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<MilitiaBehaviour> ().currattackpoint = gameEntity.GetComponent<MilitiaBehaviour> ().attackpoint;
+                entity.GetComponent<MilitiaBehaviour> ().currattackpoint = entity.GetComponent<MilitiaBehaviour> ().attackpoint;
 			} else if (cleanEntity == "Archer") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ArcherBehaviour> ().currmovementpoint = gameEntity.GetComponent<ArcherBehaviour> ().attackpoint;
+                entity.GetComponent<ArcherBehaviour> ().currmovementpoint = entity.GetComponent<ArcherBehaviour> ().attackpoint;
 			} else if (cleanEntity == "Longbowman") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<LongbowmanBehaviour> ().attackpoint;
+                entity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = entity.GetComponent<LongbowmanBehaviour> ().attackpoint;
 			} else if (cleanEntity == "Crossbowman") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<CrossbowmanBehaviour> ().attackpoint;
+                entity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = entity.GetComponent<CrossbowmanBehaviour> ().attackpoint;
 			} else if (cleanEntity == "Footman") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<FootmanBehaviour> ().currmovementpoint = gameEntity.GetComponent<FootmanBehaviour> ().attackpoint;
+                entity.GetComponent<FootmanBehaviour> ().currmovementpoint = entity.GetComponent<FootmanBehaviour> ().attackpoint;
 			} else if (cleanEntity == "MountedKnight") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = gameEntity.GetComponent<MountedKnightBehaviour> ().attackpoint;
+                entity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = entity.GetComponent<MountedKnightBehaviour> ().attackpoint;
 			} else if (cleanEntity == "HeroKing") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint = gameEntity.GetComponent<HeroKingBehaviour> ().attackpoint;
+                entity.GetComponent<HeroKingBehaviour> ().currmovementpoint = entity.GetComponent<HeroKingBehaviour> ().attackpoint;
 			}
 		}
 	}
 
 	public void SetAllIdle () {
-		foreach (string entity in entityStorage.activePlayerEntities) {
-			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
+		foreach (GameObject entity in entityStorage.activePlayerEntities) {
+			string cleanEntity = Regex.Replace(entity.name, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<NecromancerBehaviour> ().idle = true;
+                entity.GetComponent<NecromancerBehaviour> ().idle = true;
 			} else if (cleanEntity == "Skeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<SkeletonBehaviour> ().idle = true;
+                entity.GetComponent<SkeletonBehaviour> ().idle = true;
 			} else if (cleanEntity == "Zombie") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ZombieBehaviour> ().idle = true;
+                entity.GetComponent<ZombieBehaviour> ().idle = true;
 			} else if (cleanEntity == "SkeletonArcher") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<SkeletonArcherBehaviour> ().idle = true;
+                entity.GetComponent<SkeletonArcherBehaviour> ().idle = true;
 			} else if (cleanEntity == "ArmoredSkeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().idle = true;
+                entity.GetComponent<ArmoredSkeletonBehaviour> ().idle = true;
 			} else if (cleanEntity == "DeathKnight") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<DeathKnightBehaviour> ().idle = true;
+                entity.GetComponent<DeathKnightBehaviour> ().idle = true;
 			}
 
             //TODO human class update
@@ -153,26 +121,20 @@ public class Locate : MonoBehaviour {
 	}
 
 	public void SetAllActive () {
-		foreach (string entity in entityStorage.activePlayerEntities) {
-			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
+		foreach (GameObject entity in entityStorage.activePlayerEntities) {
+			string cleanEntity = Regex.Replace(entity.name, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<NecromancerBehaviour> ().idle = false;
+                entity.GetComponent<NecromancerBehaviour> ().idle = false;
 			} else if (cleanEntity == "Skeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<SkeletonBehaviour> ().idle = false;
+                entity.GetComponent<SkeletonBehaviour> ().idle = false;
 			} else if (cleanEntity == "Zombie") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ZombieBehaviour> ().idle = false;
+                entity.GetComponent<ZombieBehaviour> ().idle = false;
 			} else if (cleanEntity == "SkeletonArcher") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<SkeletonArcherBehaviour> ().idle = false;
+                entity.GetComponent<SkeletonArcherBehaviour> ().idle = false;
 			} else if (cleanEntity == "ArmoredSkeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().idle = false;
+                entity.GetComponent<ArmoredSkeletonBehaviour> ().idle = false;
 			} else if (cleanEntity == "DeathKnight") {
-				GameObject gameEntity = GameObject.Find (entity);
-				gameEntity.GetComponent<DeathKnightBehaviour> ().idle = false;
+                entity.GetComponent<DeathKnightBehaviour> ().idle = false;
 			}
 
             //TODO human class update
@@ -184,73 +146,60 @@ public class Locate : MonoBehaviour {
 	}
 
 	public bool CheckAllMovementPoints () {
-		foreach (string entity in entityStorage.activePlayerEntities) {
-			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
+		foreach (GameObject entity in entityStorage.activePlayerEntities) {
+			string cleanEntity = Regex.Replace(entity.name, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<NecromancerBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "Skeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<SkeletonBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "Zombie") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<ZombieBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<ZombieBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "SkeletonArcher") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "ArmoredSkeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<ArmoredSkeletonBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "DeathKnight") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<DeathKnightBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<DeathKnightBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			}
 
             else if (cleanEntity == "Militia") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<MilitiaBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "Archer") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<ArcherBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<ArcherBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "Longbowman") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<LongbowmanBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "Crossbowman") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "Footman") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<FootmanBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<FootmanBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "MountedKnight") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<MountedKnightBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			} else if (cleanEntity == "HeroKing") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint != 0) {
+				if (entity.GetComponent<HeroKingBehaviour> ().currmovementpoint != 0) {
 					return false;
 				}
 			}
@@ -259,47 +208,41 @@ public class Locate : MonoBehaviour {
 	}
 
 	public bool CheckAllAttack () {
-		foreach (string entity in entityStorage.activePlayerEntities) {
-			string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
+		foreach (GameObject entity in entityStorage.activePlayerEntities) {
+			string cleanEntity = Regex.Replace(entity.name, @"[\d-]", string.Empty);
 			if (cleanEntity == "Necromancer") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<NecromancerBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<NecromancerBehaviour> ().currattackpoint != 0) {
-					if (gameEntity.GetComponent<NecromancerBehaviour> ().idle == false) {
+				if (entity.GetComponent<NecromancerBehaviour> ().currmovementpoint != 0 || entity.GetComponent<NecromancerBehaviour> ().currattackpoint != 0) {
+					if (entity.GetComponent<NecromancerBehaviour> ().idle == false) {
 						return false;
 					}
 				}
 			} else if (cleanEntity == "Skeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<SkeletonBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<SkeletonBehaviour> ().currattackpoint != 0) {
-					if (gameEntity.GetComponent<SkeletonBehaviour> ().idle == false) { 
+				if (entity.GetComponent<SkeletonBehaviour> ().currmovementpoint != 0 || entity.GetComponent<SkeletonBehaviour> ().currattackpoint != 0) {
+					if (entity.GetComponent<SkeletonBehaviour> ().idle == false) { 
 						return false;
 					}
 				}
 			} else if (cleanEntity == "Zombie") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<ZombieBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<ZombieBehaviour> ().currattackpoint != 0) {
-					if (gameEntity.GetComponent<ZombieBehaviour> ().idle == false) {
+				if (entity.GetComponent<ZombieBehaviour> ().currmovementpoint != 0 || entity.GetComponent<ZombieBehaviour> ().currattackpoint != 0) {
+					if (entity.GetComponent<ZombieBehaviour> ().idle == false) {
 						return false;
 					}
 				}
 			} else if (cleanEntity == "SkeletonArcher") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<SkeletonArcherBehaviour> ().currattackpoint != 0) {
-					if (gameEntity.GetComponent<SkeletonArcherBehaviour> ().idle == false) {
+				if (entity.GetComponent<SkeletonArcherBehaviour> ().currmovementpoint != 0 || entity.GetComponent<SkeletonArcherBehaviour> ().currattackpoint != 0) {
+					if (entity.GetComponent<SkeletonArcherBehaviour> ().idle == false) {
 						return false;
 					}
 				}
 			} else if (cleanEntity == "ArmoredSkeleton") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().currattackpoint != 0) {
-					if (gameEntity.GetComponent<ArmoredSkeletonBehaviour> ().idle == false) {
+				if (entity.GetComponent<ArmoredSkeletonBehaviour> ().currmovementpoint != 0 || entity.GetComponent<ArmoredSkeletonBehaviour> ().currattackpoint != 0) {
+					if (entity.GetComponent<ArmoredSkeletonBehaviour> ().idle == false) {
 						return false;
 					}
 				}
 			} else if (cleanEntity == "DeathKnight") {
-				GameObject gameEntity = GameObject.Find (entity);
-				if (gameEntity.GetComponent<DeathKnightBehaviour> ().currmovementpoint != 0 || gameEntity.GetComponent<DeathKnightBehaviour> ().currattackpoint != 0) {
-					if (gameEntity.GetComponent<DeathKnightBehaviour> ().idle == false) {
+				if (entity.GetComponent<DeathKnightBehaviour> ().currmovementpoint != 0 || entity.GetComponent<DeathKnightBehaviour> ().currattackpoint != 0) {
+					if (entity.GetComponent<DeathKnightBehaviour> ().idle == false) {
 						return false;
 					}
 				}

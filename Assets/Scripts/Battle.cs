@@ -153,7 +153,7 @@ public class Battle : MonoBehaviour {
 						hexGrid.SetEntity (currindex, "Empty");
 						GameObject defenderHealthText = GameObject.Find ("Health " + currEntity);
 						Destroy (defenderHealthText);
-						entityStorage.RemoveActiveEnemyEntity (currEntity);
+						entityStorage.RemoveActiveEnemyEntity (defender);
 						//store new info
 						PlayerPrefs.DeleteKey ("HexEntity" + numCurrEntity);
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numCurrEntity);
@@ -169,7 +169,7 @@ public class Battle : MonoBehaviour {
 						hexGrid.SetEntity (selectedindex, "Empty");
 						GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntity);
 						Destroy (attackerHealthText);
-						entityStorage.RemoveActivePlayerEntity (selectedEntity);
+						entityStorage.RemoveActivePlayerEntity (attacker);
 						//store new info
 						PlayerPrefs.DeleteKey ("HexEntity" + numSelEntity);
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numSelEntity);

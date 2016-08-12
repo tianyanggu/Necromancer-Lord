@@ -37,21 +37,20 @@ public class Vision : MonoBehaviour {
 
     //check each player entity in entitystorage to determine their vision range and remove the fog for that range
     public void AllPlayerVision () {
-        foreach (string pEntity in entityStorage.activePlayerEntities) {
-            GameObject playerEntity = GameObject.Find(pEntity);
-            string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
+        foreach (GameObject playerEntity in entityStorage.activePlayerEntities) {
+            string cleanPlayerEntity = Regex.Replace(playerEntity.name, @"[\d-]", string.Empty);
             int visionDistance = 0;
-            if (cleanpEntity == "Zombie") {
+            if (cleanPlayerEntity == "Zombie") {
                 visionDistance = playerEntity.GetComponent<ZombieBehaviour>().vision;
-            } else if (cleanpEntity == "Skeleton") {
+            } else if (cleanPlayerEntity == "Skeleton") {
                 visionDistance = playerEntity.GetComponent<SkeletonBehaviour>().vision;
-            } else if (cleanpEntity == "Necromancer") {
+            } else if (cleanPlayerEntity == "Necromancer") {
                 visionDistance = playerEntity.GetComponent<NecromancerBehaviour>().vision;
-            } else if (cleanpEntity == "SkeletonArcher") {
+            } else if (cleanPlayerEntity == "SkeletonArcher") {
                 visionDistance = playerEntity.GetComponent<SkeletonArcherBehaviour>().vision;
-            } else if (cleanpEntity == "ArmoredSkeleton") {
+            } else if (cleanPlayerEntity == "ArmoredSkeleton") {
                 visionDistance = playerEntity.GetComponent<ArmoredSkeletonBehaviour>().vision;
-            } else if (cleanpEntity == "DeathKnight") {
+            } else if (cleanPlayerEntity == "DeathKnight") {
                 visionDistance = playerEntity.GetComponent<DeathKnightBehaviour>().vision;
             }
 

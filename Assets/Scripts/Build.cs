@@ -57,7 +57,6 @@ public class Build : MonoBehaviour {
 				}
                 if (!nameExists)
                 {
-                    string availableName = buildingname + num;
                     return num;
                 }
             }
@@ -72,7 +71,6 @@ public class Build : MonoBehaviour {
                 }
                 if (!nameExists)
                 {
-                    string availableName = buildingname + num;
                     return num;
                 }
             }
@@ -141,11 +139,11 @@ public class Build : MonoBehaviour {
 			} else if (cleanEntity == "Skeleton" || cleanEntity == "Zombie" || cleanEntity == "SkeletonArcher") {
 				resources.ChangeSouls (-cost);
 				GameObject entityGameObj = GameObject.Find (entity);
-				Destroy (entityGameObj);
+                entityStorage.RemoveActivePlayerEntity(entityGameObj);
+                Destroy (entityGameObj);
 				hexGrid.SetEntity (index, "Empty");
 				GameObject healthText = GameObject.Find ("Health " + entity);
 				Destroy (healthText);
-				entityStorage.RemoveActivePlayerEntity (entity);
 				PlayerPrefs.DeleteKey ("HexEntity" + numEntity);
 				PlayerPrefs.DeleteKey ("HexEntityHealth" + numEntity);
 				PlayerPrefs.DeleteKey ("HexEntityIndex" + numEntity);

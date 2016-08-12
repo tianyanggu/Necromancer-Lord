@@ -35,45 +35,58 @@ public class Summon : MonoBehaviour {
 		if (summonname == "Skeleton") {
 			GameObject playerentity = (GameObject)Instantiate (Skeleton, summonindex, Quaternion.identity);
 			playerentity.name = availableName;
-		} else if (summonname == "Necromancer") {
+            entityStorage.AddActivePlayerEntity(playerentity);
+        } else if (summonname == "Necromancer") {
 			GameObject playerentity = (GameObject)Instantiate (Necromancer, summonindex, Quaternion.identity);
 			playerentity.name = availableName;
-		} else if (summonname == "Zombie") {
+            entityStorage.AddActivePlayerEntity(playerentity);
+        } else if (summonname == "Zombie") {
 			GameObject playerentity = (GameObject)Instantiate (Zombie, summonindex, Quaternion.identity);
 			playerentity.name = availableName;
-		} else if (summonname == "SkeletonArcher") {
-			GameObject enemyentity = (GameObject)Instantiate (SkeletonArcher, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-		} else if (summonname == "ArmoredSkeleton") {
-			GameObject enemyentity = (GameObject)Instantiate (ArmoredSkeleton, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-		} else if (summonname == "DeathKnight") {
-			GameObject enemyentity = (GameObject)Instantiate (DeathKnight, summonindex, Quaternion.identity);
-			enemyentity.name = availableName;
-		}
+            entityStorage.AddActivePlayerEntity(playerentity);
+        } else if (summonname == "SkeletonArcher") {
+			GameObject playerentity = (GameObject)Instantiate (SkeletonArcher, summonindex, Quaternion.identity);
+            playerentity.name = availableName;
+            entityStorage.AddActivePlayerEntity(playerentity);
+        } else if (summonname == "ArmoredSkeleton") {
+			GameObject playerentity = (GameObject)Instantiate (ArmoredSkeleton, summonindex, Quaternion.identity);
+            playerentity.name = availableName;
+            entityStorage.AddActivePlayerEntity(playerentity);
+        } else if (summonname == "DeathKnight") {
+			GameObject playerentity = (GameObject)Instantiate (DeathKnight, summonindex, Quaternion.identity);
+            playerentity.name = availableName;
+            entityStorage.AddActivePlayerEntity(playerentity);
+        }
 
         else if (summonname == "Militia") {
 			GameObject enemyentity = (GameObject)Instantiate (Militia, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
-		} else if (summonname == "Archer") {
+            entityStorage.AddActiveEnemyEntity(enemyentity);
+        } else if (summonname == "Archer") {
 			GameObject enemyentity = (GameObject)Instantiate (Archer, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
-		} else if (summonname == "Longbowman") {
+            entityStorage.AddActiveEnemyEntity(enemyentity);
+        } else if (summonname == "Longbowman") {
 			GameObject enemyentity = (GameObject)Instantiate (Longbowman, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
-		} else if (summonname == "Crossbowman") {
+            entityStorage.AddActiveEnemyEntity(enemyentity);
+        } else if (summonname == "Crossbowman") {
 			GameObject enemyentity = (GameObject)Instantiate (Crossbowman, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
-		} else if (summonname == "Footman") {
+            entityStorage.AddActiveEnemyEntity(enemyentity);
+        } else if (summonname == "Footman") {
 			GameObject enemyentity = (GameObject)Instantiate (Footman, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
-		} else if (summonname == "MountedKnight") {
+            entityStorage.AddActiveEnemyEntity(enemyentity);
+        } else if (summonname == "MountedKnight") {
 			GameObject enemyentity = (GameObject)Instantiate (MountedKnight, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
-		} else if (summonname == "HeroKing") {
+            entityStorage.AddActiveEnemyEntity(enemyentity);
+        } else if (summonname == "HeroKing") {
 			GameObject enemyentity = (GameObject)Instantiate (HeroKing, summonindex, Quaternion.identity);
 			enemyentity.name = availableName;
-		}
+            entityStorage.AddActiveEnemyEntity(enemyentity);
+        }
 		//stores info of new summon to playerprefs for saving
 		string ppName = AvailablePlayerPrefsName ();
 
@@ -90,19 +103,32 @@ public class Summon : MonoBehaviour {
 		for (int i = 1; i <= 999; i++) {
 			string num = i.ToString ();
 			if (faction == "undead") {
-				if (!entityStorage.activePlayerEntities.Contains (summonname + num)) {
-					string availableName = summonname + num;
-					entityStorage.AddActivePlayerEntity (availableName);
-					return num;
+                bool nameExists = false;
+                foreach (GameObject playerEntity in entityStorage.activePlayerEntities) {
+                    if (playerEntity.name == summonname + num)
+                    {
+                        nameExists = true;
+                    }
 				}
-			}
+                if (!nameExists)
+                {
+                    return num;
+                }
+            }
 			if (faction == "human") {
-				if (!entityStorage.activeEnemyEntities.Contains (summonname + num)) {
-					string availableName = summonname + num;
-					entityStorage.AddActiveEnemyEntity (availableName);
-					return num;
-				}
-			}
+                bool nameExists = false;
+                foreach (GameObject playerEntity in entityStorage.activePlayerEntities)
+                {
+                    if (playerEntity.name == summonname + num)
+                    {
+                        nameExists = true;
+                    }
+                }
+                if (!nameExists)
+                {
+                    return num;
+                }
+            }
 		} 
 		return null;
 	}

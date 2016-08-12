@@ -24,7 +24,6 @@ public class BuildingStorage : MonoBehaviour {
 		foreach (string building in playerBuildings) {
 			for (int i = 1; i <= 99; i++) {
                 string num = i.ToString();
-                string buildingName = building + num;
                 GameObject gameEntity = GameObject.Find(building + num);
                 if (gameEntity != null)
                 {
@@ -38,7 +37,6 @@ public class BuildingStorage : MonoBehaviour {
 		foreach (string building in enemyBuildings) {
 			for (int i = 1; i <= 99; i++) {
 				string num = i.ToString ();
-				string buildingName = building + num;
 				GameObject gameEntity = GameObject.Find (building + num);
 				if (gameEntity != null) {
 					activeEnemyBuildings.Add (gameEntity);
@@ -67,19 +65,19 @@ public class BuildingStorage : MonoBehaviour {
 		return 0;
 	}
 
-	public void AddActivePlayerBuilding (GameObject entityObject) {
-		activePlayerBuildings.Add (entityObject);
+	public void AddActivePlayerBuilding (GameObject buildingObject) {
+		activePlayerBuildings.Add (buildingObject);
 	} 
 
-	public void RemoveActivePlayerBuilding (GameObject entityObject) {
-		activePlayerBuildings.Remove (entityObject);
+	public void RemoveActivePlayerBuilding (GameObject buildingObject) {
+		activePlayerBuildings.Remove (buildingObject);
 	} 
 
-	public void AddActiveEnemyBuilding (GameObject entityObject) {
-		activeEnemyBuildings.Add (entityObject);
+	public void AddActiveEnemyBuilding (GameObject buildingObject) {
+		activeEnemyBuildings.Add (buildingObject);
 	} 
 
-	public void RemoveActiveEnemyBuilding (GameObject entityObject) {
-		activeEnemyBuildings.Remove (entityObject);
+	public void RemoveActiveEnemyBuilding (GameObject buildingObject) {
+		activeEnemyBuildings.Remove (buildingObject);
 	} 
 }
