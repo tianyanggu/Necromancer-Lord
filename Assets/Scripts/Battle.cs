@@ -36,29 +36,30 @@ public class Battle : MonoBehaviour {
 
 	public bool Attack (int selectedindex, int currindex) {
 		//------Parses Entities------
-		string selectedEntity = hexGrid.GetEntity(selectedindex);
-		if (selectedEntity == "Empty") {
+		string selectedEntityName = hexGrid.GetEntityName(selectedindex);
+        GameObject selectedEntity = hexGrid.GetEntityObject(selectedindex);
+        if (selectedEntityName == "Empty") {
 			return false;
 		}
-		string currEntity = hexGrid.GetEntity(currindex);
-		//get first part of currEntity as clean and number as num
-		cleanCurrEntity = Regex.Replace(currEntity, @"[\d-]", string.Empty);
-		cleanSelEntity = Regex.Replace(selectedEntity, @"[\d-]", string.Empty);
+		string currEntityName = hexGrid.GetEntityName(currindex);
+        GameObject currEntity = hexGrid.GetEntityObject(currindex);
+        //get first part of currEntity as clean and number as num
+        cleanCurrEntity = Regex.Replace(currEntityName, @"[\d-]", string.Empty);
+		cleanSelEntity = Regex.Replace(selectedEntityName, @"[\d-]", string.Empty);
 		Vector3 cellcoord = hexGrid.GetCellPos(currindex);
 
-		string storedNameSel = PlayerPrefs.GetString (selectedEntity);
+		string storedNameSel = PlayerPrefs.GetString (selectedEntityName);
 		string numSelEntity = Regex.Replace(storedNameSel, "[^0-9 -]", string.Empty);
-		string storedNameCurr = PlayerPrefs.GetString (currEntity);
+		string storedNameCurr = PlayerPrefs.GetString (currEntityName);
 		string numCurrEntity = Regex.Replace(storedNameCurr, "[^0-9 -]", string.Empty);
 
 		string selFaction = entityStorage.whichFaction(cleanSelEntity);
 		string currFaction = entityStorage.whichFaction(cleanCurrEntity);
 
-        GameObject playerEntity = GameObject.Find(selectedEntity);
-        GetMovementInfo (playerEntity);
+        GetMovementInfo (selectedEntity);
 
 		//------Movement Empty Cell------
-		if (currEntity == "Empty") {
+		if (currEntityName == "Empty") {
 			//determine movement tiles
 			List<int> possmovement = null;
 			if (playercurrmovepoint == 0) {
@@ -73,28 +74,29 @@ public class Battle : MonoBehaviour {
 			if (possmovement.Contains (currindex)) {
 				//get min movement points used
 				if (playermovepoint == 1 && playercurrmovepoint == 1) {
-					SetMovementPoints (playerEntity, 1);
+					SetMovementPoints (selectedEntity, 1);
 				} else if (playermovepoint != 1) {
 					int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
 					//set new movement points remaining
-					SetMovementPoints (playerEntity, minmove);
+					SetMovementPoints (selectedEntity, minmove);
 				}
 
-				GameObject selEntity = GameObject.Find (selectedEntity);
-				GameObject playerHealth = GameObject.Find ("Health " + selectedEntity);
-				selEntity.transform.position = cellcoord;
+				GameObject playerHealth = GameObject.Find ("Health " + selectedEntityName);
+                selectedEntity.transform.position = cellcoord;
 				playerHealth.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
-				hexGrid.SetEntity (selectedindex, "Empty");
-				hexGrid.SetEntity (currindex, selectedEntity);
+				hexGrid.SetEntityName (selectedindex, "Empty");
+                hexGrid.SetEntityObject(selectedindex, null);
+				hexGrid.SetEntityName (currindex, selectedEntityName);
+                hexGrid.SetEntityObject(currindex, selectedEntity);
 
-				PlayerPrefs.SetInt ("HexEntityIndex" + numSelEntity, currindex);
+                PlayerPrefs.SetInt ("HexEntityIndex" + numSelEntity, currindex);
 
 				return true;
 			}
 			//------Encounter Enemy------
 		} else if (selFaction != currFaction) {
-			GameObject attacker = GameObject.Find (selectedEntity);
-			GameObject defender = GameObject.Find (currEntity);
+            GameObject attacker = selectedEntity;
+            GameObject defender = currEntity;
 
 			GetAttackerInfo (attacker);
 			GetDefenderInfo (defender);
@@ -151,33 +153,35 @@ public class Battle : MonoBehaviour {
 					//check new status
 					if (defenderlasthealth <= 0) {
 						Destroy (defender);
-						hexGrid.SetEntity (currindex, "Empty");
-						GameObject defenderHealthText = GameObject.Find ("Health " + currEntity);
+						hexGrid.SetEntityName (currindex, "Empty");
+                        hexGrid.SetEntityObject (currindex, null);
+                        GameObject defenderHealthText = GameObject.Find ("Health " + currEntityName);
 						Destroy (defenderHealthText);
 						entityStorage.RemoveActiveEnemyEntity (defender);
 						//store new info
 						PlayerPrefs.DeleteKey ("HexEntity" + numCurrEntity);
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numCurrEntity);
 						PlayerPrefs.DeleteKey ("HexEntityIndex" + numCurrEntity);
-						PlayerPrefs.DeleteKey (currEntity);
+						PlayerPrefs.DeleteKey (currEntityName);
 						CalcSouls (selFaction, cleanCurrEntity);
 						if (currFaction != "undead") {
-							hexGrid.SetCorpses (currindex, currEntity);
+							hexGrid.SetCorpses (currindex, currEntityName);
 						}
 					}
 					if (attackerlasthealth <= 0) {
 						Destroy (attacker);
-						hexGrid.SetEntity (selectedindex, "Empty");
-						GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntity);
+						hexGrid.SetEntityName (selectedindex, "Empty");
+                        hexGrid.SetEntityObject (selectedindex, null);
+                        GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntityName);
 						Destroy (attackerHealthText);
 						entityStorage.RemoveActivePlayerEntity (attacker);
 						//store new info
 						PlayerPrefs.DeleteKey ("HexEntity" + numSelEntity);
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numSelEntity);
 						PlayerPrefs.DeleteKey ("HexEntityIndex" + numSelEntity);
-						PlayerPrefs.DeleteKey (selectedEntity);
+						PlayerPrefs.DeleteKey (selectedEntityName);
 						if (selFaction != "undead") {
-							hexGrid.SetCorpses (selectedindex, selectedEntity);
+							hexGrid.SetCorpses (selectedindex, selectedEntityName);
 						}
 					} 
 					if (attackerlasthealth > 0 && defenderlasthealth <= 0) {
@@ -185,8 +189,9 @@ public class Battle : MonoBehaviour {
 						int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
 						if (playercurrmovepoint >= minmove && attackerrange == 1) {
 							attacker.transform.position = cellcoord;
-							hexGrid.SetEntity (currindex, selectedEntity);
-							GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntity);
+							hexGrid.SetEntityName (currindex, selectedEntityName);
+                            hexGrid.SetEntityObject (currindex, attacker);
+                            GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntityName);
 							attackerHealthText.transform.position = new Vector3 (cellcoord.x, cellcoord.y + 0.1f, cellcoord.z);
 							SetMovementPoints (attacker, minmove);
 							PlayerPrefs.SetInt ("HexEntityIndex" + numSelEntity, currindex);
@@ -196,8 +201,8 @@ public class Battle : MonoBehaviour {
 					}
 
                     //Set New Info
-                    SetAttackerInfo (attacker, selectedEntity);
-					SetDefenderInfo (defender, currEntity);
+                    SetAttackerInfo (attacker, selectedEntityName);
+					SetDefenderInfo (defender, currEntityName);
 
 					return true;
 				}

@@ -93,7 +93,7 @@ public class NecropolisMechanics : MonoBehaviour {
             Vector3 currPos = gameObject.transform.position;
             GameObject hexGrid = GameObject.Find("Hex Grid");
             int currIndex = hexGrid.GetComponent<HexGrid>().GetCellIndex(currPos);
-            if (hexGrid.GetComponent<HexGrid>().GetEntity(currIndex) == "Empty")
+            if (hexGrid.GetComponent<HexGrid>().GetEntityName(currIndex) == "Empty")
             {
                 GameObject summon = GameObject.Find("Summon");
                 summon.GetComponent<Summon>().SummonEntity(currIndex, currRecruitment);

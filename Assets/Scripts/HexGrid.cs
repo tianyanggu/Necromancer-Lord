@@ -68,22 +68,34 @@ public class HexGrid : MonoBehaviour {
 		hexMesh.Triangulate(cells);
 	}
 
-	public void SetEntity (int index, string newEntity) {
+	public void SetEntityName (int index, string newEntityName) {
 		HexCell cell = cells[index];
-		cell.entity = newEntity;
+		cell.entityName = newEntityName;
 	}
 
-	public void SetTerrain (int index, string newTerrain) {
+    public void SetEntityObject(int index, GameObject newEntityObj)
+    {
+        HexCell cell = cells[index];
+        cell.entityObj = newEntityObj;
+    }
+
+    public void SetTerrain (int index, string newTerrain) {
 		HexCell cell = cells[index];
 		cell.terrain = newTerrain;
 	}
 
-	public void SetBuilding (int index, string newBuilding) {
+	public void SetBuildingName (int index, string newBuildingName) {
 		HexCell cell = cells[index];
-		cell.building = newBuilding;
+		cell.buildingName = newBuildingName;
 	}
 
-	public void SetCorpses (int index, string corpse) {
+    public void SetBuildingObject(int index, GameObject newBuildingObj)
+    {
+        HexCell cell = cells[index];
+        cell.buildingObj = newBuildingObj;
+    }
+
+    public void SetCorpses (int index, string corpse) {
 		int availCorpseNum = AvailableCorpseNum (index);
 
 		//if corpses not over 5, if over 5 then do not add to pile
@@ -180,25 +192,39 @@ public class HexGrid : MonoBehaviour {
 		return position;
 	}
 
-	public string GetEntity (int index) {
+	public string GetEntityName (int index) {
 		HexCell cell = cells[index];
-		string currEntity = cell.entity;
+		string currEntity = cell.entityName;
 		return currEntity;
 	}
 
-	public string GetTerrain (int index) {
+    public GameObject GetEntityObject(int index)
+    {
+        HexCell cell = cells[index];
+        GameObject currEntity = cell.entityObj;
+        return currEntity;
+    }
+
+    public string GetTerrain (int index) {
 		HexCell cell = cells[index];
 		string currTerrain = cell.terrain;
 		return currTerrain;
 	}
 
-	public string GetBuilding (int index) {
+	public string GetBuildingName (int index) {
 		HexCell cell = cells[index];
-		string currBuilding = cell.building;
+		string currBuilding = cell.buildingName;
 		return currBuilding;
 	}
 
-	public List<string> GetCorpses (int index) {
+    public GameObject GetBuildingObject(int index)
+    {
+        HexCell cell = cells[index];
+        GameObject currBuilding = cell.buildingObj;
+        return currBuilding;
+    }
+
+    public List<string> GetCorpses (int index) {
 		HexCell cell = cells[index];
 		List<string> currCorpses = cell.corpses;
 		return currCorpses;
@@ -224,8 +250,10 @@ public class HexGrid : MonoBehaviour {
 		cell.color = defaultColor;
 
 		cell.terrain = "Empty";
-		cell.building = "Empty";
-		cell.entity = "Empty";
+		cell.buildingName = "Empty";
+        cell.buildingObj = null;
+		cell.entityName = "Empty";
+        cell.entityObj = null;
         cell.fog = true;
 
         Text label = Instantiate<Text>(cellLabelPrefab);

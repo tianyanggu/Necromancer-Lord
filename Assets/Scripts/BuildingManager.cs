@@ -17,6 +17,7 @@ public class BuildingManager : MonoBehaviour {
 
     private bool RecruitmentQueued;
 
+    //TODOGame
     public void DisplayBuilding (string building) {
         selBuilding = building;
         cleanBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);

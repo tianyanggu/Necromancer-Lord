@@ -40,6 +40,7 @@ public class Summon : MonoBehaviour {
                     GameObject playerentity = (GameObject)Instantiate(Zombie, summonindex, Quaternion.identity);
                     playerentity.name = availableName;
                     entityStorage.AddActivePlayerEntity(playerentity);
+                    hexGrid.SetEntityObject(cellindex, playerentity);
                 }
                 break;
             case "Skeleton":
@@ -47,6 +48,7 @@ public class Summon : MonoBehaviour {
                     GameObject playerentity = (GameObject)Instantiate(Skeleton, summonindex, Quaternion.identity);
                     playerentity.name = availableName;
                     entityStorage.AddActivePlayerEntity(playerentity);
+                    hexGrid.SetEntityObject(cellindex, playerentity);
                 }
                 break;
             case "Necromancer":
@@ -54,6 +56,7 @@ public class Summon : MonoBehaviour {
                     GameObject playerentity = (GameObject)Instantiate(Necromancer, summonindex, Quaternion.identity);
                     playerentity.name = availableName;
                     entityStorage.AddActivePlayerEntity(playerentity);
+                    hexGrid.SetEntityObject(cellindex, playerentity);
                 }
                 break;
             case "SkeletonArcher":
@@ -61,6 +64,7 @@ public class Summon : MonoBehaviour {
                     GameObject playerentity = (GameObject)Instantiate(SkeletonArcher, summonindex, Quaternion.identity);
                     playerentity.name = availableName;
                     entityStorage.AddActivePlayerEntity(playerentity);
+                    hexGrid.SetEntityObject(cellindex, playerentity);
                 }
                 break;
             case "ArmoredSkeleton":
@@ -68,6 +72,7 @@ public class Summon : MonoBehaviour {
                     GameObject playerentity = (GameObject)Instantiate(ArmoredSkeleton, summonindex, Quaternion.identity);
                     playerentity.name = availableName;
                     entityStorage.AddActivePlayerEntity(playerentity);
+                    hexGrid.SetEntityObject(cellindex, playerentity);
                 }
                 break;
             case "DeathKnight":
@@ -75,6 +80,7 @@ public class Summon : MonoBehaviour {
                     GameObject playerentity = (GameObject)Instantiate(DeathKnight, summonindex, Quaternion.identity);
                     playerentity.name = availableName;
                     entityStorage.AddActivePlayerEntity(playerentity);
+                    hexGrid.SetEntityObject(cellindex, playerentity);
                 }
                 break;
 
@@ -84,6 +90,7 @@ public class Summon : MonoBehaviour {
                     GameObject enemyentity = (GameObject)Instantiate(Militia, summonindex, Quaternion.identity);
                     enemyentity.name = availableName;
                     entityStorage.AddActiveEnemyEntity(enemyentity);
+                    hexGrid.SetEntityObject(cellindex, enemyentity);
                 }
                 break;
             case "Archer":
@@ -91,6 +98,7 @@ public class Summon : MonoBehaviour {
                     GameObject enemyentity = (GameObject)Instantiate(Archer, summonindex, Quaternion.identity);
                     enemyentity.name = availableName;
                     entityStorage.AddActiveEnemyEntity(enemyentity);
+                    hexGrid.SetEntityObject(cellindex, enemyentity);
                 }
                 break;
             case "Longbowman":
@@ -98,6 +106,7 @@ public class Summon : MonoBehaviour {
                     GameObject enemyentity = (GameObject)Instantiate(Longbowman, summonindex, Quaternion.identity);
                     enemyentity.name = availableName;
                     entityStorage.AddActiveEnemyEntity(enemyentity);
+                    hexGrid.SetEntityObject(cellindex, enemyentity);
                 }
                 break;
             case "Crossbowman":
@@ -105,6 +114,7 @@ public class Summon : MonoBehaviour {
                     GameObject enemyentity = (GameObject)Instantiate(Crossbowman, summonindex, Quaternion.identity);
                     enemyentity.name = availableName;
                     entityStorage.AddActiveEnemyEntity(enemyentity);
+                    hexGrid.SetEntityObject(cellindex, enemyentity);
                 }
                 break;
             case "Footman":
@@ -112,6 +122,7 @@ public class Summon : MonoBehaviour {
                     GameObject enemyentity = (GameObject)Instantiate(Footman, summonindex, Quaternion.identity);
                     enemyentity.name = availableName;
                     entityStorage.AddActiveEnemyEntity(enemyentity);
+                    hexGrid.SetEntityObject(cellindex, enemyentity);
                 }
                 break;
             case "MountedKnight":
@@ -119,6 +130,7 @@ public class Summon : MonoBehaviour {
                     GameObject enemyentity = (GameObject)Instantiate(MountedKnight, summonindex, Quaternion.identity);
                     enemyentity.name = availableName;
                     entityStorage.AddActiveEnemyEntity(enemyentity);
+                    hexGrid.SetEntityObject(cellindex, enemyentity);
                 }
                 break;
             case "HeroKing":
@@ -126,6 +138,7 @@ public class Summon : MonoBehaviour {
                     GameObject enemyentity = (GameObject)Instantiate(HeroKing, summonindex, Quaternion.identity);
                     enemyentity.name = availableName;
                     entityStorage.AddActiveEnemyEntity(enemyentity);
+                    hexGrid.SetEntityObject(cellindex, enemyentity);
                 }
                 break;
         }
@@ -137,8 +150,8 @@ public class Summon : MonoBehaviour {
 		PlayerPrefs.SetString (availableName, "HexEntity" + ppName);
 		PlayerPrefs.SetInt ("HexEntityHealth" + ppName, health);
 		PlayerPrefs.SetInt ("HexEntityIndex" + ppName, cellindex);
-		hexGrid.SetEntity (cellindex, availableName);
-		loadMap.CreateHealthLabel (cellindex, health, availableName);
+		hexGrid.SetEntityName (cellindex, availableName);
+        loadMap.CreateHealthLabel (cellindex, health, availableName);
 	}
 
 	//Check for next available entity number

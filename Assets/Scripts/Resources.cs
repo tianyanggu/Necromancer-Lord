@@ -8,7 +8,6 @@ public class Resources : MonoBehaviour {
 
 	//change amount of souls
 	public void ChangeSouls(int change) {
-		souls = GameObject.Find ("Souls");
 		int soulsAmount = PlayerPrefs.GetInt("Souls") + change;
 
 		//sets to new amount
@@ -19,9 +18,7 @@ public class Resources : MonoBehaviour {
 		PlayerPrefs.SetInt ("Souls", soulsAmount);
 	}
 
-	public void SetSouls(int amount) {
-		souls = GameObject.Find ("Souls");
-
+    public void SetSouls(int amount) {
 		Text soulsNum = souls.GetComponent<Text> ();
 		soulsNum.text = "Souls:" + amount.ToString ();
 

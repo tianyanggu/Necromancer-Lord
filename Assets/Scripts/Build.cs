@@ -28,10 +28,12 @@ public class Build : MonoBehaviour {
 			GameObject enemybuilding = (GameObject)Instantiate (Village, buildindex, Quaternion.Euler(90,0,0));
 			enemybuilding.name = availableName;
             buildingStorage.AddActivePlayerBuilding(enemybuilding);
+            hexGrid.SetBuildingObject(cellindex, enemybuilding);
         } else if (buildingname == "Necropolis") {
 			GameObject playerbuilding = (GameObject)Instantiate (Necropolis, buildindex, Quaternion.Euler(90,0,0));
 			playerbuilding.name = availableName;
             buildingStorage.AddActivePlayerBuilding(playerbuilding);
+            hexGrid.SetBuildingObject(cellindex, playerbuilding);
         }
 		//stores info of new summon to playerprefs for saving
 		string ppName = AvailablePlayerPrefsName ();
@@ -40,8 +42,8 @@ public class Build : MonoBehaviour {
 		PlayerPrefs.SetString (availableName, "HexBuilding" + ppName);
 		PlayerPrefs.SetInt ("HexBuildingHealth" + ppName, health);
 		PlayerPrefs.SetInt ("HexBuildingIndex" + ppName, cellindex);
-		hexGrid.SetBuilding (cellindex, availableName);
-	}
+		hexGrid.SetBuildingName (cellindex, availableName);
+    }
 
 	//Check for next available entity number
 	string AvailableName (string buildingname, string faction) {
@@ -78,9 +80,10 @@ public class Build : MonoBehaviour {
 		return null;
 	}
 
+    //TODOGame
 	public void DestroyBuilding (int cellindex) {
-		string buildingName = hexGrid.GetBuilding (cellindex);
-		GameObject building = GameObject.Find (buildingName);
+		string buildingName = hexGrid.GetBuildingName (cellindex);
+        GameObject building = hexGrid.GetBuildingObject (cellindex);
         buildingStorage.RemoveActivePlayerBuilding(building);
         Destroy (building);
 
@@ -91,8 +94,9 @@ public class Build : MonoBehaviour {
 		PlayerPrefs.DeleteKey (buildingName);
 		PlayerPrefs.DeleteKey ("HexBuildingHealth" + playerprefsNum);
 		PlayerPrefs.DeleteKey ("HexBuildingIndex" + playerprefsNum);
-		hexGrid.SetBuilding (cellindex, "Empty");
-	}
+		hexGrid.SetBuildingName (cellindex, "Empty");
+        hexGrid.SetBuildingObject (cellindex, null);
+    }
 
 	//Check for next available setstring number
 	string AvailablePlayerPrefsName () {
@@ -106,6 +110,7 @@ public class Build : MonoBehaviour {
 		return null; //TODO error message if no available spaces, should not be possible to give null
 	}
 
+    //TODOGame
 	//grabs health info
 	int GetHealthInfo(string building) {
 		GameObject buildingObj = GameObject.Find (building);
@@ -119,15 +124,16 @@ public class Build : MonoBehaviour {
 		return 0;
 	}
 
+    //TODOGame
 	//valid if have soul cost and entity/corpse cost
 	public bool ValidBuilding(string building, int index) {
 		int souls = PlayerPrefs.GetInt ("Souls");
 		int cost = buildingStorage.buildingSoulCost (building);
 
 		List<string> corpses = hexGrid.GetCorpses (index);
-		string entity = hexGrid.GetEntity (index);
-		string cleanEntity = Regex.Replace(entity, @"[\d-]", string.Empty);
-        string ppNum = PlayerPrefs.GetString(entity);
+		string entityName = hexGrid.GetEntityName (index);
+		string cleanEntity = Regex.Replace(entityName, @"[\d-]", string.Empty);
+        string ppNum = PlayerPrefs.GetString(entityName);
 		string numEntity = Regex.Replace(ppNum, "[^0-9 -]", string.Empty);
 
 		//checks if fulfilled cost and removes paid cost from game
@@ -138,16 +144,17 @@ public class Build : MonoBehaviour {
 				return true;
 			} else if (cleanEntity == "Skeleton" || cleanEntity == "Zombie" || cleanEntity == "SkeletonArcher") {
 				resources.ChangeSouls (-cost);
-				GameObject entityGameObj = GameObject.Find (entity);
+				GameObject entityGameObj = GameObject.Find (entityName);
                 entityStorage.RemoveActivePlayerEntity(entityGameObj);
                 Destroy (entityGameObj);
-				hexGrid.SetEntity (index, "Empty");
-				GameObject healthText = GameObject.Find ("Health " + entity);
+				hexGrid.SetEntityName (index, "Empty");
+                hexGrid.SetEntityObject (index, null);
+                GameObject healthText = GameObject.Find ("Health " + entityName);
 				Destroy (healthText);
 				PlayerPrefs.DeleteKey ("HexEntity" + numEntity);
 				PlayerPrefs.DeleteKey ("HexEntityHealth" + numEntity);
 				PlayerPrefs.DeleteKey ("HexEntityIndex" + numEntity);
-				PlayerPrefs.DeleteKey (entity);
+				PlayerPrefs.DeleteKey (entityName);
 				return true;
 			}
 		}

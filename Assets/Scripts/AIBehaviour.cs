@@ -61,8 +61,9 @@ public class AIBehaviour : MonoBehaviour {
 		nearbyPlayerEntitiesDistance.Clear ();
 		nearbyPlayerEntitiesHealth.Clear ();
 
-		string eEntity = hexGrid.GetEntity(eindex);
-		GetAIInfo (eEntity);
+		string eEntityName = hexGrid.GetEntityName(eindex);
+        GameObject eEntity = hexGrid.GetEntityObject(eindex);
+        GetAIInfo (eEntity, eEntityName);
 
 		aiMovementIndexes = movement.GetCellIndexesBlockers (eindex, aicurrmovepoint);
 		ScanEntitiesHelper (eindex, aicurrmovepoint, 0);
@@ -91,7 +92,7 @@ public class AIBehaviour : MonoBehaviour {
 			foreach (int direction in hexdirections) {
 				//ensures no index error from index being out of bounds in hexgrid
 				if (direction >= 0 && direction < hexGrid.size) {
-					string dirEntity = hexGrid.GetEntity (direction);
+					string dirEntity = hexGrid.GetEntityName (direction);
 					string cleandirEntity = Regex.Replace (dirEntity, @"[\d-]", string.Empty);
 					if (dirEntity == "Empty") {
 						if (hexGrid.GetTerrain (direction) == "Mountain" && maxDistance > 1) {
@@ -120,7 +121,8 @@ public class AIBehaviour : MonoBehaviour {
 
 	// given list of player entities, decide if attack and which
 	public int DecideAttack (int eindex, List<string> plist, List<int> pindex, List<int> pdist, List<int> phealth) {
-		string eEntity = hexGrid.GetEntity(eindex);
+		string eEntityName = hexGrid.GetEntityName(eindex);
+
 		//list of the index of each list to get the corresponding plist, pindex, pdist, and phealth values
 		List<int> canBeAttListPos = new List<int>();
 		foreach (int index in pindex) {
@@ -177,7 +179,7 @@ public class AIBehaviour : MonoBehaviour {
 
 		foreach (int direction in hexdirections) {
 			if (direction >= 0 && direction < hexGrid.size) {
-				string dirEntity = hexGrid.GetEntity (direction);
+				string dirEntity = hexGrid.GetEntityName (direction);
 				if (dirEntity == "Empty") {
 					availableIndex.Add (direction);
 				}
@@ -186,39 +188,38 @@ public class AIBehaviour : MonoBehaviour {
 		return availableIndex;
 	}
 
-	void GetAIInfo(string eEntity) {
-		GameObject atentity = GameObject.Find (eEntity);
-		string cleaneEntity = Regex.Replace(eEntity, @"[\d-]", string.Empty);
+	void GetAIInfo(GameObject eEntity, string eEntityName) {
+		string cleaneEntity = Regex.Replace(eEntityName, @"[\d-]", string.Empty);
 
 		//------Grab Info Attacker------
 		if (cleaneEntity == "Militia") {
-			aicurrattpoint = atentity.GetComponent<MilitiaBehaviour> ().currattackpoint;
-			aimovepoint = atentity.GetComponent<MilitiaBehaviour> ().movementpoint;
-			aicurrmovepoint = atentity.GetComponent<MilitiaBehaviour> ().currmovementpoint;
+			aicurrattpoint = eEntity.GetComponent<MilitiaBehaviour> ().currattackpoint;
+			aimovepoint = eEntity.GetComponent<MilitiaBehaviour> ().movementpoint;
+			aicurrmovepoint = eEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint;
 		} else if (cleaneEntity == "Archer") {
-			aicurrattpoint = atentity.GetComponent<ArcherBehaviour> ().currattackpoint;
-			aimovepoint = atentity.GetComponent<ArcherBehaviour> ().movementpoint;
-			aicurrmovepoint = atentity.GetComponent<ArcherBehaviour> ().currmovementpoint;
+			aicurrattpoint = eEntity.GetComponent<ArcherBehaviour> ().currattackpoint;
+			aimovepoint = eEntity.GetComponent<ArcherBehaviour> ().movementpoint;
+			aicurrmovepoint = eEntity.GetComponent<ArcherBehaviour> ().currmovementpoint;
 		} else if (cleaneEntity == "Longbowman") {
-			aicurrattpoint = atentity.GetComponent<LongbowmanBehaviour> ().currattackpoint;
-			aimovepoint = atentity.GetComponent<LongbowmanBehaviour> ().movementpoint;
-			aicurrmovepoint = atentity.GetComponent<LongbowmanBehaviour> ().currmovementpoint;
+			aicurrattpoint = eEntity.GetComponent<LongbowmanBehaviour> ().currattackpoint;
+			aimovepoint = eEntity.GetComponent<LongbowmanBehaviour> ().movementpoint;
+			aicurrmovepoint = eEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint;
 		} else if (cleaneEntity == "Crossbowman") {
-			aicurrattpoint = atentity.GetComponent<CrossbowmanBehaviour> ().currattackpoint;
-			aimovepoint = atentity.GetComponent<CrossbowmanBehaviour> ().movementpoint;
-			aicurrmovepoint = atentity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint;
+			aicurrattpoint = eEntity.GetComponent<CrossbowmanBehaviour> ().currattackpoint;
+			aimovepoint = eEntity.GetComponent<CrossbowmanBehaviour> ().movementpoint;
+			aicurrmovepoint = eEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint;
 		} else if (cleaneEntity == "Footman") {
-			aicurrattpoint = atentity.GetComponent<FootmanBehaviour> ().currattackpoint;
-			aimovepoint = atentity.GetComponent<FootmanBehaviour> ().movementpoint;
-			aicurrmovepoint = atentity.GetComponent<FootmanBehaviour> ().currmovementpoint;
+			aicurrattpoint = eEntity.GetComponent<FootmanBehaviour> ().currattackpoint;
+			aimovepoint = eEntity.GetComponent<FootmanBehaviour> ().movementpoint;
+			aicurrmovepoint = eEntity.GetComponent<FootmanBehaviour> ().currmovementpoint;
 		} else if (cleaneEntity == "MountedKnight") {
-			aicurrattpoint = atentity.GetComponent<MountedKnightBehaviour> ().currattackpoint;
-			aimovepoint = atentity.GetComponent<MountedKnightBehaviour> ().movementpoint;
-			aicurrmovepoint = atentity.GetComponent<MountedKnightBehaviour> ().currmovementpoint;
+			aicurrattpoint = eEntity.GetComponent<MountedKnightBehaviour> ().currattackpoint;
+			aimovepoint = eEntity.GetComponent<MountedKnightBehaviour> ().movementpoint;
+			aicurrmovepoint = eEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint;
 		} else if (cleaneEntity == "HeroKing") {
-			aicurrattpoint = atentity.GetComponent<HeroKingBehaviour> ().currattackpoint;
-			aimovepoint = atentity.GetComponent<HeroKingBehaviour> ().movementpoint;
-			aicurrmovepoint = atentity.GetComponent<HeroKingBehaviour> ().currmovementpoint;
+			aicurrattpoint = eEntity.GetComponent<HeroKingBehaviour> ().currattackpoint;
+			aimovepoint = eEntity.GetComponent<HeroKingBehaviour> ().movementpoint;
+			aicurrmovepoint = eEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint;
 		}
 	}
 
@@ -231,7 +232,8 @@ public class AIBehaviour : MonoBehaviour {
 //			attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
 //		}
 //	}
-
+    
+    //TODOGame
 	private int GetPlayerEntityHealth(string pEntity) {
 		GameObject pEntityObject = GameObject.Find (pEntity);
 		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
@@ -252,7 +254,8 @@ public class AIBehaviour : MonoBehaviour {
 		return 0;
 	}
 
-	void NewMovementPoints(string selectedentity, int change) {
+    //TODOGame
+    void NewMovementPoints(string selectedentity, int change) {
 		GameObject eEntity = GameObject.Find (selectedentity);
 		string cleaneEntity = Regex.Replace (selectedentity, @"[\d-]", string.Empty);
 		//set movement points

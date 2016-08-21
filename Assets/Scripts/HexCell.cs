@@ -9,9 +9,13 @@ public class HexCell : MonoBehaviour {
 
 	public string terrain;
 
-	public string building;
+	public string buildingName;
 
-	public string entity;
+    public GameObject buildingObj;
+
+    public string entityName;
+
+    public GameObject entityObj;
 
 	public List<string> corpses = new List<string>();
 
