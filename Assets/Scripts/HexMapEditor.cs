@@ -95,7 +95,7 @@ public class HexMapEditor : MonoBehaviour {
 		}
         if (buildingStorage.playerBuildings.Contains(cleanCurrBuilding)) {
             selectedBuilding = currBuilding;
-            buildingManager.DisplayBuilding(selectedBuilding);
+            buildingManager.DisplayBuilding(selectedBuilding, currindex);
             //TODO GUI for buildings
         }
         //ensures attacks only happen once per update 

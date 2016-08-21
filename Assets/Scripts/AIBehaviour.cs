@@ -92,9 +92,10 @@ public class AIBehaviour : MonoBehaviour {
 			foreach (int direction in hexdirections) {
 				//ensures no index error from index being out of bounds in hexgrid
 				if (direction >= 0 && direction < hexGrid.size) {
-					string dirEntity = hexGrid.GetEntityName (direction);
-					string cleandirEntity = Regex.Replace (dirEntity, @"[\d-]", string.Empty);
-					if (dirEntity == "Empty") {
+					string dirEntityName = hexGrid.GetEntityName (direction);
+                    GameObject dirEntityObject = hexGrid.GetEntityObject(direction);
+                    string cleandirEntity = Regex.Replace (dirEntityName, @"[\d-]", string.Empty);
+					if (dirEntityName == "Empty") {
 						if (hexGrid.GetTerrain (direction) == "Mountain" && maxDistance > 1) {
 							int newmovementpoints = maxDistance - 2;
 							int newusedmovementpoints = usedDistance + 2;
@@ -107,10 +108,10 @@ public class AIBehaviour : MonoBehaviour {
 					//if index not empty and is from undead faction, get the entity
 					} else if (entityStorage.whichFaction(cleandirEntity) == "undead") {
 						if (entityStorage.playerEntities.Contains (cleandirEntity)) {
-							nearbyPlayerEntities.Add (dirEntity);
+							nearbyPlayerEntities.Add (dirEntityName);
 							nearbyPlayerEntitiesIndex.Add (direction);
 							nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-							int playerEntityHealth = GetPlayerEntityHealth (dirEntity);
+							int playerEntityHealth = GetPlayerEntityHealth (dirEntityObject, dirEntityName);
 							nearbyPlayerEntitiesHealth.Add (playerEntityHealth);
 						}
 					}
@@ -233,10 +234,8 @@ public class AIBehaviour : MonoBehaviour {
 //		}
 //	}
     
-    //TODOGame
-	private int GetPlayerEntityHealth(string pEntity) {
-		GameObject pEntityObject = GameObject.Find (pEntity);
-		string cleanpEntity = Regex.Replace(pEntity, @"[\d-]", string.Empty);
+	private int GetPlayerEntityHealth(GameObject pEntityObject, string pEntityName) {
+		string cleanpEntity = Regex.Replace(pEntityName, @"[\d-]", string.Empty);
 
 		if (cleanpEntity == "Necromancer") {
 			return pEntityObject.GetComponent<NecromancerBehaviour> ().lasthealth;
@@ -254,25 +253,23 @@ public class AIBehaviour : MonoBehaviour {
 		return 0;
 	}
 
-    //TODOGame
-    void NewMovementPoints(string selectedentity, int change) {
-		GameObject eEntity = GameObject.Find (selectedentity);
-		string cleaneEntity = Regex.Replace (selectedentity, @"[\d-]", string.Empty);
+    void NewMovementPoints(GameObject entity, string entityName, int change) {
+		string cleaneEntity = Regex.Replace (entityName, @"[\d-]", string.Empty);
 		//set movement points
 		if (cleaneEntity == "Militia") {
-			eEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint = eEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint - change;
+            entity.GetComponent<MilitiaBehaviour> ().currmovementpoint = entity.GetComponent<MilitiaBehaviour> ().currmovementpoint - change;
 		} else if (cleaneEntity == "Archer") {
-			eEntity.GetComponent<ArcherBehaviour> ().currmovementpoint = eEntity.GetComponent<ArcherBehaviour> ().currmovementpoint - change;
+            entity.GetComponent<ArcherBehaviour> ().currmovementpoint = entity.GetComponent<ArcherBehaviour> ().currmovementpoint - change;
 		} else if (cleaneEntity == "Longbowman") {
-			eEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = eEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint - change;
+            entity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = entity.GetComponent<LongbowmanBehaviour> ().currmovementpoint - change;
 		} else if (cleaneEntity == "Crossbowman") {
-			eEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = eEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint - change;
+            entity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = entity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint - change;
 		} else if (cleaneEntity == "Footman") {
-			eEntity.GetComponent<FootmanBehaviour> ().currmovementpoint = eEntity.GetComponent<FootmanBehaviour> ().currmovementpoint - change;
+            entity.GetComponent<FootmanBehaviour> ().currmovementpoint = entity.GetComponent<FootmanBehaviour> ().currmovementpoint - change;
 		} else if (cleaneEntity == "MountedKnight") {
-			eEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = eEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint - change;
+            entity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = entity.GetComponent<MountedKnightBehaviour> ().currmovementpoint - change;
 		} else if (cleaneEntity == "HeroKing") {
-			eEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint = eEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint - change;
+            entity.GetComponent<HeroKingBehaviour> ().currmovementpoint = entity.GetComponent<HeroKingBehaviour> ().currmovementpoint - change;
 		}
 	}
 }

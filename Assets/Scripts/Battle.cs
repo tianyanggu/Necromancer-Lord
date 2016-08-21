@@ -227,7 +227,7 @@ public class Battle : MonoBehaviour {
                 attackerarmorpiercing = attacker.GetComponent<ZombieBehaviour>().armorpiercing;
                 break;
             case "Skeleton":
-                playercurrattpoint = attacker.GetComponent<SkeletonBehaviour>().currattackpoint; ;
+                playercurrattpoint = attacker.GetComponent<SkeletonBehaviour>().currattackpoint;
 
                 attackerdmg = attacker.GetComponent<SkeletonBehaviour>().attack;
                 //attackerhealth = attacker.GetComponent<SkeletonBehaviour> ().health;

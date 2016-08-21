@@ -7,6 +7,7 @@ public class BuildingManager : MonoBehaviour {
 
     public BuildingStorage buildingStorage;
     GameObject currBuilding;
+    public HexGrid hexGrid;
 
     private string cleanBuildingName;
     private string selBuilding;
@@ -17,11 +18,10 @@ public class BuildingManager : MonoBehaviour {
 
     private bool RecruitmentQueued;
 
-    //TODOGame
-    public void DisplayBuilding (string building) {
+    public void DisplayBuilding (string building, int index) {
         selBuilding = building;
         cleanBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);
-        currBuilding = GameObject.Find(building);
+        currBuilding = hexGrid.GetBuildingObject(index);
 
         string faction = buildingStorage.whichFactionBuilding(cleanBuildingName);
         if (faction == "undead") {

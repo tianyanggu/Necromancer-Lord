@@ -80,7 +80,6 @@ public class Build : MonoBehaviour {
 		return null;
 	}
 
-    //TODOGame
 	public void DestroyBuilding (int cellindex) {
 		string buildingName = hexGrid.GetBuildingName (cellindex);
         GameObject building = hexGrid.GetBuildingObject (cellindex);
@@ -110,21 +109,16 @@ public class Build : MonoBehaviour {
 		return null; //TODO error message if no available spaces, should not be possible to give null
 	}
 
-    //TODOGame
 	//grabs health info
 	int GetHealthInfo(string building) {
-		GameObject buildingObj = GameObject.Find (building);
-
-		//------Grab Info Attacker------
 		if (building == "Village") {
-			return buildingObj.GetComponent<VillageMechanics> ().health;
+			return Village.GetComponent<VillageMechanics> ().health;
 		} else if (building == "Necropolis") {
-			return buildingObj.GetComponent<NecropolisMechanics> ().health;
+			return Necropolis.GetComponent<NecropolisMechanics> ().health;
 		}
 		return 0;
 	}
 
-    //TODOGame
 	//valid if have soul cost and entity/corpse cost
 	public bool ValidBuilding(string building, int index) {
 		int souls = PlayerPrefs.GetInt ("Souls");
@@ -144,7 +138,7 @@ public class Build : MonoBehaviour {
 				return true;
 			} else if (cleanEntity == "Skeleton" || cleanEntity == "Zombie" || cleanEntity == "SkeletonArcher") {
 				resources.ChangeSouls (-cost);
-				GameObject entityGameObj = GameObject.Find (entityName);
+				GameObject entityGameObj = hexGrid.GetEntityObject(index);
                 entityStorage.RemoveActivePlayerEntity(entityGameObj);
                 Destroy (entityGameObj);
 				hexGrid.SetEntityName (index, "Empty");

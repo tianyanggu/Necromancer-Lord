@@ -32,6 +32,8 @@ public class Summon : MonoBehaviour {
 		string availableName = summonname + availableNum;
 		int health = GetHealthInfo (summonname);
 
+        //alternative to clean up code
+        //Instantiate(Resources.Load("Characters/" + NAME OF CHAR), summonindex, Quaternion.identity);
         switch (summonname)
         {
             //UNDEAD
