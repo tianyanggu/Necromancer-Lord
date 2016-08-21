@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\BuildingManager.cs" />
     <Compile Include="Assets\Scripts\BuildingStorage.cs" />
     <Compile Include="Assets\Scripts\CrossbowmanBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Currency.cs" />
     <Compile Include="Assets\Scripts\DeathKnightBehaviour.cs" />
     <Compile Include="Assets\Scripts\DragCamera.cs" />
     <Compile Include="Assets\Scripts\EntityStorage.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\NecromancerBehaviour.cs" />
     <Compile Include="Assets\Scripts\NecropolisMechanics.cs" />
-    <Compile Include="Assets\Scripts\Resources.cs" />
     <Compile Include="Assets\Scripts\Select.cs" />
     <Compile Include="Assets\Scripts\SkeletonArcherBehaviour.cs" />
     <Compile Include="Assets\Scripts\SkeletonBehaviour.cs" />

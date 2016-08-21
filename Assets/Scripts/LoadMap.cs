@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 public class LoadMap : MonoBehaviour {
 	public HexGrid hexGrid;
 	public Text healthLabel;
-	public Resources resources;
+	public Currency currency;
 	public Build build;
 	Canvas gridCanvas;
 
@@ -26,11 +26,8 @@ public class LoadMap : MonoBehaviour {
     public GameObject MountedKnight;
     public GameObject HeroKing;
 
-
     public GameObject Village;
 	public GameObject Necropolis;
-
-	public GameObject Souls;
 
 
 	public void LoadHexTiles () {
@@ -39,7 +36,7 @@ public class LoadMap : MonoBehaviour {
 
 	public void LoadResources () {
 		int soulAmount = PlayerPrefs.GetInt ("Souls");
-		resources.SetSouls (soulAmount);
+        currency.SetSouls (soulAmount);
 	}
 
 	public void LoadEntities () {
@@ -96,158 +93,70 @@ public class LoadMap : MonoBehaviour {
 			string cleanEntity = Regex.Replace(allEntities, @"[\d-]", string.Empty);
 			int allIndex = PlayerPrefs.GetInt ("HexEntityIndex" + i);
 
-            //TODO move spawn outside if statement and also switch to case. Also move everything except instantiate outside the if statements.
-            if (allEntities != "Empty")
+            if (allEntities != "Empty" && cleanEntity != string.Empty)
             {
-                if (cleanEntity == "Necromancer")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject pNecromancer = (GameObject)Instantiate(Necromancer, spawn, Quaternion.identity);
-                    pNecromancer.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, pNecromancer);
-                    pNecromancer.GetComponent<NecromancerBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "Zombie")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject pZombie = (GameObject)Instantiate(Zombie, spawn, Quaternion.identity);
-                    pZombie.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, pZombie);
-                    pZombie.GetComponent<ZombieBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "Skeleton")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject pSkeleton = (GameObject)Instantiate(Skeleton, spawn, Quaternion.identity);
-                    pSkeleton.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, pSkeleton);
-                    pSkeleton.GetComponent<SkeletonBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "SkeletonArcher")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eSkeletonArcher = (GameObject)Instantiate(SkeletonArcher, spawn, Quaternion.identity);
-                    eSkeletonArcher.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eSkeletonArcher);
-                    eSkeletonArcher.GetComponent<SkeletonArcherBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "ArmoredSkeleton")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eArmoredSkeleton = (GameObject)Instantiate(ArmoredSkeleton, spawn, Quaternion.identity);
-                    eArmoredSkeleton.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eArmoredSkeleton);
-                    eArmoredSkeleton.GetComponent<ArmoredSkeletonBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "DeathKnight")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eDeathKnight = (GameObject)Instantiate(DeathKnight, spawn, Quaternion.identity);
-                    eDeathKnight.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eDeathKnight);
-                    eDeathKnight.GetComponent<DeathKnightBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-
-                else if (cleanEntity == "Militia")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eMilitia = (GameObject)Instantiate(Militia, spawn, Quaternion.identity);
-                    eMilitia.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eMilitia);
-                    eMilitia.GetComponent<MilitiaBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "Archer")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eArcher = (GameObject)Instantiate(Archer, spawn, Quaternion.identity);
-                    eArcher.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eArcher);
-                    eArcher.GetComponent<ArcherBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "Longbowman")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eLongbowman = (GameObject)Instantiate(Longbowman, spawn, Quaternion.identity);
-                    eLongbowman.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eLongbowman);
-                    eLongbowman.GetComponent<LongbowmanBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "Crossbowman")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eCrossbowman = (GameObject)Instantiate(Crossbowman, spawn, Quaternion.identity);
-                    eCrossbowman.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eCrossbowman);
-                    eCrossbowman.GetComponent<CrossbowmanBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "Footman")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eFootman = (GameObject)Instantiate(Footman, spawn, Quaternion.identity);
-                    eFootman.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eFootman);
-                    eFootman.GetComponent<FootmanBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "MountedKnight")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eMountedKnight = (GameObject)Instantiate(MountedKnight, spawn, Quaternion.identity);
-                    eMountedKnight.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eMountedKnight);
-                    eMountedKnight.GetComponent<MountedKnightBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
-                else if (cleanEntity == "HeroKing")
-                {
-                    Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                    spawn.y = 0.2f;
-                    GameObject eHeroKing = (GameObject)Instantiate(HeroKing, spawn, Quaternion.identity);
-                    eHeroKing.name = allEntities;
-                    hexGrid.SetEntityName(allIndex, allEntities);
-                    hexGrid.SetEntityObject(allIndex, eHeroKing);
-                    eHeroKing.GetComponent<HeroKingBehaviour>().lasthealth = allHealth;
-                    CreateHealthLabel(allIndex, allHealth, allEntities);
-                }
+                Vector3 spawn = hexGrid.GetCellPos(allIndex);
+                spawn.y = 0.2f;
+                Debug.Log(cleanEntity);
+                GameObject entity = (GameObject)Instantiate(Resources.Load(cleanEntity), spawn, Quaternion.identity);
+                entity.name = allEntities;
+                hexGrid.SetEntityName(allIndex, allEntities);
+                hexGrid.SetEntityObject(allIndex, entity);
+                SetHealth(entity, cleanEntity, allHealth);
+                CreateHealthLabel(allIndex, allHealth, allEntities);
             }
         }
 	}
 
-	public void CreateHealthLabel (int index, int health, string entity) {
+    void SetHealth (GameObject entity, string entityName, int health)
+    {
+        switch (entityName)
+        {
+            case "Necromancer":
+                entity.GetComponent<NecromancerBehaviour>().lasthealth = health;
+                break;
+            case "Zombie":
+                entity.GetComponent<ZombieBehaviour>().lasthealth = health;
+                break;
+            case "Skeleton":
+                entity.GetComponent<SkeletonBehaviour>().lasthealth = health;
+                break;
+            case "SkeletonArcher":
+                entity.GetComponent<SkeletonArcherBehaviour>().lasthealth = health;
+                break;
+            case "ArmoredSkeleton":
+                entity.GetComponent<ArmoredSkeletonBehaviour>().lasthealth = health;
+                break;
+            case "DeathKnight":
+                entity.GetComponent<DeathKnightBehaviour>().lasthealth = health;
+                break;
+
+            case "Militia":
+                entity.GetComponent<MilitiaBehaviour>().lasthealth = health;
+                break;
+            case "Archer":
+                entity.GetComponent<ArcherBehaviour>().lasthealth = health;
+                break;
+            case "Longbowman":
+                entity.GetComponent<LongbowmanBehaviour>().lasthealth = health;
+                break;
+            case "Crossbowman":
+                entity.GetComponent<CrossbowmanBehaviour>().lasthealth = health;
+                break;
+            case "Footman":
+                entity.GetComponent<FootmanBehaviour>().lasthealth = health;
+                break;
+            case "MountedKnight":
+                entity.GetComponent<MountedKnightBehaviour>().lasthealth = health;
+                break;
+            case "HeroKing":
+                entity.GetComponent<HeroKingBehaviour>().lasthealth = health;
+                break;
+        }
+    }
+
+
+    public void CreateHealthLabel (int index, int health, string entity) {
 		Text label = Instantiate<Text>(healthLabel);
 		label.rectTransform.SetParent(gridCanvas.transform, false);
 		Vector3 healthpos = hexGrid.GetCellPos (index);

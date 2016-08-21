@@ -8,7 +8,7 @@ public class Build : MonoBehaviour {
 	public HexGrid hexGrid;
 	public LoadMap loadMap;
 	public BuildingStorage buildingStorage;
-	public Resources resources;
+	public Currency currency;
 	public EntityStorage entityStorage;
 
 	public GameObject Village;
@@ -133,11 +133,11 @@ public class Build : MonoBehaviour {
 		//checks if fulfilled cost and removes paid cost from game
 		if (souls >= cost) {
 			if (corpses.Contains("Militia")) {
-				resources.ChangeSouls (-cost);
+                currency.ChangeSouls (-cost);
 				hexGrid.RemoveCorpses (index, "Militia");
 				return true;
 			} else if (cleanEntity == "Skeleton" || cleanEntity == "Zombie" || cleanEntity == "SkeletonArcher") {
-				resources.ChangeSouls (-cost);
+                currency.ChangeSouls (-cost);
 				GameObject entityGameObj = hexGrid.GetEntityObject(index);
                 entityStorage.RemoveActivePlayerEntity(entityGameObj);
                 Destroy (entityGameObj);

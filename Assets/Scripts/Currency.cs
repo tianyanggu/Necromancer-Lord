@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Resources : MonoBehaviour {
+public class Currency : MonoBehaviour {
 
 	public GameObject souls;
 

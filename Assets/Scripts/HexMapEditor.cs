@@ -158,7 +158,7 @@ public class HexMapEditor : MonoBehaviour {
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
 					if (editmode == true) {
 						summon.SummonEntity (currindex, entity);
-						summonclicked = false;
+                        summonclickededitor = false;
 					}
 				}
 				i++;
@@ -168,7 +168,7 @@ public class HexMapEditor : MonoBehaviour {
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
 					if (editmode == true) {
 						summon.SummonEntity (currindex, entity);
-						summonclicked = false;
+                        summonclickededitor = false;
 					}
 				}
 				i++;

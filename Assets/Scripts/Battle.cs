@@ -10,7 +10,7 @@ public class Battle : MonoBehaviour {
 	public LoadMap loadMap;
 	public Movement movement;
 	public EntityStorage entityStorage;
-	public Resources resources;
+	public Currency currency;
 
 	//entity stats
 	private int attackerdmg = 0;
@@ -805,25 +805,25 @@ public class Battle : MonoBehaviour {
             {
                 //HUMANS
                 case "Militia":
-                    resources.ChangeSouls(100);
+                    currency.ChangeSouls(100);
                     break;
                 case "Archer":
-                    resources.ChangeSouls(150);
+                    currency.ChangeSouls(150);
                     break;
                 case "Longbowman":
-                    resources.ChangeSouls(200);
+                    currency.ChangeSouls(200);
                     break;
                 case "Crossbowman":
-                    resources.ChangeSouls(150);
+                    currency.ChangeSouls(150);
                     break;
                 case "Footman":
-                    resources.ChangeSouls(150);
+                    currency.ChangeSouls(150);
                     break;
                 case "MountedKnight":
-                    resources.ChangeSouls(200);
+                    currency.ChangeSouls(200);
                     break;
                 case "HeroKing":
-                    resources.ChangeSouls(1000);
+                    currency.ChangeSouls(1000);
                     break;
             }
 		}

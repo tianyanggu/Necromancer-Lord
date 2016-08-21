@@ -6,7 +6,7 @@ public class Summon : MonoBehaviour {
 	public HexGrid hexGrid;
 	public LoadMap loadMap;
 	public EntityStorage entityStorage;
-	public Resources resources;
+	public Currency currency;
 
 	public GameObject Necromancer;
 	public GameObject Skeleton;
@@ -32,118 +32,11 @@ public class Summon : MonoBehaviour {
 		string availableName = summonname + availableNum;
 		int health = GetHealthInfo (summonname);
 
-        //alternative to clean up code
-        //Instantiate(Resources.Load("Characters/" + NAME OF CHAR), summonindex, Quaternion.identity);
-        switch (summonname)
-        {
-            //UNDEAD
-            case "Zombie":
-                {
-                    GameObject playerentity = (GameObject)Instantiate(Zombie, summonindex, Quaternion.identity);
-                    playerentity.name = availableName;
-                    entityStorage.AddActivePlayerEntity(playerentity);
-                    hexGrid.SetEntityObject(cellindex, playerentity);
-                }
-                break;
-            case "Skeleton":
-                {
-                    GameObject playerentity = (GameObject)Instantiate(Skeleton, summonindex, Quaternion.identity);
-                    playerentity.name = availableName;
-                    entityStorage.AddActivePlayerEntity(playerentity);
-                    hexGrid.SetEntityObject(cellindex, playerentity);
-                }
-                break;
-            case "Necromancer":
-                {
-                    GameObject playerentity = (GameObject)Instantiate(Necromancer, summonindex, Quaternion.identity);
-                    playerentity.name = availableName;
-                    entityStorage.AddActivePlayerEntity(playerentity);
-                    hexGrid.SetEntityObject(cellindex, playerentity);
-                }
-                break;
-            case "SkeletonArcher":
-                {
-                    GameObject playerentity = (GameObject)Instantiate(SkeletonArcher, summonindex, Quaternion.identity);
-                    playerentity.name = availableName;
-                    entityStorage.AddActivePlayerEntity(playerentity);
-                    hexGrid.SetEntityObject(cellindex, playerentity);
-                }
-                break;
-            case "ArmoredSkeleton":
-                {
-                    GameObject playerentity = (GameObject)Instantiate(ArmoredSkeleton, summonindex, Quaternion.identity);
-                    playerentity.name = availableName;
-                    entityStorage.AddActivePlayerEntity(playerentity);
-                    hexGrid.SetEntityObject(cellindex, playerentity);
-                }
-                break;
-            case "DeathKnight":
-                {
-                    GameObject playerentity = (GameObject)Instantiate(DeathKnight, summonindex, Quaternion.identity);
-                    playerentity.name = availableName;
-                    entityStorage.AddActivePlayerEntity(playerentity);
-                    hexGrid.SetEntityObject(cellindex, playerentity);
-                }
-                break;
-
-            //HUMANS
-            case "Militia":
-                {
-                    GameObject enemyentity = (GameObject)Instantiate(Militia, summonindex, Quaternion.identity);
-                    enemyentity.name = availableName;
-                    entityStorage.AddActiveEnemyEntity(enemyentity);
-                    hexGrid.SetEntityObject(cellindex, enemyentity);
-                }
-                break;
-            case "Archer":
-                {
-                    GameObject enemyentity = (GameObject)Instantiate(Archer, summonindex, Quaternion.identity);
-                    enemyentity.name = availableName;
-                    entityStorage.AddActiveEnemyEntity(enemyentity);
-                    hexGrid.SetEntityObject(cellindex, enemyentity);
-                }
-                break;
-            case "Longbowman":
-                {
-                    GameObject enemyentity = (GameObject)Instantiate(Longbowman, summonindex, Quaternion.identity);
-                    enemyentity.name = availableName;
-                    entityStorage.AddActiveEnemyEntity(enemyentity);
-                    hexGrid.SetEntityObject(cellindex, enemyentity);
-                }
-                break;
-            case "Crossbowman":
-                {
-                    GameObject enemyentity = (GameObject)Instantiate(Crossbowman, summonindex, Quaternion.identity);
-                    enemyentity.name = availableName;
-                    entityStorage.AddActiveEnemyEntity(enemyentity);
-                    hexGrid.SetEntityObject(cellindex, enemyentity);
-                }
-                break;
-            case "Footman":
-                {
-                    GameObject enemyentity = (GameObject)Instantiate(Footman, summonindex, Quaternion.identity);
-                    enemyentity.name = availableName;
-                    entityStorage.AddActiveEnemyEntity(enemyentity);
-                    hexGrid.SetEntityObject(cellindex, enemyentity);
-                }
-                break;
-            case "MountedKnight":
-                {
-                    GameObject enemyentity = (GameObject)Instantiate(MountedKnight, summonindex, Quaternion.identity);
-                    enemyentity.name = availableName;
-                    entityStorage.AddActiveEnemyEntity(enemyentity);
-                    hexGrid.SetEntityObject(cellindex, enemyentity);
-                }
-                break;
-            case "HeroKing":
-                {
-                    GameObject enemyentity = (GameObject)Instantiate(HeroKing, summonindex, Quaternion.identity);
-                    enemyentity.name = availableName;
-                    entityStorage.AddActiveEnemyEntity(enemyentity);
-                    hexGrid.SetEntityObject(cellindex, enemyentity);
-                }
-                break;
-        }
+        //Instantiate the prefab from the resources folder
+        GameObject entity = (GameObject)Instantiate(Resources.Load(summonname), summonindex, Quaternion.identity);
+        entity.name = availableName;
+        entityStorage.AddActivePlayerEntity(entity);
+        hexGrid.SetEntityObject(cellindex, entity);
 
 		//stores info of new summon to playerprefs for saving
 		string ppName = AvailablePlayerPrefsName ();
@@ -243,7 +136,7 @@ public class Summon : MonoBehaviour {
 		int souls = PlayerPrefs.GetInt ("Souls");
 		int cost = entityStorage.summonSoulCost (entity);
 		if (souls >= cost) {
-			resources.ChangeSouls (-cost);
+            currency.ChangeSouls (-cost);
 			return true;
 		}
 		return false;
