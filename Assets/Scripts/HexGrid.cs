@@ -164,7 +164,16 @@ public class HexGrid : MonoBehaviour {
 		return index;
 	}
 
-	public Vector3 GetCellPos (int index) {
+    public int GetCellIndexFromGameObject(GameObject entity)
+    {
+        Vector3 position = entity.transform.position;
+        position = transform.InverseTransformPoint(position);
+        HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+        int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+        return index;
+    }
+
+    public Vector3 GetCellPos (int index) {
 		HexCell cell = cells[index];
 		HexCoordinates coord = cell.coordinates;
 		//offset is the first x coord of each row times -1

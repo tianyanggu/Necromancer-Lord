@@ -97,7 +97,6 @@ public class LoadMap : MonoBehaviour {
             {
                 Vector3 spawn = hexGrid.GetCellPos(allIndex);
                 spawn.y = 0.2f;
-                Debug.Log(cleanEntity);
                 GameObject entity = (GameObject)Instantiate(Resources.Load(cleanEntity), spawn, Quaternion.identity);
                 entity.name = allEntities;
                 hexGrid.SetEntityName(allIndex, allEntities);

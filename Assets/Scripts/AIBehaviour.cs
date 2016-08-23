@@ -29,12 +29,14 @@ public class AIBehaviour : MonoBehaviour {
 	private List<int> phealthAtt = new List<int>();
 
 	//testing remove after
-//	void Start () {
-//		List<string> scannedentities = ScanEntities (15);
-//		string decideattentity = DecideAttack (15, nearbyPlayerEntities, nearbyPlayerEntitiesIndex, nearbyPlayerEntitiesDistance, nearbyPlayerEntitiesHealth);
-//
-//		Debug.Log (decideattentity);
-//	}
+	void Start () {
+        //		List<string> scannedentities = ScanEntities (15);
+        //		string decideattentity = DecideAttack (15, nearbyPlayerEntities, nearbyPlayerEntitiesIndex, nearbyPlayerEntitiesDistance, nearbyPlayerEntitiesHealth);
+        //
+        //		Debug.Log (decideattentity);
+        Debug.Log(ClosestEntity(12));
+
+    }
 	public void Actions (int eindex) {
 		ScanEntities (eindex);
 		int decideAttEntity = DecideAttack (eindex, nearbyPlayerEntities, nearbyPlayerEntitiesIndex, nearbyPlayerEntitiesDistance, nearbyPlayerEntitiesHealth);
@@ -54,28 +56,53 @@ public class AIBehaviour : MonoBehaviour {
 	}
 
 	//eindex is the current enemy entity that scans for player entities within movement range of it
-	public List<string> ScanEntities (int eindex) {
+	public List<string> ScanEntities (int aiIndex) {
 		aiMovementIndexes.Clear ();
 		nearbyPlayerEntities.Clear ();
 		nearbyPlayerEntitiesIndex.Clear ();
 		nearbyPlayerEntitiesDistance.Clear ();
 		nearbyPlayerEntitiesHealth.Clear ();
 
-		string eEntityName = hexGrid.GetEntityName(eindex);
-        GameObject eEntity = hexGrid.GetEntityObject(eindex);
+		string eEntityName = hexGrid.GetEntityName(aiIndex);
+        GameObject eEntity = hexGrid.GetEntityObject(aiIndex);
         GetAIInfo (eEntity, eEntityName);
 
-		aiMovementIndexes = movement.GetCellIndexesBlockers (eindex, aicurrmovepoint);
-		ScanEntitiesHelper (eindex, aicurrmovepoint, 0);
+		aiMovementIndexes = movement.GetCellIndexesBlockers (aiIndex, aicurrmovepoint);
+		ScanEntitiesHelper (aiIndex, aicurrmovepoint, 0);
 
 		if (nearbyPlayerEntities.Any ()) {
 			List<string> scan = nearbyPlayerEntities;
 			return scan;
 		}
+
+        //if cannot find any that can be reached then find nearest nearest one
+        else
+        {
+            ClosestEntity(aiIndex);
+        }
+
 		return new List<string> {"Empty"};
 	}
 
-	public void ScanEntitiesHelper (int index, int maxDistance, int usedDistance) {
+    public GameObject ClosestEntity(int aiIndex)
+    {
+        GameObject currClosestObj = null;
+        int currClosest = 999999;
+        foreach (GameObject aiEntity in entityStorage.activePlayerEntities)
+        {
+            int currEntityIndex = hexGrid.GetCellIndexFromGameObject(aiEntity);
+            int currDist = movement.GetDistance(aiIndex, currEntityIndex);
+            if (currDist < currClosest)
+            {
+                currClosest = currDist;
+                currClosestObj = aiEntity;
+            }
+        }
+        return currClosestObj;
+    }
+
+
+    public void ScanEntitiesHelper (int index, int maxDistance, int usedDistance) {
 		if (maxDistance > 0) {
 			HexCoordinates coord = hexGrid.GetCellCoord (index);
 			int coordx = coord.X;
