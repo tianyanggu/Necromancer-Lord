@@ -40,6 +40,7 @@ public class AIBehaviour : MonoBehaviour {
 	public void Actions (int eindex) {
 		ScanEntities (eindex);
 		int decideAttEntity = DecideAttack (eindex, nearbyPlayerEntities, nearbyPlayerEntitiesIndex, nearbyPlayerEntitiesDistance, nearbyPlayerEntitiesHealth);
+        //TODO decideAttEntity for ranged units
 
 		//find postions where player entity can be attacked at then attacks it
 		List<int> attackPos = new List<int>();
@@ -51,8 +52,10 @@ public class AIBehaviour : MonoBehaviour {
 				}
 			}
 			battle.Attack (eindex, attackPos[0]);
-			battle.Attack (attackPos[0], decideAttEntity);
+			//battle.Attack (attackPos[0], decideAttEntity);
 		}
+        //if cannot reach right away, move closest possible
+        //TODO move closest function
 	}
 
 	//eindex is the current enemy entity that scans for player entities within movement range of it
@@ -207,12 +210,13 @@ public class AIBehaviour : MonoBehaviour {
 
 		foreach (int direction in hexdirections) {
 			if (direction >= 0 && direction < hexGrid.size) {
-				string dirEntity = hexGrid.GetEntityName (direction);
-				if (dirEntity == "Empty") {
-					availableIndex.Add (direction);
-				}
-			}
-		}
+                if (hexGrid.GetEntityName(direction) == "Empty")
+                {
+                    availableIndex.Add(direction);
+                }
+                //TODO if entity has no available attack indexes because of entity occupying space but after one of entities occupying empty space dies, it may have space. Recalculate
+            }
+        }
 		return availableIndex;
 	}
 
