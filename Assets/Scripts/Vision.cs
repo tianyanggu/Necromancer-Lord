@@ -37,8 +37,9 @@ public class Vision : MonoBehaviour {
 
     //check each player entity in entitystorage to determine their vision range and remove the fog for that range
     public void AllPlayerVision () {
-        foreach (GameObject playerEntity in entityStorage.activePlayerEntities) {
-            string cleanPlayerEntity = Regex.Replace(playerEntity.name, @"[\d-]", string.Empty);
+        //TODO for whichever player currently on
+        foreach (GameObject playerEntity in entityStorage.PlayerEntityList('A')) {
+            string cleanPlayerEntity = Regex.Replace(playerEntity.name.Substring(2), @"[\d-]", string.Empty);
             int visionDistance = 0;
             switch (cleanPlayerEntity)
             {
@@ -60,16 +61,30 @@ public class Vision : MonoBehaviour {
                 case "DeathKnight":
                     visionDistance = playerEntity.GetComponent<DeathKnightBehaviour>().vision;
                     break;
+
+                case "Militia":
+                    visionDistance = playerEntity.GetComponent<MilitiaBehaviour>().vision;
+                    break;
+                case "Archer":
+                    visionDistance = playerEntity.GetComponent<ArcherBehaviour>().vision;
+                    break;
+                case "Longbowman":
+                    visionDistance = playerEntity.GetComponent<LongbowmanBehaviour>().vision;
+                    break;
+                case "Crossbowman":
+                    visionDistance = playerEntity.GetComponent<CrossbowmanBehaviour>().vision;
+                    break;
+                case "Footman":
+                    visionDistance = playerEntity.GetComponent<FootmanBehaviour>().vision;
+                    break;
+                case "MountedKnight":
+                    visionDistance = playerEntity.GetComponent<MountedKnightBehaviour>().vision;
+                    break;
+                case "HeroKing":
+                    visionDistance = playerEntity.GetComponent<HeroKingBehaviour>().vision;
+                    break;
             }
 
-            //TODO Future update for human class
-            //else if (cleanpEntity == "Militia") {
-            //    visionDistance = playerEntity.GetComponent<MilitiaBehaviour>().vision;
-            //} else if (cleanpEntity == "Archer") {
-            //    visionDistance = playerEntity.GetComponent<ArcherBehaviour>().vision;
-            //} else if (cleanpEntity == "Longbowman") {
-            //    visionDistance = playerEntity.GetComponent<LongbowmanBehaviour>().vision;
-            //}
             Vector3 playerEntityPosition = playerEntity.transform.position;
             int index = hexGrid.GetCellIndex(playerEntityPosition);
             PlayerVisionHelper(index, visionDistance);

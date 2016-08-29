@@ -35,26 +35,38 @@ public class Battle : MonoBehaviour {
 	private string cleanCurrEntity;
 
 	public bool Attack (int selectedindex, int currindex) {
-		//------Parses Entities------
-		string selectedEntityName = hexGrid.GetEntityName(selectedindex);
+        //------Parses Entities------
+        string selectedEntityName = hexGrid.GetEntityName(selectedindex);
         GameObject selectedEntity = hexGrid.GetEntityObject(selectedindex);
         if (selectedEntityName == "Empty") {
 			return false;
 		}
 		string currEntityName = hexGrid.GetEntityName(currindex);
         GameObject currEntity = hexGrid.GetEntityObject(currindex);
+
         //get first part of currEntity as clean and number as num
-        cleanCurrEntity = Regex.Replace(currEntityName, @"[\d-]", string.Empty);
-		cleanSelEntity = Regex.Replace(selectedEntityName, @"[\d-]", string.Empty);
-		Vector3 cellcoord = hexGrid.GetCellPos(currindex);
+        cleanSelEntity = Regex.Replace(selectedEntityName.Substring(2), @"[\d-]", string.Empty);
+        cleanCurrEntity = Regex.Replace(currEntityName.Substring(2), @"[\d-]", string.Empty);
+        //get coordinates of currEntity
+        Vector3 cellcoord = hexGrid.GetCellPos(currindex);
 
 		string storedNameSel = PlayerPrefs.GetString (selectedEntityName);
 		string numSelEntity = Regex.Replace(storedNameSel, "[^0-9 -]", string.Empty);
 		string storedNameCurr = PlayerPrefs.GetString (currEntityName);
 		string numCurrEntity = Regex.Replace(storedNameCurr, "[^0-9 -]", string.Empty);
 
-		string selFaction = entityStorage.whichFaction(cleanSelEntity);
-		string currFaction = entityStorage.whichFaction(cleanCurrEntity);
+		string selFaction = entityStorage.WhichFaction(cleanSelEntity);
+		string currFaction = entityStorage.WhichFaction(cleanCurrEntity);
+
+        //check if on same team
+        string selTeam = selectedEntityName.Substring(1, 1);
+        string currTeam = currEntityName.Substring(1, 1);
+        if (selTeam == currTeam)
+        {
+            return false;
+        }
+        string selPlayer = selectedEntityName.Substring(0, 0);
+        string currPlayer = currEntityName.Substring(0, 0);
 
         GetMovementInfo (selectedEntity);
 
@@ -94,7 +106,7 @@ public class Battle : MonoBehaviour {
 				return true;
 			}
 			//------Encounter Enemy------
-		} else if (selFaction != currFaction) {
+		} else if (selTeam != currTeam && currEntityName != "Empty") {
             GameObject attacker = selectedEntity;
             GameObject defender = currEntity;
 
@@ -103,8 +115,8 @@ public class Battle : MonoBehaviour {
 
 			//check if you can attack
 			if (playercurrattpoint == 0) {
-				return false;
-			}
+                return false;
+            }
 			List<int> possattacktiles = null;
 
 			//------Determine Attack Range------
@@ -138,8 +150,8 @@ public class Battle : MonoBehaviour {
 						PlayerPrefs.SetInt ("HexEntityHealth" + numSelEntity, attackerlasthealth);
 					//range attack
 					} else if (attackerrange >= 2) {
-						//armor piercing damage is minimum of armor or piercing damage
-						int attackerpierceddmg = Mathf.Min(defenderarmor, attackerarmorpiercing);
+                        //armor piercing damage is minimum of armor or piercing damage
+                        int attackerpierceddmg = Mathf.Min(defenderarmor, attackerarmorpiercing);
 						//calc dmg to defender health
 						int totalattackerrangedmg = attackerrangedmg - defenderarmor + attackerpierceddmg;
 						if (totalattackerrangedmg < 1) {
@@ -157,7 +169,8 @@ public class Battle : MonoBehaviour {
                         hexGrid.SetEntityObject (currindex, null);
                         GameObject defenderHealthText = GameObject.Find ("Health " + currEntityName);
 						Destroy (defenderHealthText);
-						entityStorage.RemoveActiveEnemyEntity (defender);
+                        char playerFirstLetter = currEntityName[0];
+                        entityStorage.PlayerEntityList(playerFirstLetter).Remove(defender);
 						//store new info
 						PlayerPrefs.DeleteKey ("HexEntity" + numCurrEntity);
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numCurrEntity);
@@ -174,7 +187,8 @@ public class Battle : MonoBehaviour {
                         hexGrid.SetEntityObject (selectedindex, null);
                         GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntityName);
 						Destroy (attackerHealthText);
-						entityStorage.RemoveActivePlayerEntity (attacker);
+                        char playerFirstLetter = selectedEntityName[0];
+                        entityStorage.PlayerEntityList(playerFirstLetter).Remove(attacker);
 						//store new info
 						PlayerPrefs.DeleteKey ("HexEntity" + numSelEntity);
 						PlayerPrefs.DeleteKey ("HexEntityHealth" + numSelEntity);
@@ -185,8 +199,8 @@ public class Battle : MonoBehaviour {
 						}
 					} 
 					if (attackerlasthealth > 0 && defenderlasthealth <= 0) {
-						//move to defender's position if have enough movement points and is not ranged unit
-						int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
+                        //move to defender's position if have enough movement points and is not ranged unit
+                        int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
 						if (playercurrmovepoint >= minmove && attackerrange == 1) {
 							attacker.transform.position = cellcoord;
 							hexGrid.SetEntityName (currindex, selectedEntityName);

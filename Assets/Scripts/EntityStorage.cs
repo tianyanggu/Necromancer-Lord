@@ -4,59 +4,72 @@ using System.Collections.Generic;
 
 public class EntityStorage : MonoBehaviour {
 
-	public List<string> playerEntities = new List<string> ();
-	public List<string> enemyEntities = new List<string> ();
+	public List<string> undeadEntities = new List<string> ();
+	public List<string> humanEntities = new List<string> ();
 
-	public List<GameObject> activePlayerEntities = new List<GameObject> ();
-	public List<GameObject> activeEnemyEntities = new List<GameObject> ();
+    public List<string> activePlayers = new List<string>();
 
-	void Start () {
-		//player controlled entities
-		playerEntities.Add ("Necromancer");
-		playerEntities.Add ("Skeleton");
-		playerEntities.Add ("Zombie");
-        playerEntities.Add ("SkeletonArcher");
-        playerEntities.Add ("ArmoredSkeleton");
-        playerEntities.Add ("DeathKnight");
-		//enemy entities
-		enemyEntities.Add ("Militia");
-        enemyEntities.Add ("Archer");
-        enemyEntities.Add ("Longbowman");
-        enemyEntities.Add ("Crossbowman");
-        enemyEntities.Add ("Footman");
-        enemyEntities.Add ("MountedKnight");
-        enemyEntities.Add ("HeroKing");
+    public List<GameObject> activePlayerAEntities = new List<GameObject>();
+    public List<GameObject> activePlayerBEntities = new List<GameObject>();
+    public List<GameObject> activePlayerCEntities = new List<GameObject>();
 
-		ListActivePlayerEntities ();
-		ListActiveEnemyEntities ();
-	}
+    public List<List<GameObject>> activePlayersList = new List<List<GameObject>>();
+
+    void Start () {
+		//undead entities
+		undeadEntities.Add ("Necromancer");
+        undeadEntities.Add ("Skeleton");
+        undeadEntities.Add ("Zombie");
+        undeadEntities.Add ("SkeletonArcher");
+        undeadEntities.Add ("ArmoredSkeleton");
+        undeadEntities.Add ("DeathKnight");
+		//human entities
+		humanEntities.Add ("Militia");
+        humanEntities.Add ("Archer");
+        humanEntities.Add ("Longbowman");
+        humanEntities.Add ("Crossbowman");
+        humanEntities.Add ("Footman");
+        humanEntities.Add ("MountedKnight");
+        humanEntities.Add ("HeroKing");
+
+        //TODO make function to check number of players at start of game and their team
+        //add active players to list
+        activePlayers.Add("AA");
+        activePlayers.Add("BB");
+        activePlayers.Add("CA");
+
+        PlayerPrefs.SetString("AA", "undead");
+        PlayerPrefs.SetString("BB", "human");
+        PlayerPrefs.SetString("CA", "undead");
+
+        ListActivePlayerEntities ();
+
+        activePlayersList.Add(activePlayerAEntities);
+        activePlayersList.Add(activePlayerBEntities);
+        activePlayersList.Add(activePlayerCEntities);
+    }
 
 	public void ListActivePlayerEntities () {
-		foreach (string entity in playerEntities) {
-			for (int i = 1; i <= 99; i++) {
-				string num = i.ToString ();
-				GameObject gameEntity = GameObject.Find (entity + num);
-				if (gameEntity != null) {
-					activePlayerEntities.Add (gameEntity);
-				}
-			}
-		}
-	}
-
-	public void ListActiveEnemyEntities () {
-		foreach (string entity in enemyEntities) {
-			for (int i = 1; i <= 99; i++) {
-				string num = i.ToString ();
-				GameObject gameEntity = GameObject.Find (entity + num);
-				if (gameEntity != null) {
-					activeEnemyEntities.Add (gameEntity);
-				}
-			}
+		foreach (string playerID in activePlayers) {
+            //get which faction entities needs to be checked for
+            foreach (string entity in PlayerFactionEntityList(PlayerPrefs.GetString(playerID)))
+            {
+                for (int i = 1; i <= 99; i++)
+                {
+                    string num = i.ToString();
+                    GameObject gameEntity = GameObject.Find(playerID + entity + num);
+                    if (gameEntity != null)
+                    {
+                        char playerFirstLetter = playerID[0];
+                        PlayerEntityList(playerFirstLetter).Add(gameEntity);
+                    }
+                }
+            }
 		}
 	}
 
 	//returns faction
-	public string whichFaction(string entity) {
+	public string WhichFaction(string entity) {
 		//------Determine Faction------
         switch (entity)
         {
@@ -91,8 +104,36 @@ public class EntityStorage : MonoBehaviour {
 		return "unknown";
 	}
 
-	//returns summon soul cost
-	public int summonSoulCost(string entity) {
+    public List<string> PlayerFactionEntityList(string factionName)
+    {
+        //------Determine Faction Entity List------
+        switch (factionName)
+        {
+            case "undead":
+                return undeadEntities;
+            case "Militia":
+                return humanEntities;
+        }
+        return new List<string>();
+    }
+
+    public List<GameObject> PlayerEntityList(char playerID)
+    {
+        //------Determine Faction Entity List------
+        switch (playerID)
+        {
+            case 'A':
+                return activePlayerAEntities;
+            case 'B':
+                return activePlayerBEntities;
+            case 'C':
+                return activePlayerCEntities;
+        }
+        return new List<GameObject>();
+    }
+
+    //returns summon soul cost
+    public int summonSoulCost(string entity) {
         //------Determine Cost------
         switch (entity)
         {
@@ -111,20 +152,4 @@ public class EntityStorage : MonoBehaviour {
 		}
 		return 0;
 	}
-
-	public void AddActivePlayerEntity (GameObject entityObject) {
-		activePlayerEntities.Add (entityObject);
-	} 
-
-	public void RemoveActivePlayerEntity (GameObject entityObject) {
-		activePlayerEntities.Remove (entityObject);
-	} 
-
-	public void AddActiveEnemyEntity (GameObject entityObject) {
-		activeEnemyEntities.Add (entityObject);
-	} 
-
-	public void RemoveActiveEnemyEntity (GameObject entityObject) {
-		activeEnemyEntities.Remove (entityObject);
-	} 
 }

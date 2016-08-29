@@ -91,7 +91,8 @@ public class AIBehaviour : MonoBehaviour {
     {
         GameObject currClosestObj = null;
         int currClosest = 999999;
-        foreach (GameObject aiEntity in entityStorage.activePlayerEntities)
+        //TODO change activePlayerAEntities to enemies of AI
+        foreach (GameObject aiEntity in entityStorage.activePlayerAEntities)
         {
             int currEntityIndex = hexGrid.GetCellIndexFromGameObject(aiEntity);
             int currDist = movement.GetDistance(aiIndex, currEntityIndex);
@@ -136,8 +137,9 @@ public class AIBehaviour : MonoBehaviour {
 							ScanEntitiesHelper (direction, newmovementpoints, newusedmovementpoints);
 						}
 					//if index not empty and is from undead faction, get the entity
-					} else if (entityStorage.whichFaction(cleandirEntity) == "undead") {
-						if (entityStorage.playerEntities.Contains (cleandirEntity)) {
+					} else if (entityStorage.WhichFaction(cleandirEntity) == "undead") {
+                        //TODO player entities different each time, not undead entities
+						if (entityStorage.undeadEntities.Contains (cleandirEntity)) {
 							nearbyPlayerEntities.Add (dirEntityName);
 							nearbyPlayerEntitiesIndex.Add (direction);
 							nearbyPlayerEntitiesDistance.Add (usedDistance + 1);

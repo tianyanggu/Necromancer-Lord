@@ -45,47 +45,47 @@ public class LoadMap : MonoBehaviour {
 		Vector3 start = hexGrid.GetCellPos(14);
 		start.y = 0.2f;
 		GameObject playerNecromancer = (GameObject)Instantiate (Necromancer, start, Quaternion.identity);
-		playerNecromancer.name = "Necromancer1";
-		hexGrid.SetEntityName (14, "Necromancer1");
+		playerNecromancer.name = "AANecromancer1";
+		hexGrid.SetEntityName (14, "AANecromancer1");
         hexGrid.SetEntityObject (14, playerNecromancer);
         int ncurrhealth = playerNecromancer.GetComponent<NecromancerBehaviour> ().health;
-		CreateHealthLabel (14, ncurrhealth, "Necromancer1");
+		CreateHealthLabel (14, ncurrhealth, "AANecromancer1");
 
 		Vector3 militiastart = hexGrid.GetCellPos(12);
 		militiastart.y = 0.2f;
 		GameObject militia1 = (GameObject)Instantiate (Militia, militiastart, Quaternion.identity);
-		militia1.name = "Militia1";
-		hexGrid.SetEntityName (12, "Militia1");
+		militia1.name = "BBMilitia1";
+		hexGrid.SetEntityName (12, "BBMilitia1");
         hexGrid.SetEntityObject(12, militia1);
         int mcurrhealth = militia1.GetComponent<MilitiaBehaviour> ().health;
-		CreateHealthLabel (12, mcurrhealth, "Militia1");
+		CreateHealthLabel (12, mcurrhealth, "BBMilitia1");
 
 		Vector3 militiastart2 = hexGrid.GetCellPos(15);
 		militiastart2.y = 0.2f;
 		GameObject militia2 = (GameObject)Instantiate (Militia, militiastart2, Quaternion.identity);
-		militia2.name = "Militia2";
-		hexGrid.SetEntityName (15, "Militia2");
+		militia2.name = "CAMilitia2";
+		hexGrid.SetEntityName (15, "CAMilitia2");
         hexGrid.SetEntityObject (15, militia2);
         int m2currhealth = militia2.GetComponent<MilitiaBehaviour> ().health;
-		CreateHealthLabel (15, m2currhealth, "Militia2");
+		CreateHealthLabel (15, m2currhealth, "CAMilitia2");
 
 		Vector3 start2 = hexGrid.GetCellPos(3);
 		start2.y = 0.2f;
 		GameObject playerSkeleton = (GameObject)Instantiate (Skeleton, start2, Quaternion.identity);
-		playerSkeleton.name = "Skeleton1";
-		hexGrid.SetEntityName (3, "Skeleton1");
+		playerSkeleton.name = "AASkeleton1";
+		hexGrid.SetEntityName (3, "AASkeleton1");
         hexGrid.SetEntityObject (3, playerSkeleton);
         int scurrhealth = playerSkeleton.GetComponent<SkeletonBehaviour> ().health;
-		CreateHealthLabel (3, scurrhealth, "Skeleton1");
+		CreateHealthLabel (3, scurrhealth, "AASkeleton1");
 
 		Vector3 start3 = hexGrid.GetCellPos(18);
 		start3.y = 0.2f;
 		GameObject playerZombie = (GameObject)Instantiate (Zombie, start3, Quaternion.identity);
-		playerZombie.name = "Zombie1";
-		hexGrid.SetEntityName (18, "Zombie1");
+		playerZombie.name = "AAZombie1";
+		hexGrid.SetEntityName (18, "AAZombie1");
         hexGrid.SetEntityObject (18, playerZombie);
         int zcurrhealth = playerZombie.GetComponent<ZombieBehaviour> ().health;
-		CreateHealthLabel (18, zcurrhealth, "Zombie1");
+		CreateHealthLabel (18, zcurrhealth, "AAZombie1");
 
 		for (int i = 0; i < hexGrid.size; i++) {
 			string allEntities = PlayerPrefs.GetString ("HexEntity" + i);

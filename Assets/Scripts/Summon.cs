@@ -27,7 +27,7 @@ public class Summon : MonoBehaviour {
 	public void SummonEntity (int cellindex, string summonname) {
 		Vector3 summonindex = hexGrid.GetCellPos(cellindex);
 		summonindex.y = 0.2f;
-		string faction = entityStorage.whichFaction (summonname);
+		string faction = entityStorage.WhichFaction (summonname);
 		string availableNum = AvailableName (summonname, faction);
 		string availableName = summonname + availableNum;
 		int health = GetHealthInfo (summonname);
@@ -35,7 +35,8 @@ public class Summon : MonoBehaviour {
         //Instantiate the prefab from the resources folder
         GameObject entity = (GameObject)Instantiate(Resources.Load(summonname), summonindex, Quaternion.identity);
         entity.name = availableName;
-        entityStorage.AddActivePlayerEntity(entity);
+        //TODO add for whichever player summoned that entity
+        entityStorage.PlayerEntityList('A').Add(entity);
         hexGrid.SetEntityObject(cellindex, entity);
 
 		//stores info of new summon to playerprefs for saving
@@ -55,7 +56,8 @@ public class Summon : MonoBehaviour {
 			string num = i.ToString ();
 			if (faction == "undead") {
                 bool nameExists = false;
-                foreach (GameObject playerEntity in entityStorage.activePlayerEntities) {
+                //TODO for whichever player summoned that entity
+                foreach (GameObject playerEntity in entityStorage.PlayerEntityList('A')) {
                     if (playerEntity.name == summonname + num)
                     {
                         nameExists = true;
@@ -68,7 +70,8 @@ public class Summon : MonoBehaviour {
             }
 			if (faction == "human") {
                 bool nameExists = false;
-                foreach (GameObject playerEntity in entityStorage.activePlayerEntities)
+                //TODO for whichever player summoned that entity
+                foreach (GameObject playerEntity in entityStorage.PlayerEntityList('A'))
                 {
                     if (playerEntity.name == summonname + num)
                     {

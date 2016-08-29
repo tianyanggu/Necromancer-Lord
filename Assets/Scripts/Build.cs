@@ -139,7 +139,8 @@ public class Build : MonoBehaviour {
 			} else if (cleanEntity == "Skeleton" || cleanEntity == "Zombie" || cleanEntity == "SkeletonArcher") {
                 currency.ChangeSouls (-cost);
 				GameObject entityGameObj = hexGrid.GetEntityObject(index);
-                entityStorage.RemoveActivePlayerEntity(entityGameObj);
+                char playerFirstLetter = entityName[0];
+                entityStorage.PlayerEntityList(playerFirstLetter).Remove(entityGameObj);
                 Destroy (entityGameObj);
 				hexGrid.SetEntityName (index, "Empty");
                 hexGrid.SetEntityObject (index, null);
