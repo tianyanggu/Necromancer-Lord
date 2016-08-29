@@ -102,7 +102,7 @@ public class Build : MonoBehaviour {
 		for (int i = 0; i < hexGrid.size; i++) {
 			string num = i.ToString ();
 			string allEntity = PlayerPrefs.GetString ("HexEntity" + i);
-			if (allEntity == "") {
+			if (allEntity == string.Empty) {
 				return num;
 			}
 		}

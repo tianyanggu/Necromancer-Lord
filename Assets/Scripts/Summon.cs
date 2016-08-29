@@ -24,12 +24,12 @@ public class Summon : MonoBehaviour {
     public GameObject HeroKing;
 
 	//given an index and the type of summon, summons that entity with the next available name
-	public void SummonEntity (int cellindex, string summonname) {
+	public void SummonEntity (int cellindex, string summonname, string playerid) {
 		Vector3 summonindex = hexGrid.GetCellPos(cellindex);
 		summonindex.y = 0.2f;
 		string faction = entityStorage.WhichFaction (summonname);
-		string availableNum = AvailableName (summonname, faction);
-		string availableName = summonname + availableNum;
+		string availableNum = AvailableName (summonname, faction, playerid);
+		string availableName = playerid + summonname + availableNum;
 		int health = GetHealthInfo (summonname);
 
         //Instantiate the prefab from the resources folder
@@ -51,14 +51,14 @@ public class Summon : MonoBehaviour {
 	}
 
 	//Check for next available entity number
-	string AvailableName (string summonname, string faction) {
+	string AvailableName (string summonname, string faction, string playerid) {
 		for (int i = 1; i <= 999; i++) {
 			string num = i.ToString ();
 			if (faction == "undead") {
                 bool nameExists = false;
                 //TODO for whichever player summoned that entity
                 foreach (GameObject playerEntity in entityStorage.PlayerEntityList('A')) {
-                    if (playerEntity.name == summonname + num)
+                    if (playerEntity.name == playerid + summonname + num)
                     {
                         nameExists = true;
                     }
@@ -73,7 +73,7 @@ public class Summon : MonoBehaviour {
                 //TODO for whichever player summoned that entity
                 foreach (GameObject playerEntity in entityStorage.PlayerEntityList('A'))
                 {
-                    if (playerEntity.name == summonname + num)
+                    if (playerEntity.name == playerid + summonname + num)
                     {
                         nameExists = true;
                     }
@@ -92,7 +92,7 @@ public class Summon : MonoBehaviour {
 		for (int i = 0; i < hexGrid.size; i++) {
 			string num = i.ToString ();
 			string allEntity = PlayerPrefs.GetString ("HexEntity" + i);
-			if (allEntity == "") {
+			if (allEntity == string.Empty) {
 				return num;
 			}
 		}

@@ -34,8 +34,7 @@ public class AIBehaviour : MonoBehaviour {
         //		string decideattentity = DecideAttack (15, nearbyPlayerEntities, nearbyPlayerEntitiesIndex, nearbyPlayerEntitiesDistance, nearbyPlayerEntitiesHealth);
         //
         //		Debug.Log (decideattentity);
-        Debug.Log(ClosestEntity(12));
-
+        //Debug.Log(ClosestEntity(12));
     }
 	public void Actions (int eindex) {
 		ScanEntities (eindex);

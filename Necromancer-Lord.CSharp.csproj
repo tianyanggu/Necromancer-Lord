@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\NecromancerBehaviour.cs" />
     <Compile Include="Assets\Scripts\NecropolisMechanics.cs" />
+    <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Select.cs" />
     <Compile Include="Assets\Scripts\SkeletonArcherBehaviour.cs" />
     <Compile Include="Assets\Scripts\SkeletonBehaviour.cs" />

@@ -19,6 +19,7 @@ public class HexMapEditor : MonoBehaviour {
 	public BuildingStorage buildingStorage;
 	public AIBehaviour aiBehaviour;
     public BuildingManager buildingManager;
+    public PlayerManager playerManager;
 
 	public int currindex;
 
@@ -46,25 +47,32 @@ public class HexMapEditor : MonoBehaviour {
 		loadMap.LoadResources ();
 		loadMap.LoadCorpses ();
         //sets the seed of the terrain spawn
-		//loadMap.LoadRandom (12);
+        //loadMap.LoadRandom (12);
 
-//		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
-//		int test0 = test [0];
-//		int test1 = test [1];
-//		int test2 = test [2];
-//		int test3 = test [3];
-//		int test4 = test [4];
-//		int test5 = test [5];
-//		//int test6 = test [6];
-//		Debug.Log (test0);
-//		Debug.Log (test1);
-//		Debug.Log (test2);
-//		Debug.Log (test3);
-//		Debug.Log (test4);
-//		Debug.Log (test5);
-//		//Debug.Log (test6);
+        //		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
+        //		int test0 = test [0];
+        //		int test1 = test [1];
+        //		int test2 = test [2];
+        //		int test3 = test [3];
+        //		int test4 = test [4];
+        //		int test5 = test [5];
+        //		//int test6 = test [6];
+        //		Debug.Log (test0);
+        //		Debug.Log (test1);
+        //		Debug.Log (test2);
+        //		Debug.Log (test3);
+        //		Debug.Log (test4);
+        //		Debug.Log (test5);
+        //		//Debug.Log (test6);
 
-	}
+        //TODO Overlay to add players
+        //PlayerPrefs.SetString("Player1", "AA");
+        //PlayerPrefs.SetString("Player2", "BB");
+        //PlayerPrefs.SetString("Player3", "CA");
+        //PlayerPrefs.SetString("AA", "undead");
+        //PlayerPrefs.SetString("BB", "human");
+        //PlayerPrefs.SetString("CA", "undead");
+    }
 
 	void FixedUpdate () {
 		if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject ()) {
@@ -111,6 +119,7 @@ public class HexMapEditor : MonoBehaviour {
 	}
 
 	void OnGUI () {
+        //TODO show which player is currently active
 		// Make a background box
 		//x position, y position, width, length
 		GUI.Box(new Rect(10,120,140,150), "Menu");
@@ -134,7 +143,7 @@ public class HexMapEditor : MonoBehaviour {
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
 					bool validsummon = summon.ValidSummon (entity);
 					if (validsummon) {
-						summon.SummonEntity (currindex, entity);
+                        summon.SummonEntity (currindex, entity, playerManager.currPlayer);
 					}
 					summonclicked = false;
 				}
@@ -157,7 +166,7 @@ public class HexMapEditor : MonoBehaviour {
 				int spacing = i * 20;
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
 					if (editmode == true) {
-						summon.SummonEntity (currindex, entity);
+                        summon.SummonEntity (currindex, entity, playerManager.currPlayer);
                         summonclickededitor = false;
 					}
 				}
@@ -167,7 +176,7 @@ public class HexMapEditor : MonoBehaviour {
 				int spacing = i * 20;
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
 					if (editmode == true) {
-						summon.SummonEntity (currindex, entity);
+                        summon.SummonEntity (currindex, entity, playerManager.currPlayer);
                         summonclickededitor = false;
 					}
 				}
@@ -213,16 +222,19 @@ public class HexMapEditor : MonoBehaviour {
 		//determine if all troops moved and turn can end
 		string turnstring = turn.ToString ();
 		if(GUI.Button(new Rect(30,330,60,60), turnstring)) {
-            //TODO check current player's status instead of just player A
-			bool checkall = locate.CheckAllAttack ('A');
+            char currPlayer = playerManager.currPlayer[0];
+            bool checkall = locate.CheckAllAttack (currPlayer);
 			if (checkall == true) {
 				turn++;
 				//add points back to units
-				locate.SetAllIdleStatus(false, 'A');
+				locate.SetAllIdleStatus(false, currPlayer);
 				locate.SetAllMovementPoints();
 				locate.SetAllAttackPoints();
                 buildingManager.TickProduction();
                 //next player's turn
+                playerManager.NextActivePlayer();
+
+                //ai actions
                 //aiBehaviour.Actions(15);
             }
 		}

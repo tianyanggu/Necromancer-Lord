@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 public class EntityStorage : MonoBehaviour {
 
+    public PlayerManager playerManager;
+
 	public List<string> undeadEntities = new List<string> ();
 	public List<string> humanEntities = new List<string> ();
-
-    public List<string> activePlayers = new List<string>();
 
     public List<GameObject> activePlayerAEntities = new List<GameObject>();
     public List<GameObject> activePlayerBEntities = new List<GameObject>();
@@ -34,14 +34,6 @@ public class EntityStorage : MonoBehaviour {
 
         //TODO make function to check number of players at start of game and their team
         //add active players to list
-        activePlayers.Add("AA");
-        activePlayers.Add("BB");
-        activePlayers.Add("CA");
-
-        PlayerPrefs.SetString("AA", "undead");
-        PlayerPrefs.SetString("BB", "human");
-        PlayerPrefs.SetString("CA", "undead");
-
         ListActivePlayerEntities ();
 
         activePlayersList.Add(activePlayerAEntities);
@@ -49,10 +41,10 @@ public class EntityStorage : MonoBehaviour {
         activePlayersList.Add(activePlayerCEntities);
     }
 
-	public void ListActivePlayerEntities () {
-		foreach (string playerID in activePlayers) {
+    public void ListActivePlayerEntities () {
+		foreach (string playerID in playerManager.activePlayers) {
             //get which faction entities needs to be checked for
-            foreach (string entity in PlayerFactionEntityList(PlayerPrefs.GetString(playerID)))
+            foreach (string entity in PlayerFactionList(PlayerPrefs.GetString(playerID)))
             {
                 for (int i = 1; i <= 99; i++)
                 {
@@ -104,14 +96,14 @@ public class EntityStorage : MonoBehaviour {
 		return "unknown";
 	}
 
-    public List<string> PlayerFactionEntityList(string factionName)
+    public List<string> PlayerFactionList(string factionName)
     {
         //------Determine Faction Entity List------
         switch (factionName)
         {
             case "undead":
                 return undeadEntities;
-            case "Militia":
+            case "human":
                 return humanEntities;
         }
         return new List<string>();
