@@ -96,8 +96,8 @@ public class NecropolisMechanics : MonoBehaviour {
             if (hexGrid.GetComponent<HexGrid>().GetEntityName(currIndex) == "Empty")
             {
                 GameObject summon = GameObject.Find("Summon");
-                //TODO change to set selected for whichever player is currently active instead of undead entities
-                summon.GetComponent<Summon>().SummonEntity(currIndex, currRecruitment, "AA");
+                string buildingOwner = name.Substring(0,1);
+                summon.GetComponent<Summon>().SummonEntity(currIndex, currRecruitment, buildingOwner);
                 currRecruitment = "Empty";
                 IsRecruitmentQueued = false;
             } else

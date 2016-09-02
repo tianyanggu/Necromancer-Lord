@@ -6,6 +6,7 @@ public class Vision : MonoBehaviour {
 
     public EntityStorage entityStorage;
     public HexGrid hexGrid;
+    public PlayerManager playerManager;
 
     public Fog fogPrefab;
     Fog[] fogs;
@@ -37,9 +38,11 @@ public class Vision : MonoBehaviour {
 
     //check each player entity in entitystorage to determine their vision range and remove the fog for that range
     public void AllPlayerVision () {
-        //TODO for whichever player currently on
-        foreach (GameObject playerEntity in entityStorage.PlayerEntityList('A')) {
+        char playerChar = playerManager.currPlayer[0];
+        //Debug.Log(entityStorage.PlayerEntityList(playerChar)[0].name.Substring(2));
+        foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar)) {
             string cleanPlayerEntity = Regex.Replace(playerEntity.name.Substring(2), @"[\d-]", string.Empty);
+ 
             int visionDistance = 0;
             switch (cleanPlayerEntity)
             {

@@ -35,8 +35,8 @@ public class Summon : MonoBehaviour {
         //Instantiate the prefab from the resources folder
         GameObject entity = (GameObject)Instantiate(Resources.Load(summonname), summonindex, Quaternion.identity);
         entity.name = availableName;
-        //TODO add for whichever player summoned that entity
-        entityStorage.PlayerEntityList('A').Add(entity);
+        char playerChar = playerid[0];
+        entityStorage.PlayerEntityList(playerChar).Add(entity);
         hexGrid.SetEntityObject(cellindex, entity);
 
 		//stores info of new summon to playerprefs for saving
@@ -56,8 +56,8 @@ public class Summon : MonoBehaviour {
 			string num = i.ToString ();
 			if (faction == "undead") {
                 bool nameExists = false;
-                //TODO for whichever player summoned that entity
-                foreach (GameObject playerEntity in entityStorage.PlayerEntityList('A')) {
+                char playerChar = playerid[0];
+                foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar)) {
                     if (playerEntity.name == playerid + summonname + num)
                     {
                         nameExists = true;
@@ -70,8 +70,8 @@ public class Summon : MonoBehaviour {
             }
 			if (faction == "human") {
                 bool nameExists = false;
-                //TODO for whichever player summoned that entity
-                foreach (GameObject playerEntity in entityStorage.PlayerEntityList('A'))
+                char playerChar = playerid[0];
+                foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar))
                 {
                     if (playerEntity.name == playerid + summonname + num)
                     {
@@ -135,13 +135,23 @@ public class Summon : MonoBehaviour {
 		return 0;
 	}
 
+    //TODO for human entities
 	public bool ValidSummon(string entity) {
-		int souls = PlayerPrefs.GetInt ("Souls");
-		int cost = entityStorage.summonSoulCost (entity);
-		if (souls >= cost) {
-            currency.ChangeSouls (-cost);
-			return true;
-		}
-		return false;
-	}
+        string faction = entityStorage.WhichFaction(entity);
+        switch (faction)
+        {
+            case "undead":
+                int souls = PlayerPrefs.GetInt("Souls");
+                int cost = entityStorage.summonSoulCost(entity);
+                if (souls >= cost)
+                {
+                    currency.ChangeSouls(-cost);
+                    return true;
+                }
+                return false;
+            case "humans":
+                return true;
+        }
+        return false;
+    }
 }

@@ -65,8 +65,6 @@ public class Battle : MonoBehaviour {
         {
             return false;
         }
-        string selPlayer = selectedEntityName.Substring(0, 0);
-        string currPlayer = currEntityName.Substring(0, 0);
 
         GetMovementInfo (selectedEntity);
 

@@ -258,7 +258,7 @@ public class Locate : MonoBehaviour {
 		return true;
 	}
 
-	public bool CheckAllAttack (char playerID) {
+	public bool CheckAllPoints (char playerID) {
         foreach (GameObject entity in entityStorage.PlayerEntityList(playerID)) {
             string cleanEntity = Regex.Replace(entity.name.Substring(2), @"[\d-]", string.Empty);
             switch (cleanEntity)

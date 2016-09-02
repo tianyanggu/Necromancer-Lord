@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour {
     public string currPlayer;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         ListActivePlayers();
         currPlayer = activePlayers[0];
     }
@@ -27,12 +27,14 @@ public class PlayerManager : MonoBehaviour {
 
     public void NextActivePlayer()
     {
-        for (int i = 0; i <= 26; i++){
-            if (currPlayer == activePlayers[i]) {
+        for (int i = 0; i < activePlayers.Count - 1; i++){
+            if (currPlayer == activePlayers[i])
+            {
                 currPlayer = activePlayers[i + 1];
                 return;
             }
         }
         currPlayer = activePlayers[0];
+        return;
     }
 }

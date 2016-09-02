@@ -138,7 +138,9 @@ public class AIBehaviour : MonoBehaviour {
 					//if index not empty and is from undead faction, get the entity
 					} else if (entityStorage.WhichFaction(cleandirEntity) == "undead") {
                         //TODO player entities different each time, not undead entities
-						if (entityStorage.undeadEntities.Contains (cleandirEntity)) {
+                        //char playerChar = playerManager.currPlayer[0];
+                        //FactionLists(playerChar) instead of undeadEntities
+                        if (entityStorage.undeadEntities.Contains (cleandirEntity)) {
 							nearbyPlayerEntities.Add (dirEntityName);
 							nearbyPlayerEntitiesIndex.Add (direction);
 							nearbyPlayerEntitiesDistance.Add (usedDistance + 1);

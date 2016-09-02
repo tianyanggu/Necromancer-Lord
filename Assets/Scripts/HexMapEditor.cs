@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 public class HexMapEditor : MonoBehaviour {
 
@@ -71,10 +72,10 @@ public class HexMapEditor : MonoBehaviour {
         //PlayerPrefs.SetString("Player3", "CA");
         //PlayerPrefs.SetString("AA", "undead");
         //PlayerPrefs.SetString("BB", "human");
-        //PlayerPrefs.SetString("CA", "undead");
+        //PlayerPrefs.SetString("CA", "human");
     }
 
-	void FixedUpdate () {
+    void FixedUpdate () {
 		if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject ()) {
 			HandleInput ();
 		}
@@ -89,13 +90,14 @@ public class HexMapEditor : MonoBehaviour {
 
 		//-----Selector--------------
 		//Debug.Log(currindex);
-		string currEntityName = hexGrid.GetEntityName (currindex);
+		//string currEntityName = hexGrid.GetEntityName (currindex);
+        GameObject currEntityObj = hexGrid.GetEntityObject(currindex);
         string currBuilding = hexGrid.GetBuildingName (currindex);
-		string cleanCurrEntity = Regex.Replace(currEntityName.Substring(2), @"[\d-]", string.Empty);
+		//string cleanCurrEntity = Regex.Replace(currEntityName.Substring(2), @"[\d-]", string.Empty);
         string cleanCurrBuilding = Regex.Replace(currBuilding.Substring(2), @"[\d-]", string.Empty);
 
-        //TODO change to set selected for whichever player is currently active instead of undead entities
-		if (entityStorage.undeadEntities.Contains (cleanCurrEntity)) {
+        char playerChar = playerManager.currPlayer[0];
+        if (entityStorage.PlayerEntityList(playerChar).Contains (currEntityObj)) {
 			selectedindex = currindex;
             //TODO list info for curr entity, display it
 			lockbattle = false;
@@ -137,8 +139,8 @@ public class HexMapEditor : MonoBehaviour {
 		}
 		if (summonclicked) {
 			int i = 0;
-            //TODO change to set selected for whichever player is currently active instead of undead entities
-            foreach (string entity in entityStorage.undeadEntities) {
+            string playerFaction = PlayerPrefs.GetString(playerManager.currPlayer);
+            foreach (string entity in entityStorage.FactionLists(playerFaction)) {
 				int spacing = i * 20;
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
 					bool validsummon = summon.ValidSummon (entity);
@@ -162,25 +164,21 @@ public class HexMapEditor : MonoBehaviour {
 		}
 		if (summonclickededitor) {
 			int i = 0;
-            foreach (string entity in entityStorage.undeadEntities) {
-				int spacing = i * 20;
-				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
-					if (editmode == true) {
-                        summon.SummonEntity (currindex, entity, playerManager.currPlayer);
-                        summonclickededitor = false;
-					}
-				}
-				i++;
-			}
-			foreach (string entity in entityStorage.humanEntities) {
-				int spacing = i * 20;
-				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
-					if (editmode == true) {
-                        summon.SummonEntity (currindex, entity, playerManager.currPlayer);
-                        summonclickededitor = false;
-					}
-				}
-				i++;
+            foreach (List<string> factionEntities in entityStorage.factionEntityList)
+            {
+                foreach (string entity in factionEntities)
+                {
+                    int spacing = i * 20;
+                    if (GUI.Button(new Rect(150, 150 + spacing, 120, 20), "Summon" + entity))
+                    {
+                        if (editmode == true)
+                        {
+                            summon.SummonEntity(currindex, entity, playerManager.currPlayer);
+                            summonclickededitor = false;
+                        }
+                    }
+                    i++;
+                }
 			}
 		}
 
@@ -223,11 +221,13 @@ public class HexMapEditor : MonoBehaviour {
 		string turnstring = turn.ToString ();
 		if(GUI.Button(new Rect(30,330,60,60), turnstring)) {
             char currPlayer = playerManager.currPlayer[0];
-            bool checkall = locate.CheckAllAttack (currPlayer);
+            bool checkall = locate.CheckAllPoints (currPlayer);
 			if (checkall == true) {
 				turn++;
-				//add points back to units
-				locate.SetAllIdleStatus(false, currPlayer);
+                //ensures if player currently selects some entity, they can`t move it after clicking next turn
+                selectedindex = 0;
+                //add points back to units
+                locate.SetAllIdleStatus(false, currPlayer);
 				locate.SetAllMovementPoints();
 				locate.SetAllAttackPoints();
                 buildingManager.TickProduction();
@@ -241,7 +241,8 @@ public class HexMapEditor : MonoBehaviour {
 
 		//sets remaining units idle
 		if(GUI.Button(new Rect(30,300,60,20), "Set All Idle")) {
-			locate.SetAllIdleStatus(true, 'A');
+            char currPlayer = playerManager.currPlayer[0];
+            locate.SetAllIdleStatus(true, currPlayer);
 		}
 	}
 }

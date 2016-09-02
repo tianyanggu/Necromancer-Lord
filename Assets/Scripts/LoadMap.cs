@@ -93,7 +93,7 @@ public class LoadMap : MonoBehaviour {
 			string cleanEntity = Regex.Replace(allEntities, @"[\d-]", string.Empty);
 			int allIndex = PlayerPrefs.GetInt ("HexEntityIndex" + i);
 
-            if (allEntities != "Empty" && cleanEntity != string.Empty)
+            if (allEntities != string.Empty && cleanEntity != string.Empty)
             {
                 Vector3 spawn = hexGrid.GetCellPos(allIndex);
                 spawn.y = 0.2f;
