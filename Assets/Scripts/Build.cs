@@ -61,22 +61,22 @@ public class Build : MonoBehaviour {
 		return null;
 	}
 
-	public void DestroyBuilding (int cellindex, string playerid) {
+	public void DestroyBuilding (int cellindex) {
 		string buildingName = hexGrid.GetBuildingName (cellindex);
         GameObject building = hexGrid.GetBuildingObject (cellindex);
-        char playerChar = playerid[0];
+        char playerChar = buildingName[0];
         buildingStorage.PlayerBuildingList(playerChar).Remove(building);
         Destroy (building);
+        hexGrid.SetBuildingName(cellindex, "Empty");
+        hexGrid.SetBuildingObject(cellindex, null);
 
-		//delete from playerprefs
-		string playerprefsName = PlayerPrefs.GetString (buildingName);
+        //delete from playerprefs
+        string playerprefsName = PlayerPrefs.GetString (buildingName);
 		string playerprefsNum = Regex.Replace(playerprefsName, "[^0-9 -]", string.Empty);
 		PlayerPrefs.DeleteKey ("HexBuilding" + playerprefsNum);
 		PlayerPrefs.DeleteKey (buildingName);
 		PlayerPrefs.DeleteKey ("HexBuildingHealth" + playerprefsNum);
 		PlayerPrefs.DeleteKey ("HexBuildingIndex" + playerprefsNum);
-		hexGrid.SetBuildingName (cellindex, "Empty");
-        hexGrid.SetBuildingObject (cellindex, null);
     }
 
 	//Check for next available setstring number

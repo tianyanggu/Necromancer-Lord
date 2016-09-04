@@ -11,9 +11,11 @@ public class Battle : MonoBehaviour {
 	public Movement movement;
 	public EntityStorage entityStorage;
 	public Currency currency;
+    public Summon summon;
+    public Build build;
 
-	//entity stats
-	private int attackerdmg = 0;
+    //entity stats
+    private int attackerdmg = 0;
 	//private int attackerhealth = 0;
 	private int attackerlasthealth = 0;
 	private int attackerrange = 0;
@@ -162,41 +164,11 @@ public class Battle : MonoBehaviour {
 
 					//check new status
 					if (defenderlasthealth <= 0) {
-						Destroy (defender);
-						hexGrid.SetEntityName (currindex, "Empty");
-                        hexGrid.SetEntityObject (currindex, null);
-                        GameObject defenderHealthText = GameObject.Find ("Health " + currEntityName);
-						Destroy (defenderHealthText);
-                        char playerFirstLetter = currEntityName[0];
-                        entityStorage.PlayerEntityList(playerFirstLetter).Remove(defender);
-						//store new info
-						PlayerPrefs.DeleteKey ("HexEntity" + numCurrEntity);
-						PlayerPrefs.DeleteKey ("HexEntityHealth" + numCurrEntity);
-						PlayerPrefs.DeleteKey ("HexEntityIndex" + numCurrEntity);
-						PlayerPrefs.DeleteKey (currEntityName);
-						CalcSouls (selFaction, cleanCurrEntity);
-						if (currFaction != "undead") {
-							hexGrid.SetCorpses (currindex, currEntityName);
-						}
+                        summon.KillEntity(currindex);
 					}
 					if (attackerlasthealth <= 0) {
-                        //TODO move kill entity to summon
-						Destroy (attacker);
-						hexGrid.SetEntityName (selectedindex, "Empty");
-                        hexGrid.SetEntityObject (selectedindex, null);
-                        GameObject attackerHealthText = GameObject.Find ("Health " + selectedEntityName);
-						Destroy (attackerHealthText);
-                        char playerFirstLetter = selectedEntityName[0];
-                        entityStorage.PlayerEntityList(playerFirstLetter).Remove(attacker);
-						//store new info
-						PlayerPrefs.DeleteKey ("HexEntity" + numSelEntity);
-						PlayerPrefs.DeleteKey ("HexEntityHealth" + numSelEntity);
-						PlayerPrefs.DeleteKey ("HexEntityIndex" + numSelEntity);
-						PlayerPrefs.DeleteKey (selectedEntityName);
-						if (selFaction != "undead") {
-							hexGrid.SetCorpses (selectedindex, selectedEntityName);
-						}
-					} 
+                        summon.KillEntity(selectedindex);
+                    } 
 					if (attackerlasthealth > 0 && defenderlasthealth <= 0) {
                         //move to defender's position if have enough movement points and is not ranged unit
                         int minmove = movement.GetMovementPointsUsed (selectedindex, currindex, playercurrmovepoint);
@@ -209,8 +181,9 @@ public class Battle : MonoBehaviour {
 							SetMovementPoints (attacker, minmove);
 							PlayerPrefs.SetInt ("HexEntityIndex" + numSelEntity, currindex);
 						} else if (attackerrange == 2) {
-							//do nothing
-						}
+                            //do nothing
+                            //TODO remove if nothing needed in future for attack range 2
+                        }
 					}
 
                     //Set New Info

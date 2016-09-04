@@ -96,11 +96,10 @@ public class HexGrid : MonoBehaviour {
     }
 
     public void SetCorpses (int index, string corpse) {
-		int availCorpseNum = AvailableCorpseNum (index);
+        int availCorpseNum = AvailableCorpseNum (index);
         //if corpses not over 5, if over 5 then do not add to pile
         //TODO remove first corpse
         if (availCorpseNum != 5) {
-            Debug.Log("test3");
 			string cleanCorpse = Regex.Replace(corpse.Substring(2), @"[\d-]", string.Empty);
 			HexCell cell = cells [index];
 			cell.corpses.Add (cleanCorpse);

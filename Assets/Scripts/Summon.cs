@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class Summon : MonoBehaviour {
 	public HexGrid hexGrid;
@@ -135,5 +135,34 @@ public class Summon : MonoBehaviour {
                 return true;
         }
         return false;
+    }
+
+    public void KillEntity(int cellindex)
+    {
+        string entityName = hexGrid.GetEntityName(cellindex);
+        GameObject entityObj = hexGrid.GetEntityObject(cellindex);
+        char playerFirstLetter = entityName[0];
+        entityStorage.PlayerEntityList(playerFirstLetter).Remove(entityObj);
+        Destroy(entityObj);
+
+        hexGrid.SetEntityName(cellindex, "Empty");
+        hexGrid.SetEntityObject(cellindex, null);
+        GameObject attackerHealthText = GameObject.Find("Health " + entityName);
+        Destroy(attackerHealthText);
+
+        //delete from playerprefs
+        string playerprefsName = PlayerPrefs.GetString(entityName);
+        string playerprefsNum = Regex.Replace(entityName, "[^0-9 -]", string.Empty);
+        PlayerPrefs.DeleteKey("HexEntity" + playerprefsNum);
+        PlayerPrefs.DeleteKey("HexEntityHealth" + playerprefsNum);
+        PlayerPrefs.DeleteKey("HexEntityIndex" + playerprefsNum);
+        PlayerPrefs.DeleteKey(entityName);
+
+        //add to corpses if not undead
+        string cleanEntity = Regex.Replace(entityName.Substring(2), @"[\d-]", string.Empty);
+        if (entityStorage.WhichFaction(cleanEntity) != "undead")
+        {
+            hexGrid.SetCorpses(cellindex, entityName);
+        }
     }
 }
