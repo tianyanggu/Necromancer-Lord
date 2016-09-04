@@ -14,7 +14,7 @@ public class Locate : MonoBehaviour {
 	//		}
 
 	public void SetAllMovementPoints () {
-        foreach (List<GameObject> playerEntityList in entityStorage.activePlayersList)
+        foreach (List<GameObject> playerEntityList in entityStorage.activePlayersEntityList)
         {
             foreach (GameObject entity in playerEntityList)
             {
@@ -67,7 +67,7 @@ public class Locate : MonoBehaviour {
 	}
 
 	public void SetAllAttackPoints () {
-        foreach (List<GameObject> playerEntityList in entityStorage.activePlayersList)
+        foreach (List<GameObject> playerEntityList in entityStorage.activePlayersEntityList)
         {
             foreach (GameObject entity in playerEntityList)
             {

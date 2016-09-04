@@ -14,7 +14,7 @@ public class EntityStorage : MonoBehaviour {
     public List<GameObject> activePlayerCEntities = new List<GameObject>();
 
     public List<List<string>> factionEntityList = new List<List<string>>();
-    public List<List<GameObject>> activePlayersList = new List<List<GameObject>>();
+    public List<List<GameObject>> activePlayersEntityList = new List<List<GameObject>>();
 
     void Start () {
 		//undead entities
@@ -38,15 +38,15 @@ public class EntityStorage : MonoBehaviour {
         factionEntityList.Add(humanEntities);
         factionEntityList.Add(undeadEntities);
 
-        activePlayersList.Add(activePlayerAEntities);
-        activePlayersList.Add(activePlayerBEntities);
-        activePlayersList.Add(activePlayerCEntities);
+        activePlayersEntityList.Add(activePlayerAEntities);
+        activePlayersEntityList.Add(activePlayerBEntities);
+        activePlayersEntityList.Add(activePlayerCEntities);
     }
 
     public void ListActivePlayerEntities () {
 		foreach (string playerID in playerManager.activePlayers) {
             //get which faction entities needs to be checked for
-            foreach (string entity in FactionLists(PlayerPrefs.GetString(playerID)))
+            foreach (string entity in EntityFactionLists(PlayerPrefs.GetString(playerID)))
             {
                 for (int i = 1; i <= 99; i++)
                 {
@@ -98,7 +98,7 @@ public class EntityStorage : MonoBehaviour {
 		return "unknown";
 	}
 
-    public List<string> FactionLists(string factionName)
+    public List<string> EntityFactionLists(string factionName)
     {
         //------Determine Faction Entity List------
         switch (factionName)

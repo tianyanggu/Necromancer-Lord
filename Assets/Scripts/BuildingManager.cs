@@ -6,8 +6,10 @@ using System.Linq;
 public class BuildingManager : MonoBehaviour {
 
     public BuildingStorage buildingStorage;
-    GameObject currBuilding;
     public HexGrid hexGrid;
+    public PlayerManager playerManager;
+
+    GameObject currBuilding;
 
     private string cleanBuildingName;
     private string selBuilding;
@@ -23,7 +25,7 @@ public class BuildingManager : MonoBehaviour {
         cleanBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);
         currBuilding = hexGrid.GetBuildingObject(index);
 
-        string faction = buildingStorage.whichFactionBuilding(cleanBuildingName);
+        string faction = buildingStorage.WhichFactionBuilding(cleanBuildingName);
         if (faction == "undead") {
             if (cleanBuildingName == "Necropolis") {
                 necropolisClicked = true;
@@ -59,9 +61,11 @@ public class BuildingManager : MonoBehaviour {
         //{
         //    return;
         //}
-        foreach (GameObject currBuildings in buildingStorage.activePlayerBuildings)
+        string currPlayerid = playerManager.currPlayer;
+        char playerChar = currPlayerid[0];
+        foreach (GameObject currBuildings in buildingStorage.PlayerBuildingList(playerChar))
         {
-            string cleanStorageBuildingName = Regex.Replace(currBuildings.name, @"[\d-]", string.Empty);
+            string cleanStorageBuildingName = Regex.Replace(currBuildings.name.Substring(2), @"[\d-]", string.Empty);
             if (cleanStorageBuildingName == "Necropolis")
             {
                 currBuildings.GetComponent<NecropolisMechanics>().TickProductionTimer();

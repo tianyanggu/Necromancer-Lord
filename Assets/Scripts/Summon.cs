@@ -27,8 +27,7 @@ public class Summon : MonoBehaviour {
 	public void SummonEntity (int cellindex, string summonname, string playerid) {
 		Vector3 summonindex = hexGrid.GetCellPos(cellindex);
 		summonindex.y = 0.2f;
-		string faction = entityStorage.WhichFaction (summonname);
-		string availableNum = AvailableName (summonname, faction, playerid);
+		string availableNum = AvailableName (summonname, playerid);
 		string availableName = playerid + summonname + availableNum;
 		int health = GetHealthInfo (summonname);
 
@@ -38,52 +37,36 @@ public class Summon : MonoBehaviour {
         char playerChar = playerid[0];
         entityStorage.PlayerEntityList(playerChar).Add(entity);
         hexGrid.SetEntityObject(cellindex, entity);
+        hexGrid.SetEntityName(cellindex, availableName);
+        loadMap.CreateHealthLabel(cellindex, health, availableName);
 
-		//stores info of new summon to playerprefs for saving
-		string ppName = AvailablePlayerPrefsName ();
+        //stores info of new summon to playerprefs for saving
+        string ppName = AvailablePlayerPrefsName ();
 
 		PlayerPrefs.SetString ("HexEntity" + ppName, availableName);
 		PlayerPrefs.SetString (availableName, "HexEntity" + ppName);
 		PlayerPrefs.SetInt ("HexEntityHealth" + ppName, health);
 		PlayerPrefs.SetInt ("HexEntityIndex" + ppName, cellindex);
-		hexGrid.SetEntityName (cellindex, availableName);
-        loadMap.CreateHealthLabel (cellindex, health, availableName);
 	}
 
 	//Check for next available entity number
-	string AvailableName (string summonname, string faction, string playerid) {
+	string AvailableName (string summonname, string playerid) {
 		for (int i = 1; i <= 999; i++) {
 			string num = i.ToString ();
-			if (faction == "undead") {
-                bool nameExists = false;
-                char playerChar = playerid[0];
-                foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar)) {
-                    if (playerEntity.name == playerid + summonname + num)
-                    {
-                        nameExists = true;
-                    }
-				}
-                if (!nameExists)
+            bool nameExists = false;
+            char playerChar = playerid[0];
+            foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar))
+            {
+                if (playerEntity.name == playerid + summonname + num)
                 {
-                    return num;
+                    nameExists = true;
                 }
             }
-			if (faction == "human") {
-                bool nameExists = false;
-                char playerChar = playerid[0];
-                foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar))
-                {
-                    if (playerEntity.name == playerid + summonname + num)
-                    {
-                        nameExists = true;
-                    }
-                }
-                if (!nameExists)
-                {
-                    return num;
-                }
+            if (!nameExists)
+            {
+                return num;
             }
-		} 
+        } 
 		return null;
 	}
 
@@ -101,7 +84,6 @@ public class Summon : MonoBehaviour {
 
 	//grabs health info
 	int GetHealthInfo(string entity) {
-		//------Grab Info Attacker------
         switch (entity)
         {
             case "Zombie":

@@ -97,10 +97,11 @@ public class HexGrid : MonoBehaviour {
 
     public void SetCorpses (int index, string corpse) {
 		int availCorpseNum = AvailableCorpseNum (index);
-
-		//if corpses not over 5, if over 5 then do not add to pile
-		if (availCorpseNum != 5) {
-			string cleanCorpse = Regex.Replace(corpse, @"[\d-]", string.Empty);
+        //if corpses not over 5, if over 5 then do not add to pile
+        //TODO remove first corpse
+        if (availCorpseNum != 5) {
+            Debug.Log("test3");
+			string cleanCorpse = Regex.Replace(corpse.Substring(2), @"[\d-]", string.Empty);
 			HexCell cell = cells [index];
 			cell.corpses.Add (cleanCorpse);
 
@@ -130,7 +131,7 @@ public class HexGrid : MonoBehaviour {
 	private int AvailableCorpseNum (int index) {
 		for (int i = 0; i < 4; i++) {
 			string allEntity = PlayerPrefs.GetString ("HexCorpses" + index + "corpse" + i);
-			if (allEntity == "") {
+			if (allEntity == string.Empty) {
 				return i;
 			}
 		}

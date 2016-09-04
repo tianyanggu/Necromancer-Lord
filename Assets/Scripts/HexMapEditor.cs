@@ -92,9 +92,10 @@ public class HexMapEditor : MonoBehaviour {
 		//Debug.Log(currindex);
 		//string currEntityName = hexGrid.GetEntityName (currindex);
         GameObject currEntityObj = hexGrid.GetEntityObject(currindex);
-        string currBuilding = hexGrid.GetBuildingName (currindex);
-		//string cleanCurrEntity = Regex.Replace(currEntityName.Substring(2), @"[\d-]", string.Empty);
-        string cleanCurrBuilding = Regex.Replace(currBuilding.Substring(2), @"[\d-]", string.Empty);
+        string currBuildingName = hexGrid.GetBuildingName (currindex);
+        GameObject currBuildingObj = hexGrid.GetBuildingObject(currindex);
+        //string cleanCurrEntity = Regex.Replace(currEntityName.Substring(2), @"[\d-]", string.Empty);
+        //string cleanCurrBuilding = Regex.Replace(currBuildingName.Substring(2), @"[\d-]", string.Empty);
 
         char playerChar = playerManager.currPlayer[0];
         if (entityStorage.PlayerEntityList(playerChar).Contains (currEntityObj)) {
@@ -102,8 +103,8 @@ public class HexMapEditor : MonoBehaviour {
             //TODO list info for curr entity, display it
 			lockbattle = false;
 		}
-        if (buildingStorage.playerBuildings.Contains(cleanCurrBuilding)) {
-            selectedBuilding = currBuilding;
+        if (buildingStorage.PlayerBuildingList(playerChar).Contains(currBuildingObj)) {
+            selectedBuilding = currBuildingName;
             buildingManager.DisplayBuilding(selectedBuilding, currindex);
             //TODO GUI for buildings
         }
@@ -140,7 +141,7 @@ public class HexMapEditor : MonoBehaviour {
 		if (summonclicked) {
 			int i = 0;
             string playerFaction = PlayerPrefs.GetString(playerManager.currPlayer);
-            foreach (string entity in entityStorage.FactionLists(playerFaction)) {
+            foreach (string entity in entityStorage.EntityFactionLists(playerFaction)) {
 				int spacing = i * 20;
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
 					bool validsummon = summon.ValidSummon (entity);
@@ -195,12 +196,13 @@ public class HexMapEditor : MonoBehaviour {
 		}
 		if (buildingclicked) {
 			int i = 0;
-			foreach (string building in buildingStorage.playerBuildings) {
+            string playerFaction = PlayerPrefs.GetString(playerManager.currPlayer);
+            foreach (string building in buildingStorage.BuildingFactionLists(playerFaction)) {
 				int spacing = i * 20;
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Building " + building)) {
 					bool validbuilding = build.ValidBuilding (building, currindex);
 					if (validbuilding) {
-						build.BuildBuilding (currindex, building);
+						build.BuildBuilding (currindex, building, playerManager.currPlayer);
 					}
 					buildingclicked = false;
 				}

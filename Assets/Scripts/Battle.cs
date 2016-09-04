@@ -180,6 +180,7 @@ public class Battle : MonoBehaviour {
 						}
 					}
 					if (attackerlasthealth <= 0) {
+                        //TODO move kill entity to summon
 						Destroy (attacker);
 						hexGrid.SetEntityName (selectedindex, "Empty");
                         hexGrid.SetEntityObject (selectedindex, null);

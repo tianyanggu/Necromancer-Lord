@@ -90,11 +90,11 @@ public class LoadMap : MonoBehaviour {
 		for (int i = 0; i < hexGrid.size; i++) {
 			string allEntities = PlayerPrefs.GetString ("HexEntity" + i);
 			int allHealth = PlayerPrefs.GetInt ("HexEntityHealth" + i);
-			string cleanEntity = Regex.Replace(allEntities, @"[\d-]", string.Empty);
 			int allIndex = PlayerPrefs.GetInt ("HexEntityIndex" + i);
 
-            if (allEntities != string.Empty && cleanEntity != string.Empty)
+            if (allEntities != string.Empty)
             {
+                string cleanEntity = Regex.Replace(allEntities.Substring(2), @"[\d-]", string.Empty);
                 Vector3 spawn = hexGrid.GetCellPos(allIndex);
                 spawn.y = 0.2f;
                 GameObject entity = (GameObject)Instantiate(Resources.Load(cleanEntity), spawn, Quaternion.identity);
@@ -154,6 +154,19 @@ public class LoadMap : MonoBehaviour {
         }
     }
 
+    void SetBuildingHealth(GameObject building, string buildingName, int health)
+    {
+        switch (buildingName)
+        {
+            case "Necropolis":
+                building.GetComponent<NecropolisMechanics>().lasthealth = health;
+                break;
+
+            case "Village":
+                building.GetComponent<VillageMechanics>().lasthealth = health;
+                break;
+        }
+    }
 
     public void CreateHealthLabel (int index, int health, string entity) {
 		Text label = Instantiate<Text>(healthLabel);
@@ -188,40 +201,33 @@ public class LoadMap : MonoBehaviour {
 		Vector3 build1 = hexGrid.GetCellPos(15);
 		build1.y = 0.1f;
 		GameObject eVillagem = (GameObject)Instantiate (Village, build1, Quaternion.Euler(90,0,0));
-		eVillagem.name = "Village1";
-		hexGrid.SetBuildingName (15, "Village1");
+		eVillagem.name = "CAVillage1";
+		hexGrid.SetBuildingName (15, "CAVillage1");
         hexGrid.SetBuildingObject(15, eVillagem);
 
         Vector3 build2 = hexGrid.GetCellPos(14);
 		build2.y = 0.1f;
 		GameObject pNecropolisn = (GameObject)Instantiate (Necropolis, build2, Quaternion.Euler(90,0,0));
-		pNecropolisn.name = "Necropolis1";
-		hexGrid.SetBuildingName(14, "Necropolis1");
+		pNecropolisn.name = "AANecropolis1";
+		hexGrid.SetBuildingName(14, "AANecropolis1");
         hexGrid.SetBuildingObject(14, pNecropolisn);
 
         for (int i = 0; i < hexGrid.size; i++) {
 			string allBuildings = PlayerPrefs.GetString ("HexBuilding" + i);
 			int allHealth = PlayerPrefs.GetInt ("HexBuildingHealth" + i);
-			string cleanBuilding = Regex.Replace(allBuildings, @"[\d-]", string.Empty);
 			int allIndex = PlayerPrefs.GetInt ("HexBuildingIndex" + i);
 
-			if (cleanBuilding == "Village") {
-				Vector3 spawn = hexGrid.GetCellPos(allIndex);
-				spawn.y = 0.1f;
-				GameObject eVillage = (GameObject)Instantiate (Village, spawn, Quaternion.Euler(90,0,0));
-				eVillage.name = allBuildings;
-				hexGrid.SetBuildingName (allIndex, allBuildings);
-                hexGrid.SetBuildingObject(allIndex, eVillage);
-                eVillage.GetComponent<VillageMechanics> ().lasthealth = allHealth;
-			} else if (cleanBuilding == "Necropolis") {
-				Vector3 spawn = hexGrid.GetCellPos(allIndex);
-				spawn.y = 0.1f;
-				GameObject pNecropolis = (GameObject)Instantiate (Necropolis, spawn, Quaternion.Euler(90,0,0));
-				pNecropolis.name = allBuildings;
-				hexGrid.SetBuildingName(allIndex, allBuildings);
-                hexGrid.SetBuildingObject(allIndex, pNecropolis);
-                pNecropolis.GetComponent<NecropolisMechanics> ().lasthealth = allHealth;
-			}
+            if (allBuildings != string.Empty)
+            {
+                string cleanBuilding = Regex.Replace(allBuildings.Substring(2), @"[\d-]", string.Empty);
+                Vector3 spawn = hexGrid.GetCellPos(allIndex);
+                spawn.y = 0.1f;
+                GameObject building = (GameObject)Instantiate(Resources.Load(cleanBuilding), spawn, Quaternion.Euler(90, 0, 0));
+                building.name = allBuildings;
+                hexGrid.SetBuildingName(allIndex, allBuildings);
+                hexGrid.SetBuildingObject(allIndex, building);
+                SetBuildingHealth(building, cleanBuilding, allHealth);
+            }
 		}
 	}
 
@@ -267,13 +273,13 @@ public class LoadMap : MonoBehaviour {
 			}
 
 			//buildings generated via seed
-			float buildingSeedVal = Random.value;
-			if (buildingSeedVal >= 0.15) {
+			//float buildingSeedVal = Random.value;
+			//if (buildingSeedVal >= 0.15) {
 				//TODO remove when finished implementing storing several maps
-				build.DestroyBuilding(i);
-			} else if (terrainSeedVal < 0.15 && terrainSeedVal >= 0.10) {
-				build.BuildBuilding (i, "Village");
-			}
+				//build.DestroyBuilding(i);
+			//} else if (terrainSeedVal < 0.15 && terrainSeedVal >= 0.10) {
+			//	build.BuildBuilding (i, "Village");
+			//}
 		}
 	}
 }
