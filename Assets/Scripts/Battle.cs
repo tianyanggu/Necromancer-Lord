@@ -57,8 +57,8 @@ public class Battle : MonoBehaviour {
 		string storedNameCurr = PlayerPrefs.GetString (currEntityName);
 		string numCurrEntity = Regex.Replace(storedNameCurr, "[^0-9 -]", string.Empty);
 
-		string selFaction = entityStorage.WhichFaction(cleanSelEntity);
-		string currFaction = entityStorage.WhichFaction(cleanCurrEntity);
+		//string selFaction = entityStorage.WhichFaction(cleanSelEntity);
+		//string currFaction = entityStorage.WhichFaction(cleanCurrEntity);
 
         //check if on same team
         string selTeam = selectedEntityName.Substring(1, 1);

@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\BuildingStorage.cs" />
     <Compile Include="Assets\Scripts\Currency.cs" />
     <Compile Include="Assets\Scripts\DragCamera.cs" />
+    <Compile Include="Assets\Scripts\EntityStats.cs" />
     <Compile Include="Assets\Scripts\EntityStorage.cs" />
     <Compile Include="Assets\Scripts\Fog.cs" />
     <Compile Include="Assets\Scripts\HexCell.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Assets\Scripts\Humans\CrossbowmanBehaviour.cs" />
     <Compile Include="Assets\Scripts\Humans\FootmanBehaviour.cs" />
     <Compile Include="Assets\Scripts\Humans\HeroKingBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Humans\HumanBehaviour.cs" />
     <Compile Include="Assets\Scripts\Humans\LongbowmanBehaviour.cs" />
     <Compile Include="Assets\Scripts\Humans\MilitiaBehaviour.cs" />
     <Compile Include="Assets\Scripts\Humans\MountedKnightBehaviour.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Assets\Scripts\Undead\NecropolisMechanics.cs" />
     <Compile Include="Assets\Scripts\Undead\SkeletonArcherBehaviour.cs" />
     <Compile Include="Assets\Scripts\Undead\SkeletonBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Undead\UndeadBehaviour.cs" />
     <Compile Include="Assets\Scripts\Undead\UndeadVillageMechanics.cs" />
     <Compile Include="Assets\Scripts\Undead\ZombieBehaviour.cs" />
     <Compile Include="Assets\Scripts\Vision.cs" />

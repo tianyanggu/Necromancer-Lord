@@ -7,29 +7,15 @@ public class Summon : MonoBehaviour {
 	public LoadMap loadMap;
 	public EntityStorage entityStorage;
 	public Currency currency;
+    public EntityStats entityStats;
 
-	public GameObject Necromancer;
-	public GameObject Skeleton;
-	public GameObject Zombie;
-    public GameObject SkeletonArcher;
-    public GameObject ArmoredSkeleton;
-    public GameObject DeathKnight;
-
-    public GameObject Militia;
-    public GameObject Archer;
-    public GameObject Longbowman;
-    public GameObject Crossbowman;
-    public GameObject Footman;
-    public GameObject MountedKnight;
-    public GameObject HeroKing;
-
-	//given an index and the type of summon, summons that entity with the next available name
-	public void SummonEntity (int cellindex, string summonname, string playerid) {
+    //given an index and the type of summon, summons that entity with the next available name
+    public void SummonEntity (int cellindex, string summonname, string playerid) {
 		Vector3 summonindex = hexGrid.GetCellPos(cellindex);
 		summonindex.y = 0.2f;
 		string availableNum = AvailableName (summonname, playerid);
 		string availableName = playerid + summonname + availableNum;
-		int health = GetHealthInfo (summonname);
+		int health = entityStats.GetHealthInfo(summonname);
 
         //Instantiate the prefab from the resources folder
         GameObject entity = (GameObject)Instantiate(Resources.Load(summonname), summonindex, Quaternion.identity);
@@ -82,41 +68,6 @@ public class Summon : MonoBehaviour {
 		return null; //TODO error message if no available spaces, should not be possible to give null
 	}
 
-	//grabs health info
-	int GetHealthInfo(string entity) {
-        switch (entity)
-        {
-            case "Zombie":
-                return Zombie.GetComponent<ZombieBehaviour>().health;
-            case "Skeleton":
-                return Skeleton.GetComponent<SkeletonBehaviour>().health;
-            case "Necromancer":
-                return Necromancer.GetComponent<NecromancerBehaviour>().health;
-            case "SkeletonArcher":
-                return SkeletonArcher.GetComponent<SkeletonArcherBehaviour>().health;
-            case "ArmoredSkeleton":
-                return ArmoredSkeleton.GetComponent<ArmoredSkeletonBehaviour>().health;
-            case "DeathKnight":
-                return DeathKnight.GetComponent<DeathKnightBehaviour>().health;
-
-            case "Militia":
-                return Militia.GetComponent<MilitiaBehaviour>().health;
-            case "Archer":
-                return Archer.GetComponent<ArcherBehaviour>().health;
-            case "Longbowman":
-                return Longbowman.GetComponent<LongbowmanBehaviour>().health;
-            case "Crossbowman":
-                return Crossbowman.GetComponent<CrossbowmanBehaviour>().health;
-            case "Footman":
-                return Footman.GetComponent<FootmanBehaviour>().health;
-            case "MountedKnight":
-                return MountedKnight.GetComponent<MountedKnightBehaviour>().health;
-            case "HeroKing":
-                return HeroKing.GetComponent<HeroKingBehaviour>().health;	
-		} 
-		return 0;
-	}
-
     //TODO for human entities
 	public bool ValidSummon(string entity) {
         string faction = entityStorage.WhichFaction(entity);
@@ -152,7 +103,7 @@ public class Summon : MonoBehaviour {
 
         //delete from playerprefs
         string playerprefsName = PlayerPrefs.GetString(entityName);
-        string playerprefsNum = Regex.Replace(entityName, "[^0-9 -]", string.Empty);
+        string playerprefsNum = Regex.Replace(playerprefsName, "[^0-9 -]", string.Empty);
         PlayerPrefs.DeleteKey("HexEntity" + playerprefsNum);
         PlayerPrefs.DeleteKey("HexEntityHealth" + playerprefsNum);
         PlayerPrefs.DeleteKey("HexEntityIndex" + playerprefsNum);
