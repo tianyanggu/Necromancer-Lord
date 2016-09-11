@@ -11,6 +11,7 @@ public class AIBehaviour : MonoBehaviour {
 	public HexGrid hexGrid;
 	public EntityStorage entityStorage;
 	public Battle battle;
+    public EntityStats entityStats;
 
 	private List<int> aiMovementIndexes = new List<int> ();
 
@@ -136,11 +137,11 @@ public class AIBehaviour : MonoBehaviour {
 							ScanEntitiesHelper (direction, newmovementpoints, newusedmovementpoints);
 						}
 					//if index not empty and is from undead faction, get the entity
-					} else if (entityStorage.WhichFaction(cleandirEntity) == "undead") {
+					} else if (entityStats.WhichFactionEntity(cleandirEntity) == "undead") {
                         //TODO player entities different each time, not undead entities
                         //char playerChar = playerManager.currPlayer[0];
                         //EntityFactionLists(playerChar) instead of undeadEntities
-                        if (entityStorage.undeadEntities.Contains (cleandirEntity)) {
+                        if (entityStats.undeadEntities.Contains (cleandirEntity)) {
 							nearbyPlayerEntities.Add (dirEntityName);
 							nearbyPlayerEntitiesIndex.Add (direction);
 							nearbyPlayerEntitiesDistance.Add (usedDistance + 1);

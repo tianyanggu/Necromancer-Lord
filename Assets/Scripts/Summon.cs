@@ -15,7 +15,6 @@ public class Summon : MonoBehaviour {
 		summonindex.y = 0.2f;
 		string availableNum = AvailableName (summonname, playerid);
 		string availableName = playerid + summonname + availableNum;
-		int health = entityStats.GetHealthInfo(summonname);
 
         //Instantiate the prefab from the resources folder
         GameObject entity = (GameObject)Instantiate(Resources.Load(summonname), summonindex, Quaternion.identity);
@@ -24,6 +23,22 @@ public class Summon : MonoBehaviour {
         entityStorage.PlayerEntityList(playerChar).Add(entity);
         hexGrid.SetEntityObject(cellindex, entity);
         hexGrid.SetEntityName(cellindex, availableName);
+
+        //sets stats for entity
+        int health = entityStats.GetMaxHealth(summonname);
+        entityStats.SetMaxHealth(entity, health);
+        entityStats.SetCurrHealth(entity, health);
+        int mana = entityStats.GetMaxMana(summonname);
+        entityStats.SetMaxMana(entity, mana);
+        entityStats.SetCurrMana(entity, mana);
+        int dmg = entityStats.GetAttackDmg(summonname);
+        entityStats.SetAttackDmg(entity, dmg);
+        int attpt = entityStats.GetMaxAttackPoint(summonname);
+        entityStats.SetMaxAttackPoint(entity, attpt);
+        int movept = entityStats.GetMaxMovementPoint(summonname);
+        entityStats.SetMaxMovementPoint(entity, movept);
+
+
         loadMap.CreateHealthLabel(cellindex, health, availableName);
 
         //stores info of new summon to playerprefs for saving
@@ -70,12 +85,12 @@ public class Summon : MonoBehaviour {
 
     //TODO for human entities
 	public bool ValidSummon(string entity) {
-        string faction = entityStorage.WhichFaction(entity);
+        string faction = entityStats.WhichFactionEntity(entity);
         switch (faction)
         {
             case "undead":
                 int souls = PlayerPrefs.GetInt("Souls");
-                int cost = entityStorage.summonSoulCost(entity);
+                int cost = entityStats.summonSoulCost(entity);
                 if (souls >= cost)
                 {
                     currency.ChangeSouls(-cost);
@@ -111,7 +126,7 @@ public class Summon : MonoBehaviour {
 
         //add to corpses if not undead
         string cleanEntity = Regex.Replace(entityName.Substring(2), @"[\d-]", string.Empty);
-        if (entityStorage.WhichFaction(cleanEntity) != "undead")
+        if (entityStats.WhichFactionEntity(cleanEntity) != "undead")
         {
             hexGrid.SetCorpses(cellindex, entityName);
         }

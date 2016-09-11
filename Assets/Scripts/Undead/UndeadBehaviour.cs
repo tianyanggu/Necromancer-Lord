@@ -12,6 +12,7 @@ public class UndeadBehaviour : MonoBehaviour {
     public int rangedattackdmg;
     public int armor;
     public int armorpiercing;
+    public int rangedarmorpiercing;
     public int vision;
 
     public int currhealth;
