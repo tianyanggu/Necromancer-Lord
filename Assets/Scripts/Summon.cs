@@ -37,13 +37,25 @@ public class Summon : MonoBehaviour {
         entityStats.SetMaxAttackPoint(entity, attpt);
         int movept = entityStats.GetMaxMovementPoint(summonname);
         entityStats.SetMaxMovementPoint(entity, movept);
-
+        int range = entityStats.GetRange(summonname);
+        entityStats.SetRange(entity, range);
+        int rangedattdmg = entityStats.GetRangedAttackDmg(summonname);
+        entityStats.SetRangedAttackDmg(entity, rangedattdmg);
+        int armor = entityStats.GetArmor(summonname);
+        entityStats.SetArmor(entity, armor);
+        int armorpiercing = entityStats.GetArmorPiercing(summonname);
+        entityStats.SetArmorPiercing(entity, armorpiercing);
+        int rangedarmorpiercing = entityStats.GetRangedArmorPiercing(summonname);
+        entityStats.SetRangedArmorPiercing(entity, rangedarmorpiercing);
+        int vision = entityStats.GetVision(summonname);
+        entityStats.SetVision(entity, vision);
 
         loadMap.CreateHealthLabel(cellindex, health, availableName);
 
         //stores info of new summon to playerprefs for saving
         string ppName = AvailablePlayerPrefsName ();
 
+        //TODO current health, movement, attack, mana, etc.
 		PlayerPrefs.SetString ("HexEntity" + ppName, availableName);
 		PlayerPrefs.SetString (availableName, "HexEntity" + ppName);
 		PlayerPrefs.SetInt ("HexEntityHealth" + ppName, health);

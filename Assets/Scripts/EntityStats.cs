@@ -857,32 +857,32 @@ public class EntityStats : MonoBehaviour {
         switch (entity)
         {
             case "Zombie":
-                return 1;
+                return 2;
             case "Skeleton":
-                return 2;
+                return 3;
             case "Necromancer":
-                return 3;
+                return 4;
             case "SkeletonArcher":
-                return 2;
-            case "ArmoredSkeleton":
-                return 2;
-            case "DeathKnight":
                 return 3;
+            case "ArmoredSkeleton":
+                return 3;
+            case "DeathKnight":
+                return 4;
 
             case "Militia":
-                return 2;
+                return 3;
             case "Archer":
-                return 2;
+                return 3;
             case "Longbowman":
-                return 2;
+                return 3;
             case "Crossbowman":
-                return 2;
+                return 3;
             case "Footman":
-                return 2;
+                return 3;
             case "MountedKnight":
-                return 3;
+                return 4;
             case "HeroKing":
-                return 3;
+                return 4;
         }
         return 0;
     }
@@ -919,6 +919,23 @@ public class EntityStats : MonoBehaviour {
         }
     }
     #endregion
+
+    public bool GetIdle(GameObject entity)
+    {
+        string entityName = CleanName(entity);
+        string faction = WhichFactionEntity(entityName);
+        bool idle = false;
+        switch (faction)
+        {
+            case "undead":
+                idle = entity.GetComponent<UndeadBehaviour>().idle;
+                break;
+            case "human":
+                idle = entity.GetComponent<HumanBehaviour>().idle;
+                break;
+        }
+        return idle;
+    }
 
     public void SetIdle(GameObject entity, bool idle)
     {

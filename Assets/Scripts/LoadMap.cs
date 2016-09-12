@@ -9,28 +9,16 @@ public class LoadMap : MonoBehaviour {
 	public Text healthLabel;
 	public Currency currency;
 	public Build build;
-	Canvas gridCanvas;
+    public EntityStats entityStats;
+    Canvas gridCanvas;
 
-	public GameObject Necromancer;
-	public GameObject Skeleton;
-	public GameObject Zombie;
-    public GameObject SkeletonArcher;
-    public GameObject ArmoredSkeleton;
-    public GameObject DeathKnight;
-
-    public GameObject Militia;
-    public GameObject Archer;
-    public GameObject Longbowman;
-    public GameObject Crossbowman;
-    public GameObject Footman;
-    public GameObject MountedKnight;
-    public GameObject HeroKing;
-
+    //remove after testing
+    public Summon summon;
     public GameObject Village;
 	public GameObject Necropolis;
+    //end of remove
 
-
-	public void LoadHexTiles () {
+    public void LoadHexTiles () {
 		hexGrid.SetSize (12,12);
 	}
 
@@ -42,51 +30,13 @@ public class LoadMap : MonoBehaviour {
 	public void LoadEntities () {
 		gridCanvas = GetComponentInChildren<Canvas>();
 
-		Vector3 start = hexGrid.GetCellPos(14);
-		start.y = 0.2f;
-		GameObject playerNecromancer = (GameObject)Instantiate (Necromancer, start, Quaternion.identity);
-		playerNecromancer.name = "AANecromancer1";
-		hexGrid.SetEntityName (14, "AANecromancer1");
-        hexGrid.SetEntityObject (14, playerNecromancer);
-        int ncurrhealth = playerNecromancer.GetComponent<NecromancerBehaviour> ().health;
-		CreateHealthLabel (14, ncurrhealth, "AANecromancer1");
+        //summon.SummonEntity(14, "Necromancer", "AA");
+        //summon.SummonEntity(12, "Militia", "BB");
+        //summon.SummonEntity(15, "Militia", "CA");
+        //summon.SummonEntity(3, "Skeleton", "AA");
+        //summon.SummonEntity(18, "Zombie", "AA");
 
-		Vector3 militiastart = hexGrid.GetCellPos(12);
-		militiastart.y = 0.2f;
-		GameObject militia1 = (GameObject)Instantiate (Militia, militiastart, Quaternion.identity);
-		militia1.name = "BBMilitia1";
-		hexGrid.SetEntityName (12, "BBMilitia1");
-        hexGrid.SetEntityObject(12, militia1);
-        int mcurrhealth = militia1.GetComponent<MilitiaBehaviour> ().health;
-		CreateHealthLabel (12, mcurrhealth, "BBMilitia1");
-
-		Vector3 militiastart2 = hexGrid.GetCellPos(15);
-		militiastart2.y = 0.2f;
-		GameObject militia2 = (GameObject)Instantiate (Militia, militiastart2, Quaternion.identity);
-		militia2.name = "CAMilitia2";
-		hexGrid.SetEntityName (15, "CAMilitia2");
-        hexGrid.SetEntityObject (15, militia2);
-        int m2currhealth = militia2.GetComponent<MilitiaBehaviour> ().health;
-		CreateHealthLabel (15, m2currhealth, "CAMilitia2");
-
-		Vector3 start2 = hexGrid.GetCellPos(3);
-		start2.y = 0.2f;
-		GameObject playerSkeleton = (GameObject)Instantiate (Skeleton, start2, Quaternion.identity);
-		playerSkeleton.name = "AASkeleton1";
-		hexGrid.SetEntityName (3, "AASkeleton1");
-        hexGrid.SetEntityObject (3, playerSkeleton);
-        int scurrhealth = playerSkeleton.GetComponent<SkeletonBehaviour> ().health;
-		CreateHealthLabel (3, scurrhealth, "AASkeleton1");
-
-		Vector3 start3 = hexGrid.GetCellPos(18);
-		start3.y = 0.2f;
-		GameObject playerZombie = (GameObject)Instantiate (Zombie, start3, Quaternion.identity);
-		playerZombie.name = "AAZombie1";
-		hexGrid.SetEntityName (18, "AAZombie1");
-        hexGrid.SetEntityObject (18, playerZombie);
-        int zcurrhealth = playerZombie.GetComponent<ZombieBehaviour> ().health;
-		CreateHealthLabel (18, zcurrhealth, "AAZombie1");
-
+        //TODO change diff stats, will incl. all stats once new save system implemented
 		for (int i = 0; i < hexGrid.size; i++) {
 			string allEntities = PlayerPrefs.GetString ("HexEntity" + i);
 			int allHealth = PlayerPrefs.GetInt ("HexEntityHealth" + i);
@@ -101,58 +51,38 @@ public class LoadMap : MonoBehaviour {
                 entity.name = allEntities;
                 hexGrid.SetEntityName(allIndex, allEntities);
                 hexGrid.SetEntityObject(allIndex, entity);
-                SetHealth(entity, cleanEntity, allHealth);
+
+                //TODO remove once, new save for sets stats for entity
+                int health = entityStats.GetMaxHealth(cleanEntity);
+                entityStats.SetMaxHealth(entity, health);
+                entityStats.SetCurrHealth(entity, health);
+                int mana = entityStats.GetMaxMana(cleanEntity);
+                entityStats.SetMaxMana(entity, mana);
+                entityStats.SetCurrMana(entity, mana);
+                int dmg = entityStats.GetAttackDmg(cleanEntity);
+                entityStats.SetAttackDmg(entity, dmg);
+                int attpt = entityStats.GetMaxAttackPoint(cleanEntity);
+                entityStats.SetMaxAttackPoint(entity, attpt);
+                int movept = entityStats.GetMaxMovementPoint(cleanEntity);
+                entityStats.SetMaxMovementPoint(entity, movept);
+                int range = entityStats.GetRange(cleanEntity);
+                entityStats.SetRange(entity, range);
+                int rangedattdmg = entityStats.GetRangedAttackDmg(cleanEntity);
+                entityStats.SetRangedAttackDmg(entity, rangedattdmg);
+                int armor = entityStats.GetArmor(cleanEntity);
+                entityStats.SetArmor(entity, armor);
+                int armorpiercing = entityStats.GetArmorPiercing(cleanEntity);
+                entityStats.SetArmorPiercing(entity, armorpiercing);
+                int rangedarmorpiercing = entityStats.GetRangedArmorPiercing(cleanEntity);
+                entityStats.SetRangedArmorPiercing(entity, rangedarmorpiercing);
+                int vision = entityStats.GetVision(cleanEntity);
+                entityStats.SetVision(entity, vision);
+                //end of remove
+
                 CreateHealthLabel(allIndex, allHealth, allEntities);
             }
         }
 	}
-
-    void SetHealth (GameObject entity, string entityName, int health)
-    {
-        switch (entityName)
-        {
-            case "Necromancer":
-                entity.GetComponent<NecromancerBehaviour>().lasthealth = health;
-                break;
-            case "Zombie":
-                entity.GetComponent<ZombieBehaviour>().lasthealth = health;
-                break;
-            case "Skeleton":
-                entity.GetComponent<SkeletonBehaviour>().lasthealth = health;
-                break;
-            case "SkeletonArcher":
-                entity.GetComponent<SkeletonArcherBehaviour>().lasthealth = health;
-                break;
-            case "ArmoredSkeleton":
-                entity.GetComponent<ArmoredSkeletonBehaviour>().lasthealth = health;
-                break;
-            case "DeathKnight":
-                entity.GetComponent<DeathKnightBehaviour>().lasthealth = health;
-                break;
-
-            case "Militia":
-                entity.GetComponent<MilitiaBehaviour>().lasthealth = health;
-                break;
-            case "Archer":
-                entity.GetComponent<ArcherBehaviour>().lasthealth = health;
-                break;
-            case "Longbowman":
-                entity.GetComponent<LongbowmanBehaviour>().lasthealth = health;
-                break;
-            case "Crossbowman":
-                entity.GetComponent<CrossbowmanBehaviour>().lasthealth = health;
-                break;
-            case "Footman":
-                entity.GetComponent<FootmanBehaviour>().lasthealth = health;
-                break;
-            case "MountedKnight":
-                entity.GetComponent<MountedKnightBehaviour>().lasthealth = health;
-                break;
-            case "HeroKing":
-                entity.GetComponent<HeroKingBehaviour>().lasthealth = health;
-                break;
-        }
-    }
 
     void SetBuildingHealth(GameObject building, string buildingName, int health)
     {

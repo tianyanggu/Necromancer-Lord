@@ -7,6 +7,7 @@ public class Vision : MonoBehaviour {
     public EntityStorage entityStorage;
     public HexGrid hexGrid;
     public PlayerManager playerManager;
+    public EntityStats entityStats;
 
     public Fog fogPrefab;
     Fog[] fogs;
@@ -41,53 +42,8 @@ public class Vision : MonoBehaviour {
         char playerChar = playerManager.currPlayer[0];
         //Debug.Log(entityStorage.PlayerEntityList(playerChar)[0].name.Substring(2));
         foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar)) {
-            string cleanPlayerEntity = Regex.Replace(playerEntity.name.Substring(2), @"[\d-]", string.Empty);
- 
             int visionDistance = 0;
-            switch (cleanPlayerEntity)
-            {
-                case "Zombie":
-                    visionDistance = playerEntity.GetComponent<ZombieBehaviour>().vision;
-                    break;
-                case "Skeleton":
-                    visionDistance = playerEntity.GetComponent<SkeletonBehaviour>().vision;
-                    break;
-                case "Necromancer":
-                    visionDistance = playerEntity.GetComponent<NecromancerBehaviour>().vision;
-                    break;
-                case "SkeletonArcher":
-                    visionDistance = playerEntity.GetComponent<SkeletonArcherBehaviour>().vision;
-                    break;
-                case "ArmoredSkeleton":
-                    visionDistance = playerEntity.GetComponent<ArmoredSkeletonBehaviour>().vision;
-                    break;
-                case "DeathKnight":
-                    visionDistance = playerEntity.GetComponent<DeathKnightBehaviour>().vision;
-                    break;
-
-                case "Militia":
-                    visionDistance = playerEntity.GetComponent<MilitiaBehaviour>().vision;
-                    break;
-                case "Archer":
-                    visionDistance = playerEntity.GetComponent<ArcherBehaviour>().vision;
-                    break;
-                case "Longbowman":
-                    visionDistance = playerEntity.GetComponent<LongbowmanBehaviour>().vision;
-                    break;
-                case "Crossbowman":
-                    visionDistance = playerEntity.GetComponent<CrossbowmanBehaviour>().vision;
-                    break;
-                case "Footman":
-                    visionDistance = playerEntity.GetComponent<FootmanBehaviour>().vision;
-                    break;
-                case "MountedKnight":
-                    visionDistance = playerEntity.GetComponent<MountedKnightBehaviour>().vision;
-                    break;
-                case "HeroKing":
-                    visionDistance = playerEntity.GetComponent<HeroKingBehaviour>().vision;
-                    break;
-            }
-
+            visionDistance = entityStats.GetCurrVision(playerEntity);
             Vector3 playerEntityPosition = playerEntity.transform.position;
             int index = hexGrid.GetCellIndex(playerEntityPosition);
             PlayerVisionHelper(index, visionDistance);

@@ -66,9 +66,8 @@ public class AIBehaviour : MonoBehaviour {
 		nearbyPlayerEntitiesDistance.Clear ();
 		nearbyPlayerEntitiesHealth.Clear ();
 
-		string eEntityName = hexGrid.GetEntityName(aiIndex);
         GameObject eEntity = hexGrid.GetEntityObject(aiIndex);
-        GetAIInfo (eEntity, eEntityName);
+        GetAIInfo (eEntity);
 
 		aiMovementIndexes = movement.GetCellIndexesBlockers (aiIndex, aicurrmovepoint);
 		ScanEntitiesHelper (aiIndex, aicurrmovepoint, 0);
@@ -145,7 +144,7 @@ public class AIBehaviour : MonoBehaviour {
 							nearbyPlayerEntities.Add (dirEntityName);
 							nearbyPlayerEntitiesIndex.Add (direction);
 							nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
-							int playerEntityHealth = GetPlayerEntityHealth (dirEntityObject, dirEntityName);
+							int playerEntityHealth = GetPlayerEntityHealth (dirEntityObject);
 							nearbyPlayerEntitiesHealth.Add (playerEntityHealth);
 						}
 					}
@@ -156,8 +155,6 @@ public class AIBehaviour : MonoBehaviour {
 
 	// given list of player entities, decide if attack and which
 	public int DecideAttack (int eindex, List<string> plist, List<int> pindex, List<int> pdist, List<int> phealth) {
-		string eEntityName = hexGrid.GetEntityName(eindex);
-
 		//list of the index of each list to get the corresponding plist, pindex, pdist, and phealth values
 		List<int> canBeAttListPos = new List<int>();
 		foreach (int index in pindex) {
@@ -224,87 +221,18 @@ public class AIBehaviour : MonoBehaviour {
 		return availableIndex;
 	}
 
-	void GetAIInfo(GameObject eEntity, string eEntityName) {
-		string cleaneEntity = Regex.Replace(eEntityName, @"[\d-]", string.Empty);
-
-		//------Grab Info Attacker------
-		if (cleaneEntity == "Militia") {
-			aicurrattpoint = eEntity.GetComponent<MilitiaBehaviour> ().currattackpoint;
-			aimovepoint = eEntity.GetComponent<MilitiaBehaviour> ().movementpoint;
-			aicurrmovepoint = eEntity.GetComponent<MilitiaBehaviour> ().currmovementpoint;
-		} else if (cleaneEntity == "Archer") {
-			aicurrattpoint = eEntity.GetComponent<ArcherBehaviour> ().currattackpoint;
-			aimovepoint = eEntity.GetComponent<ArcherBehaviour> ().movementpoint;
-			aicurrmovepoint = eEntity.GetComponent<ArcherBehaviour> ().currmovementpoint;
-		} else if (cleaneEntity == "Longbowman") {
-			aicurrattpoint = eEntity.GetComponent<LongbowmanBehaviour> ().currattackpoint;
-			aimovepoint = eEntity.GetComponent<LongbowmanBehaviour> ().movementpoint;
-			aicurrmovepoint = eEntity.GetComponent<LongbowmanBehaviour> ().currmovementpoint;
-		} else if (cleaneEntity == "Crossbowman") {
-			aicurrattpoint = eEntity.GetComponent<CrossbowmanBehaviour> ().currattackpoint;
-			aimovepoint = eEntity.GetComponent<CrossbowmanBehaviour> ().movementpoint;
-			aicurrmovepoint = eEntity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint;
-		} else if (cleaneEntity == "Footman") {
-			aicurrattpoint = eEntity.GetComponent<FootmanBehaviour> ().currattackpoint;
-			aimovepoint = eEntity.GetComponent<FootmanBehaviour> ().movementpoint;
-			aicurrmovepoint = eEntity.GetComponent<FootmanBehaviour> ().currmovementpoint;
-		} else if (cleaneEntity == "MountedKnight") {
-			aicurrattpoint = eEntity.GetComponent<MountedKnightBehaviour> ().currattackpoint;
-			aimovepoint = eEntity.GetComponent<MountedKnightBehaviour> ().movementpoint;
-			aicurrmovepoint = eEntity.GetComponent<MountedKnightBehaviour> ().currmovementpoint;
-		} else if (cleaneEntity == "HeroKing") {
-			aicurrattpoint = eEntity.GetComponent<HeroKingBehaviour> ().currattackpoint;
-			aimovepoint = eEntity.GetComponent<HeroKingBehaviour> ().movementpoint;
-			aicurrmovepoint = eEntity.GetComponent<HeroKingBehaviour> ().currmovementpoint;
-		}
+	void GetAIInfo(GameObject eEntity) {
+        aicurrattpoint = entityStats.GetCurrAttackPoint(eEntity);
+        aimovepoint = entityStats.GetCurrMaxMovementPoint(eEntity);
+        aicurrmovepoint = entityStats.GetCurrMovementPoint(eEntity);
 	}
-
-//	void SetAttackerInfo(string eEntity) {
-//		GameObject attacker = GameObject.Find (eEntity);
-//		string cleaneEntity = Regex.Replace(eEntity, @"[\d-]", string.Empty);
-//
-//		//------Set New Info Attacker------
-//		if (cleaneEntity == "Militia") {
-//			attacker.GetComponent<MilitiaBehaviour> ().currattackpoint = attacker.GetComponent<MilitiaBehaviour> ().currattackpoint - 1;
-//		}
-//	}
     
-	private int GetPlayerEntityHealth(GameObject pEntityObject, string pEntityName) {
-		string cleanpEntity = Regex.Replace(pEntityName, @"[\d-]", string.Empty);
-
-		if (cleanpEntity == "Necromancer") {
-			return pEntityObject.GetComponent<NecromancerBehaviour> ().lasthealth;
-		} else if (cleanpEntity == "Skeleton") {
-			return pEntityObject.GetComponent<SkeletonBehaviour> ().lasthealth;
-		} else if (cleanpEntity == "Zombie") {
-			return pEntityObject.GetComponent<ZombieBehaviour> ().lasthealth;
-		} else if (cleanpEntity == "SkeletonArcher") {
-			return pEntityObject.GetComponent<SkeletonArcherBehaviour> ().lasthealth;
-		} else if (cleanpEntity == "ArmoredSkeleton") {
-			return pEntityObject.GetComponent<ArmoredSkeletonBehaviour> ().lasthealth;
-		} else if (cleanpEntity == "DeathKnight") {
-			return pEntityObject.GetComponent<DeathKnightBehaviour> ().lasthealth;
-		}
-		return 0;
+	private int GetPlayerEntityHealth(GameObject pEntity) {
+        return entityStats.GetCurrHealth(pEntity);
 	}
 
-    void NewMovementPoints(GameObject entity, string entityName, int change) {
-		string cleaneEntity = Regex.Replace (entityName, @"[\d-]", string.Empty);
-		//set movement points
-		if (cleaneEntity == "Militia") {
-            entity.GetComponent<MilitiaBehaviour> ().currmovementpoint = entity.GetComponent<MilitiaBehaviour> ().currmovementpoint - change;
-		} else if (cleaneEntity == "Archer") {
-            entity.GetComponent<ArcherBehaviour> ().currmovementpoint = entity.GetComponent<ArcherBehaviour> ().currmovementpoint - change;
-		} else if (cleaneEntity == "Longbowman") {
-            entity.GetComponent<LongbowmanBehaviour> ().currmovementpoint = entity.GetComponent<LongbowmanBehaviour> ().currmovementpoint - change;
-		} else if (cleaneEntity == "Crossbowman") {
-            entity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint = entity.GetComponent<CrossbowmanBehaviour> ().currmovementpoint - change;
-		} else if (cleaneEntity == "Footman") {
-            entity.GetComponent<FootmanBehaviour> ().currmovementpoint = entity.GetComponent<FootmanBehaviour> ().currmovementpoint - change;
-		} else if (cleaneEntity == "MountedKnight") {
-            entity.GetComponent<MountedKnightBehaviour> ().currmovementpoint = entity.GetComponent<MountedKnightBehaviour> ().currmovementpoint - change;
-		} else if (cleaneEntity == "HeroKing") {
-            entity.GetComponent<HeroKingBehaviour> ().currmovementpoint = entity.GetComponent<HeroKingBehaviour> ().currmovementpoint - change;
-		}
-	}
+    void NewMovementPoints(GameObject entity, int change)
+    {
+        entityStats.SetCurrMovementPoint(entity, aicurrmovepoint - change);
+    }
 }

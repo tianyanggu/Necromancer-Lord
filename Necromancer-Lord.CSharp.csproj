@@ -79,14 +79,7 @@
     <Compile Include="Assets\Scripts\HexMapEditor.cs" />
     <Compile Include="Assets\Scripts\HexMesh.cs" />
     <Compile Include="Assets\Scripts\HexMetrics.cs" />
-    <Compile Include="Assets\Scripts\Humans\ArcherBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Humans\CrossbowmanBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Humans\FootmanBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Humans\HeroKingBehaviour.cs" />
     <Compile Include="Assets\Scripts\Humans\HumanBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Humans\LongbowmanBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Humans\MilitiaBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Humans\MountedKnightBehaviour.cs" />
     <Compile Include="Assets\Scripts\Humans\VillageMechanics.cs" />
     <Compile Include="Assets\Scripts\LoadMap.cs" />
     <Compile Include="Assets\Scripts\Locate.cs" />
@@ -95,15 +88,9 @@
     <Compile Include="Assets\Scripts\Select.cs" />
     <Compile Include="Assets\Scripts\Souls.cs" />
     <Compile Include="Assets\Scripts\Summon.cs" />
-    <Compile Include="Assets\Scripts\Undead\ArmoredSkeletonBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Undead\DeathKnightBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Undead\NecromancerBehaviour.cs" />
     <Compile Include="Assets\Scripts\Undead\NecropolisMechanics.cs" />
-    <Compile Include="Assets\Scripts\Undead\SkeletonArcherBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Undead\SkeletonBehaviour.cs" />
     <Compile Include="Assets\Scripts\Undead\UndeadBehaviour.cs" />
     <Compile Include="Assets\Scripts\Undead\UndeadVillageMechanics.cs" />
-    <Compile Include="Assets\Scripts\Undead\ZombieBehaviour.cs" />
     <Compile Include="Assets\Scripts\Vision.cs" />
   </ItemGroup>
   <ItemGroup>
