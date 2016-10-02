@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 public class Battle : MonoBehaviour {
 
 	public HexGrid hexGrid;
-	public LoadMap loadMap;
 	public Movement movement;
 	public EntityStorage entityStorage;
 	public Currency currency;

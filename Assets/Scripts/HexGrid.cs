@@ -14,7 +14,7 @@ public class HexGrid : MonoBehaviour {
 	public HexCell cellPrefab;
 	public Text cellLabelPrefab;
 
-	HexCell[] cells;
+	public HexCell[] cells;
 
 	Canvas gridCanvas;
 	HexMesh hexMesh;
@@ -22,16 +22,37 @@ public class HexGrid : MonoBehaviour {
 	void Awake () {
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
-
-
 	}
 
 	void Start () {
 		hexMesh.Triangulate(cells);
-	}
 
-	// ------------SET--------------------------
-	public void SetSize (int newheight, int newwidth) {
+        //TODO testing remove
+        //SetMemento();
+    }
+
+    /*
+    void SetMemento()
+    {
+        HexGridMemento.current = new HexGridMemento();
+        HexGridMemento.current.width = width;
+        HexGridMemento.current.height = height;
+        HexGridMemento.current.size = size;
+
+        for (int i=0; i < cells.Length; i++) 
+        {
+            HexGridMemento.current.cells[i].current.coordinates = cells[i].coordinates;
+            HexGridMemento.current.cells[i].current.terrain = cells[i].terrain;
+            HexGridMemento.current.cells[i].current.buildingName = cells[i].buildingName;
+            HexGridMemento.current.cells[i].current.entityName = cells[i].entityName;
+            HexGridMemento.current.cells[i].current.corpses = cells[i].corpses;
+            HexGridMemento.current.cells[i].current.fog = cells[i].fog;
+        }
+    }
+    */
+
+    // ------------SET--------------------------
+    public void SetSize (int newheight, int newwidth) {
 		height = newheight;
 		width = newwidth;
 		size = newheight * newwidth;
