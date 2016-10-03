@@ -110,7 +110,7 @@ public class LoadMap : MonoBehaviour {
 	public void LoadTerrain () {
 		
 		for (int i = 0; i < hexGrid.size; i++) {
-			string allTerrain = PlayerPrefs.GetString ("Hex" + i);
+            string allTerrain = GameMemento.current.hexGridTerrainList[i];
 
 			if (allTerrain == "Grass") {
 				hexGrid.ColorCellIndex (i, Color.green);

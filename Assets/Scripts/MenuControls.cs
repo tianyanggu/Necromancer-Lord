@@ -22,9 +22,16 @@ public class MenuControls : MonoBehaviour {
 
         if (testdisplay)
         {
-            GUILayout.TextField(GameMemento.current.gameID, 20);
+            /*
+            foreach (GameMemento savedGame in SaveLoad.savedGames)
+            {
+                GUILayout.TextField(savedGame.gameID, 20);
+            }
+            GameMemento.current = SaveLoad.savedGames[0];
+            */
+            GameMemento.current = SaveLoad.savedGame;
             Debug.Log(GameMemento.current.hexGridMemento);
-            //GUILayout.TextField(GameMemento.current.hexGridMemento.cells[0].terrain, 20);
+            GUILayout.TextField(GameMemento.current.hexGridTerrainList[0], 20);
             GUILayout.TextField(GameMemento.current.hexGridMemento.size.ToString(), 20);
         }
     }

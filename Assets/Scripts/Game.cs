@@ -6,12 +6,6 @@ public class Game : MonoBehaviour {
     public string gameID;
     public HexGrid hexGrid;
 
-    //TODO testing remove
-    void Start ()
-    {
-        //SetMemento();
-    }
-
     //Every Memento have to create new since current game is static
     public void SetMemento ()
     {

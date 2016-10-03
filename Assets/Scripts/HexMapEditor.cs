@@ -41,7 +41,11 @@ public class HexMapEditor : MonoBehaviour {
 		SelectColor(0);
 		lockbattle = false;
 		editmode = false;
-		loadMap.LoadHexTiles ();
+        
+        SaveLoad.Load();
+        GameMemento.current = SaveLoad.savedGame;
+
+        loadMap.LoadHexTiles ();
 		loadMap.LoadTerrain ();
 		loadMap.LoadBuildings ();
 		loadMap.LoadEntities ();
