@@ -15,6 +15,9 @@ public class GameMemento {
     public List<List<string>> hexGridCorpsesList;
     public List<bool> hexGridFogList;
 
+    public List<UndeadEntityMemento> undeadEntityMementoList;
+    public List<HumanEntityMemento> humanEntityMementoList;
+
     public string gameID;
 
     public GameMemento () {
@@ -24,5 +27,7 @@ public class GameMemento {
         hexGridEntityNameList = new List<string>();
         hexGridCorpsesList = new List<List<string>>();
         hexGridFogList = new List<bool>();
+        undeadEntityMementoList = new List<UndeadEntityMemento>();
+        humanEntityMementoList = new List<HumanEntityMemento>();
     }
 }

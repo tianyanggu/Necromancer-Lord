@@ -19,7 +19,9 @@ public class LoadMap : MonoBehaviour {
     //end of remove
 
     public void LoadHexTiles () {
-		hexGrid.SetSize (12,12);
+        int height = GameMemento.current.hexGridMemento.height;
+        int width = GameMemento.current.hexGridMemento.width;
+        hexGrid.SetSize (height, width);
 	}
 
 	public void LoadResources () {
