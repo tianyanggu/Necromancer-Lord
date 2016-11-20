@@ -7,6 +7,8 @@ public class EntityStats : MonoBehaviour {
 
     public List<string> undeadEntities = new List<string>();
     public List<string> humanEntities = new List<string>();
+    //TODO make all max stats able to be changed by making them return from variables
+    //TODO then save all max stats in playerprefs
 
     void Awake()
     {
@@ -304,7 +306,7 @@ public class EntityStats : MonoBehaviour {
     }
     #endregion
 
-    #region maxattackpoint
+    #region attackpoint
     public int GetMaxAttackPoint(string entity)
     {
         switch (entity)
@@ -405,7 +407,7 @@ public class EntityStats : MonoBehaviour {
     }
     #endregion
 
-    #region maxmovementpoint
+    #region movementpoint
     public int GetMaxMovementPoint(string entity)
     {
         switch (entity)
@@ -413,28 +415,28 @@ public class EntityStats : MonoBehaviour {
             case "Zombie":
                 return 1;
             case "Skeleton":
-                return 1;
-            case "Necromancer":
                 return 2;
+            case "Necromancer":
+                return 3;
             case "SkeletonArcher":
-                return 1;
+                return 2;
             case "ArmoredSkeleton":
-                return 1;
+                return 2;
             case "DeathKnight":
-                return 1;
+                return 3;
 
             case "Militia":
-                return 1;
+                return 2;
             case "Archer":
-                return 1;
+                return 2;
             case "Longbowman":
-                return 1;
+                return 2;
             case "Crossbowman":
-                return 1;
+                return 2;
             case "Footman":
-                return 1;
+                return 2;
             case "MountedKnight":
-                return 1;
+                return 3;
             case "HeroKing":
                 return 2;
         }
@@ -466,10 +468,10 @@ public class EntityStats : MonoBehaviour {
         switch (faction)
         {
             case "undead":
-                movept = entity.GetComponent<UndeadBehaviour>().maxmovementpoint;
+                movept = entity.GetComponent<UndeadBehaviour>().currmovementpoint;
                 break;
             case "human":
-                movept = entity.GetComponent<HumanBehaviour>().maxmovementpoint;
+                movept = entity.GetComponent<HumanBehaviour>().currmovementpoint;
                 break;
         }
         return movept;
@@ -497,10 +499,10 @@ public class EntityStats : MonoBehaviour {
         switch (faction)
         {
             case "undead":
-                entity.GetComponent<UndeadBehaviour>().maxmovementpoint = movept;
+                entity.GetComponent<UndeadBehaviour>().currmovementpoint = movept;
                 break;
             case "human":
-                entity.GetComponent<HumanBehaviour>().maxmovementpoint = movept;
+                entity.GetComponent<HumanBehaviour>().currmovementpoint = movept;
                 break;
         }
     }

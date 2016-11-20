@@ -38,53 +38,21 @@ public class LoadMap : MonoBehaviour {
         //summon.SummonEntity(3, "Skeleton", "AA");
         //summon.SummonEntity(18, "Zombie", "AA");
 
-        //TODO change diff stats, will incl. all stats once new save system implemented
-		for (int i = 0; i < hexGrid.size; i++) {
-			string allEntities = PlayerPrefs.GetString ("HexEntity" + i);
-			int allHealth = PlayerPrefs.GetInt ("HexEntityHealth" + i);
-			int allIndex = PlayerPrefs.GetInt ("HexEntityIndex" + i);
+        List<UndeadEntityMemento> undeadEntityList = GameMemento.current.undeadEntityMementoList;
+        int undeadEntityListLength = undeadEntityList.Count;
+        List<HumanEntityMemento> humanEntityList = GameMemento.current.humanEntityMementoList;
+        int humanEntityListLength = humanEntityList.Count;
 
-            if (allEntities != string.Empty)
-            {
-                string cleanEntity = Regex.Replace(allEntities.Substring(2), @"[\d-]", string.Empty);
-                Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                spawn.y = 0.2f;
-                GameObject entity = (GameObject)Instantiate(Resources.Load(cleanEntity), spawn, Quaternion.identity);
-                entity.name = allEntities;
-                hexGrid.SetEntityName(allIndex, allEntities);
-                hexGrid.SetEntityObject(allIndex, entity);
-
-                //TODO remove once, new save for sets stats for entity
-                int health = entityStats.GetMaxHealth(cleanEntity);
-                entityStats.SetMaxHealth(entity, health);
-                entityStats.SetCurrHealth(entity, health);
-                int mana = entityStats.GetMaxMana(cleanEntity);
-                entityStats.SetMaxMana(entity, mana);
-                entityStats.SetCurrMana(entity, mana);
-                int dmg = entityStats.GetAttackDmg(cleanEntity);
-                entityStats.SetAttackDmg(entity, dmg);
-                int attpt = entityStats.GetMaxAttackPoint(cleanEntity);
-                entityStats.SetMaxAttackPoint(entity, attpt);
-                int movept = entityStats.GetMaxMovementPoint(cleanEntity);
-                entityStats.SetMaxMovementPoint(entity, movept);
-                int range = entityStats.GetRange(cleanEntity);
-                entityStats.SetRange(entity, range);
-                int rangedattdmg = entityStats.GetRangedAttackDmg(cleanEntity);
-                entityStats.SetRangedAttackDmg(entity, rangedattdmg);
-                int armor = entityStats.GetArmor(cleanEntity);
-                entityStats.SetArmor(entity, armor);
-                int armorpiercing = entityStats.GetArmorPiercing(cleanEntity);
-                entityStats.SetArmorPiercing(entity, armorpiercing);
-                int rangedarmorpiercing = entityStats.GetRangedArmorPiercing(cleanEntity);
-                entityStats.SetRangedArmorPiercing(entity, rangedarmorpiercing);
-                int vision = entityStats.GetVision(cleanEntity);
-                entityStats.SetVision(entity, vision);
-                //end of remove
-
-                CreateHealthLabel(allIndex, allHealth, allEntities);
-            }
+        //TODO maybe pass memento to method instead of super long
+        for (int i = 0; i < undeadEntityListLength; i++)
+        {
+            summon.SummonUndeadEntity(GameMemento.current.undeadEntityMementoList[i]);
         }
-	}
+        for (int i = 0; i < humanEntityListLength; i++)
+        {
+            summon.SummonHumanEntity(GameMemento.current.humanEntityMementoList[i]);
+        }
+    }
 
     void SetBuildingHealth(GameObject building, string buildingName, int health)
     {

@@ -51,19 +51,78 @@ public class Summon : MonoBehaviour {
         entityStats.SetVision(entity, vision);
 
         loadMap.CreateHealthLabel(cellindex, health, availableName);
-
-        //stores info of new summon to playerprefs for saving
-        string ppName = AvailablePlayerPrefsName ();
-
-        //TODO current health, movement, attack, mana, etc.
-		PlayerPrefs.SetString ("HexEntity" + ppName, availableName);
-		PlayerPrefs.SetString (availableName, "HexEntity" + ppName);
-		PlayerPrefs.SetInt ("HexEntityHealth" + ppName, health);
-		PlayerPrefs.SetInt ("HexEntityIndex" + ppName, cellindex);
 	}
 
-	//Check for next available entity number
-	string AvailableName (string summonname, string playerid) {
+    public void SummonUndeadEntity(UndeadEntityMemento undeadEntityMemento)
+    {
+        Vector3 summonindex = hexGrid.GetCellPos(undeadEntityMemento.cellIndex);
+        summonindex.y = 0.2f;
+        string availableNum = AvailableName(undeadEntityMemento.entityType, undeadEntityMemento.playerId);
+        string availableName = undeadEntityMemento.playerId + undeadEntityMemento.entityType + availableNum;
+
+        //Instantiate the prefab from the resources folder
+        GameObject entity = (GameObject)Instantiate(Resources.Load(undeadEntityMemento.entityType), summonindex, Quaternion.identity);
+        entity.name = availableName;
+        char playerChar = undeadEntityMemento.playerId[0];
+        entityStorage.PlayerEntityList(playerChar).Add(entity);
+        hexGrid.SetEntityObject(undeadEntityMemento.cellIndex, entity);
+        hexGrid.SetEntityName(undeadEntityMemento.cellIndex, availableName);
+
+        entityStats.SetCurrHealth(entity, undeadEntityMemento.currhealth);
+        entityStats.SetMaxHealth(entity, undeadEntityMemento.maxhealth);
+        entityStats.SetCurrMana(entity, undeadEntityMemento.currmana);
+        entityStats.SetMaxMana(entity, undeadEntityMemento.maxmana);
+        entityStats.SetAttackDmg(entity, undeadEntityMemento.attackdmg);
+        entityStats.SetCurrAttackPoint(entity, undeadEntityMemento.currattackpoint);
+        entityStats.SetMaxAttackPoint(entity, undeadEntityMemento.maxattackpoint);
+        entityStats.SetCurrMovementPoint(entity, undeadEntityMemento.currmovementpoint);
+        entityStats.SetMaxMovementPoint(entity, undeadEntityMemento.maxmovementpoint);
+        entityStats.SetRange(entity, undeadEntityMemento.range);
+        entityStats.SetRangedAttackDmg(entity, undeadEntityMemento.rangedattackdmg);
+        entityStats.SetArmor(entity, undeadEntityMemento.armor);
+        entityStats.SetArmorPiercing(entity, undeadEntityMemento.armorpiercing);
+        entityStats.SetRangedArmorPiercing(entity, undeadEntityMemento.rangedarmorpiercing);
+        entityStats.SetVision(entity, undeadEntityMemento.vision);
+
+        loadMap.CreateHealthLabel(undeadEntityMemento.cellIndex, undeadEntityMemento.currhealth, availableName);
+    }
+
+    public void SummonHumanEntity(HumanEntityMemento humanEntityMemento)
+    {
+        Vector3 summonindex = hexGrid.GetCellPos(humanEntityMemento.cellIndex);
+        summonindex.y = 0.2f;
+        string availableNum = AvailableName(humanEntityMemento.entityType, humanEntityMemento.playerId);
+        string availableName = humanEntityMemento.playerId + humanEntityMemento.entityType + availableNum;
+
+        //Instantiate the prefab from the resources folder
+        GameObject entity = (GameObject)Instantiate(Resources.Load(humanEntityMemento.entityType), summonindex, Quaternion.identity);
+        entity.name = availableName;
+        char playerChar = humanEntityMemento.playerId[0];
+        entityStorage.PlayerEntityList(playerChar).Add(entity);
+        hexGrid.SetEntityObject(humanEntityMemento.cellIndex, entity);
+        hexGrid.SetEntityName(humanEntityMemento.cellIndex, availableName);
+
+        entityStats.SetCurrHealth(entity, humanEntityMemento.currhealth);
+        entityStats.SetMaxHealth(entity, humanEntityMemento.maxhealth);
+        entityStats.SetCurrMana(entity, humanEntityMemento.currmana);
+        entityStats.SetMaxMana(entity, humanEntityMemento.maxmana);
+        entityStats.SetAttackDmg(entity, humanEntityMemento.attackdmg);
+        entityStats.SetCurrAttackPoint(entity, humanEntityMemento.currattackpoint);
+        entityStats.SetMaxAttackPoint(entity, humanEntityMemento.maxattackpoint);
+        entityStats.SetCurrMovementPoint(entity, humanEntityMemento.currmovementpoint);
+        entityStats.SetMaxMovementPoint(entity, humanEntityMemento.maxmovementpoint);
+        entityStats.SetRange(entity, humanEntityMemento.range);
+        entityStats.SetRangedAttackDmg(entity, humanEntityMemento.rangedattackdmg);
+        entityStats.SetArmor(entity, humanEntityMemento.armor);
+        entityStats.SetArmorPiercing(entity, humanEntityMemento.armorpiercing);
+        entityStats.SetRangedArmorPiercing(entity, humanEntityMemento.rangedarmorpiercing);
+        entityStats.SetVision(entity, humanEntityMemento.vision);
+
+        loadMap.CreateHealthLabel(humanEntityMemento.cellIndex, humanEntityMemento.currhealth, availableName);
+    }
+
+    //Check for next available entity number
+    string AvailableName (string summonname, string playerid) {
 		for (int i = 1; i <= 999; i++) {
 			string num = i.ToString ();
             bool nameExists = false;
@@ -81,18 +140,6 @@ public class Summon : MonoBehaviour {
             }
         } 
 		return null;
-	}
-
-	//Check for next available setstring number
-	string AvailablePlayerPrefsName () {
-		for (int i = 0; i < hexGrid.size; i++) {
-			string num = i.ToString ();
-			string allEntity = PlayerPrefs.GetString ("HexEntity" + i);
-			if (allEntity == string.Empty) {
-				return num;
-			}
-		}
-		return null; //TODO error message if no available spaces, should not be possible to give null
 	}
 
     //TODO for human entities
@@ -128,19 +175,11 @@ public class Summon : MonoBehaviour {
         GameObject attackerHealthText = GameObject.Find("Health " + entityName);
         Destroy(attackerHealthText);
 
-        //delete from playerprefs
-        string playerprefsName = PlayerPrefs.GetString(entityName);
-        string playerprefsNum = Regex.Replace(playerprefsName, "[^0-9 -]", string.Empty);
-        PlayerPrefs.DeleteKey("HexEntity" + playerprefsNum);
-        PlayerPrefs.DeleteKey("HexEntityHealth" + playerprefsNum);
-        PlayerPrefs.DeleteKey("HexEntityIndex" + playerprefsNum);
-        PlayerPrefs.DeleteKey(entityName);
-
         //add to corpses if not undead
         string cleanEntity = Regex.Replace(entityName.Substring(2), @"[\d-]", string.Empty);
         if (entityStats.WhichFactionEntity(cleanEntity) != "undead")
         {
-            hexGrid.SetCorpses(cellindex, entityName);
+            hexGrid.SetCorpses(cellindex, entityName); //TODO remove once corpse list complete
         }
     }
 }
