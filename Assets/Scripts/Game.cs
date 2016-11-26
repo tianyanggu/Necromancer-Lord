@@ -49,8 +49,6 @@ public class Game : MonoBehaviour {
     private void SetUndeadEntities (UndeadEntityMemento undeadEntityMemento, int i)
     {
         undeadEntityMemento.name = hexGrid.cells[i].entityName;
-        undeadEntityMemento.entityType = Regex.Replace(hexGrid.cells[i].entityName.Substring(2), @"[\d-]", string.Empty);
-        undeadEntityMemento.playerId = Regex.Replace(hexGrid.cells[i].entityName.Substring(0, 2), @"[\d-]", string.Empty);
         undeadEntityMemento.cellIndex = i;
 
         undeadEntityMemento.maxhealth = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().maxhealth;
@@ -76,8 +74,6 @@ public class Game : MonoBehaviour {
     private void SetHumanEntities(HumanEntityMemento humanEntityMemento, int i)
     {
         humanEntityMemento.name = hexGrid.cells[i].entityName;
-        humanEntityMemento.entityType = Regex.Replace(hexGrid.cells[i].entityName.Substring(2), @"[\d-]", string.Empty);
-        humanEntityMemento.playerId = Regex.Replace(hexGrid.cells[i].entityName.Substring(0, 2), @"[\d-]", string.Empty);
         humanEntityMemento.cellIndex = i;
 
         humanEntityMemento.maxhealth = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().maxhealth;

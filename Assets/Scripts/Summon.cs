@@ -55,15 +55,18 @@ public class Summon : MonoBehaviour {
 
     public void SummonUndeadEntity(UndeadEntityMemento undeadEntityMemento)
     {
+        string entityType = Regex.Replace(undeadEntityMemento.name.Substring(2), @"[\d-]", string.Empty);
+        string playerId = Regex.Replace(undeadEntityMemento.name.Substring(0, 2), @"[\d-]", string.Empty);
+
         Vector3 summonindex = hexGrid.GetCellPos(undeadEntityMemento.cellIndex);
         summonindex.y = 0.2f;
-        string availableNum = AvailableName(undeadEntityMemento.entityType, undeadEntityMemento.playerId);
-        string availableName = undeadEntityMemento.playerId + undeadEntityMemento.entityType + availableNum;
+        string availableNum = AvailableName(entityType, playerId);
+        string availableName = playerId + entityType + availableNum;
 
         //Instantiate the prefab from the resources folder
-        GameObject entity = (GameObject)Instantiate(Resources.Load(undeadEntityMemento.entityType), summonindex, Quaternion.identity);
+        GameObject entity = (GameObject)Instantiate(Resources.Load(entityType), summonindex, Quaternion.identity);
         entity.name = availableName;
-        char playerChar = undeadEntityMemento.playerId[0];
+        char playerChar = playerId[0];
         entityStorage.PlayerEntityList(playerChar).Add(entity);
         hexGrid.SetEntityObject(undeadEntityMemento.cellIndex, entity);
         hexGrid.SetEntityName(undeadEntityMemento.cellIndex, availableName);
@@ -89,15 +92,18 @@ public class Summon : MonoBehaviour {
 
     public void SummonHumanEntity(HumanEntityMemento humanEntityMemento)
     {
+        string entityType = Regex.Replace(humanEntityMemento.name.Substring(2), @"[\d-]", string.Empty);
+        string playerId = Regex.Replace(humanEntityMemento.name.Substring(0, 2), @"[\d-]", string.Empty);
+
         Vector3 summonindex = hexGrid.GetCellPos(humanEntityMemento.cellIndex);
         summonindex.y = 0.2f;
-        string availableNum = AvailableName(humanEntityMemento.entityType, humanEntityMemento.playerId);
-        string availableName = humanEntityMemento.playerId + humanEntityMemento.entityType + availableNum;
+        string availableNum = AvailableName(entityType, playerId);
+        string availableName = playerId + entityType + availableNum;
 
         //Instantiate the prefab from the resources folder
-        GameObject entity = (GameObject)Instantiate(Resources.Load(humanEntityMemento.entityType), summonindex, Quaternion.identity);
+        GameObject entity = (GameObject)Instantiate(Resources.Load(entityType), summonindex, Quaternion.identity);
         entity.name = availableName;
-        char playerChar = humanEntityMemento.playerId[0];
+        char playerChar = playerId[0];
         entityStorage.PlayerEntityList(playerChar).Add(entity);
         hexGrid.SetEntityObject(humanEntityMemento.cellIndex, entity);
         hexGrid.SetEntityName(humanEntityMemento.cellIndex, availableName);

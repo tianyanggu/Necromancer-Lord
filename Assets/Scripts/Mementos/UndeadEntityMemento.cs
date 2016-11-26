@@ -3,9 +3,7 @@ using System.Collections;
 
 [System.Serializable]
 public class UndeadEntityMemento {
-    public string name; // TODO entityType and playerId stored in name of undeadentities, need to be changed in next update so it is field in undead entities
-    public string entityType;
-    public string playerId;
+    public string name;
     public int cellIndex;
 
     public int maxhealth;

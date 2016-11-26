@@ -37,7 +37,5 @@ public class SaveLoad {
             SaveLoad.savedGame = (GameMemento)bf.Deserialize(file);
             file.Close();
         }
-
-        Debug.Log(savedGame.gameID);
     }
 }

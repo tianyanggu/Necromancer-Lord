@@ -44,15 +44,20 @@ public class HexMapEditor : MonoBehaviour {
         
         SaveLoad.Load();
         GameMemento.current = SaveLoad.savedGame;
-
-        loadMap.LoadHexTiles ();
-		loadMap.LoadTerrain ();
-		loadMap.LoadBuildings ();
-		loadMap.LoadEntities ();
-		loadMap.LoadResources ();
-		loadMap.LoadCorpses ();
-        //sets the seed of the terrain spawn
-        //loadMap.LoadRandom (12);
+        if (GameMemento.current.hexGridMemento.size != 0) //load from most recent if player presses continue
+        {
+            loadMap.LoadHexTiles();
+            loadMap.LoadTerrain();
+            loadMap.LoadBuildings();
+            loadMap.LoadEntities();
+            loadMap.LoadResources();
+            loadMap.LoadCorpses();
+        }
+        else //create new game when no game, set from player settings in menu
+        {
+            loadMap.LoadNewHexTiles(12, 12);
+            loadMap.LoadRandom(12); //sets the seed of the terrain spawn
+        }
 
         //		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
         //		int test0 = test [0];

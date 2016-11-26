@@ -24,7 +24,12 @@ public class LoadMap : MonoBehaviour {
         hexGrid.SetSize (height, width);
 	}
 
-	public void LoadResources () {
+    public void LoadNewHexTiles(int height, int width)
+    {
+        hexGrid.SetSize(height, width);
+    }
+
+    public void LoadResources () {
 		int soulAmount = PlayerPrefs.GetInt ("Souls");
         currency.SetSouls (soulAmount);
 	}
@@ -163,14 +168,14 @@ public class LoadMap : MonoBehaviour {
 			float terrainSeedVal = Random.value;
 			if (terrainSeedVal >= 0.25) {
 				hexGrid.SetTerrain (i, "Grass");
-				PlayerPrefs.SetString ("Hex" + i, "Grass");
-			} else if (terrainSeedVal < 0.25 && terrainSeedVal >= 0.10) {
+                hexGrid.ColorCellIndex(i, Color.green);
+            } else if (terrainSeedVal < 0.25 && terrainSeedVal >= 0.10) {
 				hexGrid.SetTerrain (i, "Water");
-				PlayerPrefs.SetString ("Hex" + i, "Water");
-			} else if (terrainSeedVal < 0.10) {
+                hexGrid.ColorCellIndex(i, Color.blue);
+            } else if (terrainSeedVal < 0.10) {
 				hexGrid.SetTerrain (i, "Mountain");
-				PlayerPrefs.SetString ("Hex" + i, "Mountain");
-			}
+                hexGrid.ColorCellIndex(i, Color.red);
+            }
 
 			//buildings generated via seed
 			//float buildingSeedVal = Random.value;
