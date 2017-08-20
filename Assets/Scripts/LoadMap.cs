@@ -30,8 +30,8 @@ public class LoadMap : MonoBehaviour {
     }
 
     public void LoadResources () {
-		int soulAmount = PlayerPrefs.GetInt ("Souls");
-        currency.SetSouls (soulAmount);
+		int souls = GameMemento.current.souls;
+        currency.SetSouls (souls);
 	}
 
 	public void LoadEntities () {

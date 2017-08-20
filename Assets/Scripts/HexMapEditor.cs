@@ -46,6 +46,8 @@ public class HexMapEditor : MonoBehaviour {
         GameMemento.current = SaveLoad.savedGame;
         if (GameMemento.current.hexGridMemento.size != 0) //load from most recent if player presses continue
         {
+            Debug.Log("Loading");
+            playerManager.SetActivePlayers();
             loadMap.LoadHexTiles();
             loadMap.LoadTerrain();
             loadMap.LoadBuildings();
@@ -55,6 +57,8 @@ public class HexMapEditor : MonoBehaviour {
         }
         else //create new game when no game, set from player settings in menu
         {
+            Debug.Log("New");
+            playerManager.SetActivePlayers(); //TODO modify set active players to set new players when new game
             loadMap.LoadNewHexTiles(12, 12);
             loadMap.LoadRandom(12); //sets the seed of the terrain spawn
         }
@@ -76,12 +80,6 @@ public class HexMapEditor : MonoBehaviour {
         //		//Debug.Log (test6);
 
         //TODO Overlay to add players
-        //PlayerPrefs.SetString("Player1", "AA");
-        //PlayerPrefs.SetString("Player2", "BB");
-        //PlayerPrefs.SetString("Player3", "CA");
-        //PlayerPrefs.SetString("AA", "undead");
-        //PlayerPrefs.SetString("BB", "human");
-        //PlayerPrefs.SetString("CA", "human");
     }
 
     void FixedUpdate () {
@@ -96,6 +94,8 @@ public class HexMapEditor : MonoBehaviour {
 		} else {
 			currindex = select.GetCurrIndex ();
 		}
+
+        //TODO lock ability for user to save while attack in progress because battle object is not saved
 
 		//-----Selector--------------
 		//Debug.Log(currindex);
@@ -149,7 +149,7 @@ public class HexMapEditor : MonoBehaviour {
 		}
 		if (summonclicked) {
 			int i = 0;
-            string playerFaction = PlayerPrefs.GetString(playerManager.currPlayer);
+            string playerFaction = playerManager.activePlayersFaction[playerManager.currPlayer];
             foreach (string entity in entityStorage.EntityFactionLists(playerFaction)) {
 				int spacing = i * 20;
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Summon" + entity)) {
@@ -205,7 +205,7 @@ public class HexMapEditor : MonoBehaviour {
 		}
 		if (buildingclicked) {
 			int i = 0;
-            string playerFaction = PlayerPrefs.GetString(playerManager.currPlayer);
+            string playerFaction = playerManager.activePlayersFaction[playerManager.currPlayer];
             foreach (string building in buildingStorage.BuildingFactionLists(playerFaction)) {
 				int spacing = i * 20;
 				if (GUI.Button (new Rect (150, 150 + spacing, 120, 20), "Building " + building)) {

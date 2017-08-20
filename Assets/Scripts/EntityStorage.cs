@@ -26,9 +26,10 @@ public class EntityStorage : MonoBehaviour {
     }
 
     public void ListActivePlayerEntities () {
-		foreach (string playerID in playerManager.activePlayers) {
+		foreach (var player in playerManager.activePlayersFaction) {
+            string playerID = player.Key;
             //get which faction entities needs to be checked for
-            foreach (string entity in EntityFactionLists(PlayerPrefs.GetString(playerID)))
+            foreach (string entity in EntityFactionLists(player.Value))
             {
                 for (int i = 1; i <= 99; i++)
                 {

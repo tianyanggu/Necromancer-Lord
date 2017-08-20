@@ -4,24 +4,22 @@ using UnityEngine.UI;
 
 public class Currency : MonoBehaviour {
 
-	public GameObject souls;
+	public GameObject soulsObject;
+    public int souls = 0;
+    public int gold = 0;
 
-	//change amount of souls
-	public void ChangeSouls(int change) {
-		int soulsAmount = PlayerPrefs.GetInt("Souls") + change;
+    //change amount of souls
+    public void ChangeSouls(int change) {
+		souls += change;
 
 		//sets to new amount
-		Text soulsNum = souls.GetComponent<Text> ();
-		soulsNum.text = "Souls:" + soulsAmount.ToString ();
-
-		//saves to playerprefs
-		PlayerPrefs.SetInt ("Souls", soulsAmount);
+		Text soulsNum = soulsObject.GetComponent<Text> ();
+		soulsNum.text = "Souls:" + souls.ToString ();
 	}
 
     public void SetSouls(int amount) {
-		Text soulsNum = souls.GetComponent<Text> ();
+        souls = amount;
+        Text soulsNum = soulsObject.GetComponent<Text> ();
 		soulsNum.text = "Souls:" + amount.ToString ();
-
-		PlayerPrefs.SetInt ("Souls", amount);
 	}
 }

@@ -6,8 +6,19 @@ using System.Collections.Generic;
 public class GameMemento {
 
     public static GameMemento current;
+    public string gameID;
+
     //TODO just add the 3 hexgrid details to this. keeping for now to remember how to do objects
     public HexGridMemento hexGridMemento;
+
+    public Dictionary<string, string> activePlayersName;
+    public Dictionary<string, string> activePlayersFaction;
+    public Dictionary<int, string> activePlayersOrder;
+    public int currPlayerOrder;
+    public string currPlayer;
+
+    public int souls;
+    public int gold;
 
     public List<string> hexGridTerrainList;
     public List<string> hexGridBuildingNameList;
@@ -18,15 +29,19 @@ public class GameMemento {
     public List<UndeadEntityMemento> undeadEntityMementoList;
     public List<HumanEntityMemento> humanEntityMementoList;
 
-    public string gameID;
-
     public GameMemento () {
         hexGridMemento = new HexGridMemento();
+
+        activePlayersName = new Dictionary<string, string>();
+        activePlayersFaction = new Dictionary<string, string>();
+        activePlayersOrder = new Dictionary<int, string>();
+
         hexGridTerrainList = new List<string>();
         hexGridBuildingNameList = new List<string>();
         hexGridEntityNameList = new List<string>();
         hexGridCorpsesList = new List<List<string>>();
         hexGridFogList = new List<bool>();
+
         undeadEntityMementoList = new List<UndeadEntityMemento>();
         humanEntityMementoList = new List<HumanEntityMemento>();
     }

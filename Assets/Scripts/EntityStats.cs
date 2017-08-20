@@ -8,7 +8,7 @@ public class EntityStats : MonoBehaviour {
     public List<string> undeadEntities = new List<string>();
     public List<string> humanEntities = new List<string>();
     //TODO make all max stats able to be changed by making them return from variables
-    //TODO then save all max stats in playerprefs
+    //TODO then save all max stats
 
     void Awake()
     {

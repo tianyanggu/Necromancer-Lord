@@ -7,6 +7,8 @@ public class Game : MonoBehaviour {
     public string gameID;
     public HexGrid hexGrid;
     public EntityStats entityStats;
+    public PlayerManager playerManager;
+    public Currency currency;
 
     //Every Memento have to create new since current game is static
     public void SetMemento ()
@@ -19,11 +21,26 @@ public class Game : MonoBehaviour {
         GameMemento.current.hexGridMemento.height = hexGrid.height;
         GameMemento.current.hexGridMemento.size = hexGrid.size;
 
-        
+        foreach (var item in playerManager.activePlayersName)
+        {
+            GameMemento.current.activePlayersName.Add(item.Key, item.Value);
+        }
+        foreach (var item in playerManager.activePlayersFaction)
+        {
+            GameMemento.current.activePlayersFaction.Add(item.Key, item.Value);
+        }
+        foreach (var item in playerManager.activePlayersOrder)
+        {
+            GameMemento.current.activePlayersOrder.Add(item.Key, item.Value);
+        }
+        GameMemento.current.currPlayerOrder = playerManager.currPlayerOrder;
+        GameMemento.current.currPlayer = playerManager.currPlayer;
+
+        GameMemento.current.souls = currency.souls;
+        GameMemento.current.gold = currency.gold;
+
         for (int i = 0; i < hexGrid.cells.Length; i++)
         {
-            Debug.Log(hexGrid.cells[i].coordinates);
-
             GameMemento.current.hexGridTerrainList.Add(hexGrid.cells[i].terrain);
             GameMemento.current.hexGridBuildingNameList.Add(hexGrid.cells[i].buildingName);
             GameMemento.current.hexGridCorpsesList.Add(hexGrid.cells[i].corpses);

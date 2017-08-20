@@ -26,9 +26,10 @@ public class BuildingStorage : MonoBehaviour {
 	}
 
 	public void ListActivePlayerBuildings () {
-		foreach (string playerID in playerManager.activePlayers) {
+		foreach (var player in playerManager.activePlayersFaction) {
+            string playerID = player.Key;
             //get which faction buildings needs to be checked for
-            foreach (string building in BuildingFactionLists(PlayerPrefs.GetString(playerID)))
+            foreach (string building in BuildingFactionLists(player.Value))
             {
                 for (int i = 1; i <= 99; i++)
                 {

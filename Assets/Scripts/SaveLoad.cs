@@ -6,6 +6,7 @@ using System.IO;
 
 public class SaveLoad {
 
+    //TODO select from list of savedGames
     //public static List<GameMemento> savedGames = new List<GameMemento>();
     public static GameMemento savedGame = new GameMemento();
 

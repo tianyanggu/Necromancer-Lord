@@ -4,37 +4,54 @@ using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour {
 
-    public List<string> activePlayers = new List<string>();
-    public string currPlayer;
+    //Players are assigned a code for the game to recognize them
+    //e.g. CA is player C and is on team A
 
-    // Use this for initialization
-    void Awake () {
-        ListActivePlayers();
-        currPlayer = activePlayers[0];
-    }
-	
-    public void ListActivePlayers()
+    public Dictionary<string, string> activePlayersName = new Dictionary<string, string>();
+    public Dictionary<string, string> activePlayersFaction = new Dictionary<string, string>();
+    public Dictionary<int, string> activePlayersOrder = new Dictionary<int, string>();
+    public int currPlayerOrder = 0;
+    public string currPlayer = string.Empty;
+
+    public void SetActivePlayers()
     {
-        for (int i = 1; i <= 26; i++)
+        activePlayersName = GameMemento.current.activePlayersName;
+        activePlayersFaction = GameMemento.current.activePlayersFaction;
+        activePlayersOrder = GameMemento.current.activePlayersOrder;
+        currPlayerOrder = GameMemento.current.currPlayerOrder;
+        currPlayer = GameMemento.current.currPlayer;
+
+        //TODO throw exception and return players to start screen if activeplayers is empty
+        //TEST CODE
+        if (activePlayersName.Count == 0)
         {
-            string checkActivePlayer = PlayerPrefs.GetString("Player" + i);
-            if (checkActivePlayer != string.Empty)
-            {
-                activePlayers.Add(checkActivePlayer);
-            }
+            activePlayersName.Add("AA", "Lolpolice");
+            activePlayersName.Add("BB", "Noob");
+            activePlayersName.Add("CA", "Noob2");
+        }
+        if (activePlayersFaction.Count == 0)
+        {
+            activePlayersFaction.Add("AA", "undead");
+            activePlayersFaction.Add("BB", "human");
+            activePlayersFaction.Add("CA", "human");
+        }
+        if (activePlayersOrder.Count == 0)
+        {
+            activePlayersOrder.Add(1, "AA");
+            activePlayersOrder.Add(2, "BB");
+            activePlayersOrder.Add(3, "CA");
+        }
+        if (string.IsNullOrEmpty(currPlayer) || currPlayerOrder == 0)
+        {
+            Debug.Log("changed");
+            currPlayer = "AA";
+            currPlayerOrder = 1;
         }
     }
 
     public void NextActivePlayer()
     {
-        for (int i = 0; i < activePlayers.Count - 1; i++){
-            if (currPlayer == activePlayers[i])
-            {
-                currPlayer = activePlayers[i + 1];
-                return;
-            }
-        }
-        currPlayer = activePlayers[0];
-        return;
+        currPlayerOrder++;
+        currPlayer = activePlayersOrder[currPlayerOrder];
     }
 }

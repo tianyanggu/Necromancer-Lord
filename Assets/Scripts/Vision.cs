@@ -39,14 +39,18 @@ public class Vision : MonoBehaviour {
 
     //check each player entity in entitystorage to determine their vision range and remove the fog for that range
     public void AllPlayerVision () {
-        char playerChar = playerManager.currPlayer[0];
-        //Debug.Log(entityStorage.PlayerEntityList(playerChar)[0].name.Substring(2));
-        foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar)) {
-            int visionDistance = 0;
-            visionDistance = entityStats.GetCurrVision(playerEntity);
-            Vector3 playerEntityPosition = playerEntity.transform.position;
-            int index = hexGrid.GetCellIndex(playerEntityPosition);
-            PlayerVisionHelper(index, visionDistance);
+        if (playerManager.currPlayer != string.Empty)
+        {
+            char playerChar = playerManager.currPlayer[0];
+            //Debug.Log(entityStorage.PlayerEntityList(playerChar)[0].name.Substring(2));
+            foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar))
+            {
+                int visionDistance = 0;
+                visionDistance = entityStats.GetCurrVision(playerEntity);
+                Vector3 playerEntityPosition = playerEntity.transform.position;
+                int index = hexGrid.GetCellIndex(playerEntityPosition);
+                PlayerVisionHelper(index, visionDistance);
+            }
         }
     }
 
