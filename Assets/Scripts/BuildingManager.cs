@@ -43,7 +43,7 @@ public class BuildingManager : MonoBehaviour {
         if (action == "Build") {
             if (cleanBuildingName == "Necropolis")
             {
-                currBuilding.GetComponent<NecropolisMechanics>().UpdateProduction(production);
+                currBuilding.GetComponent<UndeadBuilding>().UpdateProduction(production);
             }
         }
         else if (action == "Recruit")

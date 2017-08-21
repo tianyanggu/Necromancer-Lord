@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\Battle.cs" />
     <Compile Include="Assets\Scripts\Build.cs" />
     <Compile Include="Assets\Scripts\BuildingManager.cs" />
+    <Compile Include="Assets\Scripts\BuildingStats.cs" />
     <Compile Include="Assets\Scripts\BuildingStorage.cs" />
     <Compile Include="Assets\Scripts\Currency.cs" />
     <Compile Include="Assets\Scripts\DragCamera.cs" />
@@ -97,7 +98,7 @@
     <Compile Include="Assets\Scripts\HexMesh.cs" />
     <Compile Include="Assets\Scripts\HexMetrics.cs" />
     <Compile Include="Assets\Scripts\Humans\HumanBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Humans\VillageMechanics.cs" />
+    <Compile Include="Assets\Scripts\Humans\HumanBuilding.cs" />
     <Compile Include="Assets\Scripts\LoadMap.cs" />
     <Compile Include="Assets\Scripts\Locate.cs" />
     <Compile Include="Assets\Scripts\Mementos\HexGridMemento.cs" />
@@ -111,9 +112,8 @@
     <Compile Include="Assets\Scripts\Select.cs" />
     <Compile Include="Assets\Scripts\Souls.cs" />
     <Compile Include="Assets\Scripts\Summon.cs" />
-    <Compile Include="Assets\Scripts\Undead\NecropolisMechanics.cs" />
     <Compile Include="Assets\Scripts\Undead\UndeadBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Undead\UndeadVillageMechanics.cs" />
+    <Compile Include="Assets\Scripts\Undead\UndeadBuilding.cs" />
     <Compile Include="Assets\Scripts\Vision.cs" />
   </ItemGroup>
   <ItemGroup>

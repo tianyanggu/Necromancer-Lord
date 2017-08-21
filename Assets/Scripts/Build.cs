@@ -14,7 +14,6 @@ public class Build : MonoBehaviour {
 	public GameObject Village;
 	public GameObject Necropolis;
 
-
 	//given an index and the type of summon, summons that entity with the next available name
 	public void BuildBuilding (int cellindex, string buildingname, string playerid) {
 		Vector3 buildindex = hexGrid.GetCellPos(cellindex);
