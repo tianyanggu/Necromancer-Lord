@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class UndeadBehaviour : MonoBehaviour {
-
+    public string player;
+    public string type;
     public int maxhealth;
     public int maxmana;
     public int attackdmg;

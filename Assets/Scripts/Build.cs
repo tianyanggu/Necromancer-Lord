@@ -94,10 +94,10 @@ public class Build : MonoBehaviour {
 	int GetHealthInfo(string building) {
         switch (building)
         {
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 return Necropolis.GetComponent<NecropolisMechanics>().health;
 
-            case "Village":
+            case BuildingNames.Village:
                 return Village.GetComponent<VillageMechanics>().health;
         }
 		return 0;
@@ -108,7 +108,7 @@ public class Build : MonoBehaviour {
         string faction = buildingStorage.WhichFactionBuilding(building);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 int souls = PlayerPrefs.GetInt("Souls");
                 int cost = buildingStorage.buildingSoulCost(building);
 
@@ -121,13 +121,13 @@ public class Build : MonoBehaviour {
                 //checks if fulfilled cost and removes paid cost from game
                 if (souls >= cost)
                 {
-                    if (corpses.Contains("Militia"))
+                    if (corpses.Contains(EntityNames.Militia))
                     {
                         currency.ChangeSouls(-cost);
-                        hexGrid.RemoveCorpses(index, "Militia");
+                        hexGrid.RemoveCorpses(index, EntityNames.Militia);
                         return true;
                     }
-                    else if (cleanEntity == "Skeleton" || cleanEntity == "Zombie" || cleanEntity == "SkeletonArcher")
+                    else if (cleanEntity == EntityNames.Skeleton || cleanEntity == EntityNames.Zombie || cleanEntity == EntityNames.SkeletonArcher)
                     {
                         currency.ChangeSouls(-cost);
                         GameObject entityGameObj = hexGrid.GetEntityObject(index);

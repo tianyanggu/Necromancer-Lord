@@ -153,7 +153,7 @@ public class Summon : MonoBehaviour {
         string faction = entityStats.WhichFactionEntity(entity);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 int souls = PlayerPrefs.GetInt("Souls");
                 int cost = entityStats.summonSoulCost(entity);
                 if (souls >= cost)
@@ -183,7 +183,7 @@ public class Summon : MonoBehaviour {
 
         //add to corpses if not undead
         string cleanEntity = Regex.Replace(entityName.Substring(2), @"[\d-]", string.Empty);
-        if (entityStats.WhichFactionEntity(cleanEntity) != "undead")
+        if (entityStats.WhichFactionEntity(cleanEntity) != FactionNames.Undead)
         {
             hexGrid.SetCorpses(cellindex, entityName); //TODO remove once corpse list complete
         }

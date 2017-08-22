@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class UndeadBuilding : MonoBehaviour {
 
+    public string player;
+    public string type;
     public int currhealth;
     public int maxhealth;
     public int range;

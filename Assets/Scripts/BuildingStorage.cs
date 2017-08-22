@@ -18,9 +18,9 @@ public class BuildingStorage : MonoBehaviour {
 
     void Start () {
         //player controlled buildings
-        undeadBuildings.Add ("Necropolis");
+        undeadBuildings.Add (BuildingNames.Necropolis);
         //enemy entities
-        humanBuildings.Add ("Village");
+        humanBuildings.Add (BuildingNames.Village);
 
         ListActivePlayerBuildings ();
 	}
@@ -48,10 +48,10 @@ public class BuildingStorage : MonoBehaviour {
 	//returns faction for building
 	public string WhichFactionBuilding(string entity) {
 		//------Determine Faction------
-		if (entity == "Necropolis") {
-			return "undead";
-		} else if (entity == "Village") {
-			return "human";
+		if (entity == BuildingNames.Necropolis) {
+			return FactionNames.Undead;
+		} else if (entity == BuildingNames.Village) {
+			return FactionNames.Human;
 		}
 		return "unknown";
 	}
@@ -61,9 +61,9 @@ public class BuildingStorage : MonoBehaviour {
         //------Determine Faction Entity List------
         switch (factionName)
         {
-            case "undead":
+            case FactionNames.Undead:
                 return undeadBuildings;
-            case "human":
+            case FactionNames.Human:
                 return humanBuildings;
         }
         return new List<string>();
@@ -89,7 +89,7 @@ public class BuildingStorage : MonoBehaviour {
         //------Determine Cost------
         switch (building)
         {
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 return 200;
         }
 		return 0;

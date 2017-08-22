@@ -3,30 +3,48 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
+public static class EntityNames
+{
+    public const string Necromancer = "Necromancer";
+    public const string Skeleton = "Skeleton";
+    public const string Zombie = "Zombie";
+    public const string SkeletonArcher = "SkeletonArcher";
+    public const string ArmoredSkeleton = "ArmoredSkeleton";
+    public const string DeathKnight = "DeathKnight";
+
+    public const string Militia = "Militia";
+    public const string Archer = "Archer";
+    public const string Longbowman = "Longbowman";
+    public const string Crossbowman = "Crossbowman";
+    public const string Footman = "Footman";
+    public const string MountedKnight = "MountedKnight";
+    public const string LightsChosen = "Light's Chosen";
+}
+
 public class EntityStats : MonoBehaviour {
 
     public List<string> undeadEntities = new List<string>();
     public List<string> humanEntities = new List<string>();
     //TODO make all max stats able to be changed by making them return from variables
     //TODO then save all max stats
-
+    
     void Awake()
     {
         //undead entities
-        undeadEntities.Add("Necromancer");
-        undeadEntities.Add("Skeleton");
-        undeadEntities.Add("Zombie");
-        undeadEntities.Add("SkeletonArcher");
-        undeadEntities.Add("ArmoredSkeleton");
-        undeadEntities.Add("DeathKnight");
+        undeadEntities.Add(EntityNames.Necromancer);
+        undeadEntities.Add(EntityNames.Skeleton);
+        undeadEntities.Add(EntityNames.Zombie);
+        undeadEntities.Add(EntityNames.SkeletonArcher);
+        undeadEntities.Add(EntityNames.ArmoredSkeleton);
+        undeadEntities.Add(EntityNames.DeathKnight);
         //human entities
-        humanEntities.Add("Militia");
-        humanEntities.Add("Archer");
-        humanEntities.Add("Longbowman");
-        humanEntities.Add("Crossbowman");
-        humanEntities.Add("Footman");
-        humanEntities.Add("MountedKnight");
-        humanEntities.Add("HeroKing");
+        humanEntities.Add(EntityNames.Militia);
+        humanEntities.Add(EntityNames.Archer);
+        humanEntities.Add(EntityNames.Longbowman);
+        humanEntities.Add(EntityNames.Crossbowman);
+        humanEntities.Add(EntityNames.Footman);
+        humanEntities.Add(EntityNames.MountedKnight);
+        humanEntities.Add(EntityNames.LightsChosen);
     }
 
     public string CleanName(GameObject entity)
@@ -40,32 +58,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 250;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 150;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 1000;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 150;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 250;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 500;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 200;
-            case "Archer":
+            case EntityNames.Archer:
                 return 200;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 200;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 250;
-            case "Footman":
+            case EntityNames.Footman:
                 return 300;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 350;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 800;
         }
         return 0;
@@ -78,10 +96,10 @@ public class EntityStats : MonoBehaviour {
         int health = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 health = entity.GetComponent<UndeadBehaviour>().maxhealth;
                 break;
-            case "human":
+            case FactionNames.Human:
                 health = entity.GetComponent<HumanBehaviour>().maxhealth;
                 break;
         }
@@ -95,10 +113,10 @@ public class EntityStats : MonoBehaviour {
         int health = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 health = entity.GetComponent<UndeadBehaviour>().currhealth;
                 break;
-            case "human":
+            case FactionNames.Human:
                 health = entity.GetComponent<HumanBehaviour>().currhealth;
                 break;
         }
@@ -111,10 +129,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().maxhealth = health;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().maxhealth = health;
                 break;
         }
@@ -126,10 +144,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().currhealth = health;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().currhealth = health;
                 break;
         }
@@ -141,32 +159,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 0;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 0;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 100;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 0;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 0;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 25;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 0;
-            case "Archer":
+            case EntityNames.Archer:
                 return 0;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 0;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 0;
-            case "Footman":
+            case EntityNames.Footman:
                 return 0;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 10;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 80;
         }
         return 0;
@@ -179,10 +197,10 @@ public class EntityStats : MonoBehaviour {
         int mana = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 mana = entity.GetComponent<UndeadBehaviour>().maxmana;
                 break;
-            case "human":
+            case FactionNames.Human:
                 mana = entity.GetComponent<HumanBehaviour>().maxmana;
                 break;
         }
@@ -196,10 +214,10 @@ public class EntityStats : MonoBehaviour {
         int mana = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 mana = entity.GetComponent<UndeadBehaviour>().currmana;
                 break;
-            case "human":
+            case FactionNames.Human:
                 mana = entity.GetComponent<HumanBehaviour>().currmana;
                 break;
         }
@@ -212,10 +230,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().maxmana = mana;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().maxmana = mana;
                 break;
         }
@@ -227,10 +245,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().currmana = mana;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().currmana = mana;
                 break;
         }
@@ -242,32 +260,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 10;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 20;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 50;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 5;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 30;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 45;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 15;
-            case "Archer":
+            case EntityNames.Archer:
                 return 5;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 5;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 15;
-            case "Footman":
+            case EntityNames.Footman:
                 return 30;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 35;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 150;
         }
         return 0;
@@ -280,10 +298,10 @@ public class EntityStats : MonoBehaviour {
         int attdmg = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 attdmg = entity.GetComponent<UndeadBehaviour>().attackdmg;
                 break;
-            case "human":
+            case FactionNames.Human:
                 attdmg = entity.GetComponent<HumanBehaviour>().attackdmg;
                 break;
         }
@@ -296,10 +314,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().attackdmg = dmg;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().attackdmg = dmg;
                 break;
         }
@@ -311,32 +329,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 1;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 1;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 2;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 1;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 1;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 1;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 1;
-            case "Archer":
+            case EntityNames.Archer:
                 return 1;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 1;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 1;
-            case "Footman":
+            case EntityNames.Footman:
                 return 1;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 1;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 2;
         }
         return 0;
@@ -349,10 +367,10 @@ public class EntityStats : MonoBehaviour {
         int attpt = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 attpt = entity.GetComponent<UndeadBehaviour>().maxattackpoint;
                 break;
-            case "human":
+            case FactionNames.Human:
                 attpt = entity.GetComponent<HumanBehaviour>().maxattackpoint;
                 break;
         }
@@ -366,10 +384,10 @@ public class EntityStats : MonoBehaviour {
         int attpt = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 attpt = entity.GetComponent<UndeadBehaviour>().currattackpoint;
                 break;
-            case "human":
+            case FactionNames.Human:
                 attpt = entity.GetComponent<HumanBehaviour>().currattackpoint;
                 break;
         }
@@ -382,10 +400,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().maxattackpoint = attpt;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().maxattackpoint = attpt;
                 break;
         }
@@ -397,10 +415,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().currattackpoint = attpt;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().currattackpoint = attpt;
                 break;
         }
@@ -412,32 +430,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 1;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 2;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 3;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 2;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 2;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 3;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 2;
-            case "Archer":
+            case EntityNames.Archer:
                 return 2;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 2;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 2;
-            case "Footman":
+            case EntityNames.Footman:
                 return 2;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 3;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 2;
         }
         return 0;
@@ -450,10 +468,10 @@ public class EntityStats : MonoBehaviour {
         int movept = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 movept = entity.GetComponent<UndeadBehaviour>().maxmovementpoint;
                 break;
-            case "human":
+            case FactionNames.Human:
                 movept = entity.GetComponent<HumanBehaviour>().maxmovementpoint;
                 break;
         }
@@ -467,10 +485,10 @@ public class EntityStats : MonoBehaviour {
         int movept = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 movept = entity.GetComponent<UndeadBehaviour>().currmovementpoint;
                 break;
-            case "human":
+            case FactionNames.Human:
                 movept = entity.GetComponent<HumanBehaviour>().currmovementpoint;
                 break;
         }
@@ -483,10 +501,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().maxmovementpoint = movept;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().maxmovementpoint = movept;
                 break;
         }
@@ -498,10 +516,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().currmovementpoint = movept;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().currmovementpoint = movept;
                 break;
         }
@@ -513,32 +531,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 1;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 1;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 3;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 2;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 1;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 1;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 1;
-            case "Archer":
+            case EntityNames.Archer:
                 return 2;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 3;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 2;
-            case "Footman":
+            case EntityNames.Footman:
                 return 1;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 1;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 3;
         }
         return 0;
@@ -551,10 +569,10 @@ public class EntityStats : MonoBehaviour {
         int range = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 range = entity.GetComponent<UndeadBehaviour>().range;
                 break;
-            case "human":
+            case FactionNames.Human:
                 range = entity.GetComponent<HumanBehaviour>().range;
                 break;
         }
@@ -567,10 +585,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().range = range;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().range = range;
                 break;
         }
@@ -582,32 +600,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 0;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 0;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 100;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 15;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 0;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 0;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 0;
-            case "Archer":
+            case EntityNames.Archer:
                 return 15;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 15;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 25;
-            case "Footman":
+            case EntityNames.Footman:
                 return 0;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 0;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 50;
         }
         return 0;
@@ -620,10 +638,10 @@ public class EntityStats : MonoBehaviour {
         int rangeattdmg = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 rangeattdmg = entity.GetComponent<UndeadBehaviour>().rangedattackdmg;
                 break;
-            case "human":
+            case FactionNames.Human:
                 rangeattdmg = entity.GetComponent<HumanBehaviour>().rangedattackdmg;
                 break;
         }
@@ -636,10 +654,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().rangedattackdmg = rangeattdmg;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().rangedattackdmg = rangeattdmg;
                 break;
         }
@@ -651,32 +669,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 0;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 10;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 35;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 5;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 0;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 25;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 5;
-            case "Archer":
+            case EntityNames.Archer:
                 return 5;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 5;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 15;
-            case "Footman":
+            case EntityNames.Footman:
                 return 15;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 20;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 45;
         }
         return 0;
@@ -689,10 +707,10 @@ public class EntityStats : MonoBehaviour {
         int armor = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 armor = entity.GetComponent<UndeadBehaviour>().armor;
                 break;
-            case "human":
+            case FactionNames.Human:
                 armor = entity.GetComponent<HumanBehaviour>().armor;
                 break;
         }
@@ -705,10 +723,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().armor = armor;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().armor = armor;
                 break;
         }
@@ -720,32 +738,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 0;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 5;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 15;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 0;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 10;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 15;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 5;
-            case "Archer":
+            case EntityNames.Archer:
                 return 0;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 0;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 5;
-            case "Footman":
+            case EntityNames.Footman:
                 return 10;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 15;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 35;
         }
         return 0;
@@ -758,10 +776,10 @@ public class EntityStats : MonoBehaviour {
         int armorpiercing = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 armorpiercing = entity.GetComponent<UndeadBehaviour>().armorpiercing;
                 break;
-            case "human":
+            case FactionNames.Human:
                 armorpiercing = entity.GetComponent<HumanBehaviour>().armorpiercing;
                 break;
         }
@@ -774,10 +792,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().armorpiercing = armorpiercing;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().armorpiercing = armorpiercing;
                 break;
         }
@@ -789,32 +807,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 0;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 0;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 50;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 5;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 0;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 0;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 0;
-            case "Archer":
+            case EntityNames.Archer:
                 return 5;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 5;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 15;
-            case "Footman":
+            case EntityNames.Footman:
                 return 0;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 0;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 15;
         }
         return 0;
@@ -827,10 +845,10 @@ public class EntityStats : MonoBehaviour {
         int rangedarmorpiercing = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 rangedarmorpiercing = entity.GetComponent<UndeadBehaviour>().rangedarmorpiercing;
                 break;
-            case "human":
+            case FactionNames.Human:
                 rangedarmorpiercing = entity.GetComponent<HumanBehaviour>().rangedarmorpiercing;
                 break;
         }
@@ -843,10 +861,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().rangedarmorpiercing = rangedarmorpiercing;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().rangedarmorpiercing = rangedarmorpiercing;
                 break;
         }
@@ -858,32 +876,32 @@ public class EntityStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 2;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 3;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 4;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 3;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 3;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 4;
 
-            case "Militia":
+            case EntityNames.Militia:
                 return 3;
-            case "Archer":
+            case EntityNames.Archer:
                 return 3;
-            case "Longbowman":
+            case EntityNames.Longbowman:
                 return 3;
-            case "Crossbowman":
+            case EntityNames.Crossbowman:
                 return 3;
-            case "Footman":
+            case EntityNames.Footman:
                 return 3;
-            case "MountedKnight":
+            case EntityNames.MountedKnight:
                 return 4;
-            case "HeroKing":
+            case EntityNames.LightsChosen:
                 return 4;
         }
         return 0;
@@ -896,10 +914,10 @@ public class EntityStats : MonoBehaviour {
         int vision = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 vision = entity.GetComponent<UndeadBehaviour>().vision;
                 break;
-            case "human":
+            case FactionNames.Human:
                 vision = entity.GetComponent<HumanBehaviour>().vision;
                 break;
         }
@@ -912,10 +930,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().vision = vision;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().vision = vision;
                 break;
         }
@@ -929,10 +947,10 @@ public class EntityStats : MonoBehaviour {
         bool idle = false;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 idle = entity.GetComponent<UndeadBehaviour>().idle;
                 break;
-            case "human":
+            case FactionNames.Human:
                 idle = entity.GetComponent<HumanBehaviour>().idle;
                 break;
         }
@@ -945,10 +963,10 @@ public class EntityStats : MonoBehaviour {
         string faction = WhichFactionEntity(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 entity.GetComponent<UndeadBehaviour>().idle = idle;
                 break;
-            case "human":
+            case FactionNames.Human:
                 entity.GetComponent<HumanBehaviour>().idle = idle;
                 break;
         }
@@ -960,33 +978,33 @@ public class EntityStats : MonoBehaviour {
         //------Determine Faction------
         switch (entity)
         {
-            case "Zombie":
-                return "undead";
-            case "Skeleton":
-                return "undead";
-            case "Necromancer":
-                return "undead";
-            case "SkeletonArcher":
-                return "undead";
-            case "ArmoredSkeleton":
-                return "undead";
-            case "DeathKnight":
-                return "undead";
+            case EntityNames.Zombie:
+                return FactionNames.Undead;
+            case EntityNames.Skeleton:
+                return FactionNames.Undead;
+            case EntityNames.Necromancer:
+                return FactionNames.Undead;
+            case EntityNames.SkeletonArcher:
+                return FactionNames.Undead;
+            case EntityNames.ArmoredSkeleton:
+                return FactionNames.Undead;
+            case EntityNames.DeathKnight:
+                return FactionNames.Undead;
 
-            case "Militia":
-                return "human";
-            case "Archer":
-                return "human";
-            case "Longbowman":
-                return "human";
-            case "Crossbowman":
-                return "human";
-            case "Footman":
-                return "human";
-            case "MountedKnight":
-                return "human";
-            case "HeroKing":
-                return "human";
+            case EntityNames.Militia:
+                return FactionNames.Human;
+            case EntityNames.Archer:
+                return FactionNames.Human;
+            case EntityNames.Longbowman:
+                return FactionNames.Human;
+            case EntityNames.Crossbowman:
+                return FactionNames.Human;
+            case EntityNames.Footman:
+                return FactionNames.Human;
+            case EntityNames.MountedKnight:
+                return FactionNames.Human;
+            case EntityNames.LightsChosen:
+                return FactionNames.Human;
         }
         return "unknown";
     }
@@ -997,17 +1015,17 @@ public class EntityStats : MonoBehaviour {
         //------Determine Cost------
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 100;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 150;
-            case "Necromancer":
+            case EntityNames.Necromancer:
                 return 10000;
-            case "SkeletonArcher":
+            case EntityNames.SkeletonArcher:
                 return 150;
-            case "ArmoredSkeleton":
+            case EntityNames.ArmoredSkeleton:
                 return 200;
-            case "DeathKnight":
+            case EntityNames.DeathKnight:
                 return 250;
         }
         return 0;

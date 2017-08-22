@@ -3,6 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
 
+public static class BuildingNames
+{
+    public const string UndeadVillage = "UndeadVillage";
+    public const string Necropolis = "Necropolis";
+
+    public const string Village = "Village";
+}
+
+public static class UpgradeNames
+{
+    public const string Graveyard = "Graveyard";
+    public const string ExcavationSite = "ExcavationSite";
+
+    public const string SinewFletchery = "SinewFletchery";
+}
+
 public class BuildingStats : MonoBehaviour {
 
     public List<string> undeadBuildings = new List<string>();
@@ -13,10 +29,10 @@ public class BuildingStats : MonoBehaviour {
     void Awake()
     {
         //undead buildings
-        undeadBuildings.Add("UndeadVillage");
-        undeadBuildings.Add("Necropolis");
+        undeadBuildings.Add(BuildingNames.UndeadVillage);
+        undeadBuildings.Add(BuildingNames.Necropolis);
         //human buildings
-        humanBuildings.Add("Village");
+        humanBuildings.Add(BuildingNames.Village);
     }
 
     public string CleanName(GameObject building)
@@ -32,12 +48,12 @@ public class BuildingStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "UndeadVillage":
+            case BuildingNames.UndeadVillage:
                 return 150;
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 return 300;
 
-            case "Village":
+            case BuildingNames.Village:
                 return 200;
         }
         return 0;
@@ -50,10 +66,10 @@ public class BuildingStats : MonoBehaviour {
         int health = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 health = building.GetComponent<UndeadBuilding>().maxhealth;
                 break;
-            case "human":
+            case FactionNames.Human:
                 health = building.GetComponent<HumanBuilding>().maxhealth;
                 break;
         }
@@ -67,10 +83,10 @@ public class BuildingStats : MonoBehaviour {
         int health = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 health = building.GetComponent<UndeadBuilding>().currhealth;
                 break;
-            case "human":
+            case FactionNames.Human:
                 health = building.GetComponent<HumanBuilding>().currhealth;
                 break;
         }
@@ -83,10 +99,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().maxhealth = health;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().maxhealth = health;
                 break;
         }
@@ -98,10 +114,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().currhealth = health;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().currhealth = health;
                 break;
         }
@@ -113,12 +129,12 @@ public class BuildingStats : MonoBehaviour {
     {
         switch (building)
         {
-            case "UndeadVillage":
+            case BuildingNames.UndeadVillage:
                 return 0;
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 return 3;
 
-            case "Village":
+            case BuildingNames.Village:
                 return 0;
         }
         return 0;
@@ -131,10 +147,10 @@ public class BuildingStats : MonoBehaviour {
         int range = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 range = building.GetComponent<UndeadBuilding>().range;
                 break;
-            case "human":
+            case FactionNames.Human:
                 range = building.GetComponent<HumanBuilding>().range;
                 break;
         }
@@ -147,10 +163,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().range = range;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().range = range;
                 break;
         }
@@ -162,12 +178,12 @@ public class BuildingStats : MonoBehaviour {
     {
         switch (building)
         {
-            case "UndeadVillage":
+            case BuildingNames.UndeadVillage:
                 return 0;
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 return 30;
 
-            case "Village":
+            case BuildingNames.Village:
                 return 0;
         }
         return 0;
@@ -180,10 +196,10 @@ public class BuildingStats : MonoBehaviour {
         int rangeattdmg = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 rangeattdmg = building.GetComponent<UndeadBuilding>().rangedattackdmg;
                 break;
-            case "human":
+            case FactionNames.Human:
                 rangeattdmg = building.GetComponent<HumanBuilding>().rangedattackdmg;
                 break;
         }
@@ -196,10 +212,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().rangedattackdmg = rangeattdmg;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().rangedattackdmg = rangeattdmg;
                 break;
         }
@@ -211,12 +227,12 @@ public class BuildingStats : MonoBehaviour {
     {
         switch (building)
         {
-            case "UndeadVillage":
+            case BuildingNames.UndeadVillage:
                 return 5;
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 return 20;
 
-            case "Village":
+            case BuildingNames.Village:
                 return 5;
         }
         return 0;
@@ -229,10 +245,10 @@ public class BuildingStats : MonoBehaviour {
         int defense = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 defense = building.GetComponent<UndeadBuilding>().defense;
                 break;
-            case "human":
+            case FactionNames.Human:
                 defense = building.GetComponent<HumanBuilding>().defense;
                 break;
         }
@@ -245,10 +261,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(entityName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().defense = defense;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().defense = defense;
                 break;
         }
@@ -260,12 +276,12 @@ public class BuildingStats : MonoBehaviour {
     {
         switch (building)
         {
-            case "UndeadVillage":
+            case BuildingNames.UndeadVillage:
                 return 2;
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 return 4;
 
-            case "Village":
+            case BuildingNames.Village:
                 return 2;
         }
         return 0;
@@ -278,10 +294,10 @@ public class BuildingStats : MonoBehaviour {
         int vision = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 vision = building.GetComponent<UndeadBuilding>().vision;
                 break;
-            case "human":
+            case FactionNames.Human:
                 vision = building.GetComponent<HumanBuilding>().vision;
                 break;
         }
@@ -294,10 +310,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().vision = vision;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().vision = vision;
                 break;
         }
@@ -310,20 +326,20 @@ public class BuildingStats : MonoBehaviour {
     {
         switch (building)
         {
-            case "UndeadVillage":
+            case BuildingNames.UndeadVillage:
                 return new List<string>()
                 {
-                    "Graveyard"
+                    UpgradeNames.Graveyard
                 };
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 return new List<string>()
                 {
-                    "Graveyard",
-                    "Excavation Site",
-                    "Dark Fletchery"
+                    UpgradeNames.Graveyard,
+                    UpgradeNames.ExcavationSite,
+                    UpgradeNames.SinewFletchery
                 };
 
-            case "Village":
+            case BuildingNames.Village:
                 return new List<string>()
                 {
                     "Chapel"
@@ -336,11 +352,11 @@ public class BuildingStats : MonoBehaviour {
     {
         switch (upgrade)
         {
-            case "Graveyard":
+            case UpgradeNames.Graveyard:
                 return 2;
-            case "Excavation Site":
+            case UpgradeNames.ExcavationSite:
                 return 2;
-            case "Dark Fletchery":
+            case UpgradeNames.SinewFletchery:
                 return 3;
 
             case "Chapel":
@@ -356,10 +372,10 @@ public class BuildingStats : MonoBehaviour {
         List<string> upgrades = new List<string>();
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 upgrades = building.GetComponent<UndeadBuilding>().upgrades;
                 break;
-            case "human":
+            case FactionNames.Human:
                 upgrades = building.GetComponent<HumanBuilding>().upgrades;
                 break;
         }
@@ -373,10 +389,10 @@ public class BuildingStats : MonoBehaviour {
         string currConstruction = string.Empty;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 currConstruction = building.GetComponent<UndeadBuilding>().currConstruction;
                 break;
-            case "human":
+            case FactionNames.Human:
                 currConstruction = building.GetComponent<HumanBuilding>().currConstruction;
                 break;
         }
@@ -389,10 +405,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().currConstruction = upgrade;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().currConstruction = upgrade;
                 break;
         }
@@ -405,10 +421,10 @@ public class BuildingStats : MonoBehaviour {
         int currConstructionTimer = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 currConstructionTimer = building.GetComponent<UndeadBuilding>().currConstructionTimer;
                 break;
-            case "human":
+            case FactionNames.Human:
                 currConstructionTimer = building.GetComponent<HumanBuilding>().currConstructionTimer;
                 break;
         }
@@ -421,10 +437,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().currConstructionTimer = time;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().currConstructionTimer = time;
                 break;
         }
@@ -441,26 +457,26 @@ public class BuildingStats : MonoBehaviour {
         {
             switch (upgrades[i])
             {
-                case "Graveyard":
-                    if (!possibleRecruitment.Contains("Zombie"))
+                case UpgradeNames.Graveyard:
+                    if (!possibleRecruitment.Contains(EntityNames.Zombie))
                     {
-                        possibleRecruitment.Add("Zombie");
+                        possibleRecruitment.Add(EntityNames.Zombie);
                     }
-                    if (!possibleRecruitment.Contains("Skeleton"))
+                    if (!possibleRecruitment.Contains(EntityNames.Skeleton))
                     {
-                        possibleRecruitment.Add("Skeleton");
+                        possibleRecruitment.Add(EntityNames.Skeleton);
                     }
                     break;
-                case "Excavation Site":
+                case UpgradeNames.ExcavationSite:
                     break;
-                case "Dark Fletchery":
+                case UpgradeNames.SinewFletchery:
                     if (!possibleRecruitment.Contains("Skeleton Archer"))
                     {
                         possibleRecruitment.Add("Skeleton Archer");
                     }
                     break;
 
-                case "Village":
+                case BuildingNames.Village:
                     break;
                 default:
                     break;
@@ -473,9 +489,9 @@ public class BuildingStats : MonoBehaviour {
     {
         switch (entity)
         {
-            case "Zombie":
+            case EntityNames.Zombie:
                 return 2;
-            case "Skeleton":
+            case EntityNames.Skeleton:
                 return 4;
             case "Skeleton Archer":
                 return 4;
@@ -493,10 +509,10 @@ public class BuildingStats : MonoBehaviour {
         string currRecruitment = string.Empty;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 currRecruitment = building.GetComponent<UndeadBuilding>().currRecruitment;
                 break;
-            case "human":
+            case FactionNames.Human:
                 currRecruitment = building.GetComponent<HumanBuilding>().currRecruitment;
                 break;
         }
@@ -509,10 +525,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().currRecruitment = entity;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().currRecruitment = entity;
                 break;
         }
@@ -525,10 +541,10 @@ public class BuildingStats : MonoBehaviour {
         int currRecruitmentTimer = 0;
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 currRecruitmentTimer = building.GetComponent<UndeadBuilding>().currRecruitmentTimer;
                 break;
-            case "human":
+            case FactionNames.Human:
                 currRecruitmentTimer = building.GetComponent<HumanBuilding>().currRecruitmentTimer;
                 break;
         }
@@ -541,10 +557,10 @@ public class BuildingStats : MonoBehaviour {
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
-            case "undead":
+            case FactionNames.Undead:
                 building.GetComponent<UndeadBuilding>().currRecruitment = time;
                 break;
-            case "human":
+            case FactionNames.Human:
                 building.GetComponent<HumanBuilding>().currRecruitment = time;
                 break;
         }
@@ -557,13 +573,13 @@ public class BuildingStats : MonoBehaviour {
         //------Determine Faction------
         switch (building)
         {
-            case "UndeadVillage":
-                return "undead";
-            case "Necropolis":
-                return "undead";
+            case BuildingNames.UndeadVillage:
+                return FactionNames.Undead;
+            case BuildingNames.Necropolis:
+                return FactionNames.Undead;
 
-            case "Village":
-                return "human";
+            case BuildingNames.Village:
+                return FactionNames.Human;
         }
         return "unknown";
     }
@@ -574,9 +590,9 @@ public class BuildingStats : MonoBehaviour {
         //------Determine Cost------
         switch (entity)
         {
-            case "UndeadVillage":
+            case BuildingNames.UndeadVillage:
                 return 100;
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 return 200;
         }
         return 0;

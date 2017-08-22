@@ -50,9 +50,9 @@ public class EntityStorage : MonoBehaviour {
         //------Determine Faction Entity List------
         switch (factionName)
         {
-            case "undead":
+            case FactionNames.Undead:
                 return entityStats.undeadEntities;
-            case "human":
+            case FactionNames.Human:
                 return entityStats.humanEntities;
         }
         return new List<string>();

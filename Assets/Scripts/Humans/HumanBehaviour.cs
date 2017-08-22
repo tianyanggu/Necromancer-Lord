@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class HumanBehaviour : MonoBehaviour {
-
+    public string player;
+    public string type;
     public int maxhealth;
     public int maxmana;
     public int attackdmg;

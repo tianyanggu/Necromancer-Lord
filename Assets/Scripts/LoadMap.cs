@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 
 public class LoadMap : MonoBehaviour {
+
 	public HexGrid hexGrid;
 	public Text healthLabel;
 	public Currency currency;
@@ -37,11 +38,11 @@ public class LoadMap : MonoBehaviour {
 	public void LoadEntities () {
 		gridCanvas = GetComponentInChildren<Canvas>();
 
-        //summon.SummonEntity(14, "Necromancer", "AA");
-        //summon.SummonEntity(12, "Militia", "BB");
-        //summon.SummonEntity(15, "Militia", "CA");
-        //summon.SummonEntity(3, "Skeleton", "AA");
-        //summon.SummonEntity(18, "Zombie", "AA");
+        //summon.SummonEntity(14, EntityNames.Necromancer, "AA");
+        //summon.SummonEntity(12, EntityNames.Militia, "BB");
+        //summon.SummonEntity(15, EntityNames.Militia, "CA");
+        //summon.SummonEntity(3, EntityNames.Skeleton, "AA");
+        //summon.SummonEntity(18, EntityNames.Zombie, "AA");
 
         List<UndeadEntityMemento> undeadEntityList = GameMemento.current.undeadEntityMementoList;
         int undeadEntityListLength = undeadEntityList.Count;
@@ -63,11 +64,11 @@ public class LoadMap : MonoBehaviour {
     {
         switch (buildingName)
         {
-            case "Necropolis":
+            case BuildingNames.Necropolis:
                 building.GetComponent<NecropolisMechanics>().lasthealth = health;
                 break;
 
-            case "Village":
+            case BuildingNames.Village:
                 building.GetComponent<VillageMechanics>().lasthealth = health;
                 break;
         }
@@ -142,19 +143,19 @@ public class LoadMap : MonoBehaviour {
 				string allCorpses = PlayerPrefs.GetString ("HexCorpses" + i + "corpse" + j);
 				string cleanCorpse = Regex.Replace(allCorpses, @"[\d-]", string.Empty);
 
-				if (cleanCorpse == "Militia") {
+				if (cleanCorpse == EntityNames.Militia) {
 					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == "Archer") {
+				} else if (cleanCorpse == EntityNames.Archer) {
 					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == "Longbowman") {
+				} else if (cleanCorpse == EntityNames.Longbowman) {
 					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == "Crossbowman") {
+				} else if (cleanCorpse == EntityNames.Crossbowman) {
 					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == "Footman") {
+				} else if (cleanCorpse == EntityNames.Footman) {
 					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == "MountedKnight") {
+				} else if (cleanCorpse == EntityNames.MountedKnight) {
 					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == "HeroKing") {
+				} else if (cleanCorpse == EntityNames.LightsChosen) {
 					hexGrid.SetCorpses (i, allCorpses);
 				}
 			}
@@ -183,7 +184,7 @@ public class LoadMap : MonoBehaviour {
 				//TODO remove when finished implementing storing several maps
 				//build.DestroyBuilding(i);
 			//} else if (terrainSeedVal < 0.15 && terrainSeedVal >= 0.10) {
-			//	build.BuildBuilding (i, "Village");
+			//	build.BuildBuilding (i, BuildingNames.Village);
 			//}
 		}
 	}

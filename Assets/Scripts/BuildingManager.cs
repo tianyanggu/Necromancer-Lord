@@ -26,29 +26,29 @@ public class BuildingManager : MonoBehaviour {
         currBuilding = hexGrid.GetBuildingObject(index);
 
         string faction = buildingStorage.WhichFactionBuilding(cleanBuildingName);
-        if (faction == "undead") {
-            if (cleanBuildingName == "Necropolis") {
+        if (faction == FactionNames.Undead) {
+            if (cleanBuildingName == BuildingNames.Necropolis) {
                 necropolisClicked = true;
                 if (currBuilding.GetComponent<NecropolisMechanics>().IsRecruitmentQueued == true)
                 {
                     RecruitmentQueued = true;
                 }
             }
-        } else if (faction == "human") {
+        } else if (faction == FactionNames.Human) {
 
         }
     }
 
     public void ProductionQueue (string building, string action, string production) {
         if (action == "Build") {
-            if (cleanBuildingName == "Necropolis")
+            if (cleanBuildingName == BuildingNames.Necropolis)
             {
                 currBuilding.GetComponent<UndeadBuilding>().UpdateProduction(production);
             }
         }
         else if (action == "Recruit")
         {
-            if (cleanBuildingName == "Necropolis")
+            if (cleanBuildingName == BuildingNames.Necropolis)
             {
                 currBuilding.GetComponent<NecropolisMechanics>().UpdateRecruitment(production);
             }
@@ -66,7 +66,7 @@ public class BuildingManager : MonoBehaviour {
         foreach (GameObject currBuildings in buildingStorage.PlayerBuildingList(playerChar))
         {
             string cleanStorageBuildingName = Regex.Replace(currBuildings.name.Substring(2), @"[\d-]", string.Empty);
-            if (cleanStorageBuildingName == "Necropolis")
+            if (cleanStorageBuildingName == BuildingNames.Necropolis)
             {
                 currBuildings.GetComponent<NecropolisMechanics>().TickProductionTimer();
                 currBuildings.GetComponent<NecropolisMechanics>().TickRecruitmentTimer();
@@ -119,17 +119,17 @@ public class BuildingManager : MonoBehaviour {
         if (necropolisBuild)
         {
             //TODO Add hover window for text details
-            if (GUI.Button(new Rect(800, 240, 120, 20), "Graveyard")) //Allows Recruiting Zombies
+            if (GUI.Button(new Rect(800, 240, 120, 20), UpgradeNames.Graveyard)) //Allows Recruiting Zombies
             {
-                ProductionQueue(selBuilding, "Build", "Graveyard"); 
+                ProductionQueue(selBuilding, "Build", UpgradeNames.Graveyard); 
             }
-            if (GUI.Button(new Rect(800,260,120,20), "Excavation Site")) //Allows Recruiting Skeletons
+            if (GUI.Button(new Rect(800,260,120,20), UpgradeNames.ExcavationSite)) //Allows Recruiting Skeletons
             {
-                ProductionQueue(selBuilding, "Build", "Excavation Site"); 
+                ProductionQueue(selBuilding, "Build", UpgradeNames.ExcavationSite); 
             }
-            if (GUI.Button(new Rect(800, 280, 120, 20), "Dark Fletchery")) //Allows Recruiting Skeleton Archers. Requires Excavation Site.
+            if (GUI.Button(new Rect(800, 280, 120, 20), UpgradeNames.SinewFletchery)) //Allows Recruiting Skeleton Archers. Requires Excavation Site.
             {
-                ProductionQueue(selBuilding, "Build", "Dark Fletchery");
+                ProductionQueue(selBuilding, "Build", UpgradeNames.SinewFletchery);
             }
             //if (GUI.Button(new Rect(800, 260, 120, 20), "Dark Magic Forge")) //Allows Recruiting Skeletons Mages. Requires Excavation Site.
             //{
@@ -138,13 +138,13 @@ public class BuildingManager : MonoBehaviour {
         }
         if (necropolisRecruitment)
         {
-            if(GUI.Button(new Rect(800,240,120,20), "Zombie")) //Weak Early Tier Melee Unit. Resistent to other weak unit's attacks.
+            if(GUI.Button(new Rect(800,240,120,20), EntityNames.Zombie)) //Weak Early Tier Melee Unit. Resistent to other weak unit's attacks.
             {
-                ProductionQueue(selBuilding, "Recruit", "Zombie");
+                ProductionQueue(selBuilding, "Recruit", EntityNames.Zombie);
 		    }
-            if(GUI.Button(new Rect(800,260,120,20), "Skeleton")) //Early Tier Melee Unit.
+            if(GUI.Button(new Rect(800,260,120,20), EntityNames.Skeleton)) //Early Tier Melee Unit.
             {
-                ProductionQueue(selBuilding, "Recruit", "Skeleton");
+                ProductionQueue(selBuilding, "Recruit", EntityNames.Skeleton);
 		    }
             if (GUI.Button(new Rect(800, 280, 120, 20), "Skeleton Archer")) //Early Tier Physical Ranged Unit.
             {

@@ -2,6 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public static class FactionNames
+{
+    public const string Undead = "Undead";
+    public const string Human = "Human";
+}
+
 public class PlayerManager : MonoBehaviour {
 
     //Players are assigned a code for the game to recognize them
@@ -31,9 +37,9 @@ public class PlayerManager : MonoBehaviour {
         }
         if (activePlayersFaction.Count == 0)
         {
-            activePlayersFaction.Add("AA", "undead");
-            activePlayersFaction.Add("BB", "human");
-            activePlayersFaction.Add("CA", "human");
+            activePlayersFaction.Add("AA", FactionNames.Undead);
+            activePlayersFaction.Add("BB", FactionNames.Human);
+            activePlayersFaction.Add("CA", FactionNames.Human);
         }
         if (activePlayersOrder.Count == 0)
         {

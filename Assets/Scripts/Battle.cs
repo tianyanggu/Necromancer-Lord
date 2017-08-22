@@ -234,29 +234,29 @@ public class Battle : MonoBehaviour {
 	}
 
 	void CalcSouls(string faction, string diedentity) {
-		if (faction == "undead") {
+		if (faction == FactionNames.Undead) {
             switch (diedentity)
             {
                 //HUMANS
-                case "Militia":
+                case EntityNames.Militia:
                     currency.ChangeSouls(100);
                     break;
-                case "Archer":
+                case EntityNames.Archer:
                     currency.ChangeSouls(150);
                     break;
-                case "Longbowman":
+                case EntityNames.Longbowman:
                     currency.ChangeSouls(200);
                     break;
-                case "Crossbowman":
+                case EntityNames.Crossbowman:
                     currency.ChangeSouls(150);
                     break;
-                case "Footman":
+                case EntityNames.Footman:
                     currency.ChangeSouls(150);
                     break;
-                case "MountedKnight":
+                case EntityNames.MountedKnight:
                     currency.ChangeSouls(200);
                     break;
-                case "HeroKing":
+                case EntityNames.LightsChosen:
                     currency.ChangeSouls(1000);
                     break;
             }

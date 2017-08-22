@@ -48,12 +48,12 @@ public class Game : MonoBehaviour {
             if (hexGrid.cells[i].entityObj != null)
             {
                 string entityType = Regex.Replace(hexGrid.cells[i].entityName.Substring(2), @"[\d-]", string.Empty);
-                if (entityStats.WhichFactionEntity(entityType) == "undead")
+                if (entityStats.WhichFactionEntity(entityType) == FactionNames.Undead)
                 {
                     UndeadEntityMemento undeadEntityMemento = new UndeadEntityMemento();
                     SetUndeadEntities(undeadEntityMemento, i);
                     GameMemento.current.undeadEntityMementoList.Add(undeadEntityMemento);
-                } else if (entityStats.WhichFactionEntity(entityType) == "human")
+                } else if (entityStats.WhichFactionEntity(entityType) == FactionNames.Human)
                 {
                     HumanEntityMemento humanEntityMemento = new HumanEntityMemento();
                     SetHumanEntities(humanEntityMemento, i);
