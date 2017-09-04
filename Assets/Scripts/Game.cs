@@ -82,54 +82,54 @@ public class Game : MonoBehaviour {
 
     private void SetUndeadEntities (UndeadEntityMemento undeadEntityMemento, int i)
     {
-        undeadEntityMemento.playerID = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().playerID;
-        undeadEntityMemento.type = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().type;
-        undeadEntityMemento.cellIndex = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().cellIndex;
+        undeadEntityMemento.playerID = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().playerID;
+        undeadEntityMemento.type = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().type;
+        undeadEntityMemento.cellIndex = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().cellIndex;
 
-        undeadEntityMemento.maxhealth = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().maxhealth;
-        undeadEntityMemento.maxmana = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().maxmana;
-        undeadEntityMemento.attackdmg = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().attackdmg;
-        undeadEntityMemento.maxattackpoint = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().maxattackpoint;
-        undeadEntityMemento.maxmovementpoint = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().maxmovementpoint;
-        undeadEntityMemento.range = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().range;
-        undeadEntityMemento.rangedattackdmg = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().rangedattackdmg;
-        undeadEntityMemento.armor = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().armor;
-        undeadEntityMemento.armorpiercing = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().armorpiercing;
-        undeadEntityMemento.rangedarmorpiercing = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().rangedarmorpiercing;
-        undeadEntityMemento.vision = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().vision;
+        undeadEntityMemento.maxhealth = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().maxhealth;
+        undeadEntityMemento.maxmana = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().maxmana;
+        undeadEntityMemento.attackdmg = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().attackdmg;
+        undeadEntityMemento.maxattackpoint = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().maxattackpoint;
+        undeadEntityMemento.maxmovementpoint = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().maxmovementpoint;
+        undeadEntityMemento.range = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().range;
+        undeadEntityMemento.rangedattackdmg = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().rangedattackdmg;
+        undeadEntityMemento.armor = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().armor;
+        undeadEntityMemento.armorpiercing = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().armorpiercing;
+        undeadEntityMemento.rangedarmorpiercing = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().rangedarmorpiercing;
+        undeadEntityMemento.vision = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().vision;
 
-        undeadEntityMemento.currhealth = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().currhealth;
-        undeadEntityMemento.currmana = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().currmana;
-        undeadEntityMemento.currattackpoint = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().currattackpoint;
-        undeadEntityMemento.currmovementpoint = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().currmovementpoint;
+        undeadEntityMemento.currhealth = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().currhealth;
+        undeadEntityMemento.currmana = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().currmana;
+        undeadEntityMemento.currattackpoint = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().currattackpoint;
+        undeadEntityMemento.currmovementpoint = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().currmovementpoint;
 
-        undeadEntityMemento.idle = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().idle;
+        undeadEntityMemento.idle = hexGrid.cells[i].entityObj.GetComponent<UndeadEntity>().idle;
     }
 
     private void SetHumanEntities(HumanEntityMemento humanEntityMemento, int i)
     {
-        humanEntityMemento.playerID = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().playerID;
-        humanEntityMemento.type = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().type;
-        humanEntityMemento.cellIndex = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().cellIndex;
+        humanEntityMemento.playerID = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().playerID;
+        humanEntityMemento.type = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().type;
+        humanEntityMemento.cellIndex = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().cellIndex;
 
-        humanEntityMemento.maxhealth = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().maxhealth;
-        humanEntityMemento.maxmana = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().maxmana;
-        humanEntityMemento.attackdmg = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().attackdmg;
-        humanEntityMemento.maxattackpoint = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().maxattackpoint;
-        humanEntityMemento.maxmovementpoint = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().maxmovementpoint;
-        humanEntityMemento.range = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().range;
-        humanEntityMemento.rangedattackdmg = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().rangedattackdmg;
-        humanEntityMemento.armor = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().armor;
-        humanEntityMemento.armorpiercing = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().armorpiercing;
-        humanEntityMemento.rangedarmorpiercing = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().rangedarmorpiercing;
-        humanEntityMemento.vision = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().vision;
+        humanEntityMemento.maxhealth = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().maxhealth;
+        humanEntityMemento.maxmana = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().maxmana;
+        humanEntityMemento.attackdmg = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().attackdmg;
+        humanEntityMemento.maxattackpoint = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().maxattackpoint;
+        humanEntityMemento.maxmovementpoint = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().maxmovementpoint;
+        humanEntityMemento.range = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().range;
+        humanEntityMemento.rangedattackdmg = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().rangedattackdmg;
+        humanEntityMemento.armor = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().armor;
+        humanEntityMemento.armorpiercing = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().armorpiercing;
+        humanEntityMemento.rangedarmorpiercing = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().rangedarmorpiercing;
+        humanEntityMemento.vision = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().vision;
 
-        humanEntityMemento.currhealth = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().currhealth;
-        humanEntityMemento.currmana = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().currmana;
-        humanEntityMemento.currattackpoint = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().currattackpoint;
-        humanEntityMemento.currmovementpoint = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().currmovementpoint;
+        humanEntityMemento.currhealth = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().currhealth;
+        humanEntityMemento.currmana = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().currmana;
+        humanEntityMemento.currattackpoint = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().currattackpoint;
+        humanEntityMemento.currmovementpoint = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().currmovementpoint;
 
-        humanEntityMemento.idle = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().idle;
+        humanEntityMemento.idle = hexGrid.cells[i].entityObj.GetComponent<HumanEntity>().idle;
     }
 
     private void SetUndeadBuildings(UndeadBuildingMemento undeadBuildingMemento, int i)

@@ -74,6 +74,11 @@ public class Summon : MonoBehaviour {
         hexGrid.SetEntityObject(undeadEntityMemento.cellIndex, entity);
         hexGrid.SetEntityName(undeadEntityMemento.cellIndex, availableName);
 
+        entityStats.SetPlayerID(entity, undeadEntityMemento.playerID);
+        entityStats.SetType(entity, undeadEntityMemento.type);
+        entityStats.SetUniqueID(entity, undeadEntityMemento.uniqueID);
+        entityStats.SetCellIndex(entity, undeadEntityMemento.cellIndex);
+
         entityStats.SetCurrHealth(entity, undeadEntityMemento.currhealth);
         entityStats.SetMaxHealth(entity, undeadEntityMemento.maxhealth);
         entityStats.SetCurrMana(entity, undeadEntityMemento.currmana);
@@ -89,6 +94,8 @@ public class Summon : MonoBehaviour {
         entityStats.SetArmorPiercing(entity, undeadEntityMemento.armorpiercing);
         entityStats.SetRangedArmorPiercing(entity, undeadEntityMemento.rangedarmorpiercing);
         entityStats.SetVision(entity, undeadEntityMemento.vision);
+        entityStats.SetPermaEffects(entity, undeadEntityMemento.permaEffects);
+        entityStats.SetTempEffects(entity, undeadEntityMemento.tempEffects);
 
         loadMap.CreateHealthLabel(undeadEntityMemento.cellIndex, undeadEntityMemento.currhealth, availableName);
     }
@@ -112,6 +119,11 @@ public class Summon : MonoBehaviour {
         hexGrid.SetEntityObject(humanEntityMemento.cellIndex, entity);
         hexGrid.SetEntityName(humanEntityMemento.cellIndex, availableName);
 
+        entityStats.SetPlayerID(entity, humanEntityMemento.playerID);
+        entityStats.SetType(entity, humanEntityMemento.type);
+        entityStats.SetUniqueID(entity, humanEntityMemento.uniqueID);
+        entityStats.SetCellIndex(entity, humanEntityMemento.cellIndex);
+
         entityStats.SetCurrHealth(entity, humanEntityMemento.currhealth);
         entityStats.SetMaxHealth(entity, humanEntityMemento.maxhealth);
         entityStats.SetCurrMana(entity, humanEntityMemento.currmana);
@@ -127,6 +139,8 @@ public class Summon : MonoBehaviour {
         entityStats.SetArmorPiercing(entity, humanEntityMemento.armorpiercing);
         entityStats.SetRangedArmorPiercing(entity, humanEntityMemento.rangedarmorpiercing);
         entityStats.SetVision(entity, humanEntityMemento.vision);
+        entityStats.SetPermaEffects(entity, humanEntityMemento.permaEffects);
+        entityStats.SetTempEffects(entity, humanEntityMemento.tempEffects);
 
         loadMap.CreateHealthLabel(humanEntityMemento.cellIndex, humanEntityMemento.currhealth, availableName);
     }

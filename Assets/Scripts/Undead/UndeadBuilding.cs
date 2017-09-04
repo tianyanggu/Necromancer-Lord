@@ -15,7 +15,9 @@ public class UndeadBuilding : MonoBehaviour {
     public int rangedattackdmg;
     public int defense;
     public int vision;
-    public List<string> upgrades;
+    public List<string> upgrades = new List<string>();
+    public List<string> permaEffects = new List<string>();
+    public List<KeyValuePair<string, int>> tempEffects = new List<KeyValuePair<string, int>>();
 
     public string currConstruction = "Empty";
     public int currConstructionTimer;

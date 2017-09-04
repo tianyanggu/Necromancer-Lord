@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class UndeadEntityMemento {
@@ -20,6 +21,8 @@ public class UndeadEntityMemento {
     public int armorpiercing;
     public int rangedarmorpiercing;
     public int vision;
+    public List<string> permaEffects;
+    public List<KeyValuePair<string, int>> tempEffects;
 
     public int currhealth;
     public int currmana;

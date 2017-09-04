@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using System;
 
 public static class BuildingNames
 {
@@ -37,84 +38,152 @@ public class BuildingStats : MonoBehaviour {
 
     public string CleanName(GameObject building)
     {
-        string cleanEntity = Regex.Replace(building.name.Substring(2), @"[\d-]", string.Empty);
-        return cleanEntity;
+        string cleanbuilding = Regex.Replace(building.name.Substring(2), @"[\d-]", string.Empty);
+        return cleanbuilding;
     }
 
     //TODO recruitment time of building, might fit in entity instead
 
     #region playerID
-    public string GetPlayerID(GameObject entity)
+    public string GetPlayerID(GameObject building)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionBuilding(entityName);
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
         string player = string.Empty;
         switch (faction)
         {
             case FactionNames.Undead:
-                player = entity.GetComponent<UndeadBuilding>().player;
+                player = building.GetComponent<UndeadBuilding>().playerID;
                 break;
             case FactionNames.Human:
-                player = entity.GetComponent<HumanBuilding>().player;
+                player = building.GetComponent<HumanBuilding>().playerID;
                 break;
         }
         return player;
     }
 
-    public void SetPlayerID(GameObject entity, string player)
+    public void SetPlayerID(GameObject building, string playerID)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionBuilding(entityName);
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
             case FactionNames.Undead:
-                entity.GetComponent<UndeadBuilding>().player = player;
+                building.GetComponent<UndeadBuilding>().playerID = playerID;
                 break;
             case FactionNames.Human:
-                entity.GetComponent<HumanBuilding>().player = player;
+                building.GetComponent<HumanBuilding>().playerID = playerID;
                 break;
         }
     }
     #endregion
 
     #region type
-    public string GetType(GameObject entity)
+    public string GetType(GameObject building)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionBuilding(entityName);
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
         string type = string.Empty;
         switch (faction)
         {
             case FactionNames.Undead:
-                type = entity.GetComponent<UndeadBuilding>().type;
+                type = building.GetComponent<UndeadBuilding>().type;
                 break;
             case FactionNames.Human:
-                type = entity.GetComponent<HumanBuilding>().type;
+                type = building.GetComponent<HumanBuilding>().type;
                 break;
         }
         return type;
     }
 
-    public void SetType(GameObject entity, string type)
+    public void SetType(GameObject building, string type)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionBuilding(entityName);
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
             case FactionNames.Undead:
-                entity.GetComponent<UndeadBuilding>().type = type;
+                building.GetComponent<UndeadBuilding>().type = type;
                 break;
             case FactionNames.Human:
-                entity.GetComponent<HumanBuilding>().type = type;
+                building.GetComponent<HumanBuilding>().type = type;
+                break;
+        }
+    }
+    #endregion
+
+    #region uniqueID
+    public Guid GetUniqueID(GameObject building)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        Guid player = Guid.Empty;
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                player = building.GetComponent<UndeadBuilding>().uniqueID;
+                break;
+            case FactionNames.Human:
+                player = building.GetComponent<HumanBuilding>().uniqueID;
+                break;
+        }
+        return player;
+    }
+
+    public void SetUniqueID(GameObject building, Guid uniqueID)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().uniqueID = uniqueID;
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().uniqueID = uniqueID;
+                break;
+        }
+    }
+    #endregion
+
+    #region cellIndex
+    public int GetCellIndex(GameObject building)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        int player = 0;
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                player = building.GetComponent<UndeadBuilding>().cellIndex;
+                break;
+            case FactionNames.Human:
+                player = building.GetComponent<HumanBuilding>().cellIndex;
+                break;
+        }
+        return player;
+    }
+
+    public void SetCellIndex(GameObject building, int cellIndex)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().cellIndex = cellIndex;
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().cellIndex = cellIndex;
                 break;
         }
     }
     #endregion
 
     #region health
-    public int GetMaxHealth(string entity)
+    public int GetMaxHealth(string building)
     {
-        switch (entity)
+        switch (building)
         {
             case BuildingNames.UndeadVillage:
                 return 150;
@@ -308,8 +377,8 @@ public class BuildingStats : MonoBehaviour {
 
     public int GetCurrDefense(GameObject building)
     {
-        string entityName = CleanName(building);
-        string faction = WhichFactionBuilding(entityName);
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
         int defense = 0;
         switch (faction)
         {
@@ -325,8 +394,8 @@ public class BuildingStats : MonoBehaviour {
 
     public void SetDefense(GameObject building, int defense)
     {
-        string entityName = CleanName(building);
-        string faction = WhichFactionBuilding(entityName);
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
             case FactionNames.Undead:
@@ -450,6 +519,36 @@ public class BuildingStats : MonoBehaviour {
         return upgrades;
     }
 
+    public void AddCompletedUpgrades(GameObject building, string upgrade)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().upgrades.Add(upgrade);
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().upgrades.Add(upgrade);
+                break;
+        }
+    }
+
+    public void RemoveCompletedUpgrades(GameObject building, string upgrade)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().upgrades.Remove(upgrade);
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().upgrades.Remove(upgrade);
+                break;
+        }
+    }
+
     public string GetCurrConstruction(GameObject building)
     {
         string buildingName = CleanName(building);
@@ -515,8 +614,136 @@ public class BuildingStats : MonoBehaviour {
     }
     #endregion
 
+    #region permaEffects
+    public List<string> GetPermaEffects(GameObject building)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        List<string> permaEffects = new List<string>();
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                permaEffects = building.GetComponent<UndeadBuilding>().permaEffects;
+                break;
+            case FactionNames.Human:
+                permaEffects = building.GetComponent<HumanBuilding>().permaEffects;
+                break;
+        }
+        return permaEffects;
+    }
+
+    public void SetPermaEffects(GameObject building, List<string> permaEffects)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().permaEffects = permaEffects;
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().permaEffects = permaEffects;
+                break;
+        }
+    }
+
+    public void AddPermaEffects(GameObject building, string permaEffects)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().permaEffects.Add(permaEffects);
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().permaEffects.Add(permaEffects);
+                break;
+        }
+    }
+
+    public void RemovePermaEffects(GameObject building, string permaEffects)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().permaEffects.Remove(permaEffects);
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().permaEffects.Remove(permaEffects);
+                break;
+        }
+    }
+    #endregion
+
+    #region tempEffects
+    public List<KeyValuePair<string, int>> GetTempEffects(GameObject building)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        List<KeyValuePair<string, int>> tempEffects = new List<KeyValuePair<string, int>>();
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                tempEffects = building.GetComponent<UndeadBuilding>().tempEffects;
+                break;
+            case FactionNames.Human:
+                tempEffects = building.GetComponent<HumanBuilding>().tempEffects;
+                break;
+        }
+        return tempEffects;
+    }
+
+    public void SetTempEffects(GameObject building, List<KeyValuePair<string, int>> tempEffects)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().tempEffects = tempEffects;
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().tempEffects = tempEffects;
+                break;
+        }
+    }
+
+    public void AddTempEffects(GameObject building, string tempEffects, int duration)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().tempEffects.Add(new KeyValuePair<string, int>(tempEffects, duration));
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().tempEffects.Add(new KeyValuePair<string, int>(tempEffects, duration));
+                break;
+        }
+    }
+
+    public void RemoveTempEffects(GameObject building, string tempEffects, int duration)
+    {
+        string buildingName = CleanName(building);
+        string faction = WhichFactionBuilding(buildingName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                building.GetComponent<UndeadBuilding>().tempEffects.Remove(new KeyValuePair<string, int>(tempEffects, duration));
+                break;
+            case FactionNames.Human:
+                building.GetComponent<HumanBuilding>().tempEffects.Remove(new KeyValuePair<string, int>(tempEffects, duration));
+                break;
+        }
+    }
+    #endregion
+
     //Recruitment - does not follow building name rule, follows upgrade on building and player faction
-    //also does not follow switch case of buildings since checks entity
+    //also does not follow switch case of buildings since checks building
     #region 
     public HashSet<string> GetPossibleRecruitment(List<string> upgrades)
     {
@@ -553,9 +780,9 @@ public class BuildingStats : MonoBehaviour {
         return possibleRecruitment;
     }
 
-    public int GetRecruitmentTime(string entity)
+    public int GetRecruitmentTime(string building)
     {
-        switch (entity)
+        switch (building)
         {
             case EntityNames.Zombie:
                 return 2;
@@ -587,17 +814,17 @@ public class BuildingStats : MonoBehaviour {
         return currRecruitment;
     }
 
-    public void SetCurrRecruitment(GameObject building, string entity)
+    public void SetCurrRecruitment(GameObject building, string recruit)
     {
         string buildingName = CleanName(building);
         string faction = WhichFactionBuilding(buildingName);
         switch (faction)
         {
             case FactionNames.Undead:
-                building.GetComponent<UndeadBuilding>().currRecruitment = entity;
+                building.GetComponent<UndeadBuilding>().currRecruitment = recruit;
                 break;
             case FactionNames.Human:
-                building.GetComponent<HumanBuilding>().currRecruitment = entity;
+                building.GetComponent<HumanBuilding>().currRecruitment = recruit;
                 break;
         }
     }
@@ -653,10 +880,10 @@ public class BuildingStats : MonoBehaviour {
     }
 
     //returns summon soul cost
-    public int buildSoulCost(string entity)
+    public int buildSoulCost(string building)
     {
         //------Determine Cost------
-        switch (entity)
+        switch (building)
         {
             case BuildingNames.UndeadVillage:
                 return 100;

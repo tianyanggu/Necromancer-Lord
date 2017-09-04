@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
-public class UndeadBehaviour : MonoBehaviour {
+public class HumanEntity : MonoBehaviour {
     public string playerID;
     public string type;
     public Guid uniqueID;
@@ -19,6 +20,8 @@ public class UndeadBehaviour : MonoBehaviour {
     public int armorpiercing;
     public int rangedarmorpiercing;
     public int vision;
+    public List<string> permaEffects = new List<string>();
+    public List<KeyValuePair<string, int>> tempEffects = new List<KeyValuePair<string, int>>();
 
     public int currhealth;
     public int currmana;

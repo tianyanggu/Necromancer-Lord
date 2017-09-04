@@ -97,8 +97,8 @@
     <Compile Include="Assets\Scripts\HexMapEditor.cs" />
     <Compile Include="Assets\Scripts\HexMesh.cs" />
     <Compile Include="Assets\Scripts\HexMetrics.cs" />
-    <Compile Include="Assets\Scripts\Humans\HumanBehaviour.cs" />
     <Compile Include="Assets\Scripts\Humans\HumanBuilding.cs" />
+    <Compile Include="Assets\Scripts\Humans\HumanEntity.cs" />
     <Compile Include="Assets\Scripts\LoadMap.cs" />
     <Compile Include="Assets\Scripts\Locate.cs" />
     <Compile Include="Assets\Scripts\Mementos\HexGridMemento.cs" />
@@ -113,8 +113,8 @@
     <Compile Include="Assets\Scripts\Select.cs" />
     <Compile Include="Assets\Scripts\Souls.cs" />
     <Compile Include="Assets\Scripts\Summon.cs" />
-    <Compile Include="Assets\Scripts\Undead\UndeadBehaviour.cs" />
     <Compile Include="Assets\Scripts\Undead\UndeadBuilding.cs" />
+    <Compile Include="Assets\Scripts\Undead\UndeadEntity.cs" />
     <Compile Include="Assets\Scripts\Vision.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,8 @@ public class UndeadBuildingMemento {
     public int defense;
     public int vision;
     public List<string> upgrades;
+    public List<string> permaEffects;
+    public List<KeyValuePair<string, int>> tempEffects;
 
     public string currConstruction;
     public int currConstructionTimer;
