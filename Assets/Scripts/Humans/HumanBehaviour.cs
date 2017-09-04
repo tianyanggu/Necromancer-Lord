@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class HumanBehaviour : MonoBehaviour {
-    public string player;
+    public string playerID;
     public string type;
+    public Guid uniqueID;
+    public int cellIndex;
+
     public int maxhealth;
     public int maxmana;
     public int attackdmg;

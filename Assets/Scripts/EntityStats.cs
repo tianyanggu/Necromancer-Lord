@@ -53,6 +53,74 @@ public class EntityStats : MonoBehaviour {
         return cleanEntity;
     }
 
+    #region playerID
+    public string GetPlayerID(GameObject entity)
+    {
+        string entityName = CleanName(entity);
+        string faction = WhichFactionEntity(entityName);
+        string player = string.Empty;
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                player = entity.GetComponent<UndeadBehaviour>().player;
+                break;
+            case FactionNames.Human:
+                player = entity.GetComponent<HumanBehaviour>().player;
+                break;
+        }
+        return player;
+    }
+
+    public void SetPlayerID(GameObject entity, string player)
+    {
+        string entityName = CleanName(entity);
+        string faction = WhichFactionEntity(entityName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                entity.GetComponent<UndeadBehaviour>().player = player;
+                break;
+            case FactionNames.Human:
+                entity.GetComponent<HumanBehaviour>().player = player;
+                break;
+        }
+    }
+    #endregion
+
+    #region type
+    public string GetType(GameObject entity)
+    {
+        string entityName = CleanName(entity);
+        string faction = WhichFactionEntity(entityName);
+        string type = string.Empty;
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                type = entity.GetComponent<UndeadBehaviour>().type;
+                break;
+            case FactionNames.Human:
+                type = entity.GetComponent<HumanBehaviour>().type;
+                break;
+        }
+        return type;
+    }
+
+    public void SetType(GameObject entity, string type)
+    {
+        string entityName = CleanName(entity);
+        string faction = WhichFactionEntity(entityName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                entity.GetComponent<UndeadBehaviour>().type = type;
+                break;
+            case FactionNames.Human:
+                entity.GetComponent<HumanBehaviour>().type = type;
+                break;
+        }
+    }
+    #endregion
+
     #region health
     public int GetMaxHealth(string entity)
     {

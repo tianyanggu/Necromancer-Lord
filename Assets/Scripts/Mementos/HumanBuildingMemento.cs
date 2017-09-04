@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+using UnityEngine;
 
 [System.Serializable]
-public class UndeadBuildingMemento {
+public class HumanBuildingMemento {
     public string playerID;
     public string type;
     public Guid uniqueID;

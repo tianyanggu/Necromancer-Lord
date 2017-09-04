@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 [System.Serializable]
 public class UndeadEntityMemento {
-    public string name;
+    public string playerID;
+    public string type;
+    public Guid uniqueID;
     public int cellIndex;
 
     public int maxhealth;

@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class HumanBuilding : MonoBehaviour {
-
-    public string player;
+    public string playerID;
     public string type;
-	public int currhealth;
+    public Guid uniqueID;
+    public int cellIndex;
+
+    public int currhealth;
 	public int maxhealth;
     public int range;
     public int rangedattackdmg;
@@ -19,7 +22,7 @@ public class HumanBuilding : MonoBehaviour {
 
     public string currRecruitment = "Empty";
     public int currRecruitmentTimer;
-    public bool IsRecruitmentQueued;
+    public bool isRecruitmentQueued;
 
     public void TickProductionTimer()
     {
@@ -62,7 +65,7 @@ public class HumanBuilding : MonoBehaviour {
             }
             else
             {
-                IsRecruitmentQueued = true;
+                isRecruitmentQueued = true;
             }
         }
     }

@@ -65,11 +65,11 @@ public class LoadMap : MonoBehaviour {
         switch (buildingName)
         {
             case BuildingNames.Necropolis:
-                building.GetComponent<NecropolisMechanics>().lasthealth = health;
+                building.GetComponent<UndeadBuilding>().currhealth = health;
                 break;
 
             case BuildingNames.Village:
-                building.GetComponent<VillageMechanics>().lasthealth = health;
+                building.GetComponent<HumanBuilding>().currhealth = health;
                 break;
         }
     }

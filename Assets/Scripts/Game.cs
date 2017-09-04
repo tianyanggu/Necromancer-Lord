@@ -7,6 +7,7 @@ public class Game : MonoBehaviour {
     public string gameID;
     public HexGrid hexGrid;
     public EntityStats entityStats;
+    public BuildingStats buildingStats;
     public PlayerManager playerManager;
     public Currency currency;
 
@@ -60,13 +61,30 @@ public class Game : MonoBehaviour {
                     GameMemento.current.humanEntityMementoList.Add(humanEntityMemento);
                 }
             }
+            if (hexGrid.cells[i].buildingObj != null)
+            {
+                string buildingType = Regex.Replace(hexGrid.cells[i].entityName.Substring(2), @"[\d-]", string.Empty);
+                if (buildingStats.WhichFactionBuilding(buildingType) == FactionNames.Undead)
+                {
+                    UndeadBuildingMemento undeadBuildingMemento = new UndeadBuildingMemento();
+                    SetUndeadBuildings(undeadBuildingMemento, i);
+                    GameMemento.current.undeadBuildingMementoList.Add(undeadBuildingMemento);
+                }
+                else if (buildingStats.WhichFactionBuilding(buildingType) == FactionNames.Human)
+                {
+                    HumanBuildingMemento humanBuildingMemento = new HumanBuildingMemento();
+                    SetHumanBuildings(humanBuildingMemento, i);
+                    GameMemento.current.humanBuildingMementoList.Add(humanBuildingMemento);
+                }
+            }
         }
     }
 
     private void SetUndeadEntities (UndeadEntityMemento undeadEntityMemento, int i)
     {
-        undeadEntityMemento.name = hexGrid.cells[i].entityName;
-        undeadEntityMemento.cellIndex = i;
+        undeadEntityMemento.playerID = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().playerID;
+        undeadEntityMemento.type = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().type;
+        undeadEntityMemento.cellIndex = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().cellIndex;
 
         undeadEntityMemento.maxhealth = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().maxhealth;
         undeadEntityMemento.maxmana = hexGrid.cells[i].entityObj.GetComponent<UndeadBehaviour>().maxmana;
@@ -90,8 +108,9 @@ public class Game : MonoBehaviour {
 
     private void SetHumanEntities(HumanEntityMemento humanEntityMemento, int i)
     {
-        humanEntityMemento.name = hexGrid.cells[i].entityName;
-        humanEntityMemento.cellIndex = i;
+        humanEntityMemento.playerID = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().playerID;
+        humanEntityMemento.type = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().type;
+        humanEntityMemento.cellIndex = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().cellIndex;
 
         humanEntityMemento.maxhealth = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().maxhealth;
         humanEntityMemento.maxmana = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().maxmana;
@@ -111,5 +130,47 @@ public class Game : MonoBehaviour {
         humanEntityMemento.currmovementpoint = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().currmovementpoint;
 
         humanEntityMemento.idle = hexGrid.cells[i].entityObj.GetComponent<HumanBehaviour>().idle;
+    }
+
+    private void SetUndeadBuildings(UndeadBuildingMemento undeadBuildingMemento, int i)
+    {
+        undeadBuildingMemento.playerID = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().playerID;
+        undeadBuildingMemento.type = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().type;
+        undeadBuildingMemento.cellIndex = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().cellIndex;
+
+        undeadBuildingMemento.currhealth = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().currhealth;
+        undeadBuildingMemento.maxhealth = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().maxhealth;
+        undeadBuildingMemento.range = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().range;
+        undeadBuildingMemento.rangedattackdmg = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().rangedattackdmg;
+        undeadBuildingMemento.defense = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().defense;
+        undeadBuildingMemento.vision = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().vision;
+        undeadBuildingMemento.upgrades = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().upgrades;
+
+        undeadBuildingMemento.currConstruction = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().currConstruction;
+        undeadBuildingMemento.currConstructionTimer = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().currConstructionTimer;
+        undeadBuildingMemento.currRecruitment = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().currRecruitment;
+        undeadBuildingMemento.currRecruitmentTimer = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().currRecruitmentTimer;
+        undeadBuildingMemento.isRecruitmentQueued = hexGrid.cells[i].buildingObj.GetComponent<UndeadBuilding>().isRecruitmentQueued;
+    }
+
+    private void SetHumanBuildings(HumanBuildingMemento humanBuildingMemento, int i)
+    {
+        humanBuildingMemento.playerID = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().playerID;
+        humanBuildingMemento.type = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().type;
+        humanBuildingMemento.cellIndex = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().cellIndex;
+
+        humanBuildingMemento.currhealth = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().currhealth;
+        humanBuildingMemento.maxhealth = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().maxhealth;
+        humanBuildingMemento.range = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().range;
+        humanBuildingMemento.rangedattackdmg = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().rangedattackdmg;
+        humanBuildingMemento.defense = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().defense;
+        humanBuildingMemento.vision = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().vision;
+        humanBuildingMemento.upgrades = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().upgrades;
+
+        humanBuildingMemento.currConstruction = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().currConstruction;
+        humanBuildingMemento.currConstructionTimer = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().currConstructionTimer;
+        humanBuildingMemento.currRecruitment = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().currRecruitment;
+        humanBuildingMemento.currRecruitmentTimer = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().currRecruitmentTimer;
+        humanBuildingMemento.isRecruitmentQueued = hexGrid.cells[i].buildingObj.GetComponent<HumanBuilding>().isRecruitmentQueued;
     }
 }

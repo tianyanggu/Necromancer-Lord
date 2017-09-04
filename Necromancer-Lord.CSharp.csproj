@@ -102,6 +102,7 @@
     <Compile Include="Assets\Scripts\LoadMap.cs" />
     <Compile Include="Assets\Scripts\Locate.cs" />
     <Compile Include="Assets\Scripts\Mementos\HexGridMemento.cs" />
+    <Compile Include="Assets\Scripts\Mementos\HumanBuildingMemento.cs" />
     <Compile Include="Assets\Scripts\Mementos\HumanEntityMemento.cs" />
     <Compile Include="Assets\Scripts\Mementos\UndeadBuildingMemento.cs" />
     <Compile Include="Assets\Scripts\Mementos\UndeadEntityMemento.cs" />

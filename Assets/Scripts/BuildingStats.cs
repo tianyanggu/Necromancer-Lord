@@ -41,7 +41,75 @@ public class BuildingStats : MonoBehaviour {
         return cleanEntity;
     }
 
-    //TODO construction time of building, might fit in entity instead
+    //TODO recruitment time of building, might fit in entity instead
+
+    #region playerID
+    public string GetPlayerID(GameObject entity)
+    {
+        string entityName = CleanName(entity);
+        string faction = WhichFactionBuilding(entityName);
+        string player = string.Empty;
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                player = entity.GetComponent<UndeadBuilding>().player;
+                break;
+            case FactionNames.Human:
+                player = entity.GetComponent<HumanBuilding>().player;
+                break;
+        }
+        return player;
+    }
+
+    public void SetPlayerID(GameObject entity, string player)
+    {
+        string entityName = CleanName(entity);
+        string faction = WhichFactionBuilding(entityName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                entity.GetComponent<UndeadBuilding>().player = player;
+                break;
+            case FactionNames.Human:
+                entity.GetComponent<HumanBuilding>().player = player;
+                break;
+        }
+    }
+    #endregion
+
+    #region type
+    public string GetType(GameObject entity)
+    {
+        string entityName = CleanName(entity);
+        string faction = WhichFactionBuilding(entityName);
+        string type = string.Empty;
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                type = entity.GetComponent<UndeadBuilding>().type;
+                break;
+            case FactionNames.Human:
+                type = entity.GetComponent<HumanBuilding>().type;
+                break;
+        }
+        return type;
+    }
+
+    public void SetType(GameObject entity, string type)
+    {
+        string entityName = CleanName(entity);
+        string faction = WhichFactionBuilding(entityName);
+        switch (faction)
+        {
+            case FactionNames.Undead:
+                entity.GetComponent<UndeadBuilding>().type = type;
+                break;
+            case FactionNames.Human:
+                entity.GetComponent<HumanBuilding>().type = type;
+                break;
+        }
+    }
+    #endregion
 
     #region health
     public int GetMaxHealth(string entity)

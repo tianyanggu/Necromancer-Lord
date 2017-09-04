@@ -25,6 +25,8 @@ public class Summon : MonoBehaviour {
         hexGrid.SetEntityName(cellindex, availableName);
 
         //sets stats for entity
+        entityStats.SetPlayerID(entity, playerid);
+        entityStats.SetType(entity, summonname);
         int health = entityStats.GetMaxHealth(summonname);
         entityStats.SetMaxHealth(entity, health);
         entityStats.SetCurrHealth(entity, health);
@@ -55,10 +57,11 @@ public class Summon : MonoBehaviour {
 
     public void SummonUndeadEntity(UndeadEntityMemento undeadEntityMemento)
     {
-        string entityType = Regex.Replace(undeadEntityMemento.name.Substring(2), @"[\d-]", string.Empty);
-        string playerId = Regex.Replace(undeadEntityMemento.name.Substring(0, 2), @"[\d-]", string.Empty);
+        string playerId = undeadEntityMemento.playerID;
+        string entityType = undeadEntityMemento.type;
+        int cellIndex = undeadEntityMemento.cellIndex;
 
-        Vector3 summonindex = hexGrid.GetCellPos(undeadEntityMemento.cellIndex);
+        Vector3 summonindex = hexGrid.GetCellPos(cellIndex);
         summonindex.y = 0.2f;
         string availableNum = AvailableName(entityType, playerId);
         string availableName = playerId + entityType + availableNum;
@@ -92,10 +95,11 @@ public class Summon : MonoBehaviour {
 
     public void SummonHumanEntity(HumanEntityMemento humanEntityMemento)
     {
-        string entityType = Regex.Replace(humanEntityMemento.name.Substring(2), @"[\d-]", string.Empty);
-        string playerId = Regex.Replace(humanEntityMemento.name.Substring(0, 2), @"[\d-]", string.Empty);
+        string playerId = humanEntityMemento.playerID;
+        string entityType = humanEntityMemento.type;
+        int cellIndex = humanEntityMemento.cellIndex;
 
-        Vector3 summonindex = hexGrid.GetCellPos(humanEntityMemento.cellIndex);
+        Vector3 summonindex = hexGrid.GetCellPos(cellIndex);
         summonindex.y = 0.2f;
         string availableNum = AvailableName(entityType, playerId);
         string availableName = playerId + entityType + availableNum;

@@ -3,6 +3,12 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Linq;
 
+public static class ActionNames
+{
+    public const string Recruit = "Recruit";
+    public const string Build = "Build";
+}
+
 public class BuildingManager : MonoBehaviour {
 
     public BuildingStorage buildingStorage;
@@ -10,9 +16,7 @@ public class BuildingManager : MonoBehaviour {
     public PlayerManager playerManager;
 
     GameObject currBuilding;
-
     private string cleanBuildingName;
-    private string selBuilding;
 
     private bool necropolisClicked;
     private bool necropolisBuild;
@@ -21,7 +25,6 @@ public class BuildingManager : MonoBehaviour {
     private bool RecruitmentQueued;
 
     public void DisplayBuilding (string building, int index) {
-        selBuilding = building;
         cleanBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);
         currBuilding = hexGrid.GetBuildingObject(index);
 
@@ -29,7 +32,7 @@ public class BuildingManager : MonoBehaviour {
         if (faction == FactionNames.Undead) {
             if (cleanBuildingName == BuildingNames.Necropolis) {
                 necropolisClicked = true;
-                if (currBuilding.GetComponent<NecropolisMechanics>().IsRecruitmentQueued == true)
+                if (currBuilding.GetComponent<UndeadBuilding>().isRecruitmentQueued == true)
                 {
                     RecruitmentQueued = true;
                 }
@@ -39,18 +42,18 @@ public class BuildingManager : MonoBehaviour {
         }
     }
 
-    public void ProductionQueue (string building, string action, string production) {
-        if (action == "Build") {
+    public void ProductionQueue (string action, string production) {
+        if (action == ActionNames.Build) {
             if (cleanBuildingName == BuildingNames.Necropolis)
             {
-                currBuilding.GetComponent<UndeadBuilding>().UpdateProduction(production);
+                currBuilding.GetComponent<UndeadBuilding>().currConstruction = production;
             }
         }
-        else if (action == "Recruit")
+        else if (action == ActionNames.Recruit)
         {
             if (cleanBuildingName == BuildingNames.Necropolis)
             {
-                currBuilding.GetComponent<NecropolisMechanics>().UpdateRecruitment(production);
+                currBuilding.GetComponent<UndeadBuilding>().currRecruitment = production;
             }
         }
     }
@@ -68,15 +71,15 @@ public class BuildingManager : MonoBehaviour {
             string cleanStorageBuildingName = Regex.Replace(currBuildings.name.Substring(2), @"[\d-]", string.Empty);
             if (cleanStorageBuildingName == BuildingNames.Necropolis)
             {
-                currBuildings.GetComponent<NecropolisMechanics>().TickProductionTimer();
-                currBuildings.GetComponent<NecropolisMechanics>().TickRecruitmentTimer();
-                if (currBuildings.GetComponent<NecropolisMechanics>().currConstructionTimer <= 0)
+                currBuildings.GetComponent<UndeadBuilding>().TickProductionTimer();
+                currBuildings.GetComponent<UndeadBuilding>().TickRecruitmentTimer();
+                if (currBuildings.GetComponent<UndeadBuilding>().currConstructionTimer <= 0)
                 {
-                    currBuildings.GetComponent<NecropolisMechanics>().CompleteConstruction();
+                    currBuildings.GetComponent<UndeadBuilding>().CompleteConstruction();
                 }
-                if (currBuildings.GetComponent<NecropolisMechanics>().currRecruitmentTimer <= 0)
+                if (currBuildings.GetComponent<UndeadBuilding>().currRecruitmentTimer <= 0)
                 {
-                    currBuildings.GetComponent<NecropolisMechanics>().CompleteRecruitment();
+                    currBuildings.GetComponent<UndeadBuilding>().CompleteRecruitment();
                 }
             }
         }
@@ -86,7 +89,7 @@ public class BuildingManager : MonoBehaviour {
         //x position, y position, width, length
         if (necropolisClicked)
         {
-            if(GUI.Button(new Rect(700,240,120,20), "Build")) {
+            if(GUI.Button(new Rect(700,240,120,20), ActionNames.Build)) {
                 if (necropolisBuild == false) {
                     necropolisBuild = true;
                     necropolisRecruitment = false;
@@ -108,8 +111,8 @@ public class BuildingManager : MonoBehaviour {
             {
                 if (GUI.Button(new Rect(700, 280, 120, 20), "Complete Recruitment"))
                 {
-                    currBuilding.GetComponent<NecropolisMechanics>().CompleteRecruitment();
-                    if (currBuilding.GetComponent<NecropolisMechanics>().IsRecruitmentQueued == false)
+                    currBuilding.GetComponent<UndeadBuilding>().CompleteRecruitment();
+                    if (currBuilding.GetComponent<UndeadBuilding>().isRecruitmentQueued == false)
                     {
                         RecruitmentQueued = false;
                     }
@@ -121,38 +124,38 @@ public class BuildingManager : MonoBehaviour {
             //TODO Add hover window for text details
             if (GUI.Button(new Rect(800, 240, 120, 20), UpgradeNames.Graveyard)) //Allows Recruiting Zombies
             {
-                ProductionQueue(selBuilding, "Build", UpgradeNames.Graveyard); 
+                ProductionQueue(ActionNames.Build, UpgradeNames.Graveyard); 
             }
             if (GUI.Button(new Rect(800,260,120,20), UpgradeNames.ExcavationSite)) //Allows Recruiting Skeletons
             {
-                ProductionQueue(selBuilding, "Build", UpgradeNames.ExcavationSite); 
+                ProductionQueue(ActionNames.Build, UpgradeNames.ExcavationSite); 
             }
             if (GUI.Button(new Rect(800, 280, 120, 20), UpgradeNames.SinewFletchery)) //Allows Recruiting Skeleton Archers. Requires Excavation Site.
             {
-                ProductionQueue(selBuilding, "Build", UpgradeNames.SinewFletchery);
+                ProductionQueue(ActionNames.Build, UpgradeNames.SinewFletchery);
             }
             //if (GUI.Button(new Rect(800, 260, 120, 20), "Dark Magic Forge")) //Allows Recruiting Skeletons Mages. Requires Excavation Site.
             //{
-            //    ProductionQueue(selBuilding, "Build", "Skeleton Mage");
+            //    ProductionQueue(ActionNames.Build, "Skeleton Mage");
             //}
         }
         if (necropolisRecruitment)
         {
             if(GUI.Button(new Rect(800,240,120,20), EntityNames.Zombie)) //Weak Early Tier Melee Unit. Resistent to other weak unit's attacks.
             {
-                ProductionQueue(selBuilding, "Recruit", EntityNames.Zombie);
+                ProductionQueue(ActionNames.Recruit, EntityNames.Zombie);
 		    }
             if(GUI.Button(new Rect(800,260,120,20), EntityNames.Skeleton)) //Early Tier Melee Unit.
             {
-                ProductionQueue(selBuilding, "Recruit", EntityNames.Skeleton);
+                ProductionQueue(ActionNames.Recruit, EntityNames.Skeleton);
 		    }
             if (GUI.Button(new Rect(800, 280, 120, 20), "Skeleton Archer")) //Early Tier Physical Ranged Unit.
             {
-                ProductionQueue(selBuilding, "Recruit", "Skeleton Archer");
+                ProductionQueue(ActionNames.Recruit, "Skeleton Archer");
             }
             //if (GUI.Button(new Rect(800, 260, 120, 20), "Skeleton Mage")) //Early Tier Magic Ranged Unit.
             //{
-            //    ProductionQueue(selBuilding, "Recruit", "Skeleton Mage");
+            //    ProductionQueue(ActionNames.Recruit, "Skeleton Mage");
             //}
         }
     }

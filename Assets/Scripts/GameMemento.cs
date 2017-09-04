@@ -28,6 +28,8 @@ public class GameMemento {
 
     public List<UndeadEntityMemento> undeadEntityMementoList;
     public List<HumanEntityMemento> humanEntityMementoList;
+    public List<UndeadBuildingMemento> undeadBuildingMementoList;
+    public List<HumanBuildingMemento> humanBuildingMementoList;
 
     public GameMemento () {
         hexGridMemento = new HexGridMemento();
@@ -44,5 +46,7 @@ public class GameMemento {
 
         undeadEntityMementoList = new List<UndeadEntityMemento>();
         humanEntityMementoList = new List<HumanEntityMemento>();
+        undeadBuildingMementoList = new List<UndeadBuildingMemento>();
+        humanBuildingMementoList = new List<HumanBuildingMemento>();
     }
 }

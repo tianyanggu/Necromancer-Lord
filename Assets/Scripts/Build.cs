@@ -10,9 +10,7 @@ public class Build : MonoBehaviour {
 	public BuildingStorage buildingStorage;
 	public Currency currency;
 	public EntityStorage entityStorage;
-
-	public GameObject Village;
-	public GameObject Necropolis;
+    public BuildingStats buildingStats;
 
 	//given an index and the type of summon, summons that entity with the next available name
 	public void BuildBuilding (int cellindex, string buildingname, string playerid) {
@@ -20,7 +18,6 @@ public class Build : MonoBehaviour {
 		buildindex.y = 0.2f;
 		string availableNum = AvailableName (buildingname, playerid);
 		string availableName = playerid + buildingname + availableNum;
-        int health = GetHealthInfo (buildingname);
 
         //Instantiate the prefab from the resources folder
         GameObject building = (GameObject)Instantiate(Resources.Load(buildingname), buildindex, Quaternion.identity);
@@ -30,13 +27,22 @@ public class Build : MonoBehaviour {
         hexGrid.SetBuildingObject(cellindex, building);
         hexGrid.SetBuildingName(cellindex, availableName);
 
-        //stores info of new building to playerprefs for saving
-        string ppName = AvailablePlayerPrefsName ();
+        //sets stats for building
+        buildingStats.SetPlayerID(building, playerid);
+        buildingStats.SetType(building, buildingname);
+        int health = buildingStats.GetMaxHealth(buildingname);
+        buildingStats.SetMaxHealth(building, health);
+        buildingStats.SetCurrHealth(building, health);
+        int range = buildingStats.GetRange(buildingname);
+        buildingStats.SetRange(building, range);
+        int rangedattdmg = buildingStats.GetRangedAttackDmg(buildingname);
+        buildingStats.SetRangedAttackDmg(building, rangedattdmg);
+        int defense = buildingStats.GetDefense(buildingname);
+        buildingStats.SetDefense(building, defense);
+        int vision = buildingStats.GetVision(buildingname);
+        buildingStats.SetVision(building, vision);
 
-		PlayerPrefs.SetString ("HexBuilding" + ppName, availableName);
-		PlayerPrefs.SetString (availableName, "HexBuilding" + ppName);
-		PlayerPrefs.SetInt ("HexBuildingHealth" + ppName, health);
-		PlayerPrefs.SetInt ("HexBuildingIndex" + ppName, cellindex);
+        loadMap.CreateHealthLabel(cellindex, health, availableName);
     }
 
 	//Check for next available entity number
@@ -66,42 +72,12 @@ public class Build : MonoBehaviour {
         char playerChar = buildingName[0];
         buildingStorage.PlayerBuildingList(playerChar).Remove(building);
         Destroy (building);
+
         hexGrid.SetBuildingName(cellindex, "Empty");
         hexGrid.SetBuildingObject(cellindex, null);
-
-        //delete from playerprefs
-        string playerprefsName = PlayerPrefs.GetString (buildingName);
-		string playerprefsNum = Regex.Replace(playerprefsName, "[^0-9 -]", string.Empty);
-		PlayerPrefs.DeleteKey ("HexBuilding" + playerprefsNum);
-		PlayerPrefs.DeleteKey (buildingName);
-		PlayerPrefs.DeleteKey ("HexBuildingHealth" + playerprefsNum);
-		PlayerPrefs.DeleteKey ("HexBuildingIndex" + playerprefsNum);
+        GameObject healthText = GameObject.Find("Health " + buildingName);
+        Destroy(healthText);
     }
-
-	//Check for next available setstring number
-	string AvailablePlayerPrefsName () {
-		for (int i = 0; i < hexGrid.size; i++) {
-			string num = i.ToString ();
-			string allBuilding = PlayerPrefs.GetString ("HexBuilding" + i);
-			if (allBuilding == string.Empty) {
-				return num;
-			}
-		}
-		return null; //TODO error message if no available spaces, should not be possible to give null
-	}
-
-	//grabs health info
-	int GetHealthInfo(string building) {
-        switch (building)
-        {
-            case BuildingNames.Necropolis:
-                return Necropolis.GetComponent<NecropolisMechanics>().health;
-
-            case BuildingNames.Village:
-                return Village.GetComponent<VillageMechanics>().health;
-        }
-		return 0;
-	}
 
 	//valid if have soul cost and entity/corpse cost
 	public bool ValidBuilding(string building, int index) {

@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class UndeadBuilding : MonoBehaviour {
-
-    public string player;
+    public string playerID;
     public string type;
+    public Guid uniqueID;
+    public int cellIndex;
+
     public int currhealth;
     public int maxhealth;
     public int range;
@@ -19,7 +22,7 @@ public class UndeadBuilding : MonoBehaviour {
 
     public string currRecruitment = "Empty";
     public int currRecruitmentTimer;
-    public bool IsRecruitmentQueued;
+    public bool isRecruitmentQueued;
 
     public void TickProductionTimer()
     {
@@ -62,7 +65,7 @@ public class UndeadBuilding : MonoBehaviour {
             }
             else
             {
-                IsRecruitmentQueued = true;
+                isRecruitmentQueued = true;
             }
         }
     }
