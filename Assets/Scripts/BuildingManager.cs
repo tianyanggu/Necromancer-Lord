@@ -15,8 +15,8 @@ public class BuildingManager : MonoBehaviour {
     public HexGrid hexGrid;
     public PlayerManager playerManager;
 
-    GameObject currBuilding;
-    private string cleanBuildingName;
+    public GameObject currBuilding;
+    public bool buildingSelected;
 
     private bool necropolisClicked;
     private bool necropolisBuild;
@@ -24,37 +24,26 @@ public class BuildingManager : MonoBehaviour {
 
     private bool RecruitmentQueued;
 
-    public void DisplayBuilding (string building, int index) {
-        cleanBuildingName = Regex.Replace(building, @"[\d-]", string.Empty);
+    public void DisplayBuilding (int index) {
         currBuilding = hexGrid.GetBuildingObject(index);
-
-        string faction = buildingStorage.WhichFactionBuilding(cleanBuildingName);
-        if (faction == FactionNames.Undead) {
-            if (cleanBuildingName == BuildingNames.Necropolis) {
-                necropolisClicked = true;
-                if (currBuilding.GetComponent<UndeadBuilding>().isRecruitmentQueued == true)
-                {
-                    RecruitmentQueued = true;
-                }
+        buildingSelected = true;
+        if (currBuilding != null) {
+            if (currBuilding.GetComponent<Building>().isRecruitmentQueued == true)
+            {
+                RecruitmentQueued = true;
             }
-        } else if (faction == FactionNames.Human) {
-
         }
     }
 
     public void ProductionQueue (string action, string production) {
         if (action == ActionNames.Build) {
-            if (cleanBuildingName == BuildingNames.Necropolis)
-            {
-                currBuilding.GetComponent<UndeadBuilding>().currConstruction = production;
-            }
+            //TODO check if valid given upgrades
+            currBuilding.GetComponent<Building>().currConstruction = production;
         }
         else if (action == ActionNames.Recruit)
         {
-            if (cleanBuildingName == BuildingNames.Necropolis)
-            {
-                currBuilding.GetComponent<UndeadBuilding>().currRecruitment = production;
-            }
+            //TODO check if valid given upgrades
+            currBuilding.GetComponent<Building>().currRecruitment = production;
         }
     }
 
@@ -68,26 +57,23 @@ public class BuildingManager : MonoBehaviour {
         char playerChar = currPlayerid[0];
         foreach (GameObject currBuildings in buildingStorage.PlayerBuildingList(playerChar))
         {
-            string cleanStorageBuildingName = Regex.Replace(currBuildings.name.Substring(2), @"[\d-]", string.Empty);
-            if (cleanStorageBuildingName == BuildingNames.Necropolis)
-            {
-                currBuildings.GetComponent<UndeadBuilding>().TickProductionTimer();
-                currBuildings.GetComponent<UndeadBuilding>().TickRecruitmentTimer();
-                if (currBuildings.GetComponent<UndeadBuilding>().currConstructionTimer <= 0)
+            currBuildings.GetComponent<Building>().TickProductionTimer();
+            currBuildings.GetComponent<Building>().TickRecruitmentTimer();
+                if (currBuildings.GetComponent<Building>().currConstructionTimer <= 0)
                 {
-                    currBuildings.GetComponent<UndeadBuilding>().CompleteConstruction();
+                    currBuildings.GetComponent<Building>().CompleteConstruction();
                 }
-                if (currBuildings.GetComponent<UndeadBuilding>().currRecruitmentTimer <= 0)
+                if (currBuildings.GetComponent<Building>().currRecruitmentTimer <= 0)
                 {
-                    currBuildings.GetComponent<UndeadBuilding>().CompleteRecruitment();
+                    currBuildings.GetComponent<Building>().CompleteRecruitment();
                 }
-            }
         }
     }
 
     void OnGUI () {
+        //TODO major functions and modifications needed
         //x position, y position, width, length
-        if (necropolisClicked)
+        if (buildingSelected)
         {
             if(GUI.Button(new Rect(700,240,120,20), ActionNames.Build)) {
                 if (necropolisBuild == false) {
@@ -98,7 +84,7 @@ public class BuildingManager : MonoBehaviour {
                     necropolisRecruitment = false;
                 }
 		    }
-            if(GUI.Button(new Rect(700,260,120,20), "Recruitment")) {
+            if(GUI.Button(new Rect(700,260,120,20), ActionNames.Recruit)) {
                 if (necropolisRecruitment == false) {
                     necropolisRecruitment = true;
                     necropolisBuild = false;
@@ -111,8 +97,8 @@ public class BuildingManager : MonoBehaviour {
             {
                 if (GUI.Button(new Rect(700, 280, 120, 20), "Complete Recruitment"))
                 {
-                    currBuilding.GetComponent<UndeadBuilding>().CompleteRecruitment();
-                    if (currBuilding.GetComponent<UndeadBuilding>().isRecruitmentQueued == false)
+                    currBuilding.GetComponent<Building>().CompleteRecruitment();
+                    if (currBuilding.GetComponent<Building>().isRecruitmentQueued == false)
                     {
                         RecruitmentQueued = false;
                     }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 
 [System.Serializable]
-public class UndeadBuildingMemento {
+public class BuildingMemento {
     public string playerID;
     public string type;
     public Guid uniqueID;

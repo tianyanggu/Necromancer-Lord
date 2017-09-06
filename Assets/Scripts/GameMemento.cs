@@ -26,10 +26,8 @@ public class GameMemento {
     public List<List<string>> hexGridCorpsesList;
     public List<bool> hexGridFogList;
 
-    public List<UndeadEntityMemento> undeadEntityMementoList;
-    public List<HumanEntityMemento> humanEntityMementoList;
-    public List<UndeadBuildingMemento> undeadBuildingMementoList;
-    public List<HumanBuildingMemento> humanBuildingMementoList;
+    public List<EntityMemento> entityMementoList;
+    public List<BuildingMemento> buildingMementoList;
 
     public GameMemento () {
         hexGridMemento = new HexGridMemento();
@@ -44,9 +42,7 @@ public class GameMemento {
         hexGridCorpsesList = new List<List<string>>();
         hexGridFogList = new List<bool>();
 
-        undeadEntityMementoList = new List<UndeadEntityMemento>();
-        humanEntityMementoList = new List<HumanEntityMemento>();
-        undeadBuildingMementoList = new List<UndeadBuildingMemento>();
-        humanBuildingMementoList = new List<HumanBuildingMemento>();
+        entityMementoList = new List<EntityMemento>();
+        buildingMementoList = new List<BuildingMemento>();
     }
 }

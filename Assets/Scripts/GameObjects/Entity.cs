@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public class HumanEntity : MonoBehaviour {
+public class Entity : MonoBehaviour {
     public string playerID;
     public string type;
     public Guid uniqueID;

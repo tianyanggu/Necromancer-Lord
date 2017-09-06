@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class HumanEntityMemento {
+public class EntityMemento {
     public string playerID;
     public string type;
     public Guid uniqueID;

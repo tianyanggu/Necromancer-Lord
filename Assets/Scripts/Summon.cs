@@ -55,11 +55,11 @@ public class Summon : MonoBehaviour {
         loadMap.CreateHealthLabel(cellindex, health, availableName);
 	}
 
-    public void SummonUndeadEntity(UndeadEntityMemento undeadEntityMemento)
+    public void SummonEntityMemento(EntityMemento entityMemento)
     {
-        string playerId = undeadEntityMemento.playerID;
-        string entityType = undeadEntityMemento.type;
-        int cellIndex = undeadEntityMemento.cellIndex;
+        string playerId = entityMemento.playerID;
+        string entityType = entityMemento.type;
+        int cellIndex = entityMemento.cellIndex;
 
         Vector3 summonindex = hexGrid.GetCellPos(cellIndex);
         summonindex.y = 0.2f;
@@ -71,78 +71,33 @@ public class Summon : MonoBehaviour {
         entity.name = availableName;
         char playerChar = playerId[0];
         entityStorage.PlayerEntityList(playerChar).Add(entity);
-        hexGrid.SetEntityObject(undeadEntityMemento.cellIndex, entity);
-        hexGrid.SetEntityName(undeadEntityMemento.cellIndex, availableName);
+        hexGrid.SetEntityObject(entityMemento.cellIndex, entity);
+        hexGrid.SetEntityName(entityMemento.cellIndex, availableName);
 
-        entityStats.SetPlayerID(entity, undeadEntityMemento.playerID);
-        entityStats.SetType(entity, undeadEntityMemento.type);
-        entityStats.SetUniqueID(entity, undeadEntityMemento.uniqueID);
-        entityStats.SetCellIndex(entity, undeadEntityMemento.cellIndex);
+        entityStats.SetPlayerID(entity, entityMemento.playerID);
+        entityStats.SetType(entity, entityMemento.type);
+        entityStats.SetUniqueID(entity, entityMemento.uniqueID);
+        entityStats.SetCellIndex(entity, entityMemento.cellIndex);
 
-        entityStats.SetCurrHealth(entity, undeadEntityMemento.currhealth);
-        entityStats.SetMaxHealth(entity, undeadEntityMemento.maxhealth);
-        entityStats.SetCurrMana(entity, undeadEntityMemento.currmana);
-        entityStats.SetMaxMana(entity, undeadEntityMemento.maxmana);
-        entityStats.SetAttackDmg(entity, undeadEntityMemento.attackdmg);
-        entityStats.SetCurrAttackPoint(entity, undeadEntityMemento.currattackpoint);
-        entityStats.SetMaxAttackPoint(entity, undeadEntityMemento.maxattackpoint);
-        entityStats.SetCurrMovementPoint(entity, undeadEntityMemento.currmovementpoint);
-        entityStats.SetMaxMovementPoint(entity, undeadEntityMemento.maxmovementpoint);
-        entityStats.SetRange(entity, undeadEntityMemento.range);
-        entityStats.SetRangedAttackDmg(entity, undeadEntityMemento.rangedattackdmg);
-        entityStats.SetArmor(entity, undeadEntityMemento.armor);
-        entityStats.SetArmorPiercing(entity, undeadEntityMemento.armorpiercing);
-        entityStats.SetRangedArmorPiercing(entity, undeadEntityMemento.rangedarmorpiercing);
-        entityStats.SetVision(entity, undeadEntityMemento.vision);
-        entityStats.SetPermaEffects(entity, undeadEntityMemento.permaEffects);
-        entityStats.SetTempEffects(entity, undeadEntityMemento.tempEffects);
+        entityStats.SetCurrHealth(entity, entityMemento.currhealth);
+        entityStats.SetMaxHealth(entity, entityMemento.maxhealth);
+        entityStats.SetCurrMana(entity, entityMemento.currmana);
+        entityStats.SetMaxMana(entity, entityMemento.maxmana);
+        entityStats.SetAttackDmg(entity, entityMemento.attackdmg);
+        entityStats.SetCurrAttackPoint(entity, entityMemento.currattackpoint);
+        entityStats.SetMaxAttackPoint(entity, entityMemento.maxattackpoint);
+        entityStats.SetCurrMovementPoint(entity, entityMemento.currmovementpoint);
+        entityStats.SetMaxMovementPoint(entity, entityMemento.maxmovementpoint);
+        entityStats.SetRange(entity, entityMemento.range);
+        entityStats.SetRangedAttackDmg(entity, entityMemento.rangedattackdmg);
+        entityStats.SetArmor(entity, entityMemento.armor);
+        entityStats.SetArmorPiercing(entity, entityMemento.armorpiercing);
+        entityStats.SetRangedArmorPiercing(entity, entityMemento.rangedarmorpiercing);
+        entityStats.SetVision(entity, entityMemento.vision);
+        entityStats.SetPermaEffects(entity, entityMemento.permaEffects);
+        entityStats.SetTempEffects(entity, entityMemento.tempEffects);
 
-        loadMap.CreateHealthLabel(undeadEntityMemento.cellIndex, undeadEntityMemento.currhealth, availableName);
-    }
-
-    public void SummonHumanEntity(HumanEntityMemento humanEntityMemento)
-    {
-        string playerId = humanEntityMemento.playerID;
-        string entityType = humanEntityMemento.type;
-        int cellIndex = humanEntityMemento.cellIndex;
-
-        Vector3 summonindex = hexGrid.GetCellPos(cellIndex);
-        summonindex.y = 0.2f;
-        string availableNum = AvailableName(entityType, playerId);
-        string availableName = playerId + entityType + availableNum;
-
-        //Instantiate the prefab from the resources folder
-        GameObject entity = (GameObject)Instantiate(Resources.Load(entityType), summonindex, Quaternion.identity);
-        entity.name = availableName;
-        char playerChar = playerId[0];
-        entityStorage.PlayerEntityList(playerChar).Add(entity);
-        hexGrid.SetEntityObject(humanEntityMemento.cellIndex, entity);
-        hexGrid.SetEntityName(humanEntityMemento.cellIndex, availableName);
-
-        entityStats.SetPlayerID(entity, humanEntityMemento.playerID);
-        entityStats.SetType(entity, humanEntityMemento.type);
-        entityStats.SetUniqueID(entity, humanEntityMemento.uniqueID);
-        entityStats.SetCellIndex(entity, humanEntityMemento.cellIndex);
-
-        entityStats.SetCurrHealth(entity, humanEntityMemento.currhealth);
-        entityStats.SetMaxHealth(entity, humanEntityMemento.maxhealth);
-        entityStats.SetCurrMana(entity, humanEntityMemento.currmana);
-        entityStats.SetMaxMana(entity, humanEntityMemento.maxmana);
-        entityStats.SetAttackDmg(entity, humanEntityMemento.attackdmg);
-        entityStats.SetCurrAttackPoint(entity, humanEntityMemento.currattackpoint);
-        entityStats.SetMaxAttackPoint(entity, humanEntityMemento.maxattackpoint);
-        entityStats.SetCurrMovementPoint(entity, humanEntityMemento.currmovementpoint);
-        entityStats.SetMaxMovementPoint(entity, humanEntityMemento.maxmovementpoint);
-        entityStats.SetRange(entity, humanEntityMemento.range);
-        entityStats.SetRangedAttackDmg(entity, humanEntityMemento.rangedattackdmg);
-        entityStats.SetArmor(entity, humanEntityMemento.armor);
-        entityStats.SetArmorPiercing(entity, humanEntityMemento.armorpiercing);
-        entityStats.SetRangedArmorPiercing(entity, humanEntityMemento.rangedarmorpiercing);
-        entityStats.SetVision(entity, humanEntityMemento.vision);
-        entityStats.SetPermaEffects(entity, humanEntityMemento.permaEffects);
-        entityStats.SetTempEffects(entity, humanEntityMemento.tempEffects);
-
-        loadMap.CreateHealthLabel(humanEntityMemento.cellIndex, humanEntityMemento.currhealth, availableName);
+        loadMap.CreateHealthLabel(entityMemento.cellIndex, entityMemento.currhealth, availableName);
     }
 
     //Check for next available entity number

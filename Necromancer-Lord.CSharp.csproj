@@ -91,21 +91,19 @@
     <Compile Include="Assets\Scripts\Fog.cs" />
     <Compile Include="Assets\Scripts\Game.cs" />
     <Compile Include="Assets\Scripts\GameMemento.cs" />
+    <Compile Include="Assets\Scripts\GameObjects\Building.cs" />
+    <Compile Include="Assets\Scripts\GameObjects\Entity.cs" />
     <Compile Include="Assets\Scripts\HexCell.cs" />
     <Compile Include="Assets\Scripts\HexCoordinates.cs" />
     <Compile Include="Assets\Scripts\HexGrid.cs" />
     <Compile Include="Assets\Scripts\HexMapEditor.cs" />
     <Compile Include="Assets\Scripts\HexMesh.cs" />
     <Compile Include="Assets\Scripts\HexMetrics.cs" />
-    <Compile Include="Assets\Scripts\Humans\HumanBuilding.cs" />
-    <Compile Include="Assets\Scripts\Humans\HumanEntity.cs" />
     <Compile Include="Assets\Scripts\LoadMap.cs" />
     <Compile Include="Assets\Scripts\Locate.cs" />
+    <Compile Include="Assets\Scripts\Mementos\BuildingMemento.cs" />
+    <Compile Include="Assets\Scripts\Mementos\EntityMemento.cs" />
     <Compile Include="Assets\Scripts\Mementos\HexGridMemento.cs" />
-    <Compile Include="Assets\Scripts\Mementos\HumanBuildingMemento.cs" />
-    <Compile Include="Assets\Scripts\Mementos\HumanEntityMemento.cs" />
-    <Compile Include="Assets\Scripts\Mementos\UndeadBuildingMemento.cs" />
-    <Compile Include="Assets\Scripts\Mementos\UndeadEntityMemento.cs" />
     <Compile Include="Assets\Scripts\MenuControls.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
@@ -113,8 +111,6 @@
     <Compile Include="Assets\Scripts\Select.cs" />
     <Compile Include="Assets\Scripts\Souls.cs" />
     <Compile Include="Assets\Scripts\Summon.cs" />
-    <Compile Include="Assets\Scripts\Undead\UndeadBuilding.cs" />
-    <Compile Include="Assets\Scripts\Undead\UndeadEntity.cs" />
     <Compile Include="Assets\Scripts\Vision.cs" />
   </ItemGroup>
   <ItemGroup>

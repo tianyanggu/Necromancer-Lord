@@ -44,19 +44,13 @@ public class LoadMap : MonoBehaviour {
         //summon.SummonEntity(3, EntityNames.Skeleton, "AA");
         //summon.SummonEntity(18, EntityNames.Zombie, "AA");
 
-        List<UndeadEntityMemento> undeadEntityList = GameMemento.current.undeadEntityMementoList;
-        int undeadEntityListLength = undeadEntityList.Count;
-        List<HumanEntityMemento> humanEntityList = GameMemento.current.humanEntityMementoList;
-        int humanEntityListLength = humanEntityList.Count;
+        List<EntityMemento> entityList = GameMemento.current.entityMementoList;
+        int entityListLength = entityList.Count;
 
         //TODO maybe pass memento to method instead of super long
-        for (int i = 0; i < undeadEntityListLength; i++)
+        for (int i = 0; i < entityListLength; i++)
         {
-            summon.SummonUndeadEntity(GameMemento.current.undeadEntityMementoList[i]);
-        }
-        for (int i = 0; i < humanEntityListLength; i++)
-        {
-            summon.SummonHumanEntity(GameMemento.current.humanEntityMementoList[i]);
+            summon.SummonEntityMemento(GameMemento.current.entityMementoList[i]);
         }
     }
 
@@ -65,11 +59,11 @@ public class LoadMap : MonoBehaviour {
         switch (buildingName)
         {
             case BuildingNames.Necropolis:
-                building.GetComponent<UndeadBuilding>().currhealth = health;
+                building.GetComponent<Building>().currhealth = health;
                 break;
 
             case BuildingNames.Village:
-                building.GetComponent<HumanBuilding>().currhealth = health;
+                building.GetComponent<Building>().currhealth = health;
                 break;
         }
     }
@@ -123,6 +117,7 @@ public class LoadMap : MonoBehaviour {
 			int allHealth = PlayerPrefs.GetInt ("HexBuildingHealth" + i);
 			int allIndex = PlayerPrefs.GetInt ("HexBuildingIndex" + i);
 
+            //TODO switch test code to build building is build.cs
             if (allBuildings != string.Empty)
             {
                 string cleanBuilding = Regex.Replace(allBuildings.Substring(2), @"[\d-]", string.Empty);

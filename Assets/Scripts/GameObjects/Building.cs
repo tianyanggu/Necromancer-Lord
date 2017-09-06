@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class UndeadBuilding : MonoBehaviour {
+public class Building : MonoBehaviour {
     public string playerID;
     public string type;
     public Guid uniqueID;

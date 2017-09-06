@@ -57,136 +57,52 @@ public class EntityStats : MonoBehaviour {
     #region playerID
     public string GetPlayerID(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        string player = string.Empty;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                player = entity.GetComponent<UndeadEntity>().playerID;
-                break;
-            case FactionNames.Human:
-                player = entity.GetComponent<HumanEntity>().playerID;
-                break;
-        }
+        string player = entity.GetComponent<Entity>().playerID;
         return player;
     }
 
     public void SetPlayerID(GameObject entity, string playerID)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().playerID = playerID;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().playerID = playerID;
-                break;
-        }
+        entity.GetComponent<Entity>().playerID = playerID;
     }
     #endregion
 
     #region type
     public string GetType(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        string type = string.Empty;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                type = entity.GetComponent<UndeadEntity>().type;
-                break;
-            case FactionNames.Human:
-                type = entity.GetComponent<HumanEntity>().type;
-                break;
-        }
+        string type = entity.GetComponent<Entity>().type;
         return type;
     }
 
     public void SetType(GameObject entity, string type)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().type = type;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().type = type;
-                break;
-        }
+        entity.GetComponent<Entity>().type = type;
     }
     #endregion
 
     #region uniqueID
     public Guid GetUniqueID(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        Guid player = Guid.Empty;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                player = entity.GetComponent<UndeadEntity>().uniqueID;
-                break;
-            case FactionNames.Human:
-                player = entity.GetComponent<HumanEntity>().uniqueID;
-                break;
-        }
+        Guid player = entity.GetComponent<Entity>().uniqueID;
         return player;
     }
 
     public void SetUniqueID(GameObject entity, Guid uniqueID)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().uniqueID = uniqueID;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().uniqueID = uniqueID;
-                break;
-        }
+        entity.GetComponent<Entity>().uniqueID = uniqueID;
     }
     #endregion
 
     #region cellIndex
     public int GetCellIndex(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int player = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                player = entity.GetComponent<UndeadEntity>().cellIndex;
-                break;
-            case FactionNames.Human:
-                player = entity.GetComponent<HumanEntity>().cellIndex;
-                break;
-        }
+        int player = entity.GetComponent<Entity>().cellIndex;
         return player;
     }
 
     public void SetCellIndex(GameObject entity, int cellIndex)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().cellIndex = cellIndex;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().cellIndex = cellIndex;
-                break;
-        }
+        entity.GetComponent<Entity>().cellIndex = cellIndex;
     }
     #endregion
 
@@ -228,66 +144,24 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrMaxHealth(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int health = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                health = entity.GetComponent<UndeadEntity>().maxhealth;
-                break;
-            case FactionNames.Human:
-                health = entity.GetComponent<HumanEntity>().maxhealth;
-                break;
-        }
+        int health = entity.GetComponent<Entity>().maxhealth;
         return health;
     }
 
     public int GetCurrHealth(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int health = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                health = entity.GetComponent<UndeadEntity>().currhealth;
-                break;
-            case FactionNames.Human:
-                health = entity.GetComponent<HumanEntity>().currhealth;
-                break;
-        }
+        int health = entity.GetComponent<Entity>().currhealth;
         return health;
     }
 
     public void SetMaxHealth(GameObject entity, int health)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().maxhealth = health;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().maxhealth = health;
-                break;
-        }
+        entity.GetComponent<Entity>().maxhealth = health;
     }
 
     public void SetCurrHealth(GameObject entity, int health)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().currhealth = health;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().currhealth = health;
-                break;
-        }
+        entity.GetComponent<Entity>().currhealth = health;
     }
     #endregion
 
@@ -329,66 +203,24 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrMaxMana(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int mana = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                mana = entity.GetComponent<UndeadEntity>().maxmana;
-                break;
-            case FactionNames.Human:
-                mana = entity.GetComponent<HumanEntity>().maxmana;
-                break;
-        }
+        int mana = entity.GetComponent<Entity>().maxmana;
         return mana;
     }
 
     public int GetCurrMana(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int mana = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                mana = entity.GetComponent<UndeadEntity>().currmana;
-                break;
-            case FactionNames.Human:
-                mana = entity.GetComponent<HumanEntity>().currmana;
-                break;
-        }
+        int mana = entity.GetComponent<Entity>().currmana;
         return mana;
     }
 
     public void SetMaxMana(GameObject entity, int mana)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().maxmana = mana;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().maxmana = mana;
-                break;
-        }
+        entity.GetComponent<Entity>().maxmana = mana;
     }
 
     public void SetCurrMana(GameObject entity, int mana)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().currmana = mana;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().currmana = mana;
-                break;
-        }
+        entity.GetComponent<Entity>().currmana = mana;
     }
     #endregion
 
@@ -430,34 +262,14 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrAttackDmg(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int attdmg = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                attdmg = entity.GetComponent<UndeadEntity>().attackdmg;
-                break;
-            case FactionNames.Human:
-                attdmg = entity.GetComponent<HumanEntity>().attackdmg;
-                break;
-        }
+        int attdmg = entity.GetComponent<Entity>().attackdmg;
         return attdmg;
     }
 
     public void SetAttackDmg(GameObject entity, int dmg)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().attackdmg = dmg;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().attackdmg = dmg;
-                break;
-        }
+        entity.GetComponent<Entity>().attackdmg = dmg;
+
     }
     #endregion
 
@@ -499,66 +311,24 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrMaxAttackPoint(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int attpt = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                attpt = entity.GetComponent<UndeadEntity>().maxattackpoint;
-                break;
-            case FactionNames.Human:
-                attpt = entity.GetComponent<HumanEntity>().maxattackpoint;
-                break;
-        }
+        int attpt = entity.GetComponent<Entity>().maxattackpoint;
         return attpt;
     }
 
     public int GetCurrAttackPoint(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int attpt = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                attpt = entity.GetComponent<UndeadEntity>().currattackpoint;
-                break;
-            case FactionNames.Human:
-                attpt = entity.GetComponent<HumanEntity>().currattackpoint;
-                break;
-        }
+        int attpt = entity.GetComponent<Entity>().currattackpoint;
         return attpt;
     }
 
     public void SetMaxAttackPoint(GameObject entity, int attpt)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().maxattackpoint = attpt;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().maxattackpoint = attpt;
-                break;
-        }
+        entity.GetComponent<Entity>().maxattackpoint = attpt;
     }
 
     public void SetCurrAttackPoint(GameObject entity, int attpt)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().currattackpoint = attpt;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().currattackpoint = attpt;
-                break;
-        }
+        entity.GetComponent<Entity>().currattackpoint = attpt;
     }
     #endregion
 
@@ -600,66 +370,24 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrMaxMovementPoint(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int movept = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                movept = entity.GetComponent<UndeadEntity>().maxmovementpoint;
-                break;
-            case FactionNames.Human:
-                movept = entity.GetComponent<HumanEntity>().maxmovementpoint;
-                break;
-        }
+        int movept = entity.GetComponent<Entity>().maxmovementpoint;
         return movept;
     }
 
     public int GetCurrMovementPoint(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int movept = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                movept = entity.GetComponent<UndeadEntity>().currmovementpoint;
-                break;
-            case FactionNames.Human:
-                movept = entity.GetComponent<HumanEntity>().currmovementpoint;
-                break;
-        }
+        int movept = entity.GetComponent<Entity>().currmovementpoint;
         return movept;
     }
 
     public void SetMaxMovementPoint(GameObject entity, int movept)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().maxmovementpoint = movept;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().maxmovementpoint = movept;
-                break;
-        }
+        entity.GetComponent<Entity>().maxmovementpoint = movept;
     }
 
     public void SetCurrMovementPoint(GameObject entity, int movept)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().currmovementpoint = movept;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().currmovementpoint = movept;
-                break;
-        }
+        entity.GetComponent<Entity>().currmovementpoint = movept;
     }
     #endregion
 
@@ -701,34 +429,13 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrRange(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int range = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                range = entity.GetComponent<UndeadEntity>().range;
-                break;
-            case FactionNames.Human:
-                range = entity.GetComponent<HumanEntity>().range;
-                break;
-        }
+        int range = entity.GetComponent<Entity>().range;
         return range;
     }
 
     public void SetRange(GameObject entity, int range)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().range = range;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().range = range;
-                break;
-        }
+        entity.GetComponent<Entity>().range = range;
     }
     #endregion
 
@@ -770,34 +477,13 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrRangedAttackDmg(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int rangeattdmg = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                rangeattdmg = entity.GetComponent<UndeadEntity>().rangedattackdmg;
-                break;
-            case FactionNames.Human:
-                rangeattdmg = entity.GetComponent<HumanEntity>().rangedattackdmg;
-                break;
-        }
+        int rangeattdmg = entity.GetComponent<Entity>().rangedattackdmg;
         return rangeattdmg;
     }
 
     public void SetRangedAttackDmg(GameObject entity, int rangeattdmg)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().rangedattackdmg = rangeattdmg;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().rangedattackdmg = rangeattdmg;
-                break;
-        }
+        entity.GetComponent<Entity>().rangedattackdmg = rangeattdmg;
     }
     #endregion
 
@@ -839,34 +525,13 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrArmor(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int armor = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                armor = entity.GetComponent<UndeadEntity>().armor;
-                break;
-            case FactionNames.Human:
-                armor = entity.GetComponent<HumanEntity>().armor;
-                break;
-        }
+        int armor = entity.GetComponent<Entity>().armor;
         return armor;
     }
 
     public void SetArmor(GameObject entity, int armor)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().armor = armor;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().armor = armor;
-                break;
-        }
+        entity.GetComponent<Entity>().armor = armor;
     }
     #endregion
 
@@ -908,34 +573,13 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrArmorPiercing(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int armorpiercing = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                armorpiercing = entity.GetComponent<UndeadEntity>().armorpiercing;
-                break;
-            case FactionNames.Human:
-                armorpiercing = entity.GetComponent<HumanEntity>().armorpiercing;
-                break;
-        }
+        int armorpiercing = entity.GetComponent<Entity>().armorpiercing;
         return armorpiercing;
     }
 
     public void SetArmorPiercing(GameObject entity, int armorpiercing)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().armorpiercing = armorpiercing;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().armorpiercing = armorpiercing;
-                break;
-        }
+        entity.GetComponent<Entity>().armorpiercing = armorpiercing;
     }
     #endregion
 
@@ -977,34 +621,13 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrRangedArmorPiercing(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int rangedarmorpiercing = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                rangedarmorpiercing = entity.GetComponent<UndeadEntity>().rangedarmorpiercing;
-                break;
-            case FactionNames.Human:
-                rangedarmorpiercing = entity.GetComponent<HumanEntity>().rangedarmorpiercing;
-                break;
-        }
+        int rangedarmorpiercing = entity.GetComponent<Entity>().rangedarmorpiercing;
         return rangedarmorpiercing;
     }
 
     public void SetRangedArmorPiercing(GameObject entity, int rangedarmorpiercing)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().rangedarmorpiercing = rangedarmorpiercing;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().rangedarmorpiercing = rangedarmorpiercing;
-                break;
-        }
+        entity.GetComponent<Entity>().rangedarmorpiercing = rangedarmorpiercing;
     }
     #endregion
 
@@ -1046,195 +669,71 @@ public class EntityStats : MonoBehaviour {
 
     public int GetCurrVision(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        int vision = 0;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                vision = entity.GetComponent<UndeadEntity>().vision;
-                break;
-            case FactionNames.Human:
-                vision = entity.GetComponent<HumanEntity>().vision;
-                break;
-        }
+        int vision = entity.GetComponent<Entity>().vision;
         return vision;
     }
 
     public void SetVision(GameObject entity, int vision)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().vision = vision;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().vision = vision;
-                break;
-        }
+        entity.GetComponent<Entity>().vision = vision;
     }
     #endregion
 
     #region permaEffects
     public List<string> GetPermaEffects(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        List<string> permaEffects = new List<string>();
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                permaEffects = entity.GetComponent<UndeadEntity>().permaEffects;
-                break;
-            case FactionNames.Human:
-                permaEffects = entity.GetComponent<HumanEntity>().permaEffects;
-                break;
-        }
+        List<string> permaEffects = entity.GetComponent<Entity>().permaEffects;
         return permaEffects;
     }
 
     public void SetPermaEffects(GameObject entity, List<string> permaEffects)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().permaEffects = permaEffects;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().permaEffects = permaEffects;
-                break;
-        }
+        entity.GetComponent<Entity>().permaEffects = permaEffects;
     }
 
     public void AddPermaEffects(GameObject entity, string permaEffects)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().permaEffects.Add(permaEffects);
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().permaEffects.Add(permaEffects);
-                break;
-        }
+        entity.GetComponent<Entity>().permaEffects.Add(permaEffects);
     }
 
     public void RemovePermaEffects(GameObject entity, string permaEffects)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().permaEffects.Remove(permaEffects);
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().permaEffects.Remove(permaEffects);
-                break;
-        }
+        entity.GetComponent<Entity>().permaEffects.Remove(permaEffects);
     }
     #endregion
 
     #region tempEffects
     public List<KeyValuePair<string,int>> GetTempEffects(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        List<KeyValuePair<string, int>> tempEffects = new List<KeyValuePair<string, int>>();
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                tempEffects = entity.GetComponent<UndeadEntity>().tempEffects;
-                break;
-            case FactionNames.Human:
-                tempEffects = entity.GetComponent<HumanEntity>().tempEffects;
-                break;
-        }
+        List<KeyValuePair<string, int>> tempEffects = entity.GetComponent<Entity>().tempEffects;
         return tempEffects;
     }
 
     public void SetTempEffects(GameObject entity, List<KeyValuePair<string, int>> tempEffects)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().tempEffects = tempEffects;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().tempEffects = tempEffects;
-                break;
-        }
+        entity.GetComponent<Entity>().tempEffects = tempEffects;
     }
 
     public void AddTempEffects(GameObject entity, string tempEffects, int duration)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().tempEffects.Add(new KeyValuePair<string, int>(tempEffects, duration));
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().tempEffects.Add(new KeyValuePair<string, int>(tempEffects, duration));
-                break;
-        }
+        entity.GetComponent<Entity>().tempEffects.Add(new KeyValuePair<string, int>(tempEffects, duration));
     }
 
     public void RemoveTempEffects(GameObject entity, string tempEffects, int duration)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().tempEffects.Remove(new KeyValuePair<string, int>(tempEffects, duration));
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().tempEffects.Remove(new KeyValuePair<string, int>(tempEffects, duration));
-                break;
-        }
+        entity.GetComponent<Entity>().tempEffects.Remove(new KeyValuePair<string, int>(tempEffects, duration));
     }
     #endregion
 
     public bool GetIdle(GameObject entity)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        bool idle = false;
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                idle = entity.GetComponent<UndeadEntity>().idle;
-                break;
-            case FactionNames.Human:
-                idle = entity.GetComponent<HumanEntity>().idle;
-                break;
-        }
+        bool idle = entity.GetComponent<Entity>().idle;
         return idle;
     }
 
     public void SetIdle(GameObject entity, bool idle)
     {
-        string entityName = CleanName(entity);
-        string faction = WhichFactionEntity(entityName);
-        switch (faction)
-        {
-            case FactionNames.Undead:
-                entity.GetComponent<UndeadEntity>().idle = idle;
-                break;
-            case FactionNames.Human:
-                entity.GetComponent<HumanEntity>().idle = idle;
-                break;
-        }
+        entity.GetComponent<Entity>().idle = idle;
     }
 
     //returns faction
