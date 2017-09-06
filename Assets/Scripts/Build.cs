@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System;
 
 public class Build : MonoBehaviour {
 
@@ -16,20 +17,22 @@ public class Build : MonoBehaviour {
 	public void BuildBuilding (int cellindex, string buildingname, string playerid) {
 		Vector3 buildindex = hexGrid.GetCellPos(cellindex);
 		buildindex.y = 0.2f;
-		string availableNum = AvailableName (buildingname, playerid);
-		string availableName = playerid + buildingname + availableNum;
 
         //Instantiate the prefab from the resources folder
         GameObject building = (GameObject)Instantiate(Resources.Load(buildingname), buildindex, Quaternion.identity);
-        building.name = availableName;
+        Guid buildingID = Guid.NewGuid();
+        building.name = buildingID.ToString();
         char playerChar = playerid[0];
         buildingStorage.PlayerBuildingList(playerChar).Add(building);
         hexGrid.SetBuildingObject(cellindex, building);
-        hexGrid.SetBuildingName(cellindex, availableName);
+        hexGrid.SetBuildingName(cellindex, building.name);
 
         //sets stats for building
         buildingStats.SetPlayerID(building, playerid);
         buildingStats.SetType(building, buildingname);
+        buildingStats.SetUniqueID(building, buildingID);
+        buildingStats.SetCellIndex(building, cellindex);
+
         int health = buildingStats.GetMaxHealth(buildingname);
         buildingStats.SetMaxHealth(building, health);
         buildingStats.SetCurrHealth(building, health);
@@ -42,31 +45,51 @@ public class Build : MonoBehaviour {
         int vision = buildingStats.GetVision(buildingname);
         buildingStats.SetVision(building, vision);
 
-        loadMap.CreateHealthLabel(cellindex, health, availableName);
+        loadMap.CreateHealthLabel(cellindex, health, building.name);
     }
 
-	//Check for next available entity number
-	string AvailableName (string buildingname, string playerid) {
-		for (int i = 1; i <= 999; i++) {
-			string num = i.ToString ();
-            bool nameExists = false;
-            char playerChar = playerid[0];
-            foreach (GameObject playerBuildings in buildingStorage.PlayerBuildingList(playerChar))
-            {
-                if (playerBuildings.name == playerid + buildingname + num)
-                {
-                    nameExists = true;
-                }
-            }
-            if (!nameExists)
-            {
-                return num;
-            }
-        } 
-		return null;
-	}
+    public void BuildBuildingMemento(BuildingMemento buildingMemento)
+    {
+        string buildingId = buildingMemento.playerID;
+        string buildingType = buildingMemento.type;
+        int cellIndex = buildingMemento.cellIndex;
 
-	public void DestroyBuilding (int cellindex) {
+        Vector3 buildindex = hexGrid.GetCellPos(cellIndex);
+        buildindex.y = 0.2f;
+
+        //Instantiate the prefab from the resources folder
+        GameObject building = (GameObject)Instantiate(Resources.Load(buildingType), buildindex, Quaternion.identity);
+        building.name = buildingMemento.uniqueID.ToString();
+        char buildingChar = buildingId[0];
+        entityStorage.PlayerEntityList(buildingChar).Add(building);
+        hexGrid.SetEntityObject(buildingMemento.cellIndex, building);
+        hexGrid.SetEntityName(buildingMemento.cellIndex, building.name);
+
+        buildingStats.SetPlayerID(building, buildingMemento.playerID);
+        buildingStats.SetType(building, buildingMemento.type);
+        buildingStats.SetUniqueID(building, buildingMemento.uniqueID);
+        buildingStats.SetCellIndex(building, buildingMemento.cellIndex);
+
+        buildingStats.SetCurrHealth(building, buildingMemento.currhealth);
+        buildingStats.SetMaxHealth(building, buildingMemento.maxhealth);
+        buildingStats.SetRange(building, buildingMemento.range);
+        buildingStats.SetRangedAttackDmg(building, buildingMemento.rangedattackdmg);
+        buildingStats.SetDefense(building, buildingMemento.defense);
+        buildingStats.SetVision(building, buildingMemento.vision);
+        buildingStats.SetUpgrades(building, buildingMemento.upgrades);
+        buildingStats.SetPermaEffects(building, buildingMemento.permaEffects);
+        buildingStats.SetTempEffects(building, buildingMemento.tempEffects);
+
+        buildingStats.SetCurrConstruction(building, buildingMemento.currConstruction);
+        buildingStats.SetCurrConstructionTimer(building, buildingMemento.currConstructionTimer);
+        buildingStats.SetCurrRecruitment(building, buildingMemento.currRecruitment);
+        buildingStats.SetCurrRecruitmentTimer(building, buildingMemento.currRecruitmentTimer);
+        buildingStats.SetIsRecruitmentQueued(building, buildingMemento.isRecruitmentQueued);
+
+        loadMap.CreateHealthLabel(buildingMemento.cellIndex, buildingMemento.currhealth, building.name);
+    }
+
+    public void DestroyBuilding (int cellindex) {
 		string buildingName = hexGrid.GetBuildingName (cellindex);
         GameObject building = hexGrid.GetBuildingObject (cellindex);
         char playerChar = buildingName[0];

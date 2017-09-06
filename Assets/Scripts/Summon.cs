@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System;
 
 public class Summon : MonoBehaviour {
 	public HexGrid hexGrid;
@@ -13,20 +14,22 @@ public class Summon : MonoBehaviour {
     public void SummonEntity (int cellindex, string summonname, string playerid) {
 		Vector3 summonindex = hexGrid.GetCellPos(cellindex);
 		summonindex.y = 0.2f;
-		string availableNum = AvailableName (summonname, playerid);
-		string availableName = playerid + summonname + availableNum;
 
-        //Instantiate the prefab from the resources folder
+        //Instantiate the prefab from the resources folder, add to player entity list and set it to the hex tile
         GameObject entity = (GameObject)Instantiate(Resources.Load(summonname), summonindex, Quaternion.identity);
-        entity.name = availableName;
+        Guid entityID = Guid.NewGuid();
+        entity.name = entityID.ToString();
         char playerChar = playerid[0];
         entityStorage.PlayerEntityList(playerChar).Add(entity);
         hexGrid.SetEntityObject(cellindex, entity);
-        hexGrid.SetEntityName(cellindex, availableName);
+        hexGrid.SetEntityName(cellindex, entity.name);
 
         //sets stats for entity
         entityStats.SetPlayerID(entity, playerid);
         entityStats.SetType(entity, summonname);
+        entityStats.SetUniqueID(entity, entityID);
+        entityStats.SetCellIndex(entity, cellindex);
+
         int health = entityStats.GetMaxHealth(summonname);
         entityStats.SetMaxHealth(entity, health);
         entityStats.SetCurrHealth(entity, health);
@@ -52,7 +55,7 @@ public class Summon : MonoBehaviour {
         int vision = entityStats.GetVision(summonname);
         entityStats.SetVision(entity, vision);
 
-        loadMap.CreateHealthLabel(cellindex, health, availableName);
+        loadMap.CreateHealthLabel(cellindex, health, entity.name);
 	}
 
     public void SummonEntityMemento(EntityMemento entityMemento)
@@ -63,16 +66,14 @@ public class Summon : MonoBehaviour {
 
         Vector3 summonindex = hexGrid.GetCellPos(cellIndex);
         summonindex.y = 0.2f;
-        string availableNum = AvailableName(entityType, playerId);
-        string availableName = playerId + entityType + availableNum;
 
         //Instantiate the prefab from the resources folder
         GameObject entity = (GameObject)Instantiate(Resources.Load(entityType), summonindex, Quaternion.identity);
-        entity.name = availableName;
+        entity.name = entityMemento.uniqueID.ToString();
         char playerChar = playerId[0];
         entityStorage.PlayerEntityList(playerChar).Add(entity);
         hexGrid.SetEntityObject(entityMemento.cellIndex, entity);
-        hexGrid.SetEntityName(entityMemento.cellIndex, availableName);
+        hexGrid.SetEntityName(entityMemento.cellIndex, entity.name);
 
         entityStats.SetPlayerID(entity, entityMemento.playerID);
         entityStats.SetType(entity, entityMemento.type);
@@ -97,29 +98,8 @@ public class Summon : MonoBehaviour {
         entityStats.SetPermaEffects(entity, entityMemento.permaEffects);
         entityStats.SetTempEffects(entity, entityMemento.tempEffects);
 
-        loadMap.CreateHealthLabel(entityMemento.cellIndex, entityMemento.currhealth, availableName);
+        loadMap.CreateHealthLabel(entityMemento.cellIndex, entityMemento.currhealth, entity.name);
     }
-
-    //Check for next available entity number
-    string AvailableName (string summonname, string playerid) {
-		for (int i = 1; i <= 999; i++) {
-			string num = i.ToString ();
-            bool nameExists = false;
-            char playerChar = playerid[0];
-            foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar))
-            {
-                if (playerEntity.name == playerid + summonname + num)
-                {
-                    nameExists = true;
-                }
-            }
-            if (!nameExists)
-            {
-                return num;
-            }
-        } 
-		return null;
-	}
 
     //TODO for human entities
 	public bool ValidSummon(string entity) {

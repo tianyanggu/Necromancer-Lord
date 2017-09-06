@@ -36,12 +36,6 @@ public class BuildingStats : MonoBehaviour {
         humanBuildings.Add(BuildingNames.Village);
     }
 
-    public string CleanName(GameObject building)
-    {
-        string cleanbuilding = Regex.Replace(building.name.Substring(2), @"[\d-]", string.Empty);
-        return cleanbuilding;
-    }
-
     //TODO recruitment time of building, might fit in entity instead
 
     #region playerID
@@ -292,18 +286,23 @@ public class BuildingStats : MonoBehaviour {
         return 0;
     }
 
-    public List<string> GetCompletedUpgrades(GameObject building)
+    public List<string> GetUpgrades(GameObject building)
     {
         List<string> upgrades = building.GetComponent<Building>().upgrades;
         return upgrades;
     }
 
-    public void AddCompletedUpgrades(GameObject building, string upgrade)
+    public void SetUpgrades(GameObject building, List<string> upgrades)
+    {
+        building.GetComponent<Building>().upgrades = upgrades;
+    }
+
+    public void AddUpgrades(GameObject building, string upgrade)
     {
         building.GetComponent<Building>().upgrades.Add(upgrade);
     }
 
-    public void RemoveCompletedUpgrades(GameObject building, string upgrade)
+    public void RemoveUpgrades(GameObject building, string upgrade)
     {
         building.GetComponent<Building>().upgrades.Remove(upgrade);
     }
@@ -449,9 +448,20 @@ public class BuildingStats : MonoBehaviour {
         return currRecruitmentTimer;
     }
 
-    public void SetCurrRecruitmentTimer(GameObject building, string time)
+    public void SetCurrRecruitmentTimer(GameObject building, int time)
     {
-        building.GetComponent<Building>().currRecruitment = time;
+        building.GetComponent<Building>().currRecruitmentTimer = time;
+    }
+
+    public bool GetIsRecruitmentQueued(GameObject building)
+    {
+        bool isRecruitmentQueued = building.GetComponent<Building>().isRecruitmentQueued;
+        return isRecruitmentQueued;
+    }
+
+    public void SetIsRecruitmentQueued(GameObject building, bool isRecruitmentQueued)
+    {
+        building.GetComponent<Building>().isRecruitmentQueued = isRecruitmentQueued;
     }
     #endregion
 

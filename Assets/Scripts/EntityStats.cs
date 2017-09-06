@@ -48,12 +48,6 @@ public class EntityStats : MonoBehaviour {
         humanEntities.Add(EntityNames.LightsChosen);
     }
 
-    public string CleanName(GameObject entity)
-    {
-        string cleanEntity = Regex.Replace(entity.name.Substring(2), @"[\d-]", string.Empty);
-        return cleanEntity;
-    }
-
     #region playerID
     public string GetPlayerID(GameObject entity)
     {

@@ -66,18 +66,9 @@ public class HexMapEditor : MonoBehaviour {
         //		List<int> test = hexGrid.GetCellIndexesOneHexAway (28);
         //		int test0 = test [0];
         //		int test1 = test [1];
-        //		int test2 = test [2];
-        //		int test3 = test [3];
-        //		int test4 = test [4];
-        //		int test5 = test [5];
-        //		//int test6 = test [6];
         //		Debug.Log (test0);
         //		Debug.Log (test1);
-        //		Debug.Log (test2);
-        //		Debug.Log (test3);
-        //		Debug.Log (test4);
-        //		Debug.Log (test5);
-        //		//Debug.Log (test6);
+
 
         //TODO Overlay to add players
     }
@@ -258,4 +249,4 @@ public class HexMapEditor : MonoBehaviour {
 	}
 }
 
-//TODO refactor lists of entities,  battles, and load map
+//TODO refactor lists of entities, battles, and load map
