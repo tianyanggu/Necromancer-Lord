@@ -92,7 +92,6 @@ public class HexMapEditor : MonoBehaviour {
 		//Debug.Log(currindex);
 		//string currEntityName = hexGrid.GetEntityName (currindex);
         GameObject currEntityObj = hexGrid.GetEntityObject(currindex);
-        string currBuildingName = hexGrid.GetBuildingName (currindex);
         GameObject currBuildingObj = hexGrid.GetBuildingObject(currindex);
         //string cleanCurrEntity = Regex.Replace(currEntityName.Substring(2), @"[\d-]", string.Empty);
         //string cleanCurrBuilding = Regex.Replace(currBuildingName.Substring(2), @"[\d-]", string.Empty);
@@ -104,7 +103,6 @@ public class HexMapEditor : MonoBehaviour {
 			lockbattle = false;
 		}
         if (buildingStorage.PlayerBuildingList(playerChar).Contains(currBuildingObj)) {
-            selectedBuilding = currBuildingName;
             buildingManager.DisplayBuilding(currindex);
             //TODO GUI for buildings
         }
@@ -128,8 +126,8 @@ public class HexMapEditor : MonoBehaviour {
 		GUI.Box(new Rect(10,120,140,150), "Menu");
 
 		//drop down menu after summon for various entities, non-editor with validation for souls
-		string currEntityName = hexGrid.GetEntityName(currindex);
-		if (currEntityName == "Empty") {
+		GameObject currEntityObject = hexGrid.GetEntityObject(currindex);
+		if (currEntityObject == null) {
 			if (GUI.Button (new Rect (20, 150, 120, 20), "Summon")) {
                 if (summonclicked == false) {
                     summonclicked = true;
@@ -154,7 +152,7 @@ public class HexMapEditor : MonoBehaviour {
 			}
 		}
 		//drop down menu after summon for various entities
-		if (currEntityName == "Empty") {
+		if (currEntityObject == null) {
 			if (GUI.Button (new Rect (20, 180, 120, 20), "Summon")) {
                 if (summonclickededitor == false) {
                     summonclickededitor = true;
@@ -184,8 +182,8 @@ public class HexMapEditor : MonoBehaviour {
 		}
 
 		//drop down menu after summon for various buildings
-		string currBuildingName = hexGrid.GetBuildingName(currindex);
-		if (currBuildingName == "Empty") {
+		GameObject currBuildingObject = hexGrid.GetBuildingObject(currindex);
+		if (currBuildingObject == null) {
 			if (GUI.Button (new Rect (20, 210, 120, 20), "Building")) {
 				if (buildingclicked == false) {
                     buildingclicked = true;

@@ -33,21 +33,19 @@ public class LoadMap : MonoBehaviour {
     public void LoadResources () {
 		int souls = GameMemento.current.souls;
         currency.SetSouls (souls);
-	}
+        //TODO currency for each player
+        //int gold = GameMemento.current.gold;
+        //currency.SetGold(gold);
+    }
 
 	public void LoadEntities () {
-		gridCanvas = GetComponentInChildren<Canvas>();
-
         //summon.SummonEntity(14, EntityNames.Necromancer, "AA");
         //summon.SummonEntity(12, EntityNames.Militia, "BB");
         //summon.SummonEntity(15, EntityNames.Militia, "CA");
         //summon.SummonEntity(3, EntityNames.Skeleton, "AA");
         //summon.SummonEntity(18, EntityNames.Zombie, "AA");
 
-        List<EntityMemento> entityList = GameMemento.current.entityMementoList;
-        int entityListLength = entityList.Count;
-
-        //TODO maybe pass memento to method instead of super long
+        int entityListLength = GameMemento.current.entityMementoList.Count;
         for (int i = 0; i < entityListLength; i++)
         {
             summon.SummonEntityMemento(GameMemento.current.entityMementoList[i]);
@@ -68,17 +66,22 @@ public class LoadMap : MonoBehaviour {
         }
     }
 
-    public void CreateHealthLabel (int index, int health, string entity) {
+    public void CreateHealthLabel (int index, int health, string uniqueID) {
 		Text label = Instantiate<Text>(healthLabel);
 		label.rectTransform.SetParent(gridCanvas.transform, false);
 		Vector3 healthpos = hexGrid.GetCellPos (index);
 		label.rectTransform.anchoredPosition = new Vector2(healthpos.x, healthpos.z);
 		label.text = health.ToString();
-		label.name = "Health " + entity;
+		label.name = "Health " + uniqueID;
 	}
 
-	public void LoadTerrain () {
-		
+    public void DestroyHealthLabel(string uniqueID)
+    {
+        GameObject attackerHealthText = GameObject.Find("Health " + uniqueID);
+        Destroy(attackerHealthText);
+    }
+
+    public void LoadTerrain () {
 		for (int i = 0; i < hexGrid.size; i++) {
             string allTerrain = GameMemento.current.hexGridTerrainList[i];
 
@@ -96,68 +99,36 @@ public class LoadMap : MonoBehaviour {
 	}
 
 	public void LoadBuildings () {
-		gridCanvas = GetComponentInChildren<Canvas>();
-
-		Vector3 build1 = hexGrid.GetCellPos(15);
-		build1.y = 0.1f;
-		GameObject eVillagem = (GameObject)Instantiate (Village, build1, Quaternion.Euler(90,0,0));
-		eVillagem.name = "CAVillage1";
-		hexGrid.SetBuildingName (15, "CAVillage1");
-        hexGrid.SetBuildingObject(15, eVillagem);
-
-        Vector3 build2 = hexGrid.GetCellPos(14);
-		build2.y = 0.1f;
-		GameObject pNecropolisn = (GameObject)Instantiate (Necropolis, build2, Quaternion.Euler(90,0,0));
-		pNecropolisn.name = "AANecropolis1";
-		hexGrid.SetBuildingName(14, "AANecropolis1");
-        hexGrid.SetBuildingObject(14, pNecropolisn);
-
-        for (int i = 0; i < hexGrid.size; i++) {
-			string allBuildings = PlayerPrefs.GetString ("HexBuilding" + i);
-			int allHealth = PlayerPrefs.GetInt ("HexBuildingHealth" + i);
-			int allIndex = PlayerPrefs.GetInt ("HexBuildingIndex" + i);
-
-            //TODO switch test code to build building is build.cs
-            if (allBuildings != string.Empty)
-            {
-                string cleanBuilding = Regex.Replace(allBuildings.Substring(2), @"[\d-]", string.Empty);
-                Vector3 spawn = hexGrid.GetCellPos(allIndex);
-                spawn.y = 0.1f;
-                GameObject building = (GameObject)Instantiate(Resources.Load(cleanBuilding), spawn, Quaternion.Euler(90, 0, 0));
-                building.name = allBuildings;
-                hexGrid.SetBuildingName(allIndex, allBuildings);
-                hexGrid.SetBuildingObject(allIndex, building);
-                SetBuildingHealth(building, cleanBuilding, allHealth);
-            }
-		}
-	}
+        int numBuildings = GameMemento.current.buildingMementoList.Count;
+        for (int i = 0; i < numBuildings; i++)
+        {
+            build.BuildBuildingMemento(GameMemento.current.buildingMementoList[i]);
+        }
+    }
 
 	public void LoadCorpses () {
 		for (int i = 0; i < hexGrid.size; i++) {
-			for (int j = 0; j < 4; j++) {
-				string allCorpses = PlayerPrefs.GetString ("HexCorpses" + i + "corpse" + j);
-				string cleanCorpse = Regex.Replace(allCorpses, @"[\d-]", string.Empty);
-
-				if (cleanCorpse == EntityNames.Militia) {
-					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == EntityNames.Archer) {
-					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == EntityNames.Longbowman) {
-					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == EntityNames.Crossbowman) {
-					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == EntityNames.Footman) {
-					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == EntityNames.MountedKnight) {
-					hexGrid.SetCorpses (i, allCorpses);
-				} else if (cleanCorpse == EntityNames.LightsChosen) {
-					hexGrid.SetCorpses (i, allCorpses);
-				}
-			}
-		}
+            List<string> corpses = GameMemento.current.hexGridCorpsesList[i];
+            hexGrid.SetCorpses(i, corpses);
+        }
 	}
 
-	public void LoadRandom (int seed) {
+    public void LoadFog()
+    {
+        for (int i = 0; i < hexGrid.size; i++)
+        {
+            bool fog = GameMemento.current.hexGridFogList[i];
+            if (fog)
+            {
+                hexGrid.SetFogOn(i);
+            } else
+            {
+                hexGrid.SetFogOff(i);
+            }
+        }
+    }
+
+    public void LoadRandom (int seed) {
         Random.InitState(seed);
 		for (int i = 0; i < hexGrid.size; i++) {
 			//terrain generated via seed

@@ -43,23 +43,30 @@ public class Game : MonoBehaviour {
         for (int i = 0; i < hexGrid.cells.Length; i++)
         {
             GameMemento.current.hexGridTerrainList.Add(hexGrid.cells[i].terrain);
-            GameMemento.current.hexGridBuildingNameList.Add(hexGrid.cells[i].buildingName);
             GameMemento.current.hexGridCorpsesList.Add(hexGrid.cells[i].corpses);
             GameMemento.current.hexGridFogList.Add(hexGrid.cells[i].fog);
             if (hexGrid.cells[i].entityObj != null)
             {
-                EntityMemento EntityMemento = new EntityMemento();
-                SetEntities(EntityMemento, i);
-                GameMemento.current.entityMementoList.Add(EntityMemento);
+                EntityMemento entityMemento = new EntityMemento();
+                SetEntitiesMemento(entityMemento, i);
+                GameMemento.current.entityMementoList.Add(entityMemento);
+            }
+            if (hexGrid.cells[i].buildingObj != null)
+            {
+                BuildingMemento buildingMemento = new BuildingMemento();
+                SetBuildingsMemento(buildingMemento, i);
+                GameMemento.current.buildingMementoList.Add(buildingMemento);
             }
         }
     }
 
-    private void SetEntities (EntityMemento EntityMemento, int i)
+    //TODO check if need to create new list for  and readd everything to current
+    private void SetEntitiesMemento (EntityMemento EntityMemento, int i)
     {
         EntityMemento.playerID = hexGrid.cells[i].entityObj.GetComponent<Entity>().playerID;
         EntityMemento.type = hexGrid.cells[i].entityObj.GetComponent<Entity>().type;
         EntityMemento.cellIndex = hexGrid.cells[i].entityObj.GetComponent<Entity>().cellIndex;
+        EntityMemento.uniqueID = hexGrid.cells[i].entityObj.GetComponent<Entity>().uniqueID;
 
         EntityMemento.maxhealth = hexGrid.cells[i].entityObj.GetComponent<Entity>().maxhealth;
         EntityMemento.maxmana = hexGrid.cells[i].entityObj.GetComponent<Entity>().maxmana;
@@ -72,6 +79,8 @@ public class Game : MonoBehaviour {
         EntityMemento.armorpiercing = hexGrid.cells[i].entityObj.GetComponent<Entity>().armorpiercing;
         EntityMemento.rangedarmorpiercing = hexGrid.cells[i].entityObj.GetComponent<Entity>().rangedarmorpiercing;
         EntityMemento.vision = hexGrid.cells[i].entityObj.GetComponent<Entity>().vision;
+        EntityMemento.permaEffects = hexGrid.cells[i].entityObj.GetComponent<Entity>().permaEffects;
+        EntityMemento.tempEffects = hexGrid.cells[i].entityObj.GetComponent<Entity>().tempEffects;
 
         EntityMemento.currhealth = hexGrid.cells[i].entityObj.GetComponent<Entity>().currhealth;
         EntityMemento.currmana = hexGrid.cells[i].entityObj.GetComponent<Entity>().currmana;
@@ -81,11 +90,12 @@ public class Game : MonoBehaviour {
         EntityMemento.idle = hexGrid.cells[i].entityObj.GetComponent<Entity>().idle;
     }
 
-    private void SetBuildings(BuildingMemento BuildingMemento, int i)
+    private void SetBuildingsMemento(BuildingMemento BuildingMemento, int i)
     {
         BuildingMemento.playerID = hexGrid.cells[i].buildingObj.GetComponent<Building>().playerID;
         BuildingMemento.type = hexGrid.cells[i].buildingObj.GetComponent<Building>().type;
         BuildingMemento.cellIndex = hexGrid.cells[i].buildingObj.GetComponent<Building>().cellIndex;
+        BuildingMemento.uniqueID = hexGrid.cells[i].buildingObj.GetComponent<Building>().uniqueID;
 
         BuildingMemento.currhealth = hexGrid.cells[i].buildingObj.GetComponent<Building>().currhealth;
         BuildingMemento.maxhealth = hexGrid.cells[i].buildingObj.GetComponent<Building>().maxhealth;
@@ -94,6 +104,8 @@ public class Game : MonoBehaviour {
         BuildingMemento.defense = hexGrid.cells[i].buildingObj.GetComponent<Building>().defense;
         BuildingMemento.vision = hexGrid.cells[i].buildingObj.GetComponent<Building>().vision;
         BuildingMemento.upgrades = hexGrid.cells[i].buildingObj.GetComponent<Building>().upgrades;
+        BuildingMemento.permaEffects = hexGrid.cells[i].buildingObj.GetComponent<Building>().permaEffects;
+        BuildingMemento.tempEffects = hexGrid.cells[i].buildingObj.GetComponent<Building>().tempEffects;
 
         BuildingMemento.currConstruction = hexGrid.cells[i].buildingObj.GetComponent<Building>().currConstruction;
         BuildingMemento.currConstructionTimer = hexGrid.cells[i].buildingObj.GetComponent<Building>().currConstructionTimer;

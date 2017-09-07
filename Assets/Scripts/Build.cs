@@ -12,9 +12,10 @@ public class Build : MonoBehaviour {
 	public Currency currency;
 	public EntityStorage entityStorage;
     public BuildingStats buildingStats;
+    public EntityStats entityStats;
 
-	//given an index and the type of summon, summons that entity with the next available name
-	public void BuildBuilding (int cellindex, string buildingname, string playerid) {
+    //given an index and the type of summon, summons that entity with the next available name
+    public void BuildBuilding (int cellindex, string buildingname, string playerid) {
 		Vector3 buildindex = hexGrid.GetCellPos(cellindex);
 		buildindex.y = 0.2f;
 
@@ -25,7 +26,6 @@ public class Build : MonoBehaviour {
         char playerChar = playerid[0];
         buildingStorage.PlayerBuildingList(playerChar).Add(building);
         hexGrid.SetBuildingObject(cellindex, building);
-        hexGrid.SetBuildingName(cellindex, building.name);
 
         //sets stats for building
         buildingStats.SetPlayerID(building, playerid);
@@ -61,9 +61,8 @@ public class Build : MonoBehaviour {
         GameObject building = (GameObject)Instantiate(Resources.Load(buildingType), buildindex, Quaternion.identity);
         building.name = buildingMemento.uniqueID.ToString();
         char buildingChar = buildingId[0];
-        entityStorage.PlayerEntityList(buildingChar).Add(building);
-        hexGrid.SetEntityObject(buildingMemento.cellIndex, building);
-        hexGrid.SetEntityName(buildingMemento.cellIndex, building.name);
+        buildingStorage.PlayerBuildingList(buildingChar).Add(building);
+        hexGrid.SetBuildingObject(buildingMemento.cellIndex, building);
 
         buildingStats.SetPlayerID(building, buildingMemento.playerID);
         buildingStats.SetType(building, buildingMemento.type);
@@ -90,15 +89,13 @@ public class Build : MonoBehaviour {
     }
 
     public void DestroyBuilding (int cellindex) {
-		string buildingName = hexGrid.GetBuildingName (cellindex);
         GameObject building = hexGrid.GetBuildingObject (cellindex);
-        char playerChar = buildingName[0];
+        char playerChar = buildingStats.GetPlayerID(building)[0];
         buildingStorage.PlayerBuildingList(playerChar).Remove(building);
         Destroy (building);
 
-        hexGrid.SetBuildingName(cellindex, "Empty");
         hexGrid.SetBuildingObject(cellindex, null);
-        GameObject healthText = GameObject.Find("Health " + buildingName);
+        GameObject healthText = GameObject.Find("Health " + buildingStats.GetUniqueID(building).ToString());
         Destroy(healthText);
     }
 
@@ -108,14 +105,11 @@ public class Build : MonoBehaviour {
         switch (faction)
         {
             case FactionNames.Undead:
-                int souls = PlayerPrefs.GetInt("Souls");
+                int souls = currency.souls;
                 int cost = buildingStorage.buildingSoulCost(building);
 
                 List<string> corpses = hexGrid.GetCorpses(index);
-                string entityName = hexGrid.GetEntityName(index);
-                string cleanEntity = Regex.Replace(entityName.Substring(2), @"[\d-]", string.Empty);
-                string ppNum = PlayerPrefs.GetString(entityName);
-                string numEntity = Regex.Replace(ppNum, "[^0-9 -]", string.Empty);
+                GameObject entity = hexGrid.GetEntityObject(index);
 
                 //checks if fulfilled cost and removes paid cost from game
                 if (souls >= cost)
@@ -123,24 +117,19 @@ public class Build : MonoBehaviour {
                     if (corpses.Contains(EntityNames.Militia))
                     {
                         currency.ChangeSouls(-cost);
-                        hexGrid.RemoveCorpses(index, EntityNames.Militia);
+                        hexGrid.RemoveCorpse(index, EntityNames.Militia);
                         return true;
                     }
-                    else if (cleanEntity == EntityNames.Skeleton || cleanEntity == EntityNames.Zombie || cleanEntity == EntityNames.SkeletonArcher)
+                    else if (entityStats.GetType(entity) == EntityNames.Skeleton || entityStats.GetType(entity) == EntityNames.Zombie || entityStats.GetType(entity) == EntityNames.SkeletonArcher)
                     {
                         currency.ChangeSouls(-cost);
                         GameObject entityGameObj = hexGrid.GetEntityObject(index);
-                        char playerFirstLetter = entityName[0];
+                        char playerFirstLetter = entityStats.GetPlayerID(entity)[0];
                         entityStorage.PlayerEntityList(playerFirstLetter).Remove(entityGameObj);
                         Destroy(entityGameObj);
-                        hexGrid.SetEntityName(index, "Empty");
                         hexGrid.SetEntityObject(index, null);
-                        GameObject healthText = GameObject.Find("Health " + entityName);
+                        GameObject healthText = GameObject.Find("Health " + entityStats.GetUniqueID(entity).ToString());
                         Destroy(healthText);
-                        PlayerPrefs.DeleteKey("HexEntity" + numEntity);
-                        PlayerPrefs.DeleteKey("HexEntityHealth" + numEntity);
-                        PlayerPrefs.DeleteKey("HexEntityIndex" + numEntity);
-                        PlayerPrefs.DeleteKey(entityName);
                         return true;
                     }
                 }

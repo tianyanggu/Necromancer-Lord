@@ -58,7 +58,7 @@ public class Building : MonoBehaviour {
             Vector3 currPos = gameObject.transform.position;
             GameObject hexGrid = GameObject.Find("Hex Grid");
             int currIndex = hexGrid.GetComponent<HexGrid>().GetCellIndex(currPos);
-            if (hexGrid.GetComponent<HexGrid>().GetEntityName(currIndex) == "Empty")
+            if (hexGrid.GetComponent<HexGrid>().GetEntityObject(currIndex) == null)
             {
                 GameObject summon = GameObject.Find("Summon");
                 string buildingOwner = name.Substring(0, 1);

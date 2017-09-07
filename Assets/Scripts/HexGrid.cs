@@ -66,11 +66,6 @@ public class HexGrid : MonoBehaviour {
 		hexMesh.Triangulate(cells);
 	}
 
-	public void SetEntityName (int index, string newEntityName) {
-		HexCell cell = cells[index];
-		cell.entityName = newEntityName;
-	}
-
     public void SetEntityObject(int index, GameObject newEntityObj)
     {
         HexCell cell = cells[index];
@@ -82,34 +77,26 @@ public class HexGrid : MonoBehaviour {
 		cell.terrain = newTerrain;
 	}
 
-	public void SetBuildingName (int index, string newBuildingName) {
-		HexCell cell = cells[index];
-		cell.buildingName = newBuildingName;
-	}
-
     public void SetBuildingObject(int index, GameObject newBuildingObj)
     {
         HexCell cell = cells[index];
         cell.buildingObj = newBuildingObj;
     }
 
-    public void SetCorpses (int index, string corpse) {
-        int availCorpseNum = AvailableCorpseNum (index);
-        //if corpses not over 5, if over 5 then do not add to pile
-        //TODO remove first corpse
-        if (availCorpseNum != 5) {
-			string cleanCorpse = Regex.Replace(corpse.Substring(2), @"[\d-]", string.Empty);
-			HexCell cell = cells [index];
-			cell.corpses.Add (cleanCorpse);
+    public void SetCorpses(int index, List<string> corpses)
+    {
+        HexCell cell = cells[index];
+        cell.corpses = corpses;
+    }
 
-			//set to playerprefs
-			PlayerPrefs.SetString ("HexCorpses" + index + "corpse" + availCorpseNum, cleanCorpse);
-		}
+    public void AddCorpse(int index, string corpse) {
+		HexCell cell = cells [index];
+	    cell.corpses.Add(corpse);
 	}
 
-	public void RemoveCorpses (int index, string corpse) {
+	public void RemoveCorpse (int index, string corpse) {
 		HexCell cell = cells [index];
-		cell.corpses.Remove (corpse);
+		cell.corpses.Remove(corpse);
 
 		//get index of the corpse to be removed
 		int corpseIndex = 5;
@@ -122,17 +109,6 @@ public class HexGrid : MonoBehaviour {
 
 		//set to playerprefs
 		PlayerPrefs.DeleteKey ("HexCorpses" + index + "corpse" + corpseIndex);
-	}
-
-	//Check for next available setstring number for corpses on that tile
-	private int AvailableCorpseNum (int index) {
-		for (int i = 0; i < 4; i++) {
-			string allEntity = PlayerPrefs.GetString ("HexCorpses" + index + "corpse" + i);
-			if (allEntity == string.Empty) {
-				return i;
-			}
-		}
-		return 5; //TODO error message if no available spaces, should not be possible to give null
 	}
 
     public void SetFogOn (int index) {
@@ -199,12 +175,6 @@ public class HexGrid : MonoBehaviour {
 		return position;
 	}
 
-	public string GetEntityName (int index) {
-		HexCell cell = cells[index];
-		string currEntity = cell.entityName;
-		return currEntity;
-	}
-
     public GameObject GetEntityObject(int index)
     {
         HexCell cell = cells[index];
@@ -216,12 +186,6 @@ public class HexGrid : MonoBehaviour {
 		HexCell cell = cells[index];
 		string currTerrain = cell.terrain;
 		return currTerrain;
-	}
-
-	public string GetBuildingName (int index) {
-		HexCell cell = cells[index];
-		string currBuilding = cell.buildingName;
-		return currBuilding;
 	}
 
     public GameObject GetBuildingObject(int index)
@@ -257,9 +221,7 @@ public class HexGrid : MonoBehaviour {
 		cell.color = defaultColor;
 
 		cell.terrain = "Empty";
-		cell.buildingName = "Empty";
         cell.buildingObj = null;
-		cell.entityName = "Empty";
         cell.entityObj = null;
         cell.fog = true;
 

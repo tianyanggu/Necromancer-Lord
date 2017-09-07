@@ -17,9 +17,10 @@ public class Currency : MonoBehaviour {
 		soulsNum.text = "Souls:" + souls.ToString ();
 	}
 
-    public void SetSouls(int amount) {
+    public void SetSouls(int amount)
+    {
         souls = amount;
-        Text soulsNum = soulsObject.GetComponent<Text> ();
-		soulsNum.text = "Souls:" + amount.ToString ();
-	}
+        Text soulsNum = soulsObject.GetComponent<Text>();
+        soulsNum.text = "Souls:" + amount.ToString();
+    }
 }

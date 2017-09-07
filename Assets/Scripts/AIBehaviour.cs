@@ -122,10 +122,9 @@ public class AIBehaviour : MonoBehaviour {
 			foreach (int direction in hexdirections) {
 				//ensures no index error from index being out of bounds in hexgrid
 				if (direction >= 0 && direction < hexGrid.size) {
-					string dirEntityName = hexGrid.GetEntityName (direction);
                     GameObject dirEntityObject = hexGrid.GetEntityObject(direction);
-                    string cleandirEntity = Regex.Replace (dirEntityName, @"[\d-]", string.Empty);
-					if (dirEntityName == "Empty") {
+                    string cleandirEntity = entityStats.GetType(dirEntityObject);
+					if (dirEntityObject == null) {
 						if (hexGrid.GetTerrain (direction) == "Mountain" && maxDistance > 1) {
 							int newmovementpoints = maxDistance - 2;
 							int newusedmovementpoints = usedDistance + 2;
@@ -141,7 +140,7 @@ public class AIBehaviour : MonoBehaviour {
                         //char playerChar = playerManager.currPlayer[0];
                         //EntityFactionLists(playerChar) instead of undeadEntities
                         if (entityStats.undeadEntities.Contains (cleandirEntity)) {
-							nearbyPlayerEntities.Add (dirEntityName);
+							nearbyPlayerEntities.Add (cleandirEntity);
 							nearbyPlayerEntitiesIndex.Add (direction);
 							nearbyPlayerEntitiesDistance.Add (usedDistance + 1);
 							int playerEntityHealth = GetPlayerEntityHealth (dirEntityObject);
@@ -211,7 +210,7 @@ public class AIBehaviour : MonoBehaviour {
 
 		foreach (int direction in hexdirections) {
 			if (direction >= 0 && direction < hexGrid.size) {
-                if (hexGrid.GetEntityName(direction) == "Empty")
+                if (hexGrid.GetEntityObject(direction) == null)
                 {
                     availableIndex.Add(direction);
                 }

@@ -22,7 +22,6 @@ public class Summon : MonoBehaviour {
         char playerChar = playerid[0];
         entityStorage.PlayerEntityList(playerChar).Add(entity);
         hexGrid.SetEntityObject(cellindex, entity);
-        hexGrid.SetEntityName(cellindex, entity.name);
 
         //sets stats for entity
         entityStats.SetPlayerID(entity, playerid);
@@ -73,7 +72,6 @@ public class Summon : MonoBehaviour {
         char playerChar = playerId[0];
         entityStorage.PlayerEntityList(playerChar).Add(entity);
         hexGrid.SetEntityObject(entityMemento.cellIndex, entity);
-        hexGrid.SetEntityName(entityMemento.cellIndex, entity.name);
 
         entityStats.SetPlayerID(entity, entityMemento.playerID);
         entityStats.SetType(entity, entityMemento.type);
@@ -107,7 +105,7 @@ public class Summon : MonoBehaviour {
         switch (faction)
         {
             case FactionNames.Undead:
-                int souls = PlayerPrefs.GetInt("Souls");
+                int souls = currency.souls;
                 int cost = entityStats.summonSoulCost(entity);
                 if (souls >= cost)
                 {
@@ -123,22 +121,16 @@ public class Summon : MonoBehaviour {
 
     public void KillEntity(int cellindex)
     {
-        string entityName = hexGrid.GetEntityName(cellindex);
         GameObject entityObj = hexGrid.GetEntityObject(cellindex);
-        char playerFirstLetter = entityName[0];
+        char playerFirstLetter = entityStats.GetPlayerID(entityObj)[0];
         entityStorage.PlayerEntityList(playerFirstLetter).Remove(entityObj);
         Destroy(entityObj);
 
-        hexGrid.SetEntityName(cellindex, "Empty");
         hexGrid.SetEntityObject(cellindex, null);
-        GameObject attackerHealthText = GameObject.Find("Health " + entityName);
+        GameObject attackerHealthText = GameObject.Find("Health " + entityStats.GetUniqueID(entityObj).ToString());
         Destroy(attackerHealthText);
 
-        //add to corpses if not undead
-        string cleanEntity = Regex.Replace(entityName.Substring(2), @"[\d-]", string.Empty);
-        if (entityStats.WhichFactionEntity(cleanEntity) != FactionNames.Undead)
-        {
-            hexGrid.SetCorpses(cellindex, entityName); //TODO remove once corpse list complete
-        }
+        //add to corpses to hex tile
+        hexGrid.AddCorpse(cellindex, entityStats.GetType(entityObj)); //TODO remove once corpse list complete
     }
 }

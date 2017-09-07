@@ -98,7 +98,7 @@ public class Movement : MonoBehaviour {
 
 			foreach (int direction in hexdirections) {
 				if (direction >= 0 && direction < hexGrid.size) {
-					if (hexGrid.GetEntityName (direction) == "Empty") {
+					if (hexGrid.GetEntityObject (direction) == null) {
 						if (hexGrid.GetTerrain (direction) == "Mountain" && movementpoints > 1) {
 							int newmovementpoints = movementpoints - 2;
 							availablepositions.Add (direction);
@@ -196,7 +196,7 @@ public class Movement : MonoBehaviour {
 
 			foreach (int direction in hexdirections) {
 				if (direction >= 0 && direction < hexGrid.size) {
-					if (hexGrid.GetEntityName (direction) == "Empty") {
+					if (hexGrid.GetEntityObject (direction) == null) {
 						if (hexGrid.GetTerrain (direction) == "Mountain" && movementpoints > 1) {
 							if (direction == currindex) {
 								possminmovepoints.Add (usedmovementpoints + 2);
