@@ -71,7 +71,7 @@ public class Vision : MonoBehaviour {
 
             foreach (int direction in hexdirections) {
                 if (direction >= 0 && direction < hexGrid.size) {
-                    hexGrid.SetFogOff(direction);
+                    hexGrid.SetFog(direction, false);
                     if (hexGrid.GetFog(direction) == false) {
                         Fog fog = fogs[index];
                         fog.GetComponent<Renderer>().enabled = false;

@@ -113,18 +113,30 @@ public class LoadMap : MonoBehaviour {
         }
 	}
 
+    public void LoadGroundEffects()
+    {
+        for (int i = 0; i < hexGrid.size; i++)
+        {
+            List<string> corpses = GameMemento.current.hexGridGroundEffectsList[i];
+            hexGrid.SetGroundEffects(i, corpses);
+        }
+    }
+
+    public void LoadHasVision()
+    {
+        for (int i = 0; i < hexGrid.size; i++)
+        {
+            List<string> corpses = GameMemento.current.hexGridHasVisionList[i];
+            hexGrid.SetHasVision(i, corpses);
+        }
+    }
+
     public void LoadFog()
     {
         for (int i = 0; i < hexGrid.size; i++)
         {
             bool fog = GameMemento.current.hexGridFogList[i];
-            if (fog)
-            {
-                hexGrid.SetFogOn(i);
-            } else
-            {
-                hexGrid.SetFogOff(i);
-            }
+            hexGrid.SetFog(i, fog);
         }
     }
 

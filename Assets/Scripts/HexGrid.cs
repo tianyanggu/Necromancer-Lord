@@ -97,28 +97,47 @@ public class HexGrid : MonoBehaviour {
 	public void RemoveCorpse (int index, string corpse) {
 		HexCell cell = cells [index];
 		cell.corpses.Remove(corpse);
-
-		//get index of the corpse to be removed
-		int corpseIndex = 5;
-		for (int i = 0; i < 4; i++) {
-			string allEntity = PlayerPrefs.GetString ("HexCorpses" + index + "corpse" + i);
-			if (allEntity == corpse) {
-				corpseIndex = i;
-			}
-		}
-
-		//set to playerprefs
-		PlayerPrefs.DeleteKey ("HexCorpses" + index + "corpse" + corpseIndex);
 	}
 
-    public void SetFogOn (int index) {
+    public void SetGroundEffects(int index, List<string> effects)
+    {
         HexCell cell = cells[index];
-        cell.fog = true;
+        cell.groundEffects = effects;
     }
 
-    public void SetFogOff(int index) {
+    public void AddGroundEffects(int index, string effect)
+    {
         HexCell cell = cells[index];
-        cell.fog = false;
+        cell.groundEffects.Add(effect);
+    }
+
+    public void RemoveGroundEffects(int index, string effect)
+    {
+        HexCell cell = cells[index];
+        cell.groundEffects.Remove(effect);
+    }
+
+    public void SetHasVision(int index, List<string> players)
+    {
+        HexCell cell = cells[index];
+        cell.hasVision = players;
+    }
+
+    public void AddHasVision(int index, string player)
+    {
+        HexCell cell = cells[index];
+        cell.hasVision.Add(player);
+    }
+
+    public void RemoveHasVision(int index, string player)
+    {
+        HexCell cell = cells[index];
+        cell.hasVision.Remove(player);
+    }
+
+    public void SetFog (int index, bool toggle) {
+        HexCell cell = cells[index];
+        cell.fog = toggle;
     }
 
     // ------------GET--------------------------
@@ -200,6 +219,20 @@ public class HexGrid : MonoBehaviour {
 		List<string> currCorpses = cell.corpses;
 		return currCorpses;
 	}
+
+    public List<string> GetGroundEffects(int index)
+    {
+        HexCell cell = cells[index];
+        List<string> groundEffects = cell.groundEffects;
+        return groundEffects;
+    }
+
+    public List<string> GetHasVision(int index)
+    {
+        HexCell cell = cells[index];
+        List<string> hasVision = cell.hasVision;
+        return hasVision;
+    }
 
     public bool GetFog(int index) {
         HexCell cell = cells[index];

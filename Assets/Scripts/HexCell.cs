@@ -19,5 +19,9 @@ public class HexCell : MonoBehaviour {
 
 	public List<string> corpses = new List<string>();
 
+    public List<string> groundEffects = new List<string>();
+
+    public List<string> hasVision = new List<string>();
+
     public bool fog;
 }

@@ -24,6 +24,8 @@ public class GameMemento {
     public List<string> hexGridBuildingNameList;
     public List<string> hexGridEntityNameList;
     public List<List<string>> hexGridCorpsesList;
+    public List<List<string>> hexGridGroundEffectsList;
+    public List<List<string>> hexGridHasVisionList;
     public List<bool> hexGridFogList;
 
     public List<EntityMemento> entityMementoList;
@@ -39,6 +41,9 @@ public class GameMemento {
         hexGridTerrainList = new List<string>();
         hexGridBuildingNameList = new List<string>();
         hexGridEntityNameList = new List<string>();
+        hexGridCorpsesList = new List<List<string>>();
+        hexGridGroundEffectsList = new List<List<string>>();
+        hexGridHasVisionList = new List<List<string>>();
         hexGridCorpsesList = new List<List<string>>();
         hexGridFogList = new List<bool>();
 

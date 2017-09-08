@@ -44,6 +44,8 @@ public class Game : MonoBehaviour {
         {
             GameMemento.current.hexGridTerrainList.Add(hexGrid.cells[i].terrain);
             GameMemento.current.hexGridCorpsesList.Add(hexGrid.cells[i].corpses);
+            GameMemento.current.hexGridGroundEffectsList.Add(hexGrid.cells[i].groundEffects);
+            GameMemento.current.hexGridHasVisionList.Add(hexGrid.cells[i].hasVision);
             GameMemento.current.hexGridFogList.Add(hexGrid.cells[i].fog);
             if (hexGrid.cells[i].entityObj != null)
             {
