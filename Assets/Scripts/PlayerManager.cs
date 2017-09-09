@@ -58,6 +58,13 @@ public class PlayerManager : MonoBehaviour {
     public void NextActivePlayer()
     {
         currPlayerOrder++;
-        currPlayer = activePlayersOrder[currPlayerOrder];
+        if (currPlayerOrder > activePlayersOrder.Count)
+        {
+            currPlayerOrder = 1;
+            currPlayer = activePlayersOrder[currPlayerOrder];
+        } else
+        {
+            currPlayer = activePlayersOrder[currPlayerOrder];
+        }
     }
 }

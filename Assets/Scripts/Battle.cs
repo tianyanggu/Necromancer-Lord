@@ -39,16 +39,8 @@ public class Battle : MonoBehaviour {
 		}
         GameObject currEntity = hexGrid.GetEntityObject(currindex);
 
-        //get coordinates of currEntity
+        //get coordinates of currEntity or empty tile
         Vector3 cellcoord = hexGrid.GetCellPos(currindex);
-
-        //check if on same team
-        string selTeam = entityStats.GetPlayerID(selectedEntity).Substring(1, 1);
-        string currTeam = entityStats.GetPlayerID(currEntity).Substring(1, 1);
-        if (selTeam == currTeam)
-        {
-            return false;
-        }
 
         GetMovementInfo (selectedEntity);
 
@@ -64,8 +56,8 @@ public class Battle : MonoBehaviour {
 			} else if (attackermovepoint != 1) {
 				possmovement = movement.GetCellIndexesBlockers (selectedindex, attackercurrmovepoint);
 			}
-
-			if (possmovement.Contains (currindex)) {
+            
+            if (possmovement.Contains (currindex)) {
 				//get min movement points used
 				if (attackermovepoint == 1 && attackercurrmovepoint == 1) {
 					SetMovementPoints (selectedEntity, 1);
@@ -83,8 +75,18 @@ public class Battle : MonoBehaviour {
 
 				return true;
 			}
-			//------Encounter Enemy------
-		} else if (selTeam != currTeam && currEntity != null) {
+		}
+
+        //------Encounter Enemy------
+        //check if on same team
+        string selTeam = entityStats.GetPlayerID(selectedEntity).Substring(1, 1);
+        string currTeam = entityStats.GetPlayerID(currEntity).Substring(1, 1);
+        if (selTeam == currTeam)
+        {
+            return false;
+        }
+
+        if (selTeam != currTeam && currEntity != null) {
             GameObject attacker = selectedEntity;
             GameObject defender = currEntity;
 

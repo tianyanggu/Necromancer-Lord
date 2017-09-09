@@ -39,6 +39,7 @@ public class LoadMap : MonoBehaviour {
     }
 
 	public void LoadEntities () {
+        //Debug.Log("TODO test remove");
         //summon.SummonEntity(14, EntityNames.Necromancer, "AA");
         //summon.SummonEntity(12, EntityNames.Militia, "BB");
         //summon.SummonEntity(15, EntityNames.Militia, "CA");
@@ -67,7 +68,9 @@ public class LoadMap : MonoBehaviour {
     }
 
     public void CreateHealthLabel (int index, int health, string uniqueID) {
-		Text label = Instantiate<Text>(healthLabel);
+        gridCanvas = GetComponentInChildren<Canvas>();
+
+        Text label = Instantiate<Text>(healthLabel);
 		label.rectTransform.SetParent(gridCanvas.transform, false);
 		Vector3 healthpos = hexGrid.GetCellPos (index);
 		label.rectTransform.anchoredPosition = new Vector2(healthpos.x, healthpos.z);

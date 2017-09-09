@@ -89,7 +89,7 @@ public class HexMapEditor : MonoBehaviour {
         //TODO lock ability for user to save while attack in progress because battle object is not saved
 
 		//-----Selector--------------
-		//Debug.Log(currindex);
+		Debug.Log(currindex);
 		//string currEntityName = hexGrid.GetEntityName (currindex);
         GameObject currEntityObj = hexGrid.GetEntityObject(currindex);
         GameObject currBuildingObj = hexGrid.GetBuildingObject(currindex);
