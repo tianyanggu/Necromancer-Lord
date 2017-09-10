@@ -82,7 +82,7 @@ public class Movement : MonoBehaviour {
 		return availablepositions;
 	}
 
-	public void GetCellIndexesBlockersHelper (int index, int movementpoints) {
+	private void GetCellIndexesBlockersHelper (int index, int movementpoints) {
 		if (movementpoints > 0) {
 			HexCoordinates coord = hexGrid.GetCellCoord (index);
 			int coordx = coord.X;
@@ -180,7 +180,7 @@ public class Movement : MonoBehaviour {
 		return minmovepoints;
 	}
 
-	public void GetMovementPointsUsedHelper (int selindex, int currindex, int movementpoints, int usedmovementpoints) {
+	private void GetMovementPointsUsedHelper (int selindex, int currindex, int movementpoints, int usedmovementpoints) {
 		if (movementpoints > 0) {
 			HexCoordinates coord = hexGrid.GetCellCoord (selindex);
 			int coordx = coord.X;

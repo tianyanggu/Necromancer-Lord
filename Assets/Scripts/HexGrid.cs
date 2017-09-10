@@ -176,9 +176,7 @@ public class HexGrid : MonoBehaviour {
 	}
 
 	public HexCoordinates GetCellCoord (int index) {
-		HexCell cell = cells[index];
-		HexCoordinates coord = cell.coordinates;
-		return coord;
+		return cells[index].coordinates;
 	}
 
 	public int GetCellIndexFromCoord (int coordx, int coordz) {
@@ -196,48 +194,34 @@ public class HexGrid : MonoBehaviour {
 
     public GameObject GetEntityObject(int index)
     {
-        HexCell cell = cells[index];
-        GameObject currEntity = cell.entityObj;
-        return currEntity;
+        return cells[index].entityObj;
     }
 
     public string GetTerrain (int index) {
-		HexCell cell = cells[index];
-		string currTerrain = cell.terrain;
-		return currTerrain;
+		return cells[index].terrain;
 	}
 
     public GameObject GetBuildingObject(int index)
     {
-        HexCell cell = cells[index];
-        GameObject currBuilding = cell.buildingObj;
-        return currBuilding;
+        return cells[index].buildingObj;
     }
 
     public List<string> GetCorpses (int index) {
-		HexCell cell = cells[index];
-		List<string> currCorpses = cell.corpses;
-		return currCorpses;
+		return cells[index].corpses;
 	}
 
     public List<string> GetGroundEffects(int index)
     {
-        HexCell cell = cells[index];
-        List<string> groundEffects = cell.groundEffects;
-        return groundEffects;
+        return cells[index].groundEffects;
     }
 
     public List<string> GetHasVision(int index)
     {
-        HexCell cell = cells[index];
-        List<string> hasVision = cell.hasVision;
-        return hasVision;
+        return cells[index].hasVision;
     }
 
     public bool GetFog(int index) {
-        HexCell cell = cells[index];
-        bool currFog = cell.fog;
-        return currFog;
+        return cells[index].fog;
     }
 
     //-----------CREATE-----------------------------

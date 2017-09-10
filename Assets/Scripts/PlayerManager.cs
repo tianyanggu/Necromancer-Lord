@@ -61,10 +61,7 @@ public class PlayerManager : MonoBehaviour {
         if (currPlayerOrder > activePlayersOrder.Count)
         {
             currPlayerOrder = 1;
-            currPlayer = activePlayersOrder[currPlayerOrder];
-        } else
-        {
-            currPlayer = activePlayersOrder[currPlayerOrder];
         }
+        currPlayer = activePlayersOrder[currPlayerOrder];
     }
 }

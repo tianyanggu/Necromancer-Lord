@@ -379,9 +379,9 @@ public class BuildingStats : MonoBehaviour {
     //Recruitment - does not follow building name rule, follows upgrade on building and player faction
     //also does not follow switch case of buildings since checks building
     #region 
-    public HashSet<string> GetPossibleRecruitment(List<string> upgrades)
+    public List<string> GetPossibleRecruitment(List<string> upgrades)
     {
-        HashSet<string> possibleRecruitment = new HashSet<string>();
+        List<string> possibleRecruitment = new List<string>();
         for (int i=0; i<upgrades.Count; i++)
         {
             switch (upgrades[i])

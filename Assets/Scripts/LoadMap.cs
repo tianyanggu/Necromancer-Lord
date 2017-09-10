@@ -39,12 +39,12 @@ public class LoadMap : MonoBehaviour {
     }
 
 	public void LoadEntities () {
-        //Debug.Log("TODO test remove");
-        //summon.SummonEntity(14, EntityNames.Necromancer, "AA");
-        //summon.SummonEntity(12, EntityNames.Militia, "BB");
-        //summon.SummonEntity(15, EntityNames.Militia, "CA");
-        //summon.SummonEntity(3, EntityNames.Skeleton, "AA");
-        //summon.SummonEntity(18, EntityNames.Zombie, "AA");
+        Debug.Log("TODO test remove");
+        summon.SummonEntity(14, EntityNames.Necromancer, "AA");
+        summon.SummonEntity(12, EntityNames.Militia, "BB");
+        summon.SummonEntity(15, EntityNames.Militia, "CA");
+        summon.SummonEntity(3, EntityNames.Skeleton, "AA");
+        summon.SummonEntity(18, EntityNames.Zombie, "AA");
 
         int entityListLength = GameMemento.current.entityMementoList.Count;
         for (int i = 0; i < entityListLength; i++)
@@ -120,8 +120,8 @@ public class LoadMap : MonoBehaviour {
     {
         for (int i = 0; i < hexGrid.size; i++)
         {
-            List<string> corpses = GameMemento.current.hexGridGroundEffectsList[i];
-            hexGrid.SetGroundEffects(i, corpses);
+            List<string> groundEffects = GameMemento.current.hexGridGroundEffectsList[i];
+            hexGrid.SetGroundEffects(i, groundEffects);
         }
     }
 
@@ -129,8 +129,8 @@ public class LoadMap : MonoBehaviour {
     {
         for (int i = 0; i < hexGrid.size; i++)
         {
-            List<string> corpses = GameMemento.current.hexGridHasVisionList[i];
-            hexGrid.SetHasVision(i, corpses);
+            List<string> vision = GameMemento.current.hexGridHasVisionList[i];
+            hexGrid.SetHasVision(i, vision);
         }
     }
 
