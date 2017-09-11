@@ -21,6 +21,7 @@ public class HexMapEditor : MonoBehaviour {
 	public AIBehaviour aiBehaviour;
     public BuildingManager buildingManager;
     public PlayerManager playerManager;
+    public Vision vision;
 
 	public int currindex;
 
@@ -233,7 +234,8 @@ public class HexMapEditor : MonoBehaviour {
                 buildingManager.TickProduction();
                 //next player's turn
                 playerManager.NextActivePlayer();
-
+                vision.AddMissingFog();
+                vision.EntityCurrPlayerVision();
                 //ai actions
                 //aiBehaviour.Actions(15);
             }

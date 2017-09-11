@@ -34,6 +34,23 @@ public class Vision : MonoBehaviour {
         }
     }
 
+    public void AddMissingFog()
+    {
+        for (int i = 0; i < hexGrid.size; i++)
+        {
+            bool checkFog = hexGrid.GetFog(i);
+            if (checkFog == false)
+            {
+                hexGrid.SetFog(i, true);
+                Vector3 pos = hexGrid.GetCellPos(i);
+                pos.y = 0.1f;
+                Fog fog = fogs[i] = Instantiate<Fog>(fogPrefab);
+                fog.transform.SetParent(transform, false);
+                fog.transform.localPosition = pos;
+            }
+        }
+    }
+
     //check each player entity in entitystorage to determine their vision range and remove the fog for that range
     public void EntityCurrPlayerVision() {
         if (playerManager.currPlayer != string.Empty)
@@ -42,21 +59,39 @@ public class Vision : MonoBehaviour {
             //Debug.Log(entityStorage.PlayerEntityList(playerChar)[0].name.Substring(2));
             foreach (GameObject playerEntity in entityStorage.PlayerEntityList(playerChar))
             {
-                int visionDistance = 0;
-                visionDistance = entityStats.GetCurrVision(playerEntity);
+                int visionDistance = entityStats.GetCurrVision(playerEntity);
                 int index = entityStats.GetCellIndex(playerEntity);
                 string height = hexGrid.GetTerrain(index);
-                PlayerVisionHelper(index, visionDistance, height);
+
+                Dictionary<int, int> vision = PlayerVisionHelper(index, visionDistance, height);
+                foreach (var tile in vision)
+                {
+                    hexGrid.SetFog(tile.Key, false);
+                    Fog fog = fogs[tile.Key];
+                    fog.GetComponent<Renderer>().enabled = false;
+                }
             }
             foreach (GameObject buildingEntity in buildingStorage.PlayerBuildingList(playerChar))
             {
-                int visionDistance = 0;
-                visionDistance = buildingStats.GetCurrVision(buildingEntity);
+                int visionDistance = buildingStats.GetCurrVision(buildingEntity);
                 int index = buildingStats.GetCellIndex(buildingEntity);
                 string height = hexGrid.GetTerrain(index);
-                PlayerVisionHelper(index, visionDistance, height);
+
+                Dictionary<int, int> vision = PlayerVisionHelper(index, visionDistance, height);
+                foreach (var tile in vision)
+                {
+                    if (tile.Value >= -2)
+                    {
+                        hexGrid.SetFog(tile.Key, false);
+                        Fog fog = fogs[tile.Key];
+                        fog.GetComponent<Renderer>().enabled = false;
+                    }
+                }
             }
+
+
         }
+
     }
 
     //check each hex tile to determine player's vision and remove the fog
@@ -79,11 +114,13 @@ public class Vision : MonoBehaviour {
     }
 
     //removes fog of war from an index given the vision distance
-    private void PlayerVisionHelper(int index, int visionRange, string height)
+    private Dictionary<int, int> PlayerVisionHelper(int index, int visionRange, string height)
     {
-        //visited hexes get assigned if can be seen = 1, mountain = 0, in calculation = -1 or -2, cannot be seen equal -3
-        Dictionary<int, int> visited = new Dictionary<int, int>();
-        visited.Add(index, 1);
+        //TODO but needs major revision since algorithm still presents major errors in vision: visited hexes get assigned if can be seen = 1, mountain = 0, in calculation = -1 or -2, cannot be seen equal -3
+        Dictionary<int, int> checkedTiles = new Dictionary<int, int>();
+        Dictionary<int, int> previousVisited = new Dictionary<int, int>();
+        checkedTiles.Add(index, 1);
+        previousVisited.Add(index, 1);
         Queue<int> frontier = new Queue<int>();
         frontier.Enqueue(index);
 
@@ -95,24 +132,34 @@ public class Vision : MonoBehaviour {
                 int[] fringeTiles = FringeHexTiles(frontier.Peek());
                 for (int f = 0; f < 6; f++)
                 {
-                    if (fringeTiles[f] >= 0 && fringeTiles[f] < hexGrid.size)
+                    if (!previousVisited.ContainsKey(fringeTiles[f]) && fringeTiles[f] >= 0 && fringeTiles[f] < hexGrid.size)
                     {
-                        if (!visited.ContainsKey(fringeTiles[f]) || fringeTiles[f] != -1)
-                        {
-                            fringe.Enqueue(fringeTiles[f]);
-                        }
-                        if (hexGrid.GetTerrain(fringeTiles[f]) == "Mountain")
-                        {
-                            visited.Add(fringeTiles[f], 0);
-                        } else
-                        {
+                        fringe.Enqueue(fringeTiles[f]);
+                        //get curr direction to centre index via coords and check if vision is blocked by checking previous previousVisited tiles in relation to position
+                        //if (hexGrid.GetTerrain(fringeTiles[f]) == "Mountain" || checkedTiles.ContainsKey(fringeTiles[f]))
+                        //{
+                        //HexCoordinates centreCoordinates = hexGrid.GetCellCoord(index);
+                        //HexCoordinates fringeCoordinates = hexGrid.GetCellCoord(index);
+                        //if (centreCoordinates.X == fringeCoordinates.X)
+                        //{
+                        //    checkedTiles.Add(fringeTiles[f], 0);
+                        //} else if (centreCoordinates.Y == fringeCoordinates.Y)
+                        //{
 
-                        }
+                        //} else if ((centreCoordinates.X + centreCoordinates.Y) == (fringeCoordinates.X + fringeCoordinates.Y))
+                        //{
+
+                        //}
+
+                        //}
+                        previousVisited.Add(fringeTiles[f],1);
                     }
                 }
             }
             frontier = fringe;
         }
+
+        return previousVisited;
     }
 
     private int[] FringeHexTiles(int index)
